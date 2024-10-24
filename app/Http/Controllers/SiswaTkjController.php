@@ -9,6 +9,6 @@ class SiswaTkjController extends Controller
 {
     public function index() {
         $siswa_tkj = SiswaTkj::all();
-        return view('siswa_tkj.index', compact('siswa_tkj'));
+        return view('monitoring_siswa.tb_siswa_tkj', compact('siswa_tkj'));
     }
 }
