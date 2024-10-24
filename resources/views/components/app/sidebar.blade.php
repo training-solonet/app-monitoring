@@ -65,7 +65,7 @@
                     <span class="nav-link-text ms-1">Tables</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ is_current_route('wallet') ? 'active' : '' }} " href="{{ route('wallet') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
@@ -86,8 +86,8 @@
                     </div>
                     <span class="nav-link-text ms-1">Wallet</span>
                 </a>
-            </li>
-            <li class="nav-item">
+            </li> --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link  {{ is_current_route('RTL') ? 'active' : '' }}" href="{{ route('RTL') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
@@ -111,7 +111,7 @@
                     </div>
                     <span class="nav-link-text ms-1">RTL</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item mt-2">
                 <div class="d-flex align-items-center nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="ms-2"
@@ -146,12 +146,12 @@
                     <span class="font-weight-normal text-md ms-2">Account Pages</span>
                 </div>
             </li>
-            <li class="nav-item border-start my-0 pt-2">
+            {{-- <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('profile') ? 'active' : '' }}"
                     href="{{ route('profile') }}">
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item border-start my-0 pt-2">
                 <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('signin') ? 'active' : '' }}"
                     href="{{ route('signin') }}">
@@ -166,7 +166,7 @@
             </li>
         </ul>
     </div>
-    <div class="sidenav-footer mx-4 ">
+    {{-- <div class="sidenav-footer mx-4 ">
         <a class="btn bg-gradient-primary inline-block px-5 py-3 mx-auto text-xs align-middle transition-all ease-in border-0 rounded-lg select-none" href="https://www.creative-tim.com/product/corporate-ui-dashboard-pro-laravel" target="_blank">
             UPGRADE TO PRO
         </a>
@@ -192,5 +192,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </aside>

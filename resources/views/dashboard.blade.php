@@ -448,7 +448,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-xl-0">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-body text-start p-3 w-100">
@@ -568,8 +568,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
+            </div> --}}
+
+
+
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="card shadow-xs border">
                         <div class="card-header pb-0">
@@ -605,7 +608,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <x-app.footer />
         </div>
     </main>
