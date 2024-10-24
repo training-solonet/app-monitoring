@@ -1,9 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\SiswaRpl;
+use App\Models\SiswaTkj;
+use App\Models\Siswa;
+use App\Models\Pembimbing;
 
 class AdminController extends Controller
 {
