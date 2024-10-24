@@ -13,15 +13,15 @@
                         <div class="pb-0 card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h5 class="">User Management</h5>
+                                    <h5 class="">Pengelolaan Pengguna</h5>
                                     <p class="mb-0 text-sm">
-                                        Here you can manage users.
+                                        Di sini Anda dapat mengelola pengguna.
                                     </p>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <a href="#" class="btn btn-dark btn-primary">
-                                        <i class="fas fa-user-plus me-2"></i> Add Member
-                                    </a>
+                                    <button type="button" class="btn btn-dark btn-primary" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
+                                        Tambah Anggota
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -54,13 +54,13 @@
                                             Name</th>
                                         <th
                                             class="text-left text-uppercase font-weight-bold bg-transparent border-bottom text-secondary">
-                                            Email</th>
+                                            Username</th>
                                         <th
                                             class="text-center text-uppercase font-weight-bold bg-transparent border-bottom text-secondary">
                                             Role</th>
                                         <th
                                             class="text-center text-uppercase font-weight-bold bg-transparent border-bottom text-secondary">
-                                            Creation Date</th>
+                                            Jurusan</th>
                                         <th
                                             class="text-center text-uppercase font-weight-bold bg-transparent border-bottom text-secondary">
                                             Action</th>
@@ -75,10 +75,10 @@
                                                     alt="user1" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
-                                        <td class="align-middle bg-transparent border-bottom">Admin</td>
+                                        <td class="align-middle bg-transparent border-bottom">Fathoni</td>
                                         <td class="align-middle bg-transparent border-bottom">admin@softui.com</td>
                                         <td class="text-center align-middle bg-transparent border-bottom">Admin</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">16/08/18</td>
+                                        <td class="text-center align-middle bg-transparent border-bottom">TKJ</td>
                                         <td class="text-center align-middle bg-transparent border-bottom">
                                             <a href="#"><i class="fas fa-user-edit" aria-hidden="true"></i></a>
                                             <a href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
@@ -92,69 +92,15 @@
                                                     alt="user2" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
-                                        <td class="align-middle bg-transparent border-bottom">Creator</td>
+                                        <td class="align-middle bg-transparent border-bottom">Ifkar</td>
                                         <td class="align-middle bg-transparent border-bottom">creator@softui.com</td>
                                         <td class="text-center align-middle bg-transparent border-bottom">Creator</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">05/05/20</td>
+                                        <td class="text-center align-middle bg-transparent border-bottom">RPL</td>
                                         <td class="text-center align-middle bg-transparent border-bottom">
                                             <a href="#"><i class="fas fa-user-edit" aria-hidden="true"></i></a>
                                             <a href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="align-middle bg-transparent border-bottom">3</td>
-                                        <td class="align-middle bg-transparent border-bottom">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="rounded-circle mr-2"
-                                                    alt="user3" style="height: 36px; width: 36px;">
-                                            </div>
-                                        </td>
-                                        <td class="align-middle bg-transparent border-bottom">Member</td>
-                                        <td class="align-middle bg-transparent border-bottom">member@softui.com</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">Member</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">05/05/20</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">
-                                            <a href="#"><i class="fas fa-user-edit" aria-hidden="true"></i></a>
-                                            <a href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle bg-transparent border-bottom">4</td>
-                                        <td class="align-middle bg-transparent border-bottom">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-4.jpg" class="rounded-circle mr-2"
-                                                    alt="user4" style="height: 36px; width: 36px;">
-                                            </div>
-                                        </td>
-                                        <td class="align-middle bg-transparent border-bottom">Peterson</td>
-                                        <td class="align-middle bg-transparent border-bottom">peterson@corporateui.com
-                                        </td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">Member</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">05/05/20</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">
-                                            <a href="#"><i class="fas fa-user-edit" aria-hidden="true"></i></a>
-                                            <a href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle bg-transparent border-bottom">5</td>
-                                        <td class="align-middle bg-transparent border-bottom">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/marie.jpg" class="rounded-circle mr-2"
-                                                    alt="user5" style="height: 36px; width: 36px;">
-                                            </div>
-                                        </td>
-                                        <td class="align-middle bg-transparent border-bottom">Marie</td>
-                                        <td class="align-middle bg-transparent border-bottom">marie@corporateui.com
-                                        </td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">Creator</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">05/05/20</td>
-                                        <td class="text-center align-middle bg-transparent border-bottom">
-                                            <a href="#"><i class="fas fa-user-edit" aria-hidden="true"></i></a>
-                                            <a href="#"><i class="fas fa-trash" aria-hidden="true"></i></a>
-                                        </td>
-                                    </tr>
-
                                 </tbody>
                             </table>
 
@@ -179,3 +125,47 @@
         }]
     });
 </script>
+
+ <!-- Modal -->
+ <div class="modal fade" id="tambahAnggotaModal" tabindex="-1" aria-labelledby="tambahAnggotaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahAnggotaModalLabel">Tambah Pengguna</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Nama Lengkap">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role">
+                            <option selected>Pilih Role</option>
+                            <option value="pembimbing">Pembimbing</option>
+                            <option value="siswa">Siswa</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jurusan" class="form-label">Jurusan</label>
+                        <select class="form-select" id="role">
+                            <option selected>Pilih Jurusan</option>
+                            <option value="tkj">Teknik Komputer Jaringan</option>
+                            <option value="rpl">Rekayasa Perangkat Lunak</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>

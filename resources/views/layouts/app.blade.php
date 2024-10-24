@@ -58,6 +58,8 @@
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700"
         rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnH1z5Wq7qEB4kcdpIAmZ5b1i7uCpyLuWbZtNn8bXGtRb/OpczXatDmdmFD4OzycVXAj/2Ig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Nucleo Icons -->
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
