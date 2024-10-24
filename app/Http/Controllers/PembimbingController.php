@@ -11,4 +11,18 @@ class PembimbingController extends Controller
         $pembimbing = Pembimbing::all();
         return view('pembimbing.index', compact('pembimbing'));
     }
+
+    public function store(Request $request){
+        $request->validate([
+            'username' =>  'required|string',
+            'password' =>  'required|text',
+        ]);
+    }
+
+    public function destroy(string $id){
+        $pembimbing = pembimbing::find($id);
+        $pembimbing ->delete();
+
+        return redirect()->route('pembimbing.index')->with('Succes', 'Dihapus');
+    }
 }

@@ -11,4 +11,14 @@ class SiswaRplController extends Controller
         $siswa_rpl = SiswaRpl::all();
         return view('siswa_rpl.index', compact('siswa_rpl'));
     }
+
+    public function store(Request $request) {
+        $request->validate([
+            'report'        => 'required|string',          
+            'waktu_mulai'   => 'required|date',           
+            'waktu_selesai' => 'required|date',           
+            'status'        => 'required|integer',        
+            'kategori'      => 'required|integer'         
+        ]);
+    }
 }
