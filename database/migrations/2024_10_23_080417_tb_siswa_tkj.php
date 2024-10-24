@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('tb_siswa_tkj', function (Blueprint $table) {
             $table->id();
+            $table->enum('kategori', ['stand by', 'keluar']);
             $table->string('report');
             $table->date('waktu_mulai');
             $table->date('waktu_selesai');        
             $table->enum('status', ['to do', 'doing','done']);
-            $table->enum('kategori', ['stand by', 'keluar']);
+            $table->foreignId('id_siswa')->constrained('siswa');
             $table->timestamps();
         });
     }

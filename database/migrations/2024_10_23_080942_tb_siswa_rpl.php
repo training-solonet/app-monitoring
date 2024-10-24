@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('waktu_mulai');
             $table->date('waktu_selesai');        
             $table->enum('status', ['to do', 'doing','done']);
+            $table->foreignId('id_siswa')->constrained('siswa');
             $table->timestamps();
         });
     }
