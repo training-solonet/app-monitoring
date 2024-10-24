@@ -18,4 +18,18 @@ class AdminController extends Controller
         $pemimbing = Pembimbing::all();
         return view('admin.index', compact('Admin', 'Siswa', 'SiswaTkj', 'SiswaRpl', 'Pembimbing'));
     }
+
+    public function store(Request $request){
+        $request->validate([
+            'username' =>  'required|string',
+            'password' =>  'required|text',
+        ]);
+    }
+
+    public function destroy(string $id){
+        $admin = admin::find($id);
+        $admin ->delete();
+
+        return redirect()->route('admin.index')->with('Succes', 'Dihapus');
+    }
 }
