@@ -1,4 +1,7 @@
 <x-app-layout>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
@@ -60,50 +63,73 @@
                                 <table class="table align-items-center mb-0">
                                     <thead class="bg-gray-100">
                                         <tr>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7"`">No
-                                            </th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7"">
-                                                Kategory</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Report</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Mulai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Selesai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Status</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Total Waktu</th>
-                                            <th class="text-secondary opacity-7"></th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Kategori</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Report</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Status</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
+                                    
                                     <tbody>
+                                        <!-- Row Pertama untuk Nomor 1 -->
                                         <tr>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-center" rowspan="2">
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">1</p>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">Keluar Dengan Teknisi</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Memasang Bts</p>
+                                                <p class="text-sm text-dark mb-0">Memasang BTS</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">08:23 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">08:23 AM</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">16:14 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">12:30 PM</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="badge badge-sm border border-success text-success bg-success">Done</span>
+                                                <button class="btn btn-sm btn-success">Mulai</button>
+                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="#" class="text-primary" title="Edit">
+                                                    <i class="fas fa-pen-to-square fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!-- Row Kedua untuk Nomor 1 -->
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">Di Kantor</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm text-dark mb-0">Meeting dengan Klien</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-sm font-weight-normal">01:00 PM</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-sm font-weight-normal">03:30 PM</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <button class="btn btn-sm btn-success">Mulai</button>
+                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="#" class="text-primary" title="Edit">
+                                                    <i class="fas fa-pen-to-square fa-lg"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
+                                    
+                                    
+                                    
                                 </table>
                             </div>
                             <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -121,36 +147,55 @@
         </div>
     </main>
 
-     <!-- Modal -->
-     <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tambahLaporanModalLabel">Tambah Laporan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="kategori" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori" aria-label="Kategori">
-                                <option selected>Pilih Kategori</option>
-                                <option value="1">Di Kantor</option>
-                                <option value="2">Keluar Dengan Teknisi</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="report" class="form-label">Report</label>
-                            <textarea class="form-control" id="report" rows="3" placeholder="Isi kegiatan..."></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-info">Simpan</button>
-                </div>
+    <!-- Modal -->
+<div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahLaporanModalLabel">Tambah Laporan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- Aktivitas Pertama -->
+                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                    <div class="mb-3">
+                        <label for="kategori1" class="form-label">Kategori</label>
+                        <select class="form-select" id="kategori1" aria-label="Kategori 1">
+                            <option selected>Pilih Kategori</option>
+                            <option value="1">Di Kantor</option>
+                            <option value="2">Keluar Dengan Teknisi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report1" class="form-label">Report</label>
+                        <textarea class="form-control" id="report1" rows="2" placeholder="Isi kegiatan..."></textarea>
+                    </div>
+                    <hr>
+
+                    <!-- Aktivitas Kedua -->
+                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
+                    <div class="mb-3">
+                        <label for="kategori2" class="form-label">Kategori</label>
+                        <select class="form-select" id="kategori2" aria-label="Kategori 2">
+                            <option selected>Pilih Kategori</option>
+                            <option value="1">Di Kantor</option>
+                            <option value="2">Keluar Dengan Teknisi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report2" class="form-label">Report</label>
+                        <textarea class="form-control" id="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
+</div>
+
 
 </x-app-layout>
