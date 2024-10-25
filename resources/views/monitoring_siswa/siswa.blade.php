@@ -72,7 +72,7 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
                                         <!-- Row Pertama untuk Nomor 1 -->
                                         <tr>
@@ -101,7 +101,7 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    
+
                                         <!-- Row Kedua untuk Nomor 1 -->
                                         <tr>
                                             <td class="align-middle text-center">
@@ -121,15 +121,15 @@
                                                 <button class="btn btn-sm btn-danger ms-2">Selesai</button>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="#" class="text-primary" title="Edit">
+                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
                                                     <i class="fas fa-pen-to-square fa-lg"></i>
-                                                </a>
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                    
-                                    
-                                    
+
+
+
                                 </table>
                             </div>
                             <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -147,7 +147,7 @@
         </div>
     </main>
 
-<!-- Modal -->
+<!-- Modal Tambah -->
 <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -192,7 +192,58 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formTambahLaporan" class="btn btn-primary">Simpan</button>
+                <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editLaporanModal" tabindex="-1" aria-labelledby="editLaporanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tambahLaporanModalLabel">Edit Laporan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                    @csrf
+                    <!-- Aktivitas Pertama -->
+                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                    <div class="mb-3">
+                        <label for="kategori1" class="form-label">Kategori</label>
+                        <select class="form-select" id="kategori1" name="kategori1" required>
+                            <option selected value="">Pilih Kategori</option>
+                            <option value="DiKantor">Di Kantor</option>
+                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report1" class="form-label">Report</label>
+                        <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
+                    </div>
+                    <hr>
+
+                    <!-- Aktivitas Kedua -->
+                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
+                    <div class="mb-3">
+                        <label for="kategori2" class="form-label">Kategori</label>
+                        <select class="form-select" id="kategori2" name="kategori2">
+                            <option selected value="">Pilih Kategori</option>
+                            <option value="DiKantor">Di Kantor</option>
+                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit2" class="form-label">Report</label>
+                        <textarea class="form-control" id="edit2" name="edit2" rows="2" placeholder="Isi kegiatan..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
             </div>
         </div>
     </div>
