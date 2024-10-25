@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 50);
-            $table->enum('jurusan', ['tkj', 'rpl']);
-            $table->text('password');
+            $table->text('report');
+            $table->date('waktu_mulai');
+            $table->date('waktu_selesai');
+            $table->enum('status', ['to do','doing','done']);
             $table->timestamps();
         });
     }
