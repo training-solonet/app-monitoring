@@ -19,7 +19,7 @@
                                     </p>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <button type="button" class="btn btn-dark btn-primary" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
                                         Tambah Anggota
                                     </button>
                                 </div>
@@ -164,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-info">Simpan</button>
             </div>
         </div>
     </div>

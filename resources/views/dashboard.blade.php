@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center mb-3 mx-2">
                         <div class="mb-md-0 mb-3">
-                            <h3 class="font-weight-bold mb-0">Hello, Noah</h3>
+                            <h3 class="font-weight-bold mb-0">Hello, {{ auth()->user()->name }}</h3>
                             <p class="mb-0">Apps you might like!</p>
                         </div>
                         <button type="button"
@@ -47,9 +47,9 @@
                                             <div class="row mt-12">
                                                 <div class="col-sm-3 mt-auto">
                                                     <h4 class="text-dark font-weight-bolder">#1</h4>
-                                                    <p class="text-dark opacity-6 text-xs font-weight-bolder mb-0">Name
+                                                    <p class="text-dark opacity-6 text-xs font-weight-bolder mb-0">Halaman
                                                     </p>
-                                                    <h5 class="text-dark font-weight-bolder">Secured</h5>
+                                                    <h5 class="text-dark font-weight-bolder">Monitoring Siswa</h5>
                                                 </div>
                                                 <div class="col-sm-3 ms-auto mt-auto">
                                                     <p class="text-dark opacity-6 text-xs font-weight-bolder mb-0">
