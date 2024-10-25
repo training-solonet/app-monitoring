@@ -147,7 +147,7 @@
         </div>
     </main>
 
-    <!-- Modal -->
+<!-- Modal -->
 <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -156,20 +156,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                    @csrf
                     <!-- Aktivitas Pertama -->
                     <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                     <div class="mb-3">
                         <label for="kategori1" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori1" aria-label="Kategori 1">
-                            <option selected>Pilih Kategori</option>
-                            <option value="1">Di Kantor</option>
-                            <option value="2">Keluar Dengan Teknisi</option>
+                        <select class="form-select" id="kategori1" name="kategori1" required>
+                            <option selected value="">Pilih Kategori</option>
+                            <option value="DiKantor">Di Kantor</option>
+                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="report1" class="form-label">Report</label>
-                        <textarea class="form-control" id="report1" rows="2" placeholder="Isi kegiatan..."></textarea>
+                        <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
                     </div>
                     <hr>
 
@@ -177,25 +178,24 @@
                     <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
                     <div class="mb-3">
                         <label for="kategori2" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori2" aria-label="Kategori 2">
-                            <option selected>Pilih Kategori</option>
-                            <option value="1">Di Kantor</option>
-                            <option value="2">Keluar Dengan Teknisi</option>
+                        <select class="form-select" id="kategori2" name="kategori2">
+                            <option selected value="">Pilih Kategori</option>
+                            <option value="DiKantor">Di Kantor</option>
+                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="report2" class="form-label">Report</label>
-                        <textarea class="form-control" id="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
+                        <textarea class="form-control" id="report2" name="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Simpan</button>
+                <button type="submit" form="formTambahLaporan" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
 </div>
-
 
 </x-app-layout>
