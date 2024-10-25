@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use Carbon\Carbon;
 
 class SiswaController extends Controller
 {
@@ -35,4 +36,14 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
+
+    public function start($id)
+{
+    $siswa = Siswa::findOrFail($id);
+    $siswa->waktu_mulai = Carbon::now();
+    $siswa->status = 'doing'; // atau status lain yang diinginkan
+    $siswa->save();
+
+    return redirect()->back()->with('success', 'Waktu mulai berhasil diupdate.');
+}
 }

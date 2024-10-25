@@ -74,26 +74,37 @@
                                     </thead>
                                     
                                     <tbody>
-                                        <!-- Row Pertama untuk Nomor 1 -->
+                                        @foreach ($siswa as $index => $item)
+                                        <!-- Row Pertama untuk tiap item -->
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">1</p>
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">Keluar Dengan Teknisi</p>
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->kategori }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Memasang BTS</p>
+                                                <p class="text-sm text-dark mb-0">{{ $item->report }}</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">08:23 AM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ $item->waktu_mulai ? $item->waktu_mulai->format('h:i A') : '-' }}
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">12:30 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ $item->waktu_selesai ? $item->waktu_selesai->format('h:i A') : '-' }}
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <button class="btn btn-sm btn-success">Mulai</button>
-                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                                <form action="{{ route('siswa.start', $item->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-success">Mulai</button>
+                                                </form>
+                                                <form action="" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                                </form>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="#" class="text-primary" title="Edit">
@@ -102,23 +113,22 @@
                                             </td>
                                         </tr>
                                     
-                                        <!-- Row Kedua untuk Nomor 1 -->
+                                        <!-- Row Kedua untuk tiap item -->
                                         <tr>
                                             <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">Di Kantor</p>
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->kategori == 'DiKantor' ? 'Di Kantor' : 'Keluar Dengan Teknisi' }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Meeting dengan Klien</p>
+                                                <p class="text-sm text-dark mb-0">Deskripsi tambahan jika ada</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">01:00 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">Jam mulai lainnya jika perlu</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">03:30 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">Jam selesai lainnya jika perlu</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <button class="btn btn-sm btn-success">Mulai</button>
-                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                                <!-- Tombol tambahan jika diperlukan -->
                                             </td>
                                             <td class="align-middle text-center">
                                                 <a href="#" class="text-primary" title="Edit">
@@ -126,7 +136,9 @@
                                                 </a>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
+                                    
                                     
                                     
                                     
