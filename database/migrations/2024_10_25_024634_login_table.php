@@ -8,26 +8,24 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('pembimbing', function (Blueprint $table) {
+        Schema::create('login', function (Blueprint $table) {
             $table->id();
             $table->string('username', 50);
             $table->text('password');
+            $table->foreignId('id_role')->constrained('role');
+            $table->foreignId('id_jurusan')->constrained('jurusan');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('pembimbing');
+        Schema::dropIfExists('login');
     }
 };
