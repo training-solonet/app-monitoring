@@ -19,7 +19,7 @@
                                     </p>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
+                                    <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
                                         Tambah Anggota
                                     </button>
                                 </div>
