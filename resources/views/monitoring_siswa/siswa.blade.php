@@ -195,7 +195,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formEditLaporan" action="{{ route('siswa.storeMultiple', 'placeholder') }}" method="POST">
+                <form id="formEditLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
