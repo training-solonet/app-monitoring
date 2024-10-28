@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('waktu_mulai')->nullable();
             $table->date('waktu_selesai')->nullable();
             $table->enum('status', ['to do','doing','done'])->nullable();
+            $table->foreignId('id_login')->constrained('login');
             // $table->foreignId('id_login')->constrained('login');
             $table->timestamps();
         });

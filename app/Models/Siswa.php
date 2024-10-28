@@ -10,17 +10,18 @@ class Siswa extends Model
 {
     use HasFactory;
 
-    public function getWaktuMulaiAttribute($value)
-    {
-        return Carbon::parse($value);
-    }
-    
-    protected $table = 'siswa'; 
+    protected $table ='Siswa';
 
     protected $fillable = [
         'kategori',
         'report',
         'waktu_mulai',
         'waktu_selesai',
+        'status'
+    ];
+
+    protected $dates = [
+        'waktu_mulai',
+        'waktu_selesai'
     ];
 }

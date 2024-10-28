@@ -88,12 +88,12 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_mulai ? $item->waktu_mulai->format('h:i A') : '-' }}
+                                                    {{ $item->waktu_mulai }}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_selesai ? $item->waktu_selesai->format('h:i A') : '-' }}
+                                                    {{ $item->waktu_selesai }}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
@@ -101,39 +101,20 @@
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-success">Mulai</button>
                                                 </form>
-                                                <form action="" method="POST" style="display:inline;">
+                                                <form action="{{ route('siswa.stop', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     <button type="submit" class="btn btn-sm btn-danger ms-2">Selesai</button>
                                                 </form>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="#" class="text-primary" title="Edit">
-                                                    <i class="fas fa-pen-to-square fa-lg"></i>
-                                                </a>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
+                                                <i class="fas fa-pen-to-square fa-lg"></i>
+                                              </button>
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->kategori == 'DiKantor' ? 'Di Kantor' : 'Keluar Dengan Teknisi' }}</p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Deskripsi tambahan jika ada</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">Jam mulai lainnya jika perlu</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">Jam selesai lainnya jika perlu</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <!-- Tombol tambahan jika diperlukan -->
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
-                                                    <i class="fas fa-pen-to-square fa-lg"></i>
-                                                </button>
-                                            </td>
+                                            
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -214,9 +195,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                <form id="formEditLaporan" action="{{ route('siswa.storeMultiple', 'placeholder') }}" method="POST">
                     @csrf
-                    <!-- Aktivitas Pertama -->
+                    @method('PUT')
                     <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                     <div class="mb-3">
                         <label for="kategori1" class="form-label">Kategori</label>
@@ -230,30 +211,15 @@
                         <label for="report1" class="form-label">Report</label>
                         <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
                     </div>
-                    <hr>
-
-                    <!-- Aktivitas Kedua -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
-                    <div class="mb-3">
-                        <label for="kategori2" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori2" name="kategori2">
-                            <option selected value="">Pilih Kategori</option>
-                            <option value="DiKantor">Di Kantor</option>
-                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit2" class="form-label">Report</label>
-                        <textarea class="form-control" id="edit2" name="edit2" rows="2" placeholder="Isi kegiatan..."></textarea>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                <button type="submit" form="formEditLaporan" class="btn btn-info">Simpan</button>
             </div>
         </div>
     </div>
 </div>
+
 
 </x-app-layout>
