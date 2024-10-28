@@ -74,62 +74,50 @@
                                     </thead>
 
                                     <tbody>
-                                        <!-- Row Pertama untuk Nomor 1 -->
+                                        @foreach ($siswa as $index => $item)
+                                        <!-- Row Pertama untuk tiap item -->
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">1</p>
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">Keluar Dengan Teknisi</p>
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->kategori }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Memasang BTS</p>
+                                                <p class="text-sm text-dark mb-0">{{ $item->report }}</p>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">08:23 AM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ $item->waktu_mulai }}
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">12:30 PM</span>
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ $item->waktu_selesai }}
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <button class="btn btn-sm btn-success">Mulai</button>
-                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                                <form action="{{ route('siswa.start', $item->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-success">Mulai</button>
+                                                </form>
+                                                <form action="{{ route('siswa.stop', $item->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-danger ms-2">Selesai</button>
+                                                </form>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <a href="#" class="text-primary" title="Edit">
-                                                    <i class="fas fa-pen-to-square fa-lg"></i>
-                                                </a>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
+                                                <i class="fas fa-pen-to-square fa-lg"></i>
+                                              </button>
                                             </td>
                                         </tr>
 
-                                        <!-- Row Kedua untuk Nomor 1 -->
                                         <tr>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">Di Kantor</p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">Meeting dengan Klien</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">01:00 PM</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">03:30 PM</span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <button class="btn btn-sm btn-success">Mulai</button>
-                                                <button class="btn btn-sm btn-danger ms-2">Selesai</button>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
-                                                    <i class="fas fa-pen-to-square fa-lg"></i>
-                                                </button>
-                                            </td>
+                                            
                                         </tr>
+                                        @endforeach
                                     </tbody>
-
-
-
                                 </table>
                             </div>
                             <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -207,9 +195,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                <form id="formEditLaporan" action="{{ route('siswa.storeMultiple', 'placeholder') }}" method="POST">
                     @csrf
-                    <!-- Aktivitas Pertama -->
+                    @method('PUT')
                     <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                     <div class="mb-3">
                         <label for="kategori1" class="form-label">Kategori</label>
@@ -223,30 +211,15 @@
                         <label for="report1" class="form-label">Report</label>
                         <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
                     </div>
-                    <hr>
-
-                    <!-- Aktivitas Kedua -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
-                    <div class="mb-3">
-                        <label for="kategori2" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori2" name="kategori2">
-                            <option selected value="">Pilih Kategori</option>
-                            <option value="DiKantor">Di Kantor</option>
-                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit2" class="form-label">Report</label>
-                        <textarea class="form-control" id="edit2" name="edit2" rows="2" placeholder="Isi kegiatan..."></textarea>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                <button type="submit" form="formEditLaporan" class="btn btn-info">Simpan</button>
             </div>
         </div>
     </div>
 </div>
+
 
 </x-app-layout>

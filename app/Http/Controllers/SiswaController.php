@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use Carbon\Carbon;
 
 class SiswaController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $siswa = Siswa::all();
         return view('monitoring_siswa.siswa', compact('siswa'));
     }
@@ -34,5 +36,25 @@ class SiswaController extends Controller
         }
 
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
+    }
+
+    public function start($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $siswa->waktu_mulai = Carbon::now();
+        $siswa->status = 'doing'; 
+        $siswa->save();
+    
+        return redirect()->back()->with('success', 'Waktu mulai berhasil diupdate.');
+    }
+    
+    public function stop($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+        $siswa->waktu_selesai = Carbon::now(); 
+        $siswa->status = 'done';
+        $siswa->save();
+    
+        return redirect()->back()->with('success', 'Waktu berhenti berhasil diupdate.');
     }
 }
