@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->enum('kategori',['DiKantor', 'Keluar Dengan Teknisi']);
             $table->text('report');
-            $table->date('waktu_mulai')->nullable();
-            $table->date('waktu_selesai')->nullable();
+            $table->datetime('waktu_mulai')->nullable();
+            $table->datetime('waktu_selesai')->nullable(); 
             $table->enum('status', ['to do','doing','done'])->nullable();
-            $table->foreignId('id_login')->constrained('login')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**

@@ -69,6 +69,7 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Status</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Total Waktu</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
@@ -97,19 +98,22 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <form action="{{ route('siswa.start', $item->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-success">Mulai</button>
-                                                </form>
-                                                <form action="{{ route('siswa.stop', $item->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-danger ms-2">Selesai</button>
-                                                </form>
+                                                
                                             </td>
                                             <td class="align-middle text-center">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editLaporanModal">
-                                                <i class="fas fa-pen-to-square fa-lg"></i>
-                                              </button>
+                                                
+                                            </td>   
+                                            <td class="align-middle text-center">
+                                                <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @if($item->status === 'to do')
+                                                        <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
+                                                    @elseif($item->status === 'doing')
+                                                        <button type="submit" class="btn btn-sm btn-danger mb-0">Selesai</button>
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Selesai</button>
+                                                    @endif
+                                                </form>
                                             </td>
                                         </tr>
 
