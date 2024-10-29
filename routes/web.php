@@ -94,10 +94,10 @@ Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('sis
 
 // <--Rpl-->
 Route::resource('siswarpl', SiswaRplController::class);
-Route::post('/siswa/store-multiple', [SiswaRplController::class, 'storeMultiple'])->name('siswa.storeMultiple');
-Route::post('/siswa/start/{id}', [SiswaRplController::class, 'start'])->name('siswa.start');
-Route::post('/siswa/stop/{id}', [SiswaRplController::class, 'stop'])->name('siswa.stop');
-Route::post('/siswa/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('siswa.toggle');
+// Route::post('/siswa/store-multiple', [SiswaRplController::class, 'storeMultiple'])->name('siswa.storeMultiple');
+// Route::post('/siswa/start/{id}', [SiswaRplController::class, 'start'])->name('siswa.start');
+// Route::post('/siswa/stop/{id}', [SiswaRplController::class, 'stop'])->name('siswa.stop');
+// Route::post('/siswa/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('siswa.toggle');
 
 Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
