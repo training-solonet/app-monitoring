@@ -15,28 +15,34 @@ class SiswaController extends Controller
     }
 
     public function storeMultiple(Request $request)
-    {
-        $request->validate([
-            'kategori1' => 'required|in:DiKantor,Keluar Dengan Teknisi',
-            'report1' => 'required',
-            'kategori2' => 'nullable|in:DiKantor,Keluar Dengan Teknisi',
-            'report2' => 'nullable'
-        ]);
+{
+    $request->validate([
+        'kategori1' => 'required|in:DiKantor,Keluar Dengan Teknisi',
+        'report1' => 'required',
+        'kategori2' => 'nullable|in:DiKantor,Keluar Dengan Teknisi',
+        'report2' => 'nullable'
+    ]);
 
+    // Menyimpan aktivitas pertama dengan status default 'to do'
+    Siswa::create([
+        'kategori' => $request->kategori1,
+        'report' => $request->report1,
+        'status' => 'to do', // Status default
+    ]);
+
+    // Menyimpan aktivitas kedua, jika ada
+    if ($request->filled('kategori2') && $request->filled('report2')) {
         Siswa::create([
-            'kategori' => $request->kategori1,
-            'report' => $request->report1,
+            'kategori' => $request->kategori2,
+            'report' => $request->report2,
+            'status' => 'to do', // Status default
         ]);
-
-        if ($request->filled('kategori2') && $request->filled('report2')) {
-            Siswa::create([
-                'kategori' => $request->kategori2,
-                'report' => $request->report2,
-            ]);
-        }
-
-        return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
+
+    return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
+}
+
+
 
     public function start($id)
     {
@@ -56,5 +62,22 @@ class SiswaController extends Controller
         $siswa->save();
     
         return redirect()->back()->with('success', 'Waktu berhenti berhasil diupdate.');
+    }
+
+    public function toggle($id)
+    {
+        $siswa = Siswa::findOrFail($id);
+
+        if ($siswa->status === 'to do') {
+            $siswa->waktu_mulai = Carbon::now();
+            $siswa->status = 'doing';
+        } elseif ($siswa->status === 'doing') {
+            $siswa->waktu_selesai = Carbon::now();
+            $siswa->status = 'done';
+        }
+
+        $siswa->save();
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
 }
