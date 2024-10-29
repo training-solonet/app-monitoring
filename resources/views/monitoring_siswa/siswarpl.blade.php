@@ -75,7 +75,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($siswa as $index => $item)
+                                        @foreach ($siswarpl as $index => $item)
                                         <!-- Row Pertama untuk tiap item -->
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
@@ -98,8 +98,15 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                
+                                                @if($item->status == 'to do')
+                                                    <span class="badge badge-sm border border-secondary text-secondary bg-secondary">{{ $item->status }}</span>
+                                                @elseif($item->status == 'doing')
+                                                    <span class="badge badge-sm border border-info text-info bg-info">{{ $item->status }}</span>
+                                                @elseif($item->status == 'done')
+                                                    <span class="badge badge-sm border border-success text-success bg-success">{{ $item->status }}</span>
+                                                @endif
                                             </td>
+                                            
                                             <td class="align-middle text-center">
                                                 
                                             </td>   
@@ -109,9 +116,9 @@
                                                     @if($item->status === 'to do')
                                                         <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
                                                     @elseif($item->status === 'doing')
-                                                        <button type="submit" class="btn btn-sm btn-danger mb-0">Selesai</button>
+                                                        <button type="submit" class="btn btn-sm btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#EditTimeModal">Selesai</button>
                                                     @else
-                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Selesai</button>
+                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Telah Selesai</button>
                                                     @endif
                                                 </form>
                                             </td>
@@ -156,8 +163,8 @@
                         <label for="kategori1" class="form-label">Kategori</label>
                         <select class="form-select" id="kategori1" name="kategori1" required>
                             <option selected value="">Pilih Kategori</option>
-                            <option value="DiKantor">Di Kantor</option>
-                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
+                            <option value="Learning">Learning</option>
+                            <option value="Project">Project</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -172,8 +179,8 @@
                         <label for="kategori2" class="form-label">Kategori</label>
                         <select class="form-select" id="kategori2" name="kategori2">
                             <option selected value="">Pilih Kategori</option>
-                            <option value="DiKantor">Di Kantor</option>
-                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
+                            <option value="Learning">Learning</option>
+                            <option value="Project">Project</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -191,39 +198,44 @@
 </div>
 
 <!-- Modal Edit -->
-<div class="modal fade" id="editLaporanModal" tabindex="-1" aria-labelledby="editLaporanModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tambahLaporanModalLabel">Edit Laporan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="EditTimeModal" tabindex="-1" aria-labelledby="EditTimeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="EditTimeModalLabel">Edit Waktu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formEditLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                <form id="formEditTime" action="" method="POST">
                     @csrf
                     @method('PUT')
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
-                    <div class="mb-3">
-                        <label for="kategori1" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori1" name="kategori1" required>
-                            <option selected value="">Pilih Kategori</option>
-                            <option value="DiKantor">Di Kantor</option>
-                            <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
-                        </select>
+                    <h6 class="text-dark font-weight-semibold mb-4">Edit Waktu Aktivitas</h6>
+
+                    <div class="form-group mb-3">
+                        <label for="startTime" class="form-label">Waktu Mulai</label>
+                        <input type="time" class="form-control" id="startTime" name="start_time" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="report1" class="form-label">Report</label>
-                        <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
+
+                    <div class="form-group mb-3">
+                        <label for="endTime" class="form-label">Waktu Selesai</label>
+                        <input type="time" class="form-control" id="endTime" name="end_time" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="report" class="form-label">Laporan Aktivitas</label>
+                        <textarea class="form-control" id="report" name="report" rows="3" placeholder="Isi kegiatan..." required></textarea>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formEditLaporan" class="btn btn-info">Simpan</button>
+                <button type="submit" form="formEditTime" class="btn btn-info">Simpan</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 </x-app-layout>

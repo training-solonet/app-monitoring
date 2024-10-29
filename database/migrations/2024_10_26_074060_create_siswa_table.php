@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-            $table->enum('kategori',['DiKantor', 'Keluar Dengan Teknisi']);
+            $table->enum('kategori',['DiKantor', 'Keluar Dengan Teknisi','Learning','Project']);
             $table->text('report');
             $table->datetime('waktu_mulai')->nullable();
             $table->datetime('waktu_selesai')->nullable(); 
