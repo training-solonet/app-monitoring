@@ -17,9 +17,9 @@ class SiswaController extends Controller
     public function storeMultiple(Request $request)
 {
     $request->validate([
-        'kategori1' => 'required|in:DiKantor,Keluar Dengan Teknisi',
+        'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report1' => 'required',
-        'kategori2' => 'nullable|in:DiKantor,Keluar Dengan Teknisi',
+        'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report2' => 'nullable'
     ]);
 
