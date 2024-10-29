@@ -72,7 +72,7 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Total Waktu</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
-                                    </thead>
+                                    </thead>    
 
                                     <tbody>
                                         @foreach ($siswarpl as $index => $item)
@@ -99,17 +99,46 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 @if($item->status == 'to do')
-                                                    <span class="badge badge-sm border border-secondary text-secondary bg-secondary">{{ $item->status }}</span>
+                                                    <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
                                                 @elseif($item->status == 'doing')
-                                                    <span class="badge badge-sm border border-info text-info bg-info">{{ $item->status }}</span>
+                                                    <span class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
                                                 @elseif($item->status == 'done')
-                                                    <span class="badge badge-sm border border-success text-success bg-success">{{ $item->status }}</span>
+                                                    <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                 @endif
                                             </td>
                                             
-                                            <td class="align-middle text-center">
-                                                
-                                            </td>   
+                                            <td class="align-middle text-center" id="total-waktu-{{ $item->id }}">
+                                                @if($item->status === 'doing')
+                                                    <script>
+                                                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                                                    </script>
+                                                @else
+                                                    {{ $item->total_waktu ?? '00:00:00' }}
+                                                @endif
+                                            </td>
+                                            <script>
+                                                function startTimer(waktuMulai, elementId) {
+                                                    const startTime = new Date(waktuMulai).getTime();
+
+                                                    console.log("Waktu mulai:", waktuMulai, "Element ID:", elementId);
+
+                                                    function updateTime() {
+                                                        const now = new Date().getTime();
+                                                        const elapsed = now - startTime;
+
+                                                        const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                                        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                                                        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                                                        document.getElementById(elementId).textContent =
+                                                            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                                                    }
+
+                                                    updateTime();
+                                                    setInterval(updateTime, 1000);
+                                                }
+                                            </script>
+
                                             <td class="align-middle text-center">
                                                 <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf

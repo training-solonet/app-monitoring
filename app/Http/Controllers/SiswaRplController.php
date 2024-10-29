@@ -10,16 +10,27 @@ class SiswaRplController extends Controller
 {
     public function index()
     {
-        $siswarpl = Siswa::all();
+        $siswarpl = Siswa::all()->map(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S'); // format HH:MM:SS
+            } else {
+                $item->total_waktu = '-';
+            }
+            return $item;
+        });
+
         return view('monitoring_siswa.siswarpl', compact('siswarpl'));
     }
+
 
     public function storeMultiple(Request $request)
     {
         $request->validate([
-            'kategori1' => 'required|in:Learning,Project',
+            'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
             'report1' => 'required',
-            'kategori2' => 'nullable|in:Learning,Project',
+            'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
             'report2' => 'nullable'
         ]);
 

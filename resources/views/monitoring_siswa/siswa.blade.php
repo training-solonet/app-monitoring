@@ -98,11 +98,17 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                
+                                                @if($item->status == 'to do')
+                                                    <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
+                                                @elseif($item->status == 'doing')
+                                                    <span class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
+                                                @elseif($item->status == 'done')
+                                                    <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
+                                                @endif
                                             </td>
                                             <td class="align-middle text-center">
                                                 
-                                            </td>   
+                                            </td>
                                             <td class="align-middle text-center">
                                                 <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf
