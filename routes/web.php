@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
+use App\Http\Controllers\AddController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,16 +92,14 @@ Route::post('/siswa/start/{id}', [SiswaController::class, 'start'])->name('siswa
 Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.stop');
 Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('siswa.toggle');
 
-
-Route::prefix('siswarpl')->group(function () {
-    Route::get('/', [SiswaRplController::class, 'index'])->name('siswarpl.index');
-    Route::post('/store-multiple', [SiswaRplController::class, 'storeMultiple'])->name('siswarpl.storeMultiple');
-    Route::post('/start/{id}', [SiswaRplController::class, 'start'])->name('siswarpl.start');
-    Route::post('/stop/{id}', [SiswaRplController::class, 'stop'])->name('siswarpl.stop');
-    Route::post('/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('siswarpl.toggle');
-});
-
+Route::resource('siswarpl', SiswaRplController::class);
+Route::resource('add', AddController::class);
 
 Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
+
+
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/register', [RegisterController::class, 'store'])->name('register');
+Route::resource('register',RegisterController::class);

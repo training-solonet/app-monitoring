@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center mb-3 mx-2">
                         <div class="mb-md-0 mb-3">
-                            <h3 class="font-weight-bold mb-0">Hello, {{ auth()->user()->name }}</h3>
+                            <h3 class="font-weight-bold mb-0">Hello, {{ auth()->user()->username }}</h3>
                             <p class="mb-0">Apps you might like!</p>
                         </div>
                         <button type="button"
