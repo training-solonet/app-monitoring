@@ -10,7 +10,16 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        $siswa = Siswa::all();
+        $siswa = Siswa::all()->map(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+            } else {
+                $item->total_waktu = '-';
+            }
+            return $item;
+        });
         return view('monitoring_siswa.siswa', compact('siswa'));
     }
 

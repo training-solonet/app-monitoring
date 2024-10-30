@@ -1,8 +1,6 @@
 <x-app-layout>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
@@ -76,7 +74,6 @@
 
                                     <tbody>
                                         @foreach ($siswarpl as $index => $item)
-                                        <!-- Row Pertama untuk tiap item -->
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
@@ -89,12 +86,12 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_mulai }}
+                                                    {!! $item->waktu_mulai ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i') : '<em>Belum Dimulai</em>' !!}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_selesai }}
+                                                    {!! $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i') : '<em>Belum Berakhir</em>' !!}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
@@ -140,7 +137,7 @@
                                             </script>
 
                                             <td class="align-middle text-center">
-                                                <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
+                                                <form action="{{ route('siswarpl.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @if($item->status === 'to do')
                                                         <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
@@ -184,7 +181,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
+                <form id="formTambahLaporan" action="{{ route('siswarpl.storeMultiple') }}" method="POST">
                     @csrf
                     <!-- Aktivitas Pertama -->
                     <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
@@ -263,8 +260,4 @@
         </div>
     </div>
 </div>
-
-
-
-
 </x-app-layout>
