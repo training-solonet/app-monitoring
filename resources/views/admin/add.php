@@ -46,7 +46,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {{-- @foreach ($user as $index => $item)
+                                        @foreach ($user as $index => $item)
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
@@ -70,7 +70,7 @@
                                         <tr>
                                             
                                         </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                             </table>
 

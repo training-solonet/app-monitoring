@@ -25,15 +25,15 @@
                                             <input type="text" class="form-control" placeholder="Enter your name"
                                                 aria-label="Name" aria-describedby="name-addon">
                                         </div>
-                                        <label>Email Address</label>
+                                        <label>username Address</label>
                                         <div class="mb-3">
-                                            <input type="email" class="form-control"
-                                                placeholder="Enter your email address" aria-label="Email"
-                                                aria-describedby="email-addon">
+                                            <input type="username" class="form-control"
+                                                placeholder="username" aria-label="username"
+                                                aria-describedby="username-addon">
                                         </div>
                                         <label>Password</label>
                                         <div class="mb-3">
-                                            <input type="email" class="form-control" placeholder="Enter password"
+                                            <input type="username" class="form-control" placeholder="Enter password"
                                                 aria-label="Password" aria-describedby="password-addon">
                                         </div>
                                         <div class="d-flex align-items-center">
