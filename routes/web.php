@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
+use App\Http\Controllers\AddController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,7 @@ Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('sis
 
 // <--Rpl-->
 Route::resource('siswarpl', SiswaRplController::class);
+Route::resource('add', AddController::class);
 // Route::post('/siswa/store-multiple', [SiswaRplController::class, 'storeMultiple'])->name('siswa.storeMultiple');
 // Route::post('/siswa/start/{id}', [SiswaRplController::class, 'start'])->name('siswa.start');
 // Route::post('/siswa/stop/{id}', [SiswaRplController::class, 'stop'])->name('siswa.stop');
@@ -102,3 +104,8 @@ Route::resource('siswarpl', SiswaRplController::class);
 Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
+
+
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/register', [RegisterController::class, 'store'])->name('register');
+Route::resource('register',RegisterController::class);

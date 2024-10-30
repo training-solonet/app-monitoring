@@ -18,7 +18,7 @@
                                     <p class="mb-0">Welcome back!</p>
                                     <p class="mb-0">Create a new acount<br></p>
                                     <p class="mb-0">OR Sign in with these credentials:</p>
-                                    <p class="mb-0">Email: <b>admin@corporateui.com</b></p>
+                                    <p class="mb-0">username: <b>admin@corporateui.com</b></p>
                                     <p class="mb-0">Password: <b>secret</b></p>
                                 </div>
                                 <div class="text-center">
@@ -36,19 +36,13 @@
                                 <div class="card-body">
                                     <form role="form" class="text-start" method="POST" action="sign-in">
                                         @csrf
-                                        <label>Email Address</label>
+                                        <label>Username</label>
                                         <div class="mb-3">
-                                            <input type="email" id="email" name="email" class="form-control"
-                                                placeholder="Enter your email address"
-                                                value="{{ old('email') ? old('email') : 'admin@corporateui.com' }}"
-                                                aria-label="Email" aria-describedby="email-addon">
+                                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" value="{{ old('username') }}" required>
                                         </div>
                                         <label>Password</label>
                                         <div class="mb-3">
-                                            <input type="password" id="password" name="password"
-                                                value="{{ old('password') ? old('password') : 'secret' }}"
-                                                class="form-control" placeholder="Enter password" aria-label="Password"
-                                                aria-describedby="password-addon">
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-info text-left mb-0">

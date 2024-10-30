@@ -68,6 +68,7 @@
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -89,6 +90,19 @@
     @endif
 
     {{ $slot }}
+
+    <!-- SweetAlert Success -->
+  @if (session('success'))
+  <script>
+      Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: '{{ session('success') }}',
+          showConfirmButton: false,
+          timer: 2000
+      });
+  </script>
+@endif
 
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
