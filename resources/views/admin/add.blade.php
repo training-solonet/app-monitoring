@@ -9,9 +9,6 @@
                             <div class="row">
                                 <div class="col-6">
                                     <h5 class="">Pengelolaan Pengguna</h5>
-                                    <p class="mb-0 text-sm">
-                                        Di sini Anda dapat mengelola pengguna.
-                                    </p>
                                 </div>
                                 <div class="col-6 text-end">
                                     <button type="button" class="btn btn-info btn-dark" data-bs-toggle="modal"
