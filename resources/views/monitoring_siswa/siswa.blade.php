@@ -89,15 +89,14 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_mulai }}
+                                                    {!! $item->waktu_mulai ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i') : '<em>Belum Dimulai</em>' !!}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $item->waktu_selesai }}
+                                                    {!! $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i') : '<em>Belum Berakhir</em>' !!}
                                                 </span>
                                             </td>
-
                                             <td class="align-middle text-center">
                                                 @if($item->status == 'to do')
                                                     <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
@@ -139,16 +138,16 @@
                                                     setInterval(updateTime, 1000);
                                                 }
                                             </script>
-                                            
+
                                             <td class="align-middle text-center">
-                                                <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
+                                                <form action="{{ route('siswarpl.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @if($item->status === 'to do')
                                                         <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
                                                     @elseif($item->status === 'doing')
-                                                        <button type="submit" class="btn btn-sm btn-danger mb-0">Selesai</button>
+                                                        <button type="submit" class="btn btn-sm btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#EditTimeModal">Selesai</button>
                                                     @else
-                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Selesai</button>
+                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Telah Selesai</button>
                                                     @endif
                                                 </form>
                                             </td>
