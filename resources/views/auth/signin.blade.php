@@ -36,8 +36,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label text-dark">Password</label>
-                                            <input type="password" id="password" name="password"
-                                                class="form-control rounded-pill" placeholder="Enter password" required>
+                                            <div class="form-group password-container">
+                                                <input type="password" id="password" name="password" class="form-control rounded-pill" placeholder="Enter password" required>
+                                                <i class="eye-icon bi bi-eye" id="togglePassword"></i>
+                                            </div>
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-3 rounded-pill" 
