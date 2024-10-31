@@ -16,23 +16,18 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the input
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        // Retrieve user by username
         $user = User::where('username', $request->username)->first();
 
-        // Check if user exists and password matches
         if ($user && $user->password === $request->password) {
-            // Log the user in
+
             Auth::login($user);
             return redirect()->intended('/dashboard');
         }
 
-        // Redirect back with error message
         return back()->withErrors(['message' => 'The provided credentials do not match our records.'])->withInput($request->only('username'));
     }
 

@@ -92,14 +92,15 @@ Route::post('/siswa/start/{id}', [SiswaController::class, 'start'])->name('siswa
 Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.stop');
 Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('siswa.toggle');
 
-
-// <--Rpl-->
 Route::resource('siswarpl', SiswaRplController::class);
 Route::resource('add', AddController::class);
-// Route::post('/siswa/store-multiple', [SiswaRplController::class, 'storeMultiple'])->name('siswa.storeMultiple');
-// Route::post('/siswa/start/{id}', [SiswaRplController::class, 'start'])->name('siswa.start');
-// Route::post('/siswa/stop/{id}', [SiswaRplController::class, 'stop'])->name('siswa.stop');
-// Route::post('/siswa/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('siswa.toggle');
+
+Route::prefix('siswarpl')->name('siswarpl.')->group(function () {
+    Route::post('/store', [SiswaRplController::class, 'storeMultiple'])->name('storeMultiple');
+    Route::post('/start/{id}', [SiswaRplController::class, 'start'])->name('start');
+    Route::post('/stop/{id}', [SiswaRplController::class, 'stop'])->name('stop');
+    Route::post('/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('toggle');
+});
 
 Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
