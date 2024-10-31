@@ -30,22 +30,21 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|max:255|unique:users',
-            'password' => 'required|min:7|max:255',
-        ], [
-            'username.required' => 'Username is required',
-            'password.required' => 'Password is required',
-        ]);
+{
+    $request->validate([
+        'username' => 'required|max:255|unique:users',
+        'password' => 'required|min:7|max:255',
+    ], [
+        'username.required' => 'Username is required',
+        'password.required' => 'Password is required',
+    ]);
 
-        $user = User::create([
-            'username' => $request->username,
-            'password' => $request->password, 
-        ]);
+    $user = User::create([
+        'username' => $request->username,
+        'password' => $request->password, 
+    ]);
 
-        Auth::login($user);
+    return redirect()->route('add.index')->with('success', 'User berhasil ditambahkan.');
+}
 
-        return redirect(RouteServiceProvider::HOME);
-    }
 }
