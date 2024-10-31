@@ -75,7 +75,7 @@
             <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
                     <a href="https://www.creative-tim.com/product/corporate-ui-dashboard-laravel" target="_blank"
-                        class="btn btn-sm mb-0 bg-gradient-dark">Free download</a>
+                        class="btn btn-sm mb-0 bg-gradient-dark">Free</a>
                 </li>
             </ul>
         </div>
