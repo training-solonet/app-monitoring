@@ -95,6 +95,13 @@ Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('sis
 Route::resource('siswarpl', SiswaRplController::class);
 Route::resource('add', AddController::class);
 
+Route::prefix('siswarpl')->name('siswarpl.')->group(function () {
+    Route::post('/store', [SiswaRplController::class, 'storeMultiple'])->name('storeMultiple');
+    Route::post('/start/{id}', [SiswaRplController::class, 'start'])->name('start');
+    Route::post('/stop/{id}', [SiswaRplController::class, 'stop'])->name('stop');
+    Route::post('/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('toggle');
+});
+
 Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
