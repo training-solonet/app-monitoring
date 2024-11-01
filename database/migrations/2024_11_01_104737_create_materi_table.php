@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('login', function (Blueprint $table) {
+        Schema::create('materi', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 50);
-            $table->text('password');
-            $table->foreignId('id_role')->constrained('role');
-            // $table->foreignId('id_jurusan')->constrained('jurusan');
+            $table->string('materi');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('login');
+        schema::dropIfExists('materi');
     }
 };
