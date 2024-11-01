@@ -110,3 +110,18 @@ Route::get('/laravel-examples/users-management', [UserController::class, 'index'
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::resource('register',RegisterController::class);
+
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/siswa', [AddController::class, 'index'])->name('Add.index');
+    
+});
+
+
+Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+    
+
+});
+

@@ -28,7 +28,7 @@ class LoginController extends Controller
             return redirect()->intended('/dashboard');
         }
 
-        return back()->withErrors(['message' => 'The provided credentials do not match our records.'])->withInput($request->only('username'));
+        return back()->withErrors(['message' => 'username dan password tidak ditemukan.'])->withInput($request->only('username'));
     }
 
     public function destroy(Request $request)

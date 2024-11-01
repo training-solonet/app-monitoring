@@ -75,7 +75,6 @@
                         
                                                         <tbody>
                                                             @foreach ($user as $index => $item)
-                                                                <!-- Row Pertama untuk tiap item -->
                                                                 <tr>
                                                                     <td class="align-middle text-center" rowspan="2">
                                                                         <p class="text-sm text-dark font-weight-semibold mb-0">
