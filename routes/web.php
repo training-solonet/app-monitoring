@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
+use App\Http\Controllers\JurusanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,7 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create']
 
 Route::post('/reset-password', [ResetPasswordController::class, 'store'])
     ->middleware('guest');
+
 Route::resource('siswa', SiswaController::class);
 Route::post('/siswa/store-multiple', [SiswaController::class, 'storeMultiple'])->name('siswa.storeMultiple');
 Route::post('/siswa/start/{id}', [SiswaController::class, 'start'])->name('siswa.start');
@@ -93,7 +95,6 @@ Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.s
 Route::post('/siswa/toggle/{id}', [SiswaController::class, 'toggle'])->name('siswa.toggle');
 
 Route::resource('siswarpl', SiswaRplController::class);
-Route::resource('add', AddController::class);
 
 Route::prefix('siswarpl')->name('siswarpl.')->group(function () {
     Route::post('/store', [SiswaRplController::class, 'storeMultiple'])->name('storeMultiple');
@@ -106,22 +107,19 @@ Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index']
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
 
-
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
-Route::resource('register',RegisterController::class);
+Route::resource('register', RegisterController::class);
 
-
+// Tambahkan middleware role:admin pada resource add
+Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/siswa', [AddController::class, 'index'])->name('Add.index');
-    
+    Route::get('/admin', [AddController::class, 'index'])->name('Add.index');
 });
-
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
-    
-
 });
 
+Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);

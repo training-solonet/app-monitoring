@@ -186,12 +186,12 @@
             <div class="modal-body">
                 <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
                     @csrf
-                    <!-- Aktivitas Pertama -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                    <!-- Laporan Pertama -->
+                    <h6 class="text-dark font-weight-semibold">Laporan 1</h6>
                     <div class="mb-3">
-                        <label for="kategori1" class="form-label">Kategori</label>
+                        <label for="kategori1" class="form-label">Laporan</label>
                         <select class="form-select" id="kategori1" name="kategori1" required>
-                            <option selected value="">Pilih Kategori</option>
+                            <option selected value="">Pilih Laporan</option>
                             <option value="DiKantor">Di Kantor</option>
                             <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                         </select>
@@ -202,12 +202,12 @@
                     </div>
                     <hr>
 
-                    <!-- Aktivitas Kedua -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
+                    <!-- Laporan Kedua -->
+                    <h6 class="text-dark font-weight-semibold">Laporan 2 (Opsional)</h6>
                     <div class="mb-3">
-                        <label for="kategori2" class="form-label">Kategori</label>
+                        <label for="kategori2" class="form-label">Laporan</label>
                         <select class="form-select" id="kategori2" name="kategori2">
-                            <option selected value="">Pilih Kategori</option>
+                            <option selected value="">Pilih Laporan</option>
                             <option value="DiKantor">Di Kantor</option>
                             <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                         </select>
@@ -238,7 +238,7 @@
                 <form id="formEditLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                    <h6 class="text-dark font-weight-semibold">Laporan 1</h6>
                     <div class="mb-3">
                         <label for="kategori1" class="form-label">Kategori</label>
                         <select class="form-select" id="kategori1" name="kategori1" required>
