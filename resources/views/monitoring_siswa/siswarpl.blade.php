@@ -62,7 +62,7 @@
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Kategori</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aktivitas</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Report</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
