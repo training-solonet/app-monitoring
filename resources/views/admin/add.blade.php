@@ -17,7 +17,7 @@
                                                 </div>
                                                 <div class="ms-auto d-flex">
                                                     <button type="button"
-                                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2" data-bs-toggle="modal" data-bs-target="#tambahLaporanModal">
+                                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
                                                         <span class="btn-inner--icon">
                                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -75,7 +75,6 @@
                         
                                                         <tbody>
                                                             @foreach ($user as $index => $item)
-                                                                <!-- Row Pertama untuk tiap item -->
                                                                 <tr>
                                                                     <td class="align-middle text-center" rowspan="2">
                                                                         <p class="text-sm text-dark font-weight-semibold mb-0">

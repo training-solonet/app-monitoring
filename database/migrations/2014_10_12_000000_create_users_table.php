@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('phone')->nullable();
-            $table->string('location')->nullable();
-            $table->text('about')->nullable();
             $table->enum('role', ['admin','pembimbing','siswa'])->nullable();
             $table->rememberToken();
             $table->timestamps();

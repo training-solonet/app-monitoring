@@ -1,17 +1,3 @@
-<!--
-=========================================================
-* Corporate UI - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/corporate-ui
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if (config('app.is_demo'))
         <title itemprop="name">
-            Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION
+            App Monitoring PKL
         </title>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:card" content="summary_large_image">
@@ -72,21 +58,12 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    @php
-        $topSidenavArray = ['wallet', 'profile'];
-        $topSidenavTransparent = ['signin', 'signup'];
-        $topSidenavRTL = ['RTL'];
-    @endphp
-    @if (in_array(request()->route()->getName(),
-            $topSidenavArray))
-        <x-sidenav-top />
-    @elseif(in_array(request()->route()->getName(),
-            $topSidenavTransparent))
-
-    @elseif(in_array(request()->route()->getName(),
-            $topSidenavRTL))
-    @else
-        <x-app.sidebar />
+    @if (auth()->user()->role === 'admin')
+        <x-app.sidebar_admin />
+    @elseif (auth()->user()->role === 'pembimbing')
+        <x-app.sidebar_pembimbing />
+    @elseif (auth()->user()->role === 'siswa')
+        <x-app.sidebar/>
     @endif
 
     {{ $slot }}
