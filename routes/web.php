@@ -12,16 +12,6 @@ use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -111,7 +101,6 @@ Route::get('/register', [RegisterController::class, 'create'])->name('register.c
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::resource('register', RegisterController::class);
 
-// Tambahkan middleware role:admin pada resource add
 Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
