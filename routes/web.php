@@ -11,6 +11,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\MateriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +124,4 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 });
 
 Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);
+Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
