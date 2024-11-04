@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Jurusan;
 
-class RegisterController extends Controller
+class UserAdminController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function index(){
+        $user = User::where('role','admin')->get();
+        return view('admin.add',compact('user'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -37,7 +35,7 @@ class RegisterController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('add.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('useradmin.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -46,11 +44,13 @@ class RegisterController extends Controller
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:7|max:255',
+            'status' => 'required|in:Aktif,Tidak Aktif'
         ], [
             'username.required' => 'Username is required',
             'username.min' => 'Username must be at least 3 characters',
             'password.required' => 'Password is required',
             'password.min' => 'Password must be at least 7 characters long',
+            'status.required' => 'Status is required'
         ]);
     
         // Find the user by ID
@@ -59,19 +59,17 @@ class RegisterController extends Controller
         try {
             // Update the user's username and password without hashing
             $user->username = $request->username; // Update the username
-            $user->password = $request->password; // Store password as plain text
+            $user->password = $request->password;
+            $user->status  = $request->status;
     
             // Save the updated user data
             $user->save();
     
-            return redirect()->route('add.index')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('useradmin.index')->with('success', 'User berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('add.index')->with('error', 'Failed to update user: ' . $e->getMessage());
+            return redirect()->route('useradmin.index')->with('error', 'Failed to update user: ' . $e->getMessage());
         }
     }
     
     
-    
-    
-
 }
