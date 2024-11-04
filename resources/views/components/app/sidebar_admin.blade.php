@@ -78,15 +78,21 @@
                 </div>
             </li>
             <li class="nav-item border-start my-0 pt-2">
-                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('add.index') ? 'active' : '' }}"
-                    href="{{ route('add.index') }}">
-                    <span class="nav-link-text ms-1">User </span>
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('useradmin.index') ? 'active' : '' }}"
+                    href="{{ route('useradmin.index') }}">
+                    <span class="nav-link-text ms-1">Admin </span>
                 </a>
             </li>
             <li class="nav-item border-start my-0 pt-2">
-                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('jurusan.index') ? 'active' : '' }}"
-                    href="{{ route('jurusan.index') }}">
-                    <span class="nav-link-text ms-1">Jurusan</span>
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('userpembimbing.index') ? 'active' : '' }}"
+                    href="{{ route('userpembimbing.index') }}">
+                    <span class="nav-link-text ms-1">Pembimbing</span>
+                </a>
+            </li>
+            <li class="nav-item border-start my-0 pt-2">
+                <a class="nav-link position-relative ms-0 ps-2 py-2 {{ is_current_route('usersiswa.index') ? 'active' : '' }}"
+                    href="{{ route('usersiswa.index') }}">
+                    <span class="nav-link-text ms-1">Siswa</span>
                 </a>
             </li>
             {{-- <li class="nav-item border-start my-0 pt-2">

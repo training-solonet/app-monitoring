@@ -33,7 +33,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body px-0 py-0">
-
+                                        
                                             <div class="table-responsive p-0">
                                                 <div class="table-responsive p-0">
                                                     <table class="table align-items-center mb-0">
@@ -51,15 +51,6 @@
                                                                     Password</th>
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
-                                                                    tanggal mulai</th>
-                                                                    <th
-                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
-                                                                    tanggal selesai</th>
-                                                                    <th
-                                                                        class="text-center text-secondary font-weight-semibold text-xs opacity-7">
-                                                                        masa pkl</th>
-                                                                <th
-                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Status</th>
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -68,7 +59,7 @@
                                                         </thead>
 
                                                         <tbody>
-                                                            @foreach ($user as $index => $item)
+                                                            @foreach ($userpembimbing as $index => $item)
                                                                 <tr>
                                                                     <td class="align-middle text-center" rowspan="2">
                                                                         <p
@@ -84,39 +75,16 @@
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->password }}</p>
                                                                     </td>
-
-                                                                    <td class="align-middle text-center text-sm">
-                                                                        <p class="text-sm text-dark mb-0">
-                                                                        </p>
-                                                                    </td>
-
-                                                                    <td class="align-middle text-center text-sm">
-                                                                        <p class="text-sm text-dark mb-0">
-                                                                        </p>
-                                                                    </td>
-
-                                                                    <td class="align-middle text-center text-sm">
-                                                                        <p class="text-sm text-dark mb-0">
-                                                                        </p>
-                                                                    </td>
-
                                                                     <td class="align-middle text-center">
-                                                                        @if ($item->status == 'Aktif')
-                                                                            <span
-                                                                                class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
+                                                                        @if($item->status == 'Aktif')
+                                                                            <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                                         @elseif($item->status == 'Tidak Aktif')
-                                                                            <span
-                                                                                class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
+                                                                            <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
                                                                         @endif
                                                                     </td>
-
-
-
+                                                                    
                                                                     <td class="align-middle text-center">
-                                                                        <button type="button"
-                                                                            class="btn btn-warning btn-sm mb-0"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#editModal{{ $item->id }}">
+                                                                        <button type="button" class="btn btn-warning btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
                                                                             Edit
                                                                         </button>
                                                                     </td>
@@ -176,7 +144,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('useradmin.store') }}" method="POST">
+                <form action="{{ route('userpembimbing.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -190,7 +158,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="status" value="Aktif">
-                        <input type="hidden" name="role" value="admin">
+                        <input type="hidden" name="role" value="pembimbing">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-info">Simpan</button>
                     </div>
@@ -201,42 +169,40 @@
 </div>
 
 {{-- <!--Modal Edit--> --}}
-@foreach ($user as $item)
-    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
-        aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('useradmin.update', $item->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                value="{{ $item->username }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" name="password"
-                                value="{{ $item->password }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <select name="status" id="status" class="form-select">
-                                <option value="Aktif">Aktif</option>
-                                <option value="Tidak Aktif">Tidak Aktif</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
+@foreach ($userpembimbing as $item)
+<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form action="{{ route('userpembimbing.update', $item->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ $item->username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="password" name="password" value="{{ $item->password }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <select name="status" id="status" class="form-select">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 @endforeach
+

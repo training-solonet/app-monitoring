@@ -12,7 +12,7 @@
                                         <div class="card-header border-bottom pb-0">
                                             <div class="d-sm-flex align-items-center">
                                                 <div>
-                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar Jurusan</h6>
+                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar Akun Siswa</h6>
                                                 </div>
                                                 {{-- <div class="ms-auto d-flex">
                                                     <button type="button"
@@ -38,7 +38,7 @@
                                                                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No
                                                                 </th>
                                                                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Nama Jurusan</th>
+                                                                    Nama Siswa</th>
                                                             </tr>
                                                         </thead>
                         

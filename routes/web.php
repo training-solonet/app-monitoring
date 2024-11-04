@@ -12,6 +12,11 @@ use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\UserPembimbingController;
+use App\Http\Controllers\UserSiswaController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -112,12 +117,12 @@ Route::get('/register', [RegisterController::class, 'create'])->name('register.c
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::resource('register', RegisterController::class);
 
-// Tambahkan middleware role:admin pada resource add
-Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
+// // Tambahkan middleware role:admin pada resource add
+// Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', [AddController::class, 'index'])->name('Add.index');
-});
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin', [AddController::class, 'index'])->name('Add.index');
+// });
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
@@ -125,3 +130,8 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 
 Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);
 Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
+
+
+Route::resource('useradmin' , UserAdminController::class)->middleware(['auth', 'role:admin']);
+Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:admin']);
+Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:admin']);

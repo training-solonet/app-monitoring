@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->enum('role', ['admin','pembimbing','siswa'])->nullable();
+            $table->enum('status',['Aktif', 'Tidak Aktif']);
+            $table->datetime('tanggal_mulai');
+            $table->datetime('tanggal_selesai');
+            $table->date('masa_pkl');
             $table->rememberToken();
             $table->timestamps();
         });
