@@ -19,13 +19,18 @@ class UserSiswaController extends Controller
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:7|max:255',
             'role' => 'required|in:admin,siswa,pembimbing',
-            'status' => 'required|in:Aktif,Tidak Aktif'
+            'status' => 'required|in:Aktif,Tidak Aktif',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            
         ], [
             'username.required' => 'Username is required',
             'password.required' => 'Password is required',
             'role.required' => 'Role is required',
             'role.in' => 'Role harus salah satu dari: admin, siswa, pembimbing',
-            'status.required' => 'Status is required'
+            'status.required' => 'Status is required',
+            'tanggal_mulai.required' =>  'Tanggal mulai is required',
+            'tanggal_selesai.required' => 'Tanggal mulai is not a valid date',
         ]);
 
         $user = User::create([
@@ -33,11 +38,13 @@ class UserSiswaController extends Controller
             'password' => $request->password, 
             'role' => $request->role,
             'status' => $request->status,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+    
         ]);
 
-        return redirect()->route('usersiswa.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('usersiswa.index')->with('success', 'Data berhasil ditambahkan.');
     }
-
     public function update(Request $request, $id)
     {
         // Validate the incoming request data
@@ -62,7 +69,7 @@ class UserSiswaController extends Controller
             // Save the updated user data
             $user->save();
     
-            return redirect()->route('usersiswa.index')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('usersiswa.index')->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->route('usersiswa.index')->with('error', 'Failed to update user: ' . $e->getMessage());
         }

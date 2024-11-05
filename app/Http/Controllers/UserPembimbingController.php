@@ -34,7 +34,7 @@ class UserPembimbingController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('userpembimbing.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -43,11 +43,13 @@ class UserPembimbingController extends Controller
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:7|max:255',
+            'status' => 'required|in:Aktif,Tidak Aktif',
         ], [
             'username.required' => 'Username is required',
             'username.min' => 'Username must be at least 3 characters',
             'password.required' => 'Password is required',
             'password.min' => 'Password must be at least 7 characters long',
+            'status.required' => 'Status is required',
         ]);
     
         // Find the user by ID
@@ -57,11 +59,12 @@ class UserPembimbingController extends Controller
             // Update the user's username and password without hashing
             $user->username = $request->username; // Update the username
             $user->password = $request->password; // Store password as plain text
+            $user->status  = $request->status;
     
             // Save the updated user data
             $user->save();
     
-            return redirect()->route('userpembimbing.index')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->route('userpembimbing.index')->with('error', 'Failed to update user: ' . $e->getMessage());
         }
