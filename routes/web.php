@@ -13,6 +13,7 @@ use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MateriPembimbingController;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
@@ -116,6 +117,9 @@ Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:
 Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
 
 
+
 Route::resource('useradmin' , UserAdminController::class)->middleware(['auth', 'role:admin']);
 Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:admin']);
 Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:admin']);
+
+Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:admin,pembimbing']); 
