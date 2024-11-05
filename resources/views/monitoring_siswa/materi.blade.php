@@ -12,7 +12,7 @@
                                         <div class="card-header border-bottom pb-0">
                                             <div class="d-sm-flex align-items-center">
                                                 <div>
-                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar Akun Siswa</h6>
+                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar materi</h6>
                                                 </div>
                                                 {{-- <div class="ms-auto d-flex">
                                                     <button type="button"
@@ -24,7 +24,7 @@
                                                                     d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
                                                             </svg>
                                                         </span>
-                                                        <span class="btn-inner--text">Tambah Jurusan</span>
+                                                        <span class="btn-inner--text">Tambah materi</span>
                                                     </button>
                                                 </div> --}}
                                             </div>
@@ -38,12 +38,16 @@
                                                                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No
                                                                 </th>
                                                                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Nama Siswa</th>
+                                                                    Nama Materi</th>
+                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    File Materi</th>
+                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    Detail Materi</th>
                                                             </tr>
                                                         </thead>
                         
                                                         <tbody>
-                                                            @foreach ($jurusan as $index => $item)
+                                                            @foreach ($materi as $index => $item)
                                                                 <tr>
                                                                     <td class="align-middle text-center" rowspan="2">
                                                                         <p class="text-sm text-dark font-weight-semibold mb-0">
@@ -51,7 +55,7 @@
                                                                     </td>
                                                                     <td class="align-middle text-center">
                                                                         <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                                            {{ $item->jurusan }}</p>
+                                                                            {{ $item->materi }}</p>
                                                                     </td>
                                                                     </form>
                                                                     </td>
@@ -109,11 +113,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('jurusan.store') }}" method="POST">
+                <form action="{{ route('materi.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="Jurusan" class="form-label">Nama Jurusan</label>
-                        <input type="text" class="form-control" id="Jurusan" name="jurusan" placeholder="Jurusan" required>
+                        <label for="materi" class="form-label">Nama materi</label>
+                        <input type="text" class="form-control" id="materi" name="materi" placeholder="materi" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

@@ -11,7 +11,9 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
-use App\Http\Controllers\MateriPembimbingController;
+use App\Http\Controllers\Auth\MateriController;
+use App\Http\Controllers\Auth\MateriPembimbingController;
+
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -104,12 +106,14 @@ Route::resource('register', RegisterController::class);
 Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
 Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', [AddController::class, 'index'])->name('Add.index');
-});
-
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
 });
 
 Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);
+Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
+
+
+Route::resource('useradmin' , UserAdminController::class)->middleware(['auth', 'role:admin']);
+Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:admin']);
+Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:admin']);

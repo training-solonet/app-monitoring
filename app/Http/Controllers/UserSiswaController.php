@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class RegisterController extends Controller
+
+class UserSiswaController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function index(){
+        $usersiswa = User::where('role','siswa')->get();
+        return view('admin.siswa ',compact('usersiswa'));
+    }
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -37,7 +35,7 @@ class RegisterController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('add.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('usersiswa.index')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -64,14 +62,9 @@ class RegisterController extends Controller
             // Save the updated user data
             $user->save();
     
-            return redirect()->route('add.index')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('usersiswa.index')->with('success', 'User berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('add.index')->with('error', 'Failed to update user: ' . $e->getMessage());
+            return redirect()->route('usersiswa.index')->with('error', 'Failed to update user: ' . $e->getMessage());
         }
     }
-    
-    
-    
-    
-
 }
