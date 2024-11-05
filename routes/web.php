@@ -11,8 +11,11 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
-use App\Http\Controllers\Auth\MateriController;
-use App\Http\Controllers\Auth\MateriPembimbingController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MateriPembimbingController;
+use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\UserPembimbingController;
+use App\Http\Controllers\UserSiswaController;
 
 
 Route::get('/', function () {
@@ -103,7 +106,6 @@ Route::get('/register', [RegisterController::class, 'create'])->name('register.c
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::resource('register', RegisterController::class);
 
-Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
 Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
