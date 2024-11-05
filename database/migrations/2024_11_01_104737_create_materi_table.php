@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('materi', function (Blueprint $table) {
             $table->id();
             $table->string('materi');
+            $table->text('detail');
+            $table->string('file_materi')->nullable();
+            $table->enum('jurusan',['TKJ','RPL'])->nullable();
             $table->timestamps();
         });
     }

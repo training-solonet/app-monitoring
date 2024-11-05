@@ -11,7 +11,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
 use App\Http\Controllers\JurusanController;
-
+use App\Http\Controllers\MateriPembimbingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -102,6 +102,7 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
 Route::resource('register', RegisterController::class);
 
 Route::resource('add', AddController::class)->middleware(['auth', 'role:admin']);
+Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', [AddController::class, 'index'])->name('Add.index');
