@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin','pembimbing','siswa'])->nullable();
             $table->enum('status',['Aktif', 'Tidak Aktif']);
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            $table->date('tanggal_mulai')->nullable();
+            $table->date('tanggal_selesai')->nullable();
             $table->string('masa_pkl')->nullable();
             $table->rememberToken();
             $table->timestamps();

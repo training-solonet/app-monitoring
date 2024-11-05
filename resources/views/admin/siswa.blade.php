@@ -51,6 +51,15 @@
                                                                     Password</th>
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
+                                                                    Tanggal Mulai</th>
+                                                                <th
+                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
+                                                                    Tanggal Selesai</th>
+                                                                <th
+                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
+                                                                    Masa Pkl</th>
+                                                                <th
+                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Status</th>
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -74,6 +83,23 @@
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->password }}</p>
+                                                                    </td>
+                                                                    <td class="align-middle text-center text-sm">
+                                                                        <p class="text-sm text-dark mb-0">
+                                                                            {{ $item->tanggal_mulai }}
+                                                                        </p>
+                                                                    </td>
+
+                                                                    <td class="align-middle text-center text-sm">
+                                                                        <p class="text-sm text-dark mb-0">
+                                                                            {{ $item->tanggal_selesai }}
+                                                                        </p>
+                                                                    </td>
+
+                                                                    <td class="align-middle text-center text-sm">
+                                                                        <p class="text-sm text-dark mb-0">
+                                                                            {{ $item->masa_pkl }}
+                                                                        </p>
                                                                     </td>
                                                                     <td class="align-middle text-center">
                                                                         @if($item->status == 'Aktif')
@@ -156,6 +182,16 @@
                         <input type="password" class="form-control" id="password" name="password"
                             placeholder="Password" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="tanggal_mulai" class="form-label">tanggal mulai</label>
+                        <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
+                            placeholder="tanggal_mulai" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tanggal_selesai" class="form-label">tanggal_</label>
+                        <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
+                            placeholder="tanggal_selesai" required>
+                    </div>
                     <div class="modal-footer">
                         <input type="hidden" name="status" value="Aktif">
                         <input type="hidden" name="role" value="siswa">
@@ -187,9 +223,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" value="" required>
+                        <input type="password" class="form-control" id="password" name="password" value="{{ $item->password }}" required>
                     </div>
-                    <div class=""></div>
+                    <div class="mb-3">
+                        <label for="tanggal_mulai" class="form-label">tanggal_mulai</label>
+                        <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ $item->tanggal_mulai }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
+                        <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $item->tanggal_selesai }}" required>
+                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
