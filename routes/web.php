@@ -123,3 +123,7 @@ Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(
 Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:admin']);
 
 Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:admin,pembimbing']); 
+
+
+Route::put('/siswarpl/{id}/updateTime', [SiswaRplController::class, 'updateTime'])->name('siswarpl.updateTime');
+Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->name('siswa.updateTime');

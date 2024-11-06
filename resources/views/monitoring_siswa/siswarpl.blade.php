@@ -19,7 +19,8 @@
                                 </div>
                                 <div class="ms-auto d-flex">
                                     <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2" data-bs-toggle="modal" data-bs-target="#tambahLaporanModal">
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahLaporanModal">
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -34,17 +35,38 @@
                         </div>
                         <div class="card-body px-0 py-0">
                             <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable1"
-                                        autocomplete="off" checked>
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable1">All</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable2"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable2">Monitored</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable3"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable3">Unmonitored</label>
-                                </div>
+                                <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm">
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <!-- 'All' Button -->
+                                        <input type="radio" class="btn-check" name="status" id="btnradiotable1"
+                                            autocomplete="off"
+                                            {{ request('status') == 'all' || !request('status') ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <label class="btn btn-white px-3 mb-0 btn-all" for="btnradiotable1">All</label>
+
+                                        <!-- 'To Do' Button -->
+                                        <input type="radio" class="btn-check" name="status" id="btnradiotable2"
+                                            autocomplete="off" {{ request('status') == 'to do' ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <label class="btn btn-white px-3 mb-0 btn-todo" for="btnradiotable2">To
+                                            Do</label>
+
+                                        <!-- 'Doing' Button -->
+                                        <input type="radio" class="btn-check" name="status" id="btnradiotable3"
+                                            autocomplete="off" {{ request('status') == 'doing' ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <label class="btn btn-white px-3 mb-0 btn-doing"
+                                            for="btnradiotable3">Doing</label>
+
+                                        <!-- 'Done' Button -->
+                                        <input type="radio" class="btn-check" name="status" id="btnradiotable4"
+                                            autocomplete="off" {{ request('status') == 'done' ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
+                                        <label class="btn btn-white px-3 mb-0 btn-done"
+                                            for="btnradiotable4">Done</label>
+                                    </div>
+                                </form>
+
                                 <div class="input-group w-sm-25 ms-auto">
                                     <span class="input-group-text text-body">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -61,98 +83,133 @@
                                 <table class="table align-items-center mb-0">
                                     <thead class="bg-gray-100">
                                         <tr>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aktivitas</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Report</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Status</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Total Waktu</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                No</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Aktivitas</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Report</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Waktu Mulai</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Waktu Selesai</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Status</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Total Waktu</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Aksi</th>
                                         </tr>
-                                    </thead>    
+                                    </thead>
 
                                     <tbody>
                                         @foreach ($siswarpl as $index => $item)
-                                        <tr>
-                                            <td class="align-middle text-center" rowspan="2">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->kategori }}</p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">{{ $item->report }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    {!! $item->waktu_mulai ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i') : '<em>Belum Dimulai</em>' !!}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    {!! $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i') : '<em>Belum Berakhir</em>' !!}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                @if($item->status == 'to do')
-                                                    <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
-                                                @elseif($item->status == 'doing')
-                                                    <span class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
-                                                @elseif($item->status == 'done')
-                                                    <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
-                                                @endif
-                                            </td>
-                                            
-                                            <td class="align-middle text-center" id="total-waktu-{{ $item->id }}">
-                                                @if($item->status === 'doing')
-                                                    <script>
-                                                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                                                    </script>
-                                                @else
-                                                    {{ $item->total_waktu ?? '00:00:00' }}
-                                                @endif
-                                            </td>
-                                            <script>
-                                                function startTimer(waktuMulai, elementId) {
-                                                    const startTime = new Date(waktuMulai).getTime();
-
-                                                    console.log("Waktu mulai:", waktuMulai, "Element ID:", elementId);
-
-                                                    function updateTime() {
-                                                        const now = new Date().getTime();
-                                                        const elapsed = now - startTime;
-
-                                                        const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                                        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                                                        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                                                        document.getElementById(elementId).textContent =
-                                                            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                                                    }
-
-                                                    updateTime();
-                                                    setInterval(updateTime, 1000);
-                                                }
-                                            </script>
-
-                                            <td class="align-middle text-center">
-                                                <form action="{{ route('siswarpl.toggle', $item->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @if($item->status === 'to do')
-                                                        <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
-                                                    @elseif($item->status === 'doing')
-                                                        <button type="submit" class="btn btn-sm btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#EditTimeModal">Selesai</button>
-                                                    @else
-                                                        <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Telah Selesai</button>
+                                            <tr>
+                                                <td class="align-middle text-center" rowspan="2">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                        {{ $index + 1 }}</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                        {{ $item->kategori }}</p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <p class="text-sm text-dark mb-0">{{ $item->report }}</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-sm font-weight-normal">
+                                                        {!! $item->waktu_mulai
+                                                            ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i')
+                                                            : '<em>Belum Dimulai</em>' !!}
+                                                    </span>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-sm font-weight-normal">
+                                                        {!! $item->waktu_selesai
+                                                            ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i')
+                                                            : '<em>Belum Berakhir</em>' !!}
+                                                    </span>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @if ($item->status == 'to do')
+                                                        <span
+                                                            class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
+                                                    @elseif($item->status == 'doing')
+                                                        <span
+                                                            class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
+                                                    @elseif($item->status == 'done')
+                                                        <span
+                                                            class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                     @endif
-                                                </form>
-                                            </td>
-                                        </tr>
+                                                </td>
 
-                                        <tr>
-                                            
-                                        </tr>
+                                                <td class="align-middle text-center"
+                                                    id="total-waktu-{{ $item->id }}">
+                                                    @if ($item->status === 'doing')
+                                                        <script>
+                                                            startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                                                        </script>
+                                                    @else
+                                                        {{ $item->total_waktu ?? '00:00:00' }}
+                                                    @endif
+                                                </td>
+                                                <script>
+                                                    function startTimer(waktuMulai, elementId) {
+                                                        const startTime = new Date(waktuMulai).getTime();
+
+                                                        console.log("Waktu mulai:", waktuMulai, "Element ID:", elementId);
+
+                                                        function updateTime() {
+                                                            const now = new Date().getTime();
+                                                            const elapsed = now - startTime;
+
+                                                            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                                            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                                                            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                                                            document.getElementById(elementId).textContent =
+                                                                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                                                        }
+
+                                                        updateTime();
+                                                        setInterval(updateTime, 1000);
+                                                    }
+                                                </script>
+
+                                                <td class="align-middle text-center">
+                                                    <form action="{{ route('siswarpl.toggle', $item->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @if ($item->status === 'to do')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-success mb-0">Mulai</button>
+                                                        @elseif($item->status === 'doing')
+                                                            <button type="button" class="btn btn-sm btn-danger mb-0"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#EditLaporanModal"
+                                                                onclick="populateEditModal('{{ $item->id }}')">Selesai</button>
+                                                        @else
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-secondary mb-0" disabled>Telah
+                                                                Selesai</button>
+                                                        @endif
+                                                    </form>
+                                                </td>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -172,92 +229,85 @@
         </div>
     </main>
 
-<!-- Modal Tambah -->
-<div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tambahLaporanModalLabel">Tambah Laporan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formTambahLaporan" action="{{ route('siswarpl.storeMultiple') }}" method="POST">
-                    @csrf
-                    <!-- Aktivitas Pertama -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
-                    <div class="mb-3">
-                        <label for="kategori1" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori1" name="kategori1" required>
-                            <option selected value="">Pilih Kategori</option>
-                            <option value="Learning">Learning</option>
-                            <option value="Project">Project</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="report1" class="form-label">Report</label>
-                        <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
-                    </div>
-                    <hr>
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahLaporanModalLabel">Tambah Laporan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahLaporan" action="{{ route('siswarpl.storeMultiple') }}" method="POST">
+                        @csrf
+                        <!-- Aktivitas Pertama -->
+                        <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                        <div class="mb-3">
+                            <label for="kategori1" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori1" name="kategori1" required>
+                                <option selected value="">Pilih Kategori</option>
+                                <option value="Learning">Learning</option>
+                                <option value="Project">Project</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="report1" class="form-label">Report</label>
+                            <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
+                        </div>
+                        <hr>
 
-                    <!-- Aktivitas Kedua -->
-                    <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
-                    <div class="mb-3">
-                        <label for="kategori2" class="form-label">Kategori</label>
-                        <select class="form-select" id="kategori2" name="kategori2">
-                            <option selected value="">Pilih Kategori</option>
-                            <option value="Learning">Learning</option>
-                            <option value="Project">Project</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="report2" class="form-label">Report</label>
-                        <textarea class="form-control" id="report2" name="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                        <!-- Aktivitas Kedua -->
+                        <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
+                        <div class="mb-3">
+                            <label for="kategori2" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori2" name="kategori2">
+                                <option selected value="">Pilih Kategori</option>
+                                <option value="Learning">Learning</option>
+                                <option value="Project">Project</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="report2" class="form-label">Report</label>
+                            <textarea class="form-control" id="report2" name="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal Edit -->
-<div class="modal fade" id="EditTimeModal" tabindex="-1" aria-labelledby="EditTimeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-info text-white">
-                <h5 class="modal-title" id="EditTimeModalLabel">Edit Waktu</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formEditTime" action="" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <h6 class="text-dark font-weight-semibold mb-4">Edit Waktu Aktivitas</h6>
 
-                    <div class="form-group mb-3">
-                        <label for="startTime" class="form-label">Waktu Mulai</label>
-                        <input type="time" class="form-control" id="startTime" name="start_time" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="endTime" class="form-label">Waktu Selesai</label>
-                        <input type="time" class="form-control" id="endTime" name="end_time" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="report" class="form-label">Laporan Aktivitas</label>
-                        <textarea class="form-control" id="report" name="report" rows="3" placeholder="Isi kegiatan..." required></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="formEditTime" class="btn btn-info">Simpan</button>
+    {{-- <--edit--> --}}
+    <div class="modal fade" id="EditLaporanModal" tabindex="-1" aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditLaporanModalLabel">Edit Waktu Laporan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editLaporanForm" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+                            <!-- Only time input, no date part -->
+                            <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
+                                   value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-info float-end">Simpan Perubahan</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    
+    
+
 </x-app-layout>
