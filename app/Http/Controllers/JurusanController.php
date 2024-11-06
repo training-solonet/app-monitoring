@@ -9,7 +9,6 @@ use App\Models\Jurusan;
 class JurusanController extends Controller
 {
     public function index(){
-        // $user = User::all();
         $jurusan = Jurusan::all();
         return view('admin.jurusan',compact('jurusan'));
     }

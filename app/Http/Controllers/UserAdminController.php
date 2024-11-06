@@ -42,7 +42,6 @@ class UserAdminController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:7|max:255',
@@ -55,16 +54,12 @@ class UserAdminController extends Controller
             'status.required' => 'Status is required',
         ]);
     
-        // Find the user by ID
         $user = User::findOrFail($id);
     
         try {
-            // Update the user's username and password without hashing
-            $user->username = $request->username; // Update the username
-            $user->password = $request->password;
+            $user->username = $request->username;             $user->password = $request->password;
             $user->status  = $request->status;
     
-            // Save the updated user data
             $user->save();
     
             return redirect()->route('useradmin.index')->with('success', 'Data berhasil diperbarui.');

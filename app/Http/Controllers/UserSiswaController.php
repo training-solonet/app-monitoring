@@ -47,7 +47,6 @@ class UserSiswaController extends Controller
     }
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:7|max:255',
@@ -58,15 +57,11 @@ class UserSiswaController extends Controller
             'password.min' => 'Password must be at least 7 characters long',
         ]);
     
-        // Find the user by ID
         $user = User::findOrFail($id);
     
         try {
-            // Update the user's username and password without hashing
-            $user->username = $request->username; // Update the username
-            $user->password = $request->password; // Store password as plain text
-    
-            // Save the updated user data
+            $user->username = $request->username; 
+            $user->password = $request->password;     
             $user->save();
     
             return redirect()->route('usersiswa.index')->with('success', 'Data berhasil diperbarui.');
