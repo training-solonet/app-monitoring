@@ -12,8 +12,8 @@
                                         <div class="card-header border-bottom pb-0">
                                             <div class="d-sm-flex align-items-center">
                                                 <div>
-                                                    <h6 class="font-weight-semibold text-lg mb-0">Daftar User</h6>
-                                                    <p class="text-sm">Tambahkan User</p>
+                                                    <h6 class="font-weight-semibold text-lg mb-0">Daftar Siswa PKL</h6>
+                                                    <p class="text-sm">Tambahkan Siswa</p>
                                                 </div>
                                                 <div class="ms-auto d-flex">
                                                     <button type="button"
@@ -60,6 +60,9 @@
                                                                     Masa Pkl</th>
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
+                                                                    Jurusan</th>
+                                                                <th
+                                                                    class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Status</th>
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -86,19 +89,22 @@
                                                                     </td>
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
-                                                                            {{ $item->tanggal_mulai }}
+                                                                            {{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('l, d-m-Y') }}
                                                                         </p>
                                                                     </td>
-
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
-                                                                            {{ $item->tanggal_selesai }}
+                                                                            {{ \Carbon\Carbon::parse($item->tanggal_selesai)->translatedFormat('l, d-m-Y') }}
                                                                         </p>
                                                                     </td>
-
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
-                                                                            {{ $item->masa_pkl }}
+                                                                            {{ $item->masa_pkl }} Bulan
+                                                                        </p>
+                                                                    </td>
+                                                                    <td class="align-middle text-center text-sm">
+                                                                        <p class="text-sm text-dark mb-0">
+                                                                            {{ $item->jurusan }}
                                                                         </p>
                                                                     </td>
                                                                     <td class="align-middle text-center">
@@ -110,9 +116,16 @@
                                                                     </td>
                                                                     
                                                                     <td class="align-middle text-center">
-                                                                        <button type="button" class="btn btn-warning btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
-                                                                            Edit
-                                                                        </button>
+                                                                        <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </a>
+                                                                        <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </a>
+                                                                        <form id="delete-form-{{ $item->id }}" action="{{ route('usersiswa.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                        </form>
                                                                     </td>
                                                                     </form>
                                                                     </td>
@@ -174,8 +187,15 @@
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="username" class="form-control" id="username" name="username"
-                            placeholder="username" required>
+                        <input type="text" class="form-control" id="username" name="username"
+                            placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jurusan" class="form-label">Jurusan</label>
+                        <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option value="TKJ">TKJ</option>
+                            <option value="RPL">RPL</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
@@ -183,14 +203,14 @@
                             placeholder="Password" required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_mulai" class="form-label">tanggal mulai</label>
+                        <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
                         <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
-                            placeholder="tanggal_mulai" required>
+                            placeholder="Tanggal Mulai" required>
                     </div>
                     <div class="mb-3">
-                        <label for="tanggal_selesai" class="form-label">tanggal_</label>
+                        <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
                         <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
-                            placeholder="tanggal_selesai" required>
+                            placeholder="Tanggal Selesai" required>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" name="status" value="Aktif">
@@ -213,13 +233,20 @@
                 <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('register.update', $item->id) }}" method="POST">
+            <form action="{{ route('usersiswa.update', $item->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" value="{{ $item->username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jurusan" class="form-label">Jurusan</label>
+                        <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
+                            <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>

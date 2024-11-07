@@ -57,9 +57,10 @@ class UserAdminController extends Controller
         $user = User::findOrFail($id);
     
         try {
-            $user->username = $request->username;             $user->password = $request->password;
+            $user->username = $request->username;
+            $user->password = $request->password;
             $user->status  = $request->status;
-    
+
             $user->save();
     
             return redirect()->route('useradmin.index')->with('success', 'Data berhasil diperbarui.');
@@ -68,5 +69,16 @@ class UserAdminController extends Controller
         }
     }
     
+    public function destroy($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('userpembimbing.index')->with('error', 'Data gagal dihapus: ' . $e->getMessage());
+        }
+    }
     
 }
