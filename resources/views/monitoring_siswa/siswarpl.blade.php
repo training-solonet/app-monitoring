@@ -255,8 +255,33 @@
                                                          </div>
                                                      </div>
                                                  </div>
-                                             </div>
+                                                </div>
                                             </tr>
+                                            {{-- <--edit--> --}}
+                                            <div class="modal fade" id="EditLaporanModal" tabindex="-1" aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="EditLaporanModalLabel">Edit Waktu Laporan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="editLaporanForm" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="mb-3">
+                                                                    <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+                                                                    <!-- Only time input, no date part -->
+                                                                    <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
+                                                                           value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
+                                                                           required>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-info float-end">Simpan Perubahan</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -329,31 +354,6 @@
     </div>
 
 
-    {{-- <--edit--> --}}
-    <div class="modal fade" id="EditLaporanModal" tabindex="-1" aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="EditLaporanModalLabel">Edit Waktu Laporan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editLaporanForm" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                            <!-- Only time input, no date part -->
-                            <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
-                                   value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
-                                   required>
-                        </div>
-                        <button type="submit" class="btn btn-info float-end">Simpan Perubahan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     
     
 
