@@ -260,7 +260,12 @@
                         <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
                         <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $item->tanggal_selesai }}" required>
                     </div>
-                    
+                    <div class="mb-3">
+                        <label for="status" class="form-label">status</label>
+                        <select name="status" id="status" class="form-select">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
