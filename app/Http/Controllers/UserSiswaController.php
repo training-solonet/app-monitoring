@@ -71,6 +71,7 @@ class UserSiswaController extends Controller
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ',
+            'status' => 'required|in:Aktif,Tidak Aktif',
         ], [
             'username.required' => 'Username is required',
             'username.min' => 'Username must be at least 3 characters',
@@ -79,6 +80,7 @@ class UserSiswaController extends Controller
             'tanggal_mulai.required' => 'Tanggal mulai is required',
             'tanggal_selesai.required' => 'Tanggal selesai is required',
             'jurusan.required' => 'jurusan is required',
+            'status.required' => 'status is required',
         ]);
 
         $user = User::findOrFail($id);
@@ -89,6 +91,7 @@ class UserSiswaController extends Controller
             $user->tanggal_mulai = $request->tanggal_mulai;
             $user->tanggal_selesai = $request->tanggal_selesai;
             $user->jurusan = $request->jurusan;
+            $user->status = $request->status;
 
             $tanggalMulai = Carbon::parse($request->tanggal_mulai);
             $tanggalSelesai = Carbon::parse($request->tanggal_selesai);
