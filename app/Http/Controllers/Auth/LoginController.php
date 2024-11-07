@@ -15,21 +15,27 @@ class LoginController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-        $user = User::where('username', $request->username)->first();
+{
+    $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        if ($user && $user->password === $request->password) {
+    $user = User::where('username', $request->username)->first();
 
+    if ($user) {
+        if ($user->status === 'Tidak Aktif') {
+            return back()->withErrors(['message' => 'Akun Anda Sudah Tidak Aktif.']);
+        }
+
+        if ($user->password === $request->password) {
             Auth::login($user);
             return redirect()->intended('/dashboard');
         }
-
-        return back()->withErrors(['message' => 'username dan password tidak ditemukan.'])->withInput($request->only('username'));
     }
+
+    return back()->withErrors(['message' => 'Username atau password salah.'])->withInput($request->only('username'));
+}
 
     public function destroy(Request $request)
     {
