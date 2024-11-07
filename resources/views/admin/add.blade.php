@@ -88,12 +88,16 @@
 
 
                                                                     <td class="align-middle text-center">
-                                                                        <button type="button"
-                                                                            class="btn btn-warning btn-sm mb-0"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#editModal{{ $item->id }}">
-                                                                            Edit
-                                                                        </button>
+                                                                        <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </a>
+                                                                        <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </a>
+                                                                        <form id="delete-form-{{ $item->id }}" action="{{ route('useradmin.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                        </form>
                                                                     </td>
                                                                     </form>
                                                                     </td>
