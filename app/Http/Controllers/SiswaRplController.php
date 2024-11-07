@@ -8,22 +8,55 @@ use Carbon\Carbon;
 
 class SiswaRplController extends Controller
 {
-    public function index()
-    {
-        $siswarpl = Siswa::all()->map(function ($item) {
-            if ($item->waktu_mulai && $item->waktu_selesai) {
-                $waktuMulai = Carbon::parse($item->waktu_mulai);
-                $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S'); 
-            } else {
-                $item->total_waktu = '-';
-            }
-            return $item;
-        });
+    public function index(Request $request)
+{
+    // Get the 'status' query parameter, default to 'all' if not set
+    $statusFilter = $request->get('status', 'all');
 
-        return view('monitoring_siswa.siswarpl', compact('siswarpl'));
+    // Query based on the selected filter
+    if ($statusFilter === 'all') {
+        // If 'All' is selected, fetch all entries
+        $siswarpl = Siswa::all();
+    } else {
+        // Filter by status
+        $siswarpl = Siswa::where('status', $statusFilter)->get();
     }
 
+    // Map over the data to calculate the total time if applicable
+    $siswarpl = $siswarpl->map(function ($item) {
+        if ($item->waktu_mulai && $item->waktu_selesai) {
+            $waktuMulai = Carbon::parse($item->waktu_mulai);
+            $waktuSelesai = Carbon::parse($item->waktu_selesai);
+            $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+        } else {
+            $item->total_waktu = '-';
+        }
+        return $item;
+    });
+
+    // Return the view with the filtered data
+    return view('monitoring_siswa.siswarpl', compact('siswarpl'));
+}
+
+public function updateTime(Request $request, $id)
+{
+    $item = Siswa::findOrFail($id);
+
+    $request->validate([
+        'waktu_selesai' => 'required|date_format:H:i', 
+    ]);
+
+    $currentDate = \Carbon\Carbon::parse($item->waktu_mulai)->format('Y-m-d'); 
+
+    $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai; 
+
+    $item->update([
+        'waktu_selesai' => $newWaktuSelesai, 
+        'status' => 'done', 
+    ]);
+
+    return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
+}
     public function storeMultiple(Request $request)
 {
     $request->validate([
