@@ -274,7 +274,6 @@
                                                                 @method('PUT')
                                                                 <div class="mb-3">
                                                                     <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                                                                    <!-- Only time input, no date part -->
                                                                     <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
                                                                            value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
                                                                            required>
@@ -375,7 +374,6 @@
             const selectElement = document.getElementById(selectId);
             const materiElement = document.getElementById(materiId);
     
-            // Show or hide the Materi dropdown based on the 'Learning' selection
             if (selectElement.value === 'Learning') {
                 materiElement.style.display = 'block';
             } else {
@@ -386,8 +384,7 @@
         function toggleMateriDropdown(selectId, materi2Id) {
             const selectElement = document.getElementById(selectId);
             const materiElement = document.getElementById(materi2Id);
-    
-            // Show or hide the Materi dropdown based on the 'Learning' selection
+
             if (selectElement.value === 'Learning') {
                 materiElement.style.display = 'block';
             } else {

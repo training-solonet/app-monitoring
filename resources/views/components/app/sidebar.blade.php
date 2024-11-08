@@ -39,7 +39,7 @@
             @if(Auth::user()->jurusan === 'TKJ')
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('siswa') ? 'active' : '') }}" href="{{ route('siswa.index') }}">
-                        <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">=
+                        <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                             <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>table</title>
@@ -62,7 +62,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Laporan Harian Tkj</span>
+                        <span class="nav-link-text ms-1">Laporan Harian</span>
                     </a>
                 </li>
             @endif
@@ -93,7 +93,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Laporan Harian Rpl</span>
+                    <span class="nav-link-text ms-1">Laporan Harian</span>
                 </a>
             @endif
 
