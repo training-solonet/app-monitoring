@@ -95,7 +95,7 @@
                                                 Materi</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Report</th>
+                                                Laporan</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Waktu Mulai</th>
@@ -126,8 +126,15 @@
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
                                                         {{ $item->kategori }}</p>
                                                 </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <p class="text-sm text-dark mb-0">{{ $item->report }}</p>
+                                                <td class="align-middle text-center">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
+                                                        {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
+                                                    </p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm font-weight-normal">
+                                                    <p class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
+                                                        {{ $item->report ?? 'Belum ada laporan' }}
+                                                    </p>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-sm font-weight-normal">
@@ -188,79 +195,57 @@
                                                         setInterval(updateTime, 1000);
                                                     }
                                                 </script>
-
                                                 <td class="align-middle text-center">
-                                                    <form action="{{ route('siswa.toggle', $item->id) }}"
-                                                        method="POST" style="display:inline;">
+                                                    <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                         @csrf
                                                         @if ($item->status === 'to do')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-success mb-0">Mulai</button>
+                                                            <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
                                                         @elseif($item->status === 'doing')
                                                             <button type="button" class="btn btn-sm btn-danger mb-0"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#EditLaporanModal"
-                                                                onclick="populateEditModal('{{ $item->id }}')">Selesai</button>
+                                                                data-bs-toggle="modal" data-bs-target="#EditLaporanModal{{ $item->id }}"
+                                                                data-id="{{ $item->id }}" data-report="{{ $item->report }}" data-waktu_selesai="{{ $item->waktu_selesai }}">
+                                                                Selesai
+                                                            </button>
                                                         @else
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-secondary mb-0" disabled>Telah
-                                                                Selesai</button>
+                                                            <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Telah Selesai</button>
                                                         @endif
                                                     </form>
                                                 </td>
                                             </tr>
 
-                                            <tr>
-                                                <!-- Modal Edit -->
-                                                <div class="modal fade" id="EditLaporanModal" tabindex="-1"
-                                                    aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="EditLaporanModalLabel">
-                                                                    Edit Laporan</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form id="editLaporanForm"
-                                                                    action="{{ route('siswa.updateTime', $item->id) }}"
-                                                                    method="POST">
-                                                                    @csrf
-                                                                    @method('PUT')
+                                            <tr></tr>
+                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1" aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Edit Laporan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
 
-                                                                    <!-- Report Textarea -->
-                                                                    <div class="mb-3">
-                                                                        <label for="report"
-                                                                            class="form-label fw-bold">Laporan</label>
-                                                                        <textarea name="report" id="report" class="form-control" placeholder="Masukkan laporan..." rows="3"
-                                                                            required>{{ old('report', $item->report ?? '') }}</textarea>
-                                                                    </div>
+                                                                <!-- Report Textarea -->
+                                                                <div class="mb-3">
+                                                                    <label for="report" class="form-label fw-bold">Laporan</label>
+                                                                    <textarea name="report" id="report" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
+                                                                </div>
 
-                                                                    <!-- Waktu Selesai Input -->
-                                                                    <div class="mb-3">
-                                                                        <label for="waktu_selesai"
-                                                                            class="form-label fw-bold">Waktu
-                                                                            Selesai</label>
-                                                                        <input type="time" class="form-control"
-                                                                            id="waktu_selesai" name="waktu_selesai"
-                                                                            value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
-                                                                            required>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer float-end pt-3">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Batal</button>
-                                                                <button type="submit" form="editLaporanForm"
-                                                                    class="btn btn-info">Simpan Perubahan</button>
-                                                            </div>
+                                                                <!-- Waktu Selesai Input -->
+                                                                <div class="mb-3">
+                                                                    <label for="waktu_selesai" class="form-label fw-bold">Waktu Selesai</label>
+                                                                    <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer float-end pt-3">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" form="editLaporanForm{{ $item->id }}" class="btn btn-info">Simpan Perubahan</button>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            </tr>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -307,7 +292,7 @@
                             <label for="materi1Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi1Select" name="materi_id1">
                                 <option selected value="">Pilih Materi</option>
-                                @foreach($materi as $item)
+                                @foreach($materitkj as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>
                                 @endforeach
                             </select>
@@ -318,7 +303,7 @@
                         <h6 class="text-dark font-weight-semibold">Laporan 2</h6>
                         <div class="mb-3">
                             <label for="kategori2" class="form-label">Aktivitas</label>
-                            <select class="form-select" id="kategori2" name="kategori2" required
+                            <select class="form-select" id="kategori2" name="kategori2"
                                 onchange="toggleMateriDropdown('kategori2', 'materi2')">
                                 <option selected value="">Pilih Aktivitas</option>
                                 <option value="DiKantor">Di Kantor</option>
@@ -329,7 +314,7 @@
                             <label for="materi2Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi2Select" name="materi_id2">
                                 <option selected value="">Pilih Materi</option>
-                                @foreach($materi as $item)
+                                @foreach($materitkj as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>
                                 @endforeach
                             </select>

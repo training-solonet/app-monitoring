@@ -33,4 +33,8 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class);
+    }
 }
