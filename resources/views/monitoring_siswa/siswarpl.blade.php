@@ -89,6 +89,9 @@
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Aktivitas</th>
+                                                <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Materi</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Report</th>
@@ -208,8 +211,80 @@
                                             </tr>
 
                                             <tr>
+                                                 <!-- Modal Edit -->
+                                                 <div class="modal fade" id="EditLaporanModal" tabindex="-1"
+                                                 aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
+                                                 <div class="modal-dialog">
+                                                     <div class="modal-content">
+                                                         <div class="modal-header">
+                                                             <h5 class="modal-title" id="EditLaporanModalLabel">
+                                                                 Edit Laporan</h5>
+                                                             <button type="button" class="btn-close"
+                                                                 data-bs-dismiss="modal"
+                                                                 aria-label="Close"></button>
+                                                         </div>
+                                                         <div class="modal-body">
+                                                             <form id="editLaporanForm"
+                                                                 action="{{ route('siswa.updateTime', $item->id) }}"
+                                                                 method="POST">
+                                                                 @csrf
+                                                                 @method('PUT')
 
+                                                                 <!-- Report Textarea -->
+                                                                 <div class="mb-3">
+                                                                     <label for="report"
+                                                                         class="form-label fw-bold">Laporan</label>
+                                                                     <textarea name="report" id="report" class="form-control" placeholder="Masukkan laporan..." rows="3"
+                                                                         required>{{ old('report', $item->report ?? '') }}</textarea>
+                                                                 </div>
+
+                                                                 <!-- Waktu Selesai Input -->
+                                                                 <div class="mb-3">
+                                                                     <label for="waktu_selesai"
+                                                                         class="form-label fw-bold">Waktu
+                                                                         Selesai</label>
+                                                                     <input type="time" class="form-control"
+                                                                         id="waktu_selesai" name="waktu_selesai"
+                                                                         value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
+                                                                         required>
+                                                                 </div>
+                                                             </form>
+                                                         </div>
+                                                         <div class="modal-footer float-end pt-3">
+                                                             <button type="button" class="btn btn-secondary"
+                                                                 data-bs-dismiss="modal">Batal</button>
+                                                             <button type="submit" form="editLaporanForm"
+                                                                 class="btn btn-info">Simpan Perubahan</button>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                                </div>
                                             </tr>
+                                            {{-- <--edit--> --}}
+                                            <div class="modal fade" id="EditLaporanModal" tabindex="-1" aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="EditLaporanModalLabel">Edit Waktu Laporan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="editLaporanForm" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="mb-3">
+                                                                    <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+                                                                    <!-- Only time input, no date part -->
+                                                                    <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
+                                                                           value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
+                                                                           required>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-info float-end">Simpan Perubahan</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -230,8 +305,7 @@
     </main>
 
     <!-- Modal Tambah -->
-    <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -241,38 +315,53 @@
                 <div class="modal-body">
                     <form id="formTambahLaporan" action="{{ route('siswarpl.storeMultiple') }}" method="POST">
                         @csrf
+    
                         <!-- Aktivitas Pertama -->
                         <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                         <div class="mb-3">
                             <label for="kategori1" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori1" name="kategori1" required>
+                            <select class="form-select" id="kategori1" name="kategori1" required onchange="toggleMateriDropdown('kategori1', 'materi1')">
                                 <option selected value="">Pilih Kategori</option>
                                 <option value="Learning">Learning</option>
                                 <option value="Project">Project</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="report1" class="form-label">Report</label>
-                            <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
+    
+                        <div class="mb-3" id="materi1" style="display: none;">
+                            <label for="materi1Select" class="form-label">Materi</label>
+                            <select class="form-select" id="materi1Select" name="materi1">
+                                <option selected value="">Pilih Materi</option>
+                                @foreach($materi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
+                                @endforeach
+                            </select>
                         </div>
+    
                         <hr>
-
-                        <!-- Aktivitas Kedua -->
+    
+                        <!-- Aktivitas Kedua (Optional) -->
                         <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
                         <div class="mb-3">
                             <label for="kategori2" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori2" name="kategori2">
+                            <select class="form-select" id="kategori2" name="kategori2"  onchange="toggleMateriDropdown('kategori2', 'materi2')">
                                 <option selected value="">Pilih Kategori</option>
                                 <option value="Learning">Learning</option>
                                 <option value="Project">Project</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="report2" class="form-label">Report</label>
-                            <textarea class="form-control" id="report2" name="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
+    
+                        <div class="mb-3" id="materi2" style="display: none;">
+                            <label for="materi2Select" class="form-label">Materi</label>
+                            <select class="form-select" id="materi2Select" name="materi2">
+                                <option selected value="">Pilih Materi</option>
+                                @foreach($materi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </form>
                 </div>
+    
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
@@ -280,33 +369,35 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        function toggleMateriDropdown(selectId, materiId) {
+            const selectElement = document.getElementById(selectId);
+            const materiElement = document.getElementById(materiId);
+    
+            // Show or hide the Materi dropdown based on the 'Learning' selection
+            if (selectElement.value === 'Learning') {
+                materiElement.style.display = 'block';
+            } else {
+                materiElement.style.display = 'none';
+            }
+        }
+
+        function toggleMateriDropdown(selectId, materi2Id) {
+            const selectElement = document.getElementById(selectId);
+            const materiElement = document.getElementById(materi2Id);
+    
+            // Show or hide the Materi dropdown based on the 'Learning' selection
+            if (selectElement.value === 'Learning') {
+                materiElement.style.display = 'block';
+            } else {
+                materiElement.style.display = 'none';
+            }
+        }
+    </script>
+    
 
 
-    {{-- <--edit--> --}}
-    <div class="modal fade" id="EditLaporanModal" tabindex="-1" aria-labelledby="EditLaporanModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="EditLaporanModalLabel">Edit Waktu Laporan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editLaporanForm" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
-                            <!-- Only time input, no date part -->
-                            <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai"
-                                   value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
-                                   required>
-                        </div>
-                        <button type="submit" class="btn btn-info float-end">Simpan Perubahan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     
     
 

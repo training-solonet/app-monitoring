@@ -193,10 +193,12 @@
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option disabled selected>Pilih Jurusan</option>
                             <option value="TKJ">TKJ</option>
                             <option value="RPL">RPL</option>
                         </select>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
@@ -244,6 +246,7 @@
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option value="Pilih Jurusan">Pilih Jurusan</option>
                             <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
                             <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
                         </select>
@@ -260,7 +263,12 @@
                         <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
                         <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $item->tanggal_selesai }}" required>
                     </div>
-                    
+                    <div class="mb-3">
+                        <label for="status" class="form-label">status</label>
+                        <select name="status" id="status" class="form-select">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
