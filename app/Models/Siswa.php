@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Siswa extends Model
+class siswa extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,8 @@ class Siswa extends Model
         'waktu_mulai',
         'waktu_selesai',
         'status',
-        'materi_id'
+        'materi_id',
+        'user_id'
     ];
 
     protected $dates = [
@@ -26,9 +27,14 @@ class Siswa extends Model
         'waktu_selesai'
     ];
 
-    // Relasi ke model Materi
-    public function materi()
+    public function materitkj()
     {
         return $this->belongsTo(Materi::class, 'materi_id');
+    }
+
+
+    public function User()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

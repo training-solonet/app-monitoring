@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class materi extends Model
+class Materi extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,6 @@ class materi extends Model
         'jurusan'
     ];
 
-    // Relasi ke model Siswa (jika diperlukan)
     public function siswa()
     {
         return $this->hasMany(Siswa::class, 'materi_id');
