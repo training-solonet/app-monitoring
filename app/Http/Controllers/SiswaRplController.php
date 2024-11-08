@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use Carbon\Carbon;
+use App\Models\Materi;
 
 class SiswaRplController extends Controller
 {
@@ -34,8 +35,9 @@ class SiswaRplController extends Controller
         return $item;
     });
 
+    $materi = Materi::all();
     // Return the view with the filtered data
-    return view('monitoring_siswa.siswarpl', compact('siswarpl'));
+    return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materi'));
 }
 
 public function updateTime(Request $request, $id)
@@ -55,32 +57,41 @@ public function updateTime(Request $request, $id)
         'status' => 'done', 
     ]);
 
+
+
     return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
 }
-    public function storeMultiple(Request $request)
+public function storeMultiple(Request $request)
 {
     $request->validate([
         'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report1' => 'required',
+        'materi_id1' => 'required|exists:materi,id', // Validasi foreign key untuk materi pertama
         'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report2' => 'nullable'
+        'report2' => 'nullable',
+        'materi_id2' => 'nullable|exists:materi,id' // Validasi foreign key untuk materi kedua
     ]);
 
+    // Menyimpan aktivitas pertama dengan status default 'to do'
     Siswa::create([
         'kategori' => $request->kategori1,
         'report' => $request->report1,
-        'status' => 'to do',
+        'materi_id' => $request->materi_id1, // Menyimpan foreign key
+        'status' => 'to do', // Status default
     ]);
 
-    if ($request->filled('kategori2') && $request->filled('report2')) {
+    // Menyimpan aktivitas kedua, jika ada
+    if ($request->filled('kategori2') && $request->filled('report2') && $request->filled('materi_id2')) {
         Siswa::create([
             'kategori' => $request->kategori2,
             'report' => $request->report2,
-            'status' => 'to do', 
+            'materi_id' => $request->materi_id2, // Menyimpan foreign key
+            'status' => 'to do', // Status default
         ]);
     }
+    
 
-    return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
+    return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
 }
 
 

@@ -14,59 +14,52 @@
                                                 <div>
                                                     <h6 class="font-weight-semibold text-lg mb-3">Daftar materi</h6>
                                                 </div>
-                                                {{-- <div class="ms-auto d-flex">
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2" data-bs-toggle="modal" data-bs-target="#tambahAnggotaModal">
-                                                        <span class="btn-inner--icon">
-                                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
-                                                                <path
-                                                                    d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span class="btn-inner--text">Tambah materi</span>
-                                                    </button>
-                                                </div> --}}
                                             </div>
                                         </div>
                                         <div class="card-body px-0 py-0">
                                             <div class="table-responsive p-0">
                                                 <div class="table-responsive p-0">
-                                                    <table class="table align-items-center mb-0">
-                                                        <thead class="bg-gray-100">
-                                                            <tr>
-                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No
-                                                                </th>
-                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Nama Materi</th>
-                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    File Materi</th>
-                                                                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Detail Materi</th>
-                                                            </tr>
-                                                        </thead>
-                        
-                                                        <tbody>
-                                                            @foreach ($materi as $index => $item)
-                                                                <tr>
-                                                                    <td class="align-middle text-center" rowspan="2">
-                                                                        <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                                            {{ $index + 1 }}</p>
-                                                                    </td>
-                                                                    <td class="align-middle text-center">
-                                                                        <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                                            {{ $item->materi }}</p>
-                                                                    </td>
-                                                                    </form>
-                                                                    </td>
-                                                                </tr>
-                        
-                                                                <tr>
-                        
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                        <table class="table align-items-center mb-0">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Materi</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Detail</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">File Materi</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach ($materi as $index => $item)
+                                        <tr>
+                                            <td class="align-middle text-center" rowspan="2">
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->materi }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-sm text-dark mb-0">{{ $item->detail }}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @if ($item->file_materi)
+                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank" title="Lihat File">
+                                                        <i class="fas fa-eye text-info mx-1"></i>
+                                                    </a>
+                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" download title="Unduh File">
+                                                        <i class="fas fa-download text-success mx-1"></i>
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted">Tidak ada file</span>
+                                                @endif
+                                            </td>
+
+                                        </tr>
+
+                                        <tr></tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                                                 </div>  
                                             </div>
                                             <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -103,28 +96,3 @@
     });
 </script>
 
-{{-- <!-- Modal -->
-<div class="modal fade" id="tambahAnggotaModal" tabindex="-1" aria-labelledby="tambahAnggotaModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tambahAnggotaModalLabel">Tambah Pengguna</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('materi.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="materi" class="form-label">Nama materi</label>
-                        <input type="text" class="form-control" id="materi" name="materi" placeholder="materi" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-info">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> --}}

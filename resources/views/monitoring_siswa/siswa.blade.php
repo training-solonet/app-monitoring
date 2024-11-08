@@ -92,6 +92,9 @@
                                                 Aktivitas</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Materi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Report</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -302,23 +305,20 @@
                         </div>
                         <div class="mb-3" id="materi1" style="display: none;">
                             <label for="materi1Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi1Select" name="materi1">
+                            <select class="form-select" id="materi1Select" name="materi_id1">
                                 <option selected value="">Pilih Materi</option>
-                                <option value="Materi1">Materi 1</option>
-                                <option value="Materi2">Materi 2</option>
+                                @foreach($materi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="report1" class="form-label">Report</label>
-                            <textarea class="form-control" id="report1" name="report1" rows="2" placeholder="Isi kegiatan..." required></textarea>
-                        </div> --}}
                         <hr>
 
                         <!-- Aktivitas Kedua -->
-                        <h6 class="text-dark font-weight-semibold">Laporan 2 (Opsional)</h6>
+                        <h6 class="text-dark font-weight-semibold">Laporan 2</h6>
                         <div class="mb-3">
                             <label for="kategori2" class="form-label">Aktivitas</label>
-                            <select class="form-select" id="kategori2" name="kategori2"
+                            <select class="form-select" id="kategori2" name="kategori2" required
                                 onchange="toggleMateriDropdown('kategori2', 'materi2')">
                                 <option selected value="">Pilih Aktivitas</option>
                                 <option value="DiKantor">Di Kantor</option>
@@ -327,30 +327,38 @@
                         </div>
                         <div class="mb-3" id="materi2" style="display: none;">
                             <label for="materi2Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi2Select" name="materi2">
+                            <select class="form-select" id="materi2Select" name="materi_id2">
                                 <option selected value="">Pilih Materi</option>
-                                <option value="Materi1">Materi 1</option>
-                                <option value="Materi2">Materi 2</option>
+                                @foreach($materi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label for="report2" class="form-label">Report</label>
-                            <textarea class="form-control" id="report2" name="report2" rows="2" placeholder="Isi kegiatan..."></textarea>
-                        </div> --}}
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <script>
         function toggleMateriDropdown(selectId, materiId) {
             const selectElement = document.getElementById(selectId);
             const materiElement = document.getElementById(materiId);
+
+            if (selectElement.value === 'DiKantor') {
+                materiElement.style.display = 'block';
+            } else {
+                materiElement.style.display = 'none';
+            }
+        }
+
+        function toggleMateriDropdown(selectId, materi2Id) {
+            const selectElement = document.getElementById(selectId);
+            const materiElement = document.getElementById(materi2Id);
 
             if (selectElement.value === 'DiKantor') {
                 materiElement.style.display = 'block';
