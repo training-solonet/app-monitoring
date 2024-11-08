@@ -8,24 +8,11 @@
             <h6 class="font-weight-bold mb-0">Dashboard</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body bg-white  border-end-0 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none"
-                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                        </svg>
-                    </span>
-                    <input type="text" class="form-control ps-0" placeholder="Search">
-                </div>
-            </div>
-            <div class="mb-0 font-weight-bold breadcrumb-text text-white">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center mb-0 font-weight-bold breadcrumb-text text-white">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <a href="login" onclick="event.preventDefault();
-                this.closest('form').submit();">
+                    <a href="login" onclick="event.preventD efault();
+                    this.closest('form').submit();">
                         <button class="btn btn-sm  btn-white  mb-0 me-1" type="submit">Log out</button>
                     </a>
                 </form>
