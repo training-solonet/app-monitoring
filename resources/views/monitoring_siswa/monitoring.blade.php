@@ -39,17 +39,17 @@
                                 <table class="table table-striped table-hover table-bordered">
                                     <thead class="bg-white text-dark">
                                         <tr>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Nama Siswa</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Materi</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Report</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Status</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Total Waktu</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Aksi</th>
+                                            <th class="text-center text-xs font-weight-semibold">No</th>
+                                            <th class="text-center text-xs font-weight-semibold">Nama Siswa</th>
+                                            <th class="text-center text-xs font-weight-semibold">Jurusan</th>
+                                            <th class="text-center text-xs font-weight-semibold">Kategori</th>
+                                            <th class="text-center text-xs font-weight-semibold">Materi</th>
+                                            <th class="text-center text-xs font-weight-semibold">Report</th>
+                                            <th class="text-center text-xs font-weight-semibold">Waktu Mulai</th>
+                                            <th class="text-center text-xs font-weight-semibold">Waktu Selesai</th>
+                                            <th class="text-center text-xs font-weight-semibold">Status</th>
+                                            <th class="text-center text-xs font-weight-semibold">Total Waktu</th>
+                                            <th class="text-center text-xs font-weight-semibold">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
