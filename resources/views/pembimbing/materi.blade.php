@@ -93,8 +93,19 @@
                                                 @else
                                                     <span class="text-muted">Tidak ada file</span>
                                                 @endif
-                                            </td>
 
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editMateriModal{{ $item->id }}" title="Edit">
+                                                    <i class="fas fa-edit text-warning mx-1"></i>
+                                                </a>
+
+                                                <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                                <form id="delete-form-{{ $item->id }}" action="{{ route('materipembimbing.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
                                         </tr>
 
                                         <tr></tr>
@@ -149,4 +160,43 @@
         </div>
     </div>
 </div>
+
+@foreach ($materipembimbing as $item)
+<!-- Modal Edit -->
+<div class="modal fade" id="editMateriModal{{ $item->id }}" tabindex="-1" aria-labelledby="editMateriModalLabel{{ $item->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMateriModalLabel{{ $item->id }}">Edit Materi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('materipembimbing.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="materi" class="form-label">Judul Materi</label>
+                        <input type="text" class="form-control" name="materi" id="materi" value="{{ $item->materi }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="detail" class="form-label">Detail</label>
+                        <input type="text" class="form-control" name="detail" id="detail" value="{{ $item->detail }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="file_materi" class="form-label">File Materi (PDF, Image, Doc, etc.)</label>
+                        <input type="file" class="form-control" name="file_materi" id="file_materi" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+                        @if ($item->file_materi)
+                            <p class="mt-2">File saat ini: <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank">{{ basename($item->file_materi) }}</a></p>
+                        @endif
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-info">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 </x-app-layout>
