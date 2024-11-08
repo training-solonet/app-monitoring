@@ -8,7 +8,7 @@ class MonitoringController extends Controller
 {
     public function index(Request $request)
     {
-        $siswa = Siswa::all();
-        return view('monitoring_siswa.monitoring', compact('siswa'));
+        $monitoring = Siswa::all();
+        return view('monitoring_siswa.monitoring', compact('monitoring'));
     }
 }

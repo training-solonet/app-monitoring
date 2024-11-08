@@ -193,10 +193,12 @@
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option disabled selected>Pilih Jurusan</option>
                             <option value="TKJ">TKJ</option>
                             <option value="RPL">RPL</option>
                         </select>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
@@ -244,6 +246,7 @@
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
+                            <option value="Pilih Jurusan">Pilih Jurusan</option>
                             <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
                             <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
                         </select>

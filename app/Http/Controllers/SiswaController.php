@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Siswa;
+use App\Models\materi;
 use Carbon\Carbon;
 
 class SiswaController extends Controller
@@ -29,7 +30,8 @@ class SiswaController extends Controller
             return $item;
         });
     
-        return view('monitoring_siswa.siswa', compact('siswa'));
+        $materi = Materi::all();
+        return view('monitoring_siswa.siswa', compact('siswa', 'materi'));
     }
     
     public function updateTime(Request $request, $id)
@@ -53,32 +55,38 @@ class SiswaController extends Controller
     }
 
     public function storeMultiple(Request $request)
-{
-    $request->validate([
-        'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report1' => 'required',
-        'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report2' => 'nullable'
-    ]);
-
-    // Menyimpan aktivitas pertama dengan status default 'to do'
-    Siswa::create([
-        'kategori' => $request->kategori1,
-        'report' => $request->report1,
-        'status' => 'to do', // Status default
-    ]);
-
-    // Menyimpan aktivitas kedua, jika ada
-    if ($request->filled('kategori2') && $request->filled('report2')) {
+    {
+        $request->validate([
+            'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'report1' => 'required',
+            'materi_id1' => 'required|exists:materi,id', // Validasi foreign key untuk materi pertama
+            'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'report2' => 'nullable',
+            'materi_id2' => 'nullable|exists:materi,id' // Validasi foreign key untuk materi kedua
+        ]);
+    
+        // Menyimpan aktivitas pertama dengan status default 'to do'
         Siswa::create([
-            'kategori' => $request->kategori2,
-            'report' => $request->report2,
+            'kategori' => $request->kategori1,
+            'report' => $request->report1,
+            'materi_id' => $request->materi_id1, // Menyimpan foreign key
             'status' => 'to do', // Status default
         ]);
+    
+        // Menyimpan aktivitas kedua, jika ada
+        if ($request->filled('kategori2') && $request->filled('report2') && $request->filled('materi_id2')) {
+            Siswa::create([
+                'kategori' => $request->kategori2,
+                'report' => $request->report2,
+                'materi_id' => $request->materi_id2, // Menyimpan foreign key
+                'status' => 'to do', // Status default
+            ]);
+        }
+        
+    
+        return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
-
-    return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
-}
+    
 
 
 
