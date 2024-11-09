@@ -33,7 +33,7 @@ class siswa extends Model
     }
 
 
-    public function User()
+    public function siswa_monitoring()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

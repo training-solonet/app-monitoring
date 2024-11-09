@@ -66,10 +66,10 @@
                                         @foreach ($monitoring as $index => $item)
                                             <tr>
                                                 <td class="align-middle text-center">{{ $index + 1 }}</td>
-                                                <td class="align-middle text-center">{{ $item->nama_siswa }}</td>
-                                                <td class="align-middle text-center">{{ $item->jurusan }}</td>
+                                                <td class="align-middle text-center">{{ $item->siswa_monitoring?->username ?? 'heheh'  }}</td>
+                                                <td class="align-middle text-center">{{$item->siswa_monitoring?->jurusan ?? 'heheh'  }}</td>
                                                 <td class="align-middle text-center">{{ $item->kategori }}</td>
-                                                <td class="align-middle text-center">{{ $item->materi_monitoring }}</td>
+                                                <td class="align-middle text-center">{{$item->materitkj?->materi ?? 'Tidak ada materi' }}</td>
                                                 <td class="align-middle text-center">{{ $item->report }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
