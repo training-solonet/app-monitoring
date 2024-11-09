@@ -107,7 +107,7 @@ Route::get('/register', [RegisterController::class, 'create'])->name('register.c
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::resource('register', RegisterController::class);
 
-Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
+Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing,admin']);
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');

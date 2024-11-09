@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Materi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,8 +35,9 @@ class SiswaController extends Controller
             return $item;
         });
 
+        $siswa_monitoring = User::all();
         $materitkj = Materi::all();
-        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj'));
+        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj','siswa_monitoring'));
     }
 
     public function updateTime(Request $request, $id)
