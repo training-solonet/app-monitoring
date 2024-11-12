@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('aktivitas_id')->nullable();
             $table->enum('kategori', ['DiKantor', 'Keluar Dengan Teknisi', 'Learning', 'Project']);
             $table->text('report')->nullable();
             $table->datetime('waktu_mulai')->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('materi_id')->references('id')->on('materi');
+            $table->foreign('aktivitas_id')->references('id')->on('aktivitas');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

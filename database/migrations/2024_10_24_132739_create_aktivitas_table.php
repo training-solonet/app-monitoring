@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Migration untuk tabel aktivitas harus dibuat dan dijalankan terlebih dahulu
         Schema::create('aktivitas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_aktivitas');
+            $table->string('nama_aktivitas')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('aktivitas');
-
     }
 };

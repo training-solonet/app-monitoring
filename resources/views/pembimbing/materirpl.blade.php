@@ -60,7 +60,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($materitkj as $index => $item)
+                                        @foreach ($materirpl as $index => $item)
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
@@ -90,7 +90,7 @@
                                                 <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
-                                                <form id="delete-form-{{ $item->id }}" action="{{ route('materitkj.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{ $item->id }}" action="{{ route('materirpl.destroy', $item->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -125,7 +125,7 @@
                 <h5 class="modal-title" id="tambahMateriModalLabel">Tambah Materi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('materitkj.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('materirpl.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="jurusan" value="TKJ">
+                    <input type="hidden" name="jurusan" value="RPL">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-info">Simpan</button>
                 </div>
@@ -151,7 +151,7 @@
     </div>
 </div>
 
-@foreach ($materitkj as $item)
+@foreach ($materirpl as $item)
 <!-- Modal Edit -->
 <div class="modal fade" id="editMateriModal{{ $item->id }}" tabindex="-1" aria-labelledby="editMateriModalLabel{{ $item->id }}" aria-hidden="true">
     <div class="modal-dialog">
@@ -160,7 +160,7 @@
                 <h5 class="modal-title" id="editMateriModalLabel{{ $item->id }}">Edit Materi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('materitkj.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('materirpl.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">

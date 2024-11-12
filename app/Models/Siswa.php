@@ -20,6 +20,7 @@ class siswa extends Model
         'status',
         'materi_id',
         'user_id',
+        'aktivitas_id',
         'bukti'
     ];
 
@@ -37,6 +38,12 @@ class siswa extends Model
         return $this->belongsTo(Materi::class, 'materi_id');
     }
     
+    public function aktivitas()
+    {
+        return $this->belongsTo(Aktivitas::class, 'aktivitas_id');
+    }
+
+
     public function siswa_monitoring()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Materi;
 use App\Models\User;
+use App\Models\Aktivitas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,15 +17,13 @@ class SiswaController extends Controller
         $statusFilter = $request->get('status', 'all');
         $userId = Auth::id();
 
-        if ($statusFilter === 'all') {
-            $siswa = Siswa::where('user_id', $userId)->get();
-        } else {
-            $siswa = Siswa::where('user_id', $userId)
-                          ->where('status', $statusFilter)
-                          ->get();
+        $siswaQuery = Siswa::where('user_id', $userId);
+
+        if ($statusFilter !== 'all') {
+            $siswaQuery->where('status', $statusFilter);
         }
 
-        $siswa = $siswa->map(function ($item) {
+        $siswa = $siswaQuery->get()->map(function ($item) {
             if ($item->waktu_mulai && $item->waktu_selesai) {
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
                 $waktuSelesai = Carbon::parse($item->waktu_selesai);
@@ -35,9 +34,10 @@ class SiswaController extends Controller
             return $item;
         });
 
+        $aktivitas = Aktivitas::all();
         $siswa_monitoring = User::all();
         $materitkj = Materi::all();
-        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj','siswa_monitoring'));
+        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj','siswa_monitoring','aktivitas','statusFilter'));
     }
 
     public function updateTime(Request $request, $id)
@@ -83,13 +83,16 @@ class SiswaController extends Controller
         $request->validate([
             'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
             'materi_id1' => 'nullable|exists:materi,id',
+            'aktivitas_id1' => 'nullable|exists:aktivitas,id',
             'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-            'materi_id2' => 'nullable|exists:materi,id'
+            'materi_id2' => 'nullable|exists:materi,id',
+            'aktivitas_id2' => 'nullable|exists:aktivitas,id',
         ]);
 
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
+            'aktivitas_id' => $request->aktivitas_id1,
             'status' => 'to do',
             'user_id' => Auth::id(),
         ]);
@@ -98,6 +101,7 @@ class SiswaController extends Controller
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
+                'aktivitas_id' => $request->aktivitas_id2,
                 'status' => 'to do',
                 'user_id' => Auth::id(),
             ]);

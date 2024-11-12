@@ -38,34 +38,15 @@
                         <div class="card-body px-0 py-0">
                             <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm">
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <!-- 'All' Button -->
-                                        <input type="radio" class="btn-check" name="status" id="btnradiotable1"
-                                            autocomplete="off"
-                                            {{ request('status') == 'all' || !request('status') ? 'checked' : '' }}
-                                            onchange="this.form.submit()">
-                                        <label class="btn btn-white px-3 mb-0 btn-all" for="btnradiotable1">All</label>
-
-                                        <!-- 'To Do' Button -->
-                                        <input type="radio" class="btn-check" name="status" id="btnradiotable2"
-                                            autocomplete="off" {{ request('status') == 'to do' ? 'checked' : '' }}
-                                            onchange="this.form.submit()">
-                                        <label class="btn btn-white px-3 mb-0 btn-todo" for="btnradiotable2">To
-                                            Do</label>
-
-                                        <!-- 'Doing' Button -->
-                                        <input type="radio" class="btn-check" name="status" id="btnradiotable3"
-                                            autocomplete="off" {{ request('status') == 'doing' ? 'checked' : '' }}
-                                            onchange="this.form.submit()">
-                                        <label class="btn btn-white px-3 mb-0 btn-doing"
-                                            for="btnradiotable3">Doing</label>
-
-                                        <!-- 'Done' Button -->
-                                        <input type="radio" class="btn-check" name="status" id="btnradiotable4"
-                                            autocomplete="off" {{ request('status') == 'done' ? 'checked' : '' }}
-                                            onchange="this.form.submit()">
-                                        <label class="btn btn-white px-3 mb-0 btn-done"
-                                            for="btnradiotable4">Done</label>
+                                    <div class="form-group">
+                                        <label for="statusFilter">Status</label>
+                                        <select class="form-select" name="status" id="statusFilter" onchange="this.form.submit()">
+                                            <option value="" disabled selected>Pilih Status</option>
+                                            <option value="all" {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>All</option>
+                                            <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>To Do</option>
+                                            <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>Doing</option>
+                                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Done</option>
+                                        </select>
                                     </div>
                                 </form>
                                 <div class="input-group w-sm-25 ms-auto">
@@ -397,6 +378,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="mb-3" id="aktivitas1" style="display: none;">
+                            <label for="aktivitas1Select" class="form-label">AKtivitas</label>
+                            <select class="form-select" id="aktivitas1Select" name="aktivitas_id1">
+                                <option selected value="">Pilih Aktivitas</option>
+                                @foreach($aktivitas as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_aktivitas }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <hr>
 
                         <!-- Aktivitas Kedua -->
@@ -419,6 +409,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="mb-3" id="aktivitas2" style="display: none;">
+                            <label for="aktivitas2Select" class="form-label">AKtivitas</label>
+                            <select class="form-select" id="aktivitas2Select" name="aktivitas_id2">
+                                <option selected value="">Pilih Aktivitas</option>
+                                @foreach($aktivitas as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_aktivitas }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -430,27 +429,26 @@
     </div>
 
     <script>
-        function toggleMateriDropdown(selectId, materiId) {
-            const selectElement = document.getElementById(selectId);
-            const materiElement = document.getElementById(materiId);
+      function toggleMateriDropdown(kategoriId, materiIdPrefix) {
+    const kategoriSelect = document.getElementById(kategoriId);
+    const materiDiv = document.getElementById(materiIdPrefix);
+    const aktivitasDiv = document.getElementById(materiIdPrefix.replace('materi', 'aktivitas'));
 
-            if (selectElement.value === 'DiKantor') {
-                materiElement.style.display = 'block';
-            } else {
-                materiElement.style.display = 'none';
-            }
-        }
+    if (kategoriSelect.value === "DiKantor") {
+        // Menampilkan dropdown materi
+        materiDiv.style.display = "block";
+        aktivitasDiv.style.display = "none";
+    } else if (kategoriSelect.value === "Keluar Dengan Teknisi") {
+        // Menampilkan dropdown aktivitas
+        aktivitasDiv.style.display = "block";
+        materiDiv.style.display = "none";
+    } else {
+        // Menyembunyikan keduanya jika tidak ada pilihan
+        materiDiv.style.display = "none";
+        aktivitasDiv.style.display = "none";
+    }
+}
 
-        function toggleMateriDropdown(selectId, materi2Id) {
-            const selectElement = document.getElementById(selectId);
-            const materiElement = document.getElementById(materi2Id);
-
-            if (selectElement.value === 'DiKantor') {
-                materiElement.style.display = 'block';
-            } else {
-                materiElement.style.display = 'none';
-            }
-        }
     </script>
 
 
