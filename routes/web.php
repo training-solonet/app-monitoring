@@ -13,11 +13,12 @@ use App\Http\Controllers\AddController;
 use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MateriController;
-use App\Http\Controllers\MateriPembimbingController;
+use App\Http\Controllers\MateriTkjController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
+use App\Http\Controllers\MateriRplController;
 
 
 
@@ -101,7 +102,7 @@ Route::get('/laravel-examples/users-management', [UserController::class, 'index'
 
 
 
-Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing,admin']);
+Route::resource('materitkj', MateriTkjController::class)->middleware(['auth', 'role:pembimbing']);
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
@@ -124,3 +125,4 @@ Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->na
 
 
 Route::resource('aktivitas', AktivitasController::class);
+Route::resource('materirpl', MateriRplController::class);

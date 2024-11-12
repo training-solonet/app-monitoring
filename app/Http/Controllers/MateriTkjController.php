@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MateriPembimbing;
+use App\Models\MateriTkj;
 use Illuminate\Support\Facades\Storage;
-class MateriPembimbingController extends Controller
+class MateriTkjController extends Controller
 {
     public function index(){
-        $materipembimbing = MateriPembimbing::where('jurusan','TKJ')->get();
-        return view('pembimbing.materi',compact('materipembimbing'));
+        $materitkj = MateriTkj::where('jurusan','TKJ')->get();
+        return view('pembimbing.materi',compact('materitkj'));
     }
 
 
@@ -28,7 +29,7 @@ class MateriPembimbingController extends Controller
             $filePath = $request->file('file_materi')->storeAs('materi_files', $originalFileName, 'public');
         }
 
-        MateriPembimbing::create([
+        MateriTkj::create([
             'materi' => $request->materi,
             'detail' => $request->detail,
             'file_materi' => $filePath,
@@ -44,10 +45,9 @@ class MateriPembimbingController extends Controller
             'materi' => 'required|string|max:255',
             'detail' => 'nullable|string',
             'file_materi' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,txt|max:5120',
-            'jurusan' => 'required|in:TKJ,RPL'
         ]);
 
-        $materi = MateriPembimbing::findOrFail($id);
+        $materi = MateriTkj::findOrFail($id);
 
         if ($request->hasFile('file_materi')) {
             if ($materi->file_materi) {
@@ -61,7 +61,6 @@ class MateriPembimbingController extends Controller
 
         $materi->materi = $request->materi;
         $materi->detail = $request->detail;
-        $materi->jurusan = $request->jurusan;
         $materi->save();
 
         return redirect()->back()->with('success', 'Materi berhasil diperbarui');
@@ -69,7 +68,7 @@ class MateriPembimbingController extends Controller
 
     public function destroy($id)
     {
-        $materi = MateriPembimbing::findOrFail($id);
+        $materi = MateriTkj::findOrFail($id);
         if ($materi->file_materi) {
             \Storage::disk('public')->delete($materi->file_materi);
         }

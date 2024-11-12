@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('materi_id')->references('id')->on('materi');
+            $table->foreign('aktivitas_id')->references('id')->on('aktivitas');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

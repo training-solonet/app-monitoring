@@ -31,6 +31,11 @@ class siswa extends Model
     {
         return $this->belongsTo(Materi::class, 'materi_id');
     }
+    
+    public function aktivitas()
+    {
+        return $this->belongsTo(Materi::class, 'aktivitas_id');
+    }
 
 
     public function siswa_monitoring()
