@@ -9,7 +9,7 @@ class MonitoringController extends Controller
 {
     public function index(Request $request)
     {
-        $monitoring = Siswa::all(); // Pastikan data diambil dari model
+        $monitoring = Siswa::all();
         $materi_monitoring = Materi::all();
         return view('monitoring_siswa.monitoring', compact('monitoring', 'materi_monitoring'));
     }

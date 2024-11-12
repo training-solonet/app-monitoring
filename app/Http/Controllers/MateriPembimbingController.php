@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class MateriPembimbingController extends Controller
 {
     public function index(){
-        $materipembimbing = MateriPembimbing::all();
+        $materipembimbing = MateriPembimbing::where('jurusan','TKJ')->get();
         return view('pembimbing.materi',compact('materipembimbing'));
     }
 
@@ -19,6 +19,7 @@ class MateriPembimbingController extends Controller
             'materi' => 'required|string|max:255',
             'detail' => 'nullable|string',
             'file_materi' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,txt|max:5120',
+            'jurusan' => 'required|in:TKJ,RPL'
         ]);
 
         $filePath = null;
@@ -31,6 +32,7 @@ class MateriPembimbingController extends Controller
             'materi' => $request->materi,
             'detail' => $request->detail,
             'file_materi' => $filePath,
+            'jurusan' => $request->jurusan,
         ]);
 
         return redirect()->back()->with('success', 'Materi berhasil upload');
@@ -42,6 +44,7 @@ class MateriPembimbingController extends Controller
             'materi' => 'required|string|max:255',
             'detail' => 'nullable|string',
             'file_materi' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,txt|max:5120',
+            'jurusan' => 'required|in:TKJ,RPL'
         ]);
 
         $materi = MateriPembimbing::findOrFail($id);
@@ -58,6 +61,7 @@ class MateriPembimbingController extends Controller
 
         $materi->materi = $request->materi;
         $materi->detail = $request->detail;
+        $materi->jurusan = $request->jurusan;
         $materi->save();
 
         return redirect()->back()->with('success', 'Materi berhasil diperbarui');

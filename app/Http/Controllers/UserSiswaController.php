@@ -28,17 +28,18 @@ class UserSiswaController extends Controller
     {
         $request->validate([
             'username' => 'required|max:255|unique:users',
-            'password' => 'required|min:7|max:255',
-            'role' => 'required|in:admin,siswa,pembimbing',
+            'password' => 'required|min:8|max:20',
+            'role' => 'required|in:siswa,pembimbing',
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ',
         ], [
-            'username.required' => 'Username is required',
-            'password.required' => 'Password is required',
+            'username.required' => 'Username Tidak Boleh Sama.',
+            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
+            'password.max' => 'Password Tidak Boleh Lebih dari 20 karakter',
             'role.required' => 'Role is required',
-            'role.in' => 'Role harus salah satu dari: admin, siswa, pembimbing',
+            'role.in' => 'Role harus salah satu dari:siswa, pembimbing',
             'status.required' => 'Status is required',
             'tanggal_mulai.required' => 'Tanggal mulai is required',
             'tanggal_selesai.required' => 'Tanggal selesai is required',
@@ -67,16 +68,16 @@ class UserSiswaController extends Controller
     {
         $request->validate([
             'username' => 'required|max:255',
-            'password' => 'required|min:7|max:255',
+            'password' => 'required|min:8|max:20',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ], [
             'username.required' => 'Username is required',
-            'username.min' => 'Username must be at least 3 characters',
+            'username.min' => 'Username Tidak Boleh sama',
             'password.required' => 'Password is required',
-            'password.min' => 'Password must be at least 7 characters long',
+            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
             'tanggal_mulai.required' => 'Tanggal mulai is required',
             'tanggal_selesai.required' => 'Tanggal selesai is required',
             'jurusan.required' => 'jurusan is required',
