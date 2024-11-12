@@ -58,7 +58,6 @@
                                             <th class="text-center text-xs font-weight-semibold">Waktu Mulai</th>
                                             <th class="text-center text-xs font-weight-semibold">Waktu Selesai</th>
                                             <th class="text-center text-xs font-weight-semibold">Status</th>
-                                            <th class="text-center text-xs font-weight-semibold">Total Waktu</th>
                                             <th class="text-center text-xs font-weight-semibold">Aksi</th>
                                         </tr>
                                     </thead>
@@ -74,7 +73,7 @@
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
                                                 <td class="align-middle text-center">{{ $item->status }}</td>
-                                                <td class="align-middle text-center">{{ $item->total_waktu }}</td>
+                                                <!-- <td class="align-middle text-center">{{ $item->total_waktu }}</td> -->
                                                 <td class="align-middle text-center">
                                                     <a href="{{ route('monitoring.edit', $item->id) }}"
                                                         class="btn btn-warning btn-sm">Edit</a>

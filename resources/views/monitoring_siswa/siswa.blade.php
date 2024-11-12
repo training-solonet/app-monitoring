@@ -110,13 +110,15 @@
                                                 Total Waktu</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Bukti</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Aksi</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         @foreach ($siswa as $index => $item)
-                                            <!-- Row Pertama untuk tiap item -->
                                             <tr>
                                                 <td class="align-middle text-center" rowspan="2">
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
@@ -196,6 +198,47 @@
                                                     }
                                                 </script>
                                                 <td class="align-middle text-center">
+                                                    <button type="button" class="btn btn-sm btn-info mb-0"
+                                                        data-bs-toggle="modal" data-bs-target="#ViewBuktiModal{{ $item->id }}">
+                                                        Lihat Bukti
+                                                    </button>
+                                                </td>
+                                                <!-- Modal Lihat Bukti -->
+                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}" tabindex="-1" aria-labelledby="ViewBuktiModalLabel{{ $item->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="ViewBuktiModalLabel{{ $item->id }}">Bukti Laporan</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @if ($item->bukti)
+                                                                    <div class="row">
+                                                                        @foreach (explode(',', $item->bukti) as $index => $buktiPath)
+                                                                            <div class="col-6 col-md-4 mb-3">
+                                                                                <div class="card shadow-sm">
+                                                                                    <a href="{{ Storage::url($buktiPath) }}" target="_blank">
+                                                                                        <img src="{{ Storage::url($buktiPath) }}" class="card-img-top" alt="Bukti"
+                                                                                            style="max-height: 200px; object-fit: contain;">
+                                                                                    </a>
+                                                                                    <div class="card-body text-center">
+                                                                                        <p class="card-text"><small>Bukti {{ $index + 1 }}</small></p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @else
+                                                                    <p class="text-center">Tidak ada bukti yang diunggah.</p>
+                                                                @endif
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <td class="align-middle text-center">
                                                     <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
                                                         @csrf
                                                         @if ($item->status === 'to do')
@@ -207,13 +250,62 @@
                                                                 Selesai
                                                             </button>
                                                         @else
-                                                            <button type="button" class="btn btn-sm btn-secondary mb-0" disabled>Telah Selesai</button>
+                                                            <button type="button" class="btn btn-sm btn-warning mb-0" data-bs-toggle="modal" data-bs-target="#editSiswaModal{{ $item->id }}">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
                                                         @endif
                                                     </form>
                                                 </td>
                                             </tr>
+                                            <!-- Modal Edit Siswa -->
+                                            <div class="modal fade" id="editSiswaModal{{ $item->id }}" tabindex="-1" aria-labelledby="editSiswaModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editSiswaModalLabel{{ $item->id }}">Edit Laporan</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{ route('siswa.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="report{{ $item->id }}" class="form-label">Laporan</label>
+                                                                    <textarea class="form-control" id="report{{ $item->id }}" name="report" rows="3">{{ old('report', $item->report) }}</textarea>
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="bukti{{ $item->id }}" class="form-label">Bukti</label>
+                                                                    <input class="form-control" type="file" id="bukti{{ $item->id }}" name="bukti[]" multiple>
+                                                                </div>
+
+                                                                <!-- Menampilkan gambar sebelumnya jika ada -->
+                                                                @if($item->bukti)
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Gambar Sebelumnya:</label>
+                                                                        <div class="row">
+                                                                            @foreach(explode(',', $item->bukti) as $index => $buktiPath)
+                                                                                <div class="col-6 col-md-4 mb-2">
+                                                                                    <img src="{{ Storage::url($buktiPath) }}" class="img-fluid" alt="Bukti" style="max-height: 100px; object-fit: contain;">
+                                                                                    <p class="text-center"><small>Gambar {{ $index + 1 }}</small></p>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="submit" class="btn btn-info">Simpan</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <tr></tr>
+                                            <!-- Modal Selesai -->
                                             <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1" aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -222,7 +314,7 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST">
+                                                            <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
 
@@ -237,6 +329,13 @@
                                                                     <label for="waktu_selesai" class="form-label fw-bold">Waktu Selesai</label>
                                                                     <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
                                                                 </div>
+
+                                                                <!-- Bukti Upload Input -->
+                                                                <div class="mb-3">
+                                                                    <label for="bukti" class="form-label fw-bold">Unggah Bukti (Gambar)</label>
+                                                                    <input type="file" class="form-control" id="bukti" name="bukti[]" accept="image/*" multiple>
+                                                                    <small class="form-text text-muted">Kamu bisa mengunggah satu atau lebih gambar.</small>
+                                                                </div>
                                                             </form>
                                                         </div>
                                                         <div class="modal-footer float-end pt-3">
@@ -246,6 +345,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         @endforeach
                                     </tbody>
                                 </table>
