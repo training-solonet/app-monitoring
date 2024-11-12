@@ -19,12 +19,17 @@ class siswa extends Model
         'waktu_selesai',
         'status',
         'materi_id',
-        'user_id'
+        'user_id',
+        'bukti'
     ];
 
     protected $dates = [
         'waktu_mulai',
         'waktu_selesai'
+    ];
+
+    protected $casts = [
+        'bukti' => 'array',
     ];
 
     public function materitkj()
@@ -34,7 +39,7 @@ class siswa extends Model
     
     public function aktivitas()
     {
-        return $this->belongsTo(Materi::class, 'aktivitas_id');
+        return $this->belongsTo(Aktivitas::class, 'aktivitas_id');
     }
 
 

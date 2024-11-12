@@ -22,6 +22,7 @@ return new class extends Migration
             $table->datetime('waktu_selesai')->nullable();
             $table->enum('status', ['to do', 'doing', 'done'])->nullable();
             $table->unsignedBigInteger('materi_id')->nullable();
+            $table->text('bukti')->nullable();
             $table->timestamps();
 
             $table->foreign('materi_id')->references('id')->on('materi');

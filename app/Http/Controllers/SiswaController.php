@@ -45,9 +45,25 @@ class SiswaController extends Controller
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
-            'waktu_selesai' => 'required|date_format:H:i', 
-            'report' => 'required|string'
+            'waktu_selesai' => 'required|date_format:H:i',
+            'report' => 'required|string',
+            'bukti' => 'nullable|array',
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
         ]);
+
+        $filePath = null;
+        if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
+            $file = $request->file('bukti')[0];
+            $originalFileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('bukti', $originalFileName, 'public');
+        } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
+            $filePaths = [];
+            foreach ($request->file('bukti') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
+            }
+            $filePath = implode(',', $filePaths);
+        }
 
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
         $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
@@ -56,6 +72,7 @@ class SiswaController extends Controller
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'done',
             'report' => $request->report,
+            'bukti' => $filePath,
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Aktivitas Telah Diselesaikan');
@@ -129,4 +146,37 @@ class SiswaController extends Controller
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
+
+    public function update(Request $request, $id)
+    {
+        $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        $request->validate([
+            'report' => 'required|string',
+            'bukti' => 'nullable|array',
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
+
+        $filePath = null;
+        if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
+            $file = $request->file('bukti')[0];
+            $originalFileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('bukti', $originalFileName, 'public');
+        } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
+            $filePaths = [];
+            foreach ($request->file('bukti') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
+            }
+            $filePath = implode(',', $filePaths);
+        }
+
+        $siswa->update([
+            'report' => $request->report,
+            'bukti' => $filePath,
+        ]);
+
+        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
+    }
+
 }
