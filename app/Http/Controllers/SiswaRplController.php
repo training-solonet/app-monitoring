@@ -65,28 +65,26 @@ public function storeMultiple(Request $request)
 {
     $request->validate([
         'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report1' => 'required',
-        'materi_id1' => 'required|exists:materi,id', // Validasi foreign key untuk materi pertama
+        'report1' => 'nullable',
+        'materi_id1' => 'required|exists:materi,id', 
         'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report2' => 'nullable',
-        'materi_id2' => 'nullable|exists:materi,id' // Validasi foreign key untuk materi kedua
+        'materi_id2' => 'nullable|exists:materi,id' 
     ]);
 
-    // Menyimpan aktivitas pertama dengan status default 'to do'
     Siswa::create([
         'kategori' => $request->kategori1,
         'report' => $request->report1,
-        'materi_id' => $request->materi_id1, // Menyimpan foreign key
-        'status' => 'to do', // Status default
+        'materi_id' => $request->materi_id1, 
+        'status' => 'to do', 
     ]);
 
-    // Menyimpan aktivitas kedua, jika ada
     if ($request->filled('kategori2') && $request->filled('report2') && $request->filled('materi_id2')) {
         Siswa::create([
             'kategori' => $request->kategori2,
             'report' => $request->report2,
-            'materi_id' => $request->materi_id2, // Menyimpan foreign key
-            'status' => 'to do', // Status default
+            'materi_id' => $request->materi_id2, 
+            'status' => 'to do', 
         ]);
     }
     
