@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role', ['admin','pembimbing','siswa']);
+            $table->enum('role', ['pembimbing','siswa']);
             $table->enum('status',['Aktif', 'Tidak Aktif']);
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();

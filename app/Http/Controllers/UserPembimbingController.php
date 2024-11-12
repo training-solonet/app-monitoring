@@ -16,14 +16,15 @@ class UserPembimbingController extends Controller
     {
         $request->validate([
             'username' => 'required|max:255|unique:users',
-            'password' => 'required|min:7|max:255',
+            'password' => 'required|min:8|max:20',
             'role' => 'required|in:admin,siswa,pembimbing',
             'status' => 'required|in:Aktif,Tidak Aktif'
         ], [
-            'username.required' => 'Username is required',
-            'password.required' => 'Password is required',
+            'username.required' => 'Username Tidak Boleh Sama.',
+            'password.max' => 'Password Tidak Boleh Lebih Dari 20 Karakter.',
+            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
             'role.required' => 'Role is required',
-            'role.in' => 'Role harus salah satu dari: admin, siswa, pembimbing',
+            'role.in' => 'Role harus salah satu dari:siswa, pembimbing',
             'status.required' => 'Status is required'
         ]);
 
@@ -41,13 +42,13 @@ class UserPembimbingController extends Controller
     {
         $request->validate([
             'username' => 'required|max:255',
-            'password' => 'required|min:7|max:255',
+            'password' => 'required|min:8|max:20',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ], [
             'username.required' => 'Username is required',
-            'username.min' => 'Username must be at least 3 characters',
+            'username.min' => 'Username Tidak Boleh Sama.',
             'password.required' => 'Password is required',
-            'password.min' => 'Password must be at least 7 characters long',
+            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter.',
             'status.required' => 'Status is required',
         ]);
     

@@ -8,7 +8,7 @@ use App\Models\materi;
 class MateriController extends Controller
 {
     public function index(){
-        $materi =  Materi::all();
+        $materi =  Materi::where('jurusan','TKJ')->get();
         return view('monitoring_siswa.materi',compact ('materi'));
     }
 }

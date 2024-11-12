@@ -33,7 +33,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body px-0 py-0">
-                                        
+
                                             <div class="table-responsive p-0">
                                                 <div class="table-responsive p-0">
                                                     <table class="table align-items-center mb-0">
@@ -108,21 +108,28 @@
                                                                         </p>
                                                                     </td>
                                                                     <td class="align-middle text-center">
-                                                                        @if($item->status == 'Aktif')
-                                                                            <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
+                                                                        @if ($item->status == 'Aktif')
+                                                                            <span
+                                                                                class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                                         @elseif($item->status == 'Tidak Aktif')
-                                                                            <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
+                                                                            <span
+                                                                                class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
                                                                         @endif
                                                                     </td>
-                                                                    
+
                                                                     <td class="align-middle text-center">
-                                                                        <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
+                                                                        <a href="#" class="text-warning"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editModal{{ $item->id }}">
                                                                             <i class="fas fa-edit"></i>
                                                                         </a>
-                                                                        <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                                        <a href="#" class="text-danger"
+                                                                            onclick="confirmDelete({{ $item->id }})">
                                                                             <i class="fas fa-trash-alt"></i>
                                                                         </a>
-                                                                        <form id="delete-form-{{ $item->id }}" action="{{ route('usersiswa.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                                        <form id="delete-form-{{ $item->id }}"
+                                                                            action="{{ route('usersiswa.destroy', $item->id) }}"
+                                                                            method="POST" style="display: none;">
                                                                             @csrf
                                                                             @method('DELETE')
                                                                         </form>
@@ -190,6 +197,12 @@
                         <input type="text" class="form-control" id="username" name="username"
                             placeholder="Username" required>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Password" required>
+                    </div>
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>
                         <select class="form-control" id="jurusan" name="jurusan" required>
@@ -197,12 +210,6 @@
                             <option value="TKJ">TKJ</option>
                             <option value="RPL">RPL</option>
                         </select>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Password" required>
                     </div>
                     <div class="mb-3">
                         <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
@@ -228,55 +235,60 @@
 
 {{-- <!--Modal Edit--> --}}
 @foreach ($usersiswa as $item)
-<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
+        aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('usersiswa.update', $item->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                value="{{ $item->username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jurusan" class="form-label">Jurusan</label>
+                            <select class="form-control" id="jurusan" name="jurusan" required>
+                                <option value="Pilih Jurusan">Pilih Jurusan</option>
+                                <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
+                                <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                value="{{ $item->password }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal_mulai" class="form-label">tanggal_mulai</label>
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
+                                value="{{ $item->tanggal_mulai }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
+                                value="{{ $item->tanggal_selesai }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">status</label>
+                            <select name="status" id="status" class="form-select">
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
-            <form action="{{ route('usersiswa.update', $item->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" value="{{ $item->username }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jurusan" class="form-label">Jurusan</label>
-                        <select class="form-control" id="jurusan" name="jurusan" required>
-                            <option value="Pilih Jurusan">Pilih Jurusan</option>
-                            <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
-                            <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" value="{{ $item->password }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tanggal_mulai" class="form-label">tanggal_mulai</label>
-                        <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ $item->tanggal_mulai }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
-                        <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ $item->tanggal_selesai }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">status</label>
-                        <select name="status" id="status" class="form-select">
-                            <option value="Aktif">Aktif</option>
-                            <option value="Tidak Aktif">Tidak Aktif</option>
-                        </select>                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 @endforeach
-

@@ -197,7 +197,9 @@
                         <input type="text" class="form-control" id="password" name="password" value="{{ $item->password }}" required>
                     </div>
                     <div class="mb-3">
+                        <label for="status">Status</label>
                         <select name="status" id="status" class="form-select">
+                            <option disabled selected>Pilih Status</option>
                             <option value="Aktif">Aktif</option>
                             <option value="Tidak Aktif">Tidak Aktif</option>
                         </select>

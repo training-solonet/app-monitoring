@@ -100,6 +100,23 @@
     }
 </script>
 
+@if($errors->any())
+    <script>
+        let errorMessages = '';
+        @foreach ($errors->all() as $error)
+            errorMessages += '{{ $error }}\n';
+        @endforeach
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Ditambahkan',
+            text: errorMessages,
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\AddController;
+use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MateriPembimbingController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
+
 
 
 Route::get('/', function () {
@@ -51,12 +53,6 @@ Route::get('/signup', function () {
     return view('account-pages.signup');
 })->name('signup')->middleware('guest');
 
-Route::get('/sign-up', [RegisterController::class, 'create'])
-    ->middleware('guest')
-    ->name('sign-up');
-
-Route::post('/sign-up', [RegisterController::class, 'store'])
-    ->middleware('guest');
 
 Route::get('/sign-in', [LoginController::class, 'create'])
     ->middleware('guest')
@@ -103,9 +99,7 @@ Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index']
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
 
-Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
-Route::post('/register', [RegisterController::class, 'store'])->name('register');
-Route::resource('register', RegisterController::class);
+
 
 Route::resource('materipembimbing', MateriPembimbingController::class)->middleware(['auth', 'role:pembimbing,admin']);
 
@@ -118,12 +112,15 @@ Route::resource('materi', MateriController::class)->middleware(['auth', 'role:si
 
 
 
-Route::resource('useradmin' , UserAdminController::class)->middleware(['auth', 'role:admin']);
-Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:admin']);
-Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:admin']);
+Route::resource('useradmin' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
+Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
+Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:pembimbing']);
 
-Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:admin,pembimbing']); 
+Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:pembimbing']); 
 
 
 Route::put('/siswarpl/{id}/updateTime', [SiswaRplController::class, 'updateTime'])->name('siswarpl.updateTime');
 Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->name('siswa.updateTime');
+
+
+Route::resource('aktivitas', AktivitasController::class);
