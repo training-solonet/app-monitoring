@@ -20,6 +20,7 @@ class siswa extends Model
         'status',
         'materi_id',
         'user_id',
+        'aktivitas_id',
         'bukti'
     ];
 

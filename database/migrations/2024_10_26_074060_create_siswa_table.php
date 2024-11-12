@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('aktivitas_id')->nullable();
             $table->enum('kategori', ['DiKantor', 'Keluar Dengan Teknisi', 'Learning', 'Project']);
             $table->text('report')->nullable();
             $table->datetime('waktu_mulai')->nullable();

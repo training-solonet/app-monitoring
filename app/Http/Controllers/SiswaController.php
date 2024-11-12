@@ -92,7 +92,7 @@ class SiswaController extends Controller
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
-            'aktvitas_id' => $request->aktivitas_id1,
+            'aktivitas_id' => $request->aktivitas_id1,
             'status' => 'to do',
             'user_id' => Auth::id(),
         ]);
@@ -101,7 +101,7 @@ class SiswaController extends Controller
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
-                'aktvitas_id' => $request->aktivitas_id2,
+                'aktivitas_id' => $request->aktivitas_id2,
                 'status' => 'to do',
                 'user_id' => Auth::id(),
             ]);
