@@ -19,7 +19,8 @@ class siswa extends Model
         'waktu_selesai',
         'status',
         'materi_id',
-        'user_id'
+        'user_id',
+        'bukti'
     ];
 
     protected $dates = [
@@ -27,12 +28,15 @@ class siswa extends Model
         'waktu_selesai'
     ];
 
+    protected $casts = [
+        'bukti' => 'array',
+    ];
+
     public function materitkj()
     {
         return $this->belongsTo(Materi::class, 'materi_id');
     }
-
-
+    
     public function siswa_monitoring()
     {
         return $this->belongsTo(User::class, 'user_id');
