@@ -14,7 +14,6 @@
                                     <button type="submit" class="btn btn-info">Cari</button>
                                 </form>
                             </div>
-                            <hr>
                             {{-- <form method="GET" action="{{ route('monitoring.index') }}"> --}}
                             <div class="row g-3 align-items-end">
                                 <div class="col-md-3">

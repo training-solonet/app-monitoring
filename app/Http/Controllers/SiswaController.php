@@ -83,10 +83,8 @@ class SiswaController extends Controller
         $request->validate([
             'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
             'materi_id1' => 'nullable|exists:materi,id',
-            'aktivitas_id1' => 'nullable|exists:aktivitas,id',
             'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
             'materi_id2' => 'nullable|exists:materi,id',
-            'aktivitas_id2' => 'nullable|exists:aktivitas,id',
         ]);
 
         Siswa::create([
@@ -101,7 +99,6 @@ class SiswaController extends Controller
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
-                'aktivitas_id' => $request->aktivitas_id2,
                 'status' => 'to do',
                 'user_id' => Auth::id(),
             ]);
@@ -154,7 +151,9 @@ class SiswaController extends Controller
         $request->validate([
             'report' => 'required|string',
             'bukti' => 'nullable|array',
-            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'aktivitas_id1' => 'nullable|exists:aktivitas,id',
+
         ]);
 
         $filePath = null;
@@ -174,6 +173,7 @@ class SiswaController extends Controller
         $siswa->update([
             'report' => $request->report,
             'bukti' => $filePath,
+            'aktivitas_id' => $request->aktivitas_id1,
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
