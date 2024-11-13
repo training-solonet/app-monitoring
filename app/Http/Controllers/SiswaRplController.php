@@ -66,13 +66,14 @@ public function storeMultiple(Request $request)
     $request->validate([
         'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report1' => 'nullable',
-        'materi_id1' => 'required|exists:materi,id', 
+        'materi_id1' => 'nullable|exists:materi,id', 
         'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
         'report2' => 'nullable',
         'materi_id2' => 'nullable|exists:materi,id' 
     ]);
 
     Siswa::create([
+        'user_id' =>$request->user()->id,
         'kategori' => $request->kategori1,
         'report' => $request->report1,
         'materi_id' => $request->materi_id1, 

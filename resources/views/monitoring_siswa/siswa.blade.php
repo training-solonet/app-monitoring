@@ -40,12 +40,18 @@
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm">
                                     <div class="form-group">
                                         <label for="statusFilter">Status</label>
-                                        <select class="form-select" name="status" id="statusFilter" onchange="this.form.submit()">
+                                        <select class="form-select" name="status" id="statusFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
-                                            <option value="all" {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>All</option>
-                                            <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>To Do</option>
-                                            <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>Doing</option>
-                                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Done</option>
+                                            <option value="all"
+                                                {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
+                                                All</option>
+                                            <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>
+                                                To Do</option>
+                                            <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>
+                                                Doing</option>
+                                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>
+                                                Done</option>
                                         </select>
                                     </div>
                                 </form>
@@ -110,12 +116,14 @@
                                                         {{ $item->kategori }}</p>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <p class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
+                                                    <p
+                                                        class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
                                                         {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                     </p>
                                                 </td>
                                                 <td class="align-middle text-center text-sm font-weight-normal">
-                                                    <p class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
+                                                    <p
+                                                        class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
                                                         {{ $item->report ?? 'Belum ada laporan' }}
                                                     </p>
                                                 </td>
@@ -180,17 +188,25 @@
                                                 </script>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="btn btn-sm btn-info mb-0"
-                                                        data-bs-toggle="modal" data-bs-target="#ViewBuktiModal{{ $item->id }}">
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#ViewBuktiModal{{ $item->id }}">
                                                         Lihat Bukti
                                                     </button>
                                                 </td>
                                                 <!-- Modal Lihat Bukti -->
-                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}" tabindex="-1" aria-labelledby="ViewBuktiModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="ViewBuktiModalLabel{{ $item->id }}">Bukti Laporan</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                <h5 class="modal-title"
+                                                                    id="ViewBuktiModalLabel{{ $item->id }}">Bukti
+                                                                    Laporan</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
                                                                 @if ($item->bukti)
@@ -198,40 +214,55 @@
                                                                         @foreach (explode(',', $item->bukti) as $index => $buktiPath)
                                                                             <div class="col-6 col-md-4 mb-3">
                                                                                 <div class="card shadow-sm">
-                                                                                    <a href="{{ Storage::url($buktiPath) }}" target="_blank">
-                                                                                        <img src="{{ Storage::url($buktiPath) }}" class="card-img-top" alt="Bukti"
+                                                                                    <a href="{{ Storage::url($buktiPath) }}"
+                                                                                        target="_blank">
+                                                                                        <img src="{{ Storage::url($buktiPath) }}"
+                                                                                            class="card-img-top"
+                                                                                            alt="Bukti"
                                                                                             style="max-height: 200px; object-fit: contain;">
                                                                                     </a>
                                                                                     <div class="card-body text-center">
-                                                                                        <p class="card-text"><small>Bukti {{ $index + 1 }}</small></p>
+                                                                                        <p class="card-text">
+                                                                                            <small>Bukti
+                                                                                                {{ $index + 1 }}</small>
+                                                                                        </p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         @endforeach
                                                                     </div>
                                                                 @else
-                                                                    <p class="text-center">Tidak ada bukti yang diunggah.</p>
+                                                                    <p class="text-center">Tidak ada bukti yang
+                                                                        diunggah.</p>
                                                                 @endif
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <td class="align-middle text-center">
-                                                    <form action="{{ route('siswa.toggle', $item->id) }}" method="POST" style="display:inline;">
+                                                    <form action="{{ route('siswa.toggle', $item->id) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @if ($item->status === 'to do')
-                                                            <button type="submit" class="btn btn-sm btn-success mb-0">Mulai</button>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-success mb-0">Mulai</button>
                                                         @elseif($item->status === 'doing')
                                                             <button type="button" class="btn btn-sm btn-danger mb-0"
-                                                                data-bs-toggle="modal" data-bs-target="#EditLaporanModal{{ $item->id }}"
-                                                                data-id="{{ $item->id }}" data-report="{{ $item->report }}" data-waktu_selesai="{{ $item->waktu_selesai }}">
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#EditLaporanModal{{ $item->id }}"
+                                                                data-id="{{ $item->id }}"
+                                                                data-report="{{ $item->report }}"
+                                                                data-waktu_selesai="{{ $item->waktu_selesai }}">
                                                                 Selesai
                                                             </button>
                                                         @else
-                                                            <button type="button" class="btn btn-sm btn-warning mb-0" data-bs-toggle="modal" data-bs-target="#editSiswaModal{{ $item->id }}">
+                                                            <button type="button" class="btn btn-sm btn-warning mb-0"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editSiswaModal{{ $item->id }}">
                                                                 <i class="fas fa-edit"></i>
                                                             </button>
                                                         @endif
@@ -239,36 +270,54 @@
                                                 </td>
                                             </tr>
                                             <!-- Modal Edit Siswa -->
-                                            <div class="modal fade" id="editSiswaModal{{ $item->id }}" tabindex="-1" aria-labelledby="editSiswaModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal fade" id="editSiswaModal{{ $item->id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="editSiswaModalLabel{{ $item->id }}"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editSiswaModalLabel{{ $item->id }}">Edit Laporan</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title"
+                                                                id="editSiswaModalLabel{{ $item->id }}">Edit
+                                                                Laporan</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <form action="{{ route('siswa.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                                        <form action="{{ route('siswa.update', $item->id) }}"
+                                                            method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
                                                             <div class="modal-body">
                                                                 <div class="mb-3">
-                                                                    <label for="report{{ $item->id }}" class="form-label">Laporan</label>
+                                                                    <label for="report{{ $item->id }}"
+                                                                        class="form-label">Laporan</label>
                                                                     <textarea class="form-control" id="report{{ $item->id }}" name="report" rows="3">{{ old('report', $item->report) }}</textarea>
                                                                 </div>
 
                                                                 <div class="mb-3">
-                                                                    <label for="bukti{{ $item->id }}" class="form-label">Bukti</label>
-                                                                    <input class="form-control" type="file" id="bukti{{ $item->id }}" name="bukti[]" multiple>
+                                                                    <label for="bukti{{ $item->id }}"
+                                                                        class="form-label">Bukti</label>
+                                                                    <input class="form-control" type="file"
+                                                                        id="bukti{{ $item->id }}" name="bukti[]"
+                                                                        multiple>
                                                                 </div>
 
                                                                 <!-- Menampilkan gambar sebelumnya jika ada -->
-                                                                @if($item->bukti)
+                                                                @if ($item->bukti)
                                                                     <div class="mb-3">
-                                                                        <label class="form-label">Gambar Sebelumnya:</label>
+                                                                        <label class="form-label">Gambar
+                                                                            Sebelumnya:</label>
                                                                         <div class="row">
-                                                                            @foreach(explode(',', $item->bukti) as $index => $buktiPath)
+                                                                            @foreach (explode(',', $item->bukti) as $index => $buktiPath)
                                                                                 <div class="col-6 col-md-4 mb-2">
-                                                                                    <img src="{{ Storage::url($buktiPath) }}" class="img-fluid" alt="Bukti" style="max-height: 100px; object-fit: contain;">
-                                                                                    <p class="text-center"><small>Gambar {{ $index + 1 }}</small></p>
+                                                                                    <img src="{{ Storage::url($buktiPath) }}"
+                                                                                        class="img-fluid"
+                                                                                        alt="Bukti"
+                                                                                        style="max-height: 100px; object-fit: contain;">
+                                                                                    <p class="text-center">
+                                                                                        <small>Gambar
+                                                                                            {{ $index + 1 }}</small>
+                                                                                    </p>
                                                                                 </div>
                                                                             @endforeach
                                                                         </div>
@@ -276,8 +325,10 @@
                                                                 @endif
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                <button type="submit" class="btn btn-info">Simpan</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-info">Simpan</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -287,7 +338,8 @@
 
                                             <tr></tr>
                                             <!-- Modal Selesai -->
-                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1" aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -298,35 +350,47 @@
                                                             <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
-
+                                            
+                                                                <!-- Aktivitas Dropdown -->
+                                                                <div class="mb-3">
+                                                                    <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
+                                                                    <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
+                                                                        <option disabled selected>Pilih Aktivitas</option> 
+                                                                        @foreach ($aktivitas as $aktivitasItem)
+                                                                            <option value="{{ $aktivitasItem->id }}">{{ $aktivitasItem->nama_aktivitas }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>                                                                
+                                            
                                                                 <!-- Report Textarea -->
                                                                 <div class="mb-3">
-                                                                    <label for="report" class="form-label fw-bold">Laporan</label>
-                                                                    <textarea name="report" id="report" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
+                                                                    <label for="report{{ $item->id }}" class="form-label fw-bold">Laporan</label>
+                                                                    <textarea name="report" id="report{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
                                                                 </div>
-
+                                            
                                                                 <!-- Waktu Selesai Input -->
                                                                 <div class="mb-3">
-                                                                    <label for="waktu_selesai" class="form-label fw-bold">Waktu Selesai</label>
-                                                                    <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
+                                                                    <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
+                                                                    <input type="time" class="form-control" id="waktu_selesai{{ $item->id }}" name="waktu_selesai"
+                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
                                                                 </div>
-
+                                            
                                                                 <!-- Bukti Upload Input -->
                                                                 <div class="mb-3">
-                                                                    <label for="bukti" class="form-label fw-bold">Unggah Bukti (Gambar)</label>
-                                                                    <input type="file" class="form-control" id="bukti" name="bukti[]" accept="image/*" multiple>
+                                                                    <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (Gambar)</label>
+                                                                    <input type="file" class="form-control" id="bukti{{ $item->id }}" name="bukti[]" accept="image/*" multiple>
                                                                     <small class="form-text text-muted">Kamu bisa mengunggah satu atau lebih gambar.</small>
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                        <div class="modal-footer float-end pt-3">
+                                                        <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                                             <button type="submit" form="editLaporanForm{{ $item->id }}" class="btn btn-info">Simpan Perubahan</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -361,10 +425,10 @@
                         <!-- Laporan Pertama -->
                         <h6 class="text-dark font-weight-semibold">Laporan 1</h6>
                         <div class="mb-3">
-                            <label for="kategori1" class="form-label">Aktivitas</label>
+                            <label for="kategori1" class="form-label">Kategori</label>
                             <select class="form-select" id="kategori1" name="kategori1" required
                                 onchange="toggleMateriDropdown('kategori1', 'materi1')">
-                                <option selected value="">Pilih Aktivitas</option>
+                                <option disabled selected ="">Pilih Kategori</option>
                                 <option value="DiKantor">Di Kantor</option>
                                 <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                             </select>
@@ -373,17 +437,8 @@
                             <label for="materi1Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi1Select" name="materi_id1">
                                 <option selected value="">Pilih Materi</option>
-                                @foreach($materitkj as $item)
+                                @foreach ($materitkj as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3" id="aktivitas1" style="display: none;">
-                            <label for="aktivitas1Select" class="form-label">AKtivitas</label>
-                            <select class="form-select" id="aktivitas1Select" name="aktivitas_id1">
-                                <option selected value="">Pilih Aktivitas</option>
-                                @foreach($aktivitas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_aktivitas }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -392,10 +447,10 @@
                         <!-- Aktivitas Kedua -->
                         <h6 class="text-dark font-weight-semibold">Laporan 2</h6>
                         <div class="mb-3">
-                            <label for="kategori2" class="form-label">Aktivitas</label>
+                            <label for="kategori2" class="form-label">Kategori</label>
                             <select class="form-select" id="kategori2" name="kategori2"
                                 onchange="toggleMateriDropdown('kategori2', 'materi2')">
-                                <option selected value="">Pilih Aktivitas</option>
+                                <option selected value="">Pilih Kategori</option>
                                 <option value="DiKantor">Di Kantor</option>
                                 <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
                             </select>
@@ -404,51 +459,42 @@
                             <label for="materi2Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi2Select" name="materi_id2">
                                 <option selected value="">Pilih Materi</option>
-                                @foreach($materitkj as $item)
+                                @foreach ($materitkj as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3" id="aktivitas2" style="display: none;">
+                        {{-- <div class="mb-3" id="aktivitas2" style="display: none;">
                             <label for="aktivitas2Select" class="form-label">AKtivitas</label>
                             <select class="form-select" id="aktivitas2Select" name="aktivitas_id2">
                                 <option selected value="">Pilih Aktivitas</option>
-                                @foreach($aktivitas as $item)
+                                @foreach ($aktivitas as $item)
                                     <option value="{{ $item->id }}">{{ $item->nama_aktivitas }}</option>
                                 @endforeach
                             </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
-                    </div>
+                        </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
                 </div>
             </div>
+        </div>
         </form>
     </div>
 
     <script>
-      function toggleMateriDropdown(kategoriId, materiIdPrefix) {
-    const kategoriSelect = document.getElementById(kategoriId);
-    const materiDiv = document.getElementById(materiIdPrefix);
-    const aktivitasDiv = document.getElementById(materiIdPrefix.replace('materi', 'aktivitas'));
+        function toggleMateriDropdown(kategoriId, materiId) {
+            const kategoriSelect = document.getElementById(kategoriId);
+            const materiDiv = document.getElementById(materiId);
 
-    if (kategoriSelect.value === "DiKantor") {
-        // Menampilkan dropdown materi
-        materiDiv.style.display = "block";
-        aktivitasDiv.style.display = "none";
-    } else if (kategoriSelect.value === "Keluar Dengan Teknisi") {
-        // Menampilkan dropdown aktivitas
-        aktivitasDiv.style.display = "block";
-        materiDiv.style.display = "none";
-    } else {
-        // Menyembunyikan keduanya jika tidak ada pilihan
-        materiDiv.style.display = "none";
-        aktivitasDiv.style.display = "none";
-    }
-}
-
+            // Tampilkan dropdown Materi jika kategori yang dipilih adalah "Di Kantor"
+            if (kategoriSelect.value === "DiKantor") {
+                materiDiv.style.display = "block";
+            } else {
+                materiDiv.style.display = "none";
+            }
+        }
     </script>
 
 
