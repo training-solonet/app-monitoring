@@ -51,6 +51,16 @@
                                         <input type="date" id="tanggal_selesai" name="tanggal_selesai" class="form-control" value="{{ request('tanggal_selesai') }}" onchange="document.getElementById('filterForm').submit();">
                                     </div>
                                     <a href="{{ route('monitoring.index') }}" class="btn btn-secondary">Reset Filter</a>
+                            <hr>
+                            {{-- <form method="GET" action="{{ route('monitoring.index') }}"> --}}
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-3">
+                                    <label for="status" class="form-label">Nama Siswa</label>
+                                    <select id="status" name="status" class="form-select">
+                                        <option value="">-- Pilih Nama Siswa --</option>
+                                        <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>To
+                                            Do</option>
+                                    </select>
                                 </div>
                             </form>
                         </div>
@@ -84,22 +94,52 @@
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
                                                 <!-- <td class="align-middle text-center">{{ $item->total_waktu }}</td> -->
+
                                                 <td class="align-middle text-center">{{ $item->status }}</td>
                                                 <td class="align-middle text-center">
-                                                    <a href="{{ route('monitoring.edit', $item->id) }}"
-                                                        class="btn btn-warning btn-sm">Edit</a>
-                                                    <form action="{{ route('monitoring.destroy', $item->id) }}"
-                                                        method="POST" class="d-inline">
+                                                    <!-- Delete button -->
+                                               
+                                                    <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('monitoring.destroy', $item->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">Edit Monitoring Siswa</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{ route('monitoring.update', $item->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="modal-body">
+                                                                <div class="mb-3">
+                                                                    <label for="waktu_mulai" class="form-label">Waktu Mulai</label>
+                                                                    <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai" value="{{ $item->waktu_mulai }}">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="waktu_selesai" class="form-label">Waktu Selesai</label>
+                                                                    <input type="time" class="form-control" id="waktu_selesai" name="waktu_selesai" value="{{ $item->waktu_selesai }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
