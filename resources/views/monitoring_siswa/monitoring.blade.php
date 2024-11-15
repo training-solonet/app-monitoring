@@ -9,8 +9,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6 class="font-weight-bold text-lg mb-0">Data Monitoring Siswa</h6>
                                 <form method="GET" action="{{ route('monitoring.index') }}" class="d-flex">
-                                    <input type="text" name="search" class="form-control" placeholder="Cari"
-                                        value="{{ request('search') }}">
+                                    <input type="text" name="search" class="form-control" placeholder="Cari" value="{{ request('search') }}">
                                 </form>
                             </div>
                             <hr>
@@ -18,12 +17,10 @@
                                 <div class="row g-2 align-items-end">
                                     <div class="col-sm-3">
                                         <label for="nama_siswa" class="form-label">Nama Siswa</label>
-                                        <select id="nama_siswa" name="nama_siswa" class="form-select"
-                                            onchange="document.getElementById('filterForm').submit();">
-                                            <option value="">Pilih Siswa</option>
+                                        <select id="nama_siswa" name="nama_siswa" class="form-select" onchange="document.getElementById('filterForm').submit();">
+                                            <option disabled selected>Pilih Siswa</option>
                                             @foreach ($siswa_monitoring as $siswa)
-                                                <option value="{{ $siswa->username }}"
-                                                    {{ request('nama_siswa') == $siswa->username ? 'selected' : '' }}>
+                                                <option value="{{ $siswa->username }}" {{ request('nama_siswa') == $siswa->username ? 'selected' : '' }}>
                                                     {{ $siswa->username }}
                                                 </option>
                                             @endforeach
@@ -31,9 +28,8 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <label for="status" class="form-label">Status</label>
-                                        <select id="status" name="status" class="form-select"
-                                            onchange="document.getElementById('filterForm').submit();">
-                                            <option value="">Pilih Status</option>
+                                        <select id="status" name="status" class="form-select" onchange="document.getElementById('filterForm').submit();">
+                                            <option disabled selected>Pilih Status</option>
                                             <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>To Do</option>
                                             <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>Doing</option>
                                             <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Done</option>
@@ -41,30 +37,28 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <label for="jurusan" class="form-label">Jurusan</label>
-                                        <select id="jurusan" name="jurusan" class="form-select"
-                                            onchange="document.getElementById('filterForm').submit();">
-                                            <option value="">Pilih Jurusan</option>
+                                        <select id="jurusan" name="jurusan" class="form-select" onchange="document.getElementById('filterForm').submit();">
+                                            <option disabled selected>Pilih Jurusan</option>
                                             <option value="TKJ" {{ request('jurusan') == 'TKJ' ? 'selected' : '' }}>TKJ</option>
                                             <option value="RPL" {{ request('jurusan') == 'RPL' ? 'selected' : '' }}>RPL</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
                                         <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
-                                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control"
-                                            value="{{ request('tanggal_mulai') }}" onchange="document.getElementById('filterForm').submit();">
+                                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control" value="{{ request('tanggal_mulai') }}" onchange="document.getElementById('filterForm').submit();">
                                     </div>
                                     <div class="col-sm-2">
                                         <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
-                                        <input type="date" id="tanggal_selesai" name="tanggal_selesai" class="form-control"
-                                            value="{{ request('tanggal_selesai') }}" onchange="document.getElementById('filterForm').submit();">
+                                        <input type="date" id="tanggal_selesai" name="tanggal_selesai" class="form-control" value="{{ request('tanggal_selesai') }}" onchange="document.getElementById('filterForm').submit();">
                                     </div>
+                                    <!-- Adjust the column and flex alignment for the Reset button -->
                                     <div class="col-sm-1 d-flex align-items-center">
                                         <a href="{{ route('monitoring.index') }}" class="btn btn-secondary btn-sm w-100">Reset</a>
                                     </div>
                                 </div>
                             </form>
-                                                       
                         </div>
+                        
 
                         <div class="card-body px-4 py-3">
                             <div class="table-responsive">
@@ -98,7 +92,6 @@
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
                                                 <!-- <td class="align-middle text-center">{{ $item->total_waktu }}</td> -->
-
                                                 <td class="align-middle text-center">{{ $item->status }}</td>
                                                 <td class="align-middle text-center">
                                                     <!-- Delete button -->
@@ -160,6 +153,13 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="border-top py-3 px-3 d-flex align-items-center">
+                            <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
+                            <div class="ms-auto">
+                                <button class="btn btn-sm btn-white mb-0">Previous</button>
+                                <button class="btn btn-sm btn-white mb-0">Next</button>
                             </div>
                         </div>
                     </div>

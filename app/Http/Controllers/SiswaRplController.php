@@ -6,25 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use App\Models\Materi;
+use App\Models\Aktivitas;
+use Illuminate\Support\Facades\Auth;
+
 
 class SiswaRplController extends Controller
 {
     public function index(Request $request)
 {
-    // Get the 'status' query parameter, default to 'all' if not set
     $statusFilter = $request->get('status', 'all');
+    $userId = Auth::id();
 
-    // Query based on the selected filter
-    if ($statusFilter === 'all') {
-        // If 'All' is selected, fetch all entries
-        $siswarpl = Siswa::all();
-    } else {
-        // Filter by status
-        $siswarpl = Siswa::where('status', $statusFilter)->get();
+    $siswaRplQuery = Siswa::where('user_id', $userId);
+
+    if ($statusFilter !== 'all') {
+        $siswaRplQuery->where('status', $statusFilter);
     }
 
-    // Map over the data to calculate the total time if applicable
-    $siswarpl = $siswarpl->map(function ($item) {
+    $siswarpl = $siswaRplQuery->get()->map(function ($item) {
         if ($item->waktu_mulai && $item->waktu_selesai) {
             $waktuMulai = Carbon::parse($item->waktu_mulai);
             $waktuSelesai = Carbon::parse($item->waktu_selesai);
@@ -35,29 +34,45 @@ class SiswaRplController extends Controller
         return $item;
     });
 
-    $materi = Materi::all();
-    // Return the view with the filtered data
-    return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materi'));
+    $aktivitasrpl = Aktivitas::all();
+    $materirpl = Materi::all();
+    return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilter'));
 }
 
 public function updateTime(Request $request, $id)
 {
-    $item = Siswa::findOrFail($id);
+    $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
-    $request->validate([
-        'waktu_selesai' => 'required|date_format:H:i', 
-    ]);
+        $request->validate([
+            'waktu_selesai' => 'required|date_format:H:i',
+            'report' => 'required|string',
+            'bukti' => 'nullable|array',
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
 
-    $currentDate = \Carbon\Carbon::parse($item->waktu_mulai)->format('Y-m-d'); 
+        $filePath = null;
+        if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
+            $file = $request->file('bukti')[0];
+            $originalFileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('bukti', $originalFileName, 'public');
+        } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
+            $filePaths = [];
+            foreach ($request->file('bukti') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
+            }
+            $filePath = implode(',', $filePaths);
+        }
 
-    $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai; 
+        $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
+        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
 
-    $item->update([
-        'waktu_selesai' => $newWaktuSelesai, 
-        'status' => 'done', 
-    ]);
-
-
+        $item->update([
+            'waktu_selesai' => $newWaktuSelesai,
+            'status' => 'done',
+            'report' => $request->report,
+            'bukti' => $filePath,
+        ]);
 
     return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
 }
@@ -65,30 +80,27 @@ public function storeMultiple(Request $request)
 {
     $request->validate([
         'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report1' => 'nullable',
-        'materi_id1' => 'nullable|exists:materi,id', 
+        'materi_id1' => 'nullable|exists:materi,id',
         'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'report2' => 'nullable',
-        'materi_id2' => 'nullable|exists:materi,id' 
+        'materi_id2' => 'nullable|exists:materi,id',
     ]);
 
     Siswa::create([
-        'user_id' =>$request->user()->id,
         'kategori' => $request->kategori1,
-        'report' => $request->report1,
-        'materi_id' => $request->materi_id1, 
-        'status' => 'to do', 
+        'materi_id' => $request->materi_id1,
+        'aktivitas_id' => $request->aktivitas_id1,
+        'status' => 'to do',
+        'user_id' => Auth::id(),
     ]);
 
-    if ($request->filled('kategori2') && $request->filled('report2') && $request->filled('materi_id2')) {
+    if ($request->filled('kategori2') && $request->filled('materi_id2')) {
         Siswa::create([
             'kategori' => $request->kategori2,
-            'report' => $request->report2,
-            'materi_id' => $request->materi_id2, 
-            'status' => 'to do', 
+            'materi_id' => $request->materi_id2,
+            'status' => 'to do',
+            'user_id' => Auth::id(),
         ]);
     }
-    
 
     return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
 }
@@ -130,5 +142,40 @@ public function storeMultiple(Request $request)
         $siswarpl->save();
 
         return redirect()->back()->with('success', 'Status berhasil diperbarui.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        $request->validate([
+            'report' => 'required|string',
+            'bukti' => 'nullable|array',
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'aktivitas_id1' => 'nullable|exists:aktivitas,id',
+
+        ]);
+
+        $filePath = null;
+        if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
+            $file = $request->file('bukti')[0];
+            $originalFileName = $file->getClientOriginalName();
+            $filePath = $file->storeAs('bukti', $originalFileName, 'public');
+        } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
+            $filePaths = [];
+            foreach ($request->file('bukti') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
+            }
+            $filePath = implode(',', $filePaths);
+        }
+
+        $siswa->update([
+            'report' => $request->report,
+            'bukti' => $filePath,
+            'aktivitas_id' => $request->aktivitas_id1,
+        ]);
+
+        return redirect()->route('siswarpl.index')->with('success', 'Data siswa berhasil diperbarui.');
     }
 }
