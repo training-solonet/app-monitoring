@@ -22,7 +22,7 @@ class SiswaController extends Controller
             $siswaQuery->where('status', $statusFilter);
         }
 
-        $siswa = $siswaQuery->get()->map(function ($item) {
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
             if ($item->waktu_mulai && $item->waktu_selesai) {
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
                 $waktuSelesai = Carbon::parse($item->waktu_selesai);
@@ -30,6 +30,7 @@ class SiswaController extends Controller
             } else {
                 $item->total_waktu = '-';
             }
+            \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
             return $item;
         });
 
@@ -69,6 +70,7 @@ class SiswaController extends Controller
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'done',
+            'aktivitas_id' => $request->aktivitas_id,
             'report' => $request->report,
             'bukti' => $filePath,
         ]);
@@ -88,7 +90,6 @@ class SiswaController extends Controller
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
-            'aktivitas_id' => $request->aktivitas_id1,
             'status' => 'to do',
             'user_id' => Auth::id(),
         ]);
@@ -105,6 +106,22 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kategori' => 'required|string',
+        ]);
+
+        Siswa::create([
+            'kategori' => 'Keluar Dengan Teknisi',
+            'status' => 'to do',
+            'user_id' => Auth::id(),
+            'report' => $request->report,
+        ]);
+
+        return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
+    }
+    
     public function start($id)
     {
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
@@ -174,7 +191,7 @@ class SiswaController extends Controller
             'aktivitas_id' => $request->aktivitas_id1,
         ]);
 
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
+        return redirect()->route('siswa.index')->with('success', 'Laporan berhasil diperbarui.');
     }
 
 }
