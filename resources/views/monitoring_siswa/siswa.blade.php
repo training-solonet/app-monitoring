@@ -16,8 +16,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Laporan Harian</h6>
-                                    <p class="text-sm">Tambahkan kegiatan laporan harian</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Laporan Harian siswa</h6>
+                                    <p class="text-sm">Tambahkan kegiatan laporan harian anda</p>
                                 </div>
                                 <div class="ms-auto d-flex">
                                     <button type="button"
@@ -85,7 +85,7 @@
                                                 Aktivitas diluar</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Laporan</th>
+                                                Catatan Siswa</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Waktu Mulai</th>
@@ -132,8 +132,8 @@
                                                 </td>
                                                 <td class="align-middle text-center text-sm font-weight-normal">
                                                     <p
-                                                        class="text-sm text-secondary mb-0img {{ $item->report ? '' : 'fst-italic' }}">
-                                                        {{ $item->report ?? 'Belum ada laporan' }}
+                                                        class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
+                                                        {{ $item->report ?? 'Belum ada catatan' }}
                                                     </p>
                                                 </td>
                                                 <td class="align-middle text-center">
@@ -329,7 +329,7 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Selesaikan Aktivitas  </h5>
+                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Selesaikan Aktivitas</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
@@ -337,15 +337,17 @@
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <!-- Aktivitas Dropdown -->
-                                                                <div class="mb-3">
-                                                                    <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
-                                                                    <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
-                                                                        <option disabled selected>Pilih Aktivitas</option> 
-                                                                        @foreach ($aktivitas as $aktivitasItem)
-                                                                            <option value="{{ $aktivitasItem->id }}">{{ $aktivitasItem->nama_aktivitas }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>                                                                
+                                                                @if ($item->kategori === 'Keluar Dengan Teknisi')
+                                                                    <div class="mb-3">
+                                                                        <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
+                                                                        <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
+                                                                            <option disabled selected>Pilih Aktivitas</option>
+                                                                            @foreach ($aktivitas as $aktivitasItem)
+                                                                                <option value="{{ $aktivitasItem->id }}">{{ $aktivitasItem->nama_aktivitas }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                @endif
                                             
                                                                 <!-- Report Textarea -->
                                                                 <div class="mb-3">
