@@ -19,6 +19,7 @@ use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
 use App\Http\Controllers\MateriRplController;
+use App\Http\Controllers\DashboardSiswaController;
 
 
 
@@ -126,3 +127,4 @@ Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->na
 
 Route::resource('aktivitas', AktivitasController::class);
 Route::resource('materirpl', MateriRplController::class);
+Route::resource('Dashboardsiswa', DashboardSiswaController::class); 
