@@ -9,39 +9,63 @@ use App\Models\Materi;
 use App\Models\Aktivitas;
 use Illuminate\Support\Facades\Auth;
 
-
 class SiswaRplController extends Controller
 {
     public function index(Request $request)
-{
-    $statusFilter = $request->get('status', 'all');
-    $userId = Auth::id();
+    {
+        // Get the filters from the request
+        $statusFilter = $request->input('status');
+        $tanggalMulai = $request->input('waktu_mulai');
+        $tanggalSelesai = $request->input('waktu_selesai');
+        $kategoriFilter = $request->input('kategori');
+        $search = $request->input('search');
 
-    $siswaRplQuery = Siswa::where('user_id', $userId);
+        $userId = Auth::id();
+        $siswaRplQuery = Siswa::where('user_id', $userId);
 
-    if ($statusFilter !== 'all') {
-        $siswaRplQuery->where('status', $statusFilter);
+        // Filter berdasarkan status
+        if ($statusFilter) {
+            $siswaRplQuery->where('status', $statusFilter);
+        }
+
+        // Filter berdasarkan tanggal mulai
+        if ($tanggalMulai) {
+            $siswaRplQuery->whereDate('waktu_mulai', '>=', $tanggalMulai);
+        }
+    
+        if ($tanggalSelesai) {
+            $siswaRplQuery  ->whereDate('waktu_selesai', '<=', $tanggalSelesai);
+        }
+
+        // Filter berdasarkan kategori
+        if ($kategoriFilter) {
+            $siswaRplQuery->where('kategori', $kategoriFilter);
+        }
+
+        // Get the filtered results
+        $siswarpl = $siswaRplQuery->get()->map(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+            } else {
+                $item->total_waktu = '-';
+            }
+            return $item;
+        });
+
+        // Fetch other necessary data
+        $aktivitasrpl = Aktivitas::all();
+        $materirpl = Materi::all();
+
+        // Return the view with the filtered data
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilter', 'tanggalMulai', 'tanggalSelesai', 'kategoriFilter'));
     }
 
-    $siswarpl = $siswaRplQuery->get()->map(function ($item) {
-        if ($item->waktu_mulai && $item->waktu_selesai) {
-            $waktuMulai = Carbon::parse($item->waktu_mulai);
-            $waktuSelesai = Carbon::parse($item->waktu_selesai);
-            $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
-        } else {
-            $item->total_waktu = '-';
-        }
-        return $item;
-    });
 
-    $aktivitasrpl = Aktivitas::all();
-    $materirpl = Materi::all();
-    return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilter'));
-}
-
-public function updateTime(Request $request, $id)
-{
-    $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+    public function updateTime(Request $request, $id)
+    {
+        $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
             'waktu_selesai' => 'required|date_format:H:i',
@@ -74,56 +98,55 @@ public function updateTime(Request $request, $id)
             'bukti' => $filePath,
         ]);
 
-    return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
-}
-public function storeMultiple(Request $request)
-{
-    $request->validate([
-        'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'materi_id1' => 'nullable|exists:materi,id',
-        'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
-        'materi_id2' => 'nullable|exists:materi,id',
-    ]);
+        return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
+    }
 
-    Siswa::create([
-        'kategori' => $request->kategori1,
-        'materi_id' => $request->materi_id1,
-        'aktivitas_id' => $request->aktivitas_id1,
-        'status' => 'to do',
-        'user_id' => Auth::id(),
-    ]);
+    public function storeMultiple(Request $request)
+    {
+        $request->validate([
+            'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'materi_id1' => 'nullable|exists:materi,id',
+            'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'materi_id2' => 'nullable|exists:materi,id',
+        ]);
 
-    if ($request->filled('kategori2') && $request->filled('materi_id2')) {
         Siswa::create([
-            'kategori' => $request->kategori2,
-            'materi_id' => $request->materi_id2,
+            'kategori' => $request->kategori1,
+            'materi_id' => $request->materi_id1,
+            'aktivitas_id' => $request->aktivitas_id1,
             'status' => 'to do',
             'user_id' => Auth::id(),
         ]);
+
+        if ($request->filled('kategori2') && $request->filled('materi_id2')) {
+            Siswa::create([
+                'kategori' => $request->kategori2,
+                'materi_id' => $request->materi_id2,
+                'status' => 'to do',
+                'user_id' => Auth::id(),
+            ]);
+        }
+
+        return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
-
-    return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
-}
-
-
 
     public function start($id)
     {
         $siswarpl = Siswa::findOrFail($id);
         $siswarpl->waktu_mulai = Carbon::now();
-        $siswarpl->status = 'doing'; 
+        $siswarpl->status = 'doing';
         $siswarpl->save();
-    
+
         return redirect()->back()->with('success', 'Waktu mulai berhasil diupdate.');
     }
-    
+
     public function stop($id)
     {
         $siswarpl = Siswa::findOrFail($id);
-        $siswarpl->waktu_selesai = Carbon::now(); 
+        $siswarpl->waktu_selesai = Carbon::now();
         $siswarpl->status = 'done';
         $siswarpl->save();
-    
+
         return redirect()->back()->with('success', 'Waktu berhenti berhasil diupdate.');
     }
 
@@ -153,7 +176,6 @@ public function storeMultiple(Request $request)
             'bukti' => 'nullable|array',
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'aktivitas_id1' => 'nullable|exists:aktivitas,id',
-
         ]);
 
         $filePath = null;
