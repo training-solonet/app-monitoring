@@ -76,10 +76,13 @@
                                                 No</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Aktivitas</th>
+                                                Kategori</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Materi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Aktivitas diluar</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Laporan</th>
@@ -121,9 +124,15 @@
                                                         {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                     </p>
                                                 </td>
+                                                <td class="align-middle text-center">
+                                                    <p
+                                                        class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
+                                                        {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada aktivitas' }}
+                                                    </p>
+                                                </td>
                                                 <td class="align-middle text-center text-sm font-weight-normal">
                                                     <p
-                                                        class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
+                                                        class="text-sm text-secondary mb-0img {{ $item->report ? '' : 'fst-italic' }}">
                                                         {{ $item->report ?? 'Belum ada laporan' }}
                                                     </p>
                                                 </td>
@@ -154,44 +163,19 @@
                                                     @endif
                                                 </td>
 
-                                                <td class="align-middle text-center"
-                                                    id="total-waktu-{{ $item->id }}">
-                                                    @if ($item->status === 'doing')
-                                                        <script>
-                                                            startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                                                        </script>
+                                                <td class="align-middle text-center" id="total-waktu-{{ $item->id }}">
+                                                    @if ($item->status === 'doing' && $item->waktu_mulai)
+                                                        {{ $item->total_waktu ?? '00:00:00' }}
                                                     @else
                                                         {{ $item->total_waktu ?? '00:00:00' }}
                                                     @endif
                                                 </td>
-                                                <script>
-                                                    function startTimer(waktuMulai, elementId) {
-                                                        const startTime = new Date(waktuMulai).getTime();
-
-                                                        console.log("Waktu mulai:", waktuMulai, "Element ID:", elementId);
-
-                                                        function updateTime() {
-                                                            const now = new Date().getTime();
-                                                            const elapsed = now - startTime;
-
-                                                            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                                            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                                                            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                                                            document.getElementById(elementId).textContent =
-                                                                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                                                        }
-
-                                                        updateTime();
-                                                        setInterval(updateTime, 1000);
-                                                    }
-                                                </script>
                                                 <td class="align-middle text-center">
-                                                    <button type="button" class="btn btn-sm btn-info mb-0"
+                                                    <a class="mb-0"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                        Lihat Bukti
-                                                    </button>
+                                                        <i class="fa-regular fa-image text-info"></i>
+                                                    </a>
                                                 </td>
                                                 <!-- Modal Lihat Bukti -->
                                                 <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
@@ -232,8 +216,7 @@
                                                                         @endforeach
                                                                     </div>
                                                                 @else
-                                                                    <p class="text-center">Tidak ada bukti yang
-                                                                        diunggah.</p>
+                                                                    <p class="text-center">Bukti belum diunggah</p>
                                                                 @endif
                                                             </div>
                                                             <div class="modal-footer">
@@ -249,26 +232,28 @@
                                                         @csrf
                                                         @if ($item->status === 'to do')
                                                             <button type="submit"
-                                                                class="btn btn-sm btn-success mb-0">Mulai</button>
-                                                        @elseif($item->status === 'doing')
-                                                            <button type="button" class="btn btn-sm btn-danger mb-0"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#EditLaporanModal{{ $item->id }}"
-                                                                data-id="{{ $item->id }}"
-                                                                data-report="{{ $item->report }}"
-                                                                data-waktu_selesai="{{ $item->waktu_selesai }}">
-                                                                Selesai
+                                                                class="btn btn-sm btn-success mb-0">
+                                                                <i class="fa-solid fa-play" style="font-size: 12px"></i>
                                                             </button>
+                                                        @elseif($item->status === 'doing')
+                                                        <button type="button" class="btn btn-sm btn-danger mb-0"
+                                                            data-bs-toggle="modal"
+                                                            data-id="{{ $item->id }}"
+                                                            data-report="{{ $item->report }}"
+                                                            data-waktu_selesai="{{ $item->waktu_selesai }}">
+                                                            <i class="fa-solid fa-square" style="font-size: 12px"></i>
+                                                        </button>
                                                         @else
                                                             <button type="button" class="btn btn-sm btn-warning mb-0"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editSiswaModal{{ $item->id }}">
-                                                                <i class="fas fa-edit"></i>
+                                                                <i class="fas fa-edit" style="font-size: 12px"></i>
                                                             </button>
                                                         @endif
                                                     </form>
                                                 </td>
                                             </tr>
+
                                             <!-- Modal Edit Siswa -->
                                             <div class="modal fade" id="editSiswaModal{{ $item->id }}"
                                                 tabindex="-1"
@@ -337,20 +322,20 @@
 
 
                                             <tr></tr>
+                                            
                                             <!-- Modal Selesai -->
                                             <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1"
                                                 aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Edit Laporan</h5>
+                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Selesaikan Aktivitas  </h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
-                                            
                                                                 <!-- Aktivitas Dropdown -->
                                                                 <div class="mb-3">
                                                                     <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
@@ -377,9 +362,9 @@
                                             
                                                                 <!-- Bukti Upload Input -->
                                                                 <div class="mb-3">
-                                                                    <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (Gambar)</label>
+                                                                    <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (jpg,png,svg,jpeg,gif)</label>
                                                                     <input type="file" class="form-control" id="bukti{{ $item->id }}" name="bukti[]" accept="image/*" multiple>
-                                                                    <small class="form-text text-muted">Kamu bisa mengunggah satu atau lebih gambar.</small>
+                                                                    <small class="form-text text-muted">Anda dapat mengunggah satu atau lebih gambar.</small>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -464,15 +449,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="mb-3" id="aktivitas2" style="display: none;">
-                            <label for="aktivitas2Select" class="form-label">AKtivitas</label>
-                            <select class="form-select" id="aktivitas2Select" name="aktivitas_id2">
-                                <option selected value="">Pilih Aktivitas</option>
-                                @foreach ($aktivitas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_aktivitas }}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -483,12 +459,39 @@
         </form>
     </div>
 
+    <!-- Modal Tambah Laporan Teknisi -->
+    <div class="modal fade" id="tambahLaporanTeknisi" tabindex="-1" aria-labelledby="tambahLaporanTeknisiLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahLaporanTeknisiLabel">Tambah Laporan Keluar Dengan Teknisi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="tambahLaporanTeknisitkj" action="{{ route('siswa.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="kategoriSelect" class="form-label">Kategori</label>
+                            <select class="form-select" id="kategori" name="kategori" required>
+                                <option selected value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" form="tambahLaporanTeknisitkj" class="btn btn-info">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         function toggleMateriDropdown(kategoriId, materiId) {
             const kategoriSelect = document.getElementById(kategoriId);
             const materiDiv = document.getElementById(materiId);
 
-            // Tampilkan dropdown Materi jika kategori yang dipilih adalah "Di Kantor"
             if (kategoriSelect.value === "DiKantor") {
                 materiDiv.style.display = "block";
             } else {
@@ -497,7 +500,67 @@
         }
     </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @foreach ($siswa as $item)
+            @if ($item->status === 'doing' && $item->waktu_mulai)
+                startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+            @endif
+        @endforeach
+         document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const id = this.getAttribute('data-id');
+                const report = this.getAttribute('data-report');
+                const waktu_selesai = this.getAttribute('data-waktu_selesai');
 
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Aktivitas ini akan diselesaikan atau tambahkan laporan teknisi.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya, Selesaikan!',
+                    denyButtonText: 'Keluar Dengan Teknisi',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                        modal.show();
+
+                        const modalElement = document.getElementById('EditLaporanModal' + id);
+                        modalElement.querySelector('input[name="id"]').value = id;
+                        modalElement.querySelector('textarea[name="report"]').value = report;
+                        modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                    } else if (result.isDenied) {
+                        const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
+                        teknisiModal.show();
+                    }
+                });
+            });
+        });
+    });
+
+    function startTimer(waktuMulai, elementId) {
+        const startTime = new Date(waktuMulai).getTime();
+
+        console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+
+        function updateTime() {
+            const now = new Date().getTime();
+            const elapsed = now - startTime;
+
+            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+            document.getElementById(elementId).textContent =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+</script>
 
 
 </x-app-layout>

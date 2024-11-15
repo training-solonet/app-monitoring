@@ -19,36 +19,30 @@ class MonitoringController extends Controller
 
     $monitoring = Siswa::query();
 
-    // Filter Nama Siswa
     if ($nama_siswa) {
         $monitoring->whereHas('siswa_monitoring', function ($query) use ($nama_siswa) {
             $query->where('username', $nama_siswa);
         });
     }
 
-    // Filter Status
     if ($status) {
         $monitoring->where('status', $status);
     }
 
-    // Filter Jurusan
     if ($jurusan) {
         $monitoring->whereHas('siswa_monitoring', function ($query) use ($jurusan) {
             $query->where('jurusan', $jurusan);
         });
     }
 
-    // Filter Tanggal Mulai
     if ($tanggal_mulai) {
         $monitoring->whereDate('waktu_mulai', '>=', $tanggal_mulai);
     }
 
-    // Filter Tanggal Selesai
     if ($tanggal_selesai) {
         $monitoring->whereDate('waktu_selesai', '<=', $tanggal_selesai);
     }
 
-    // Filter Pencarian Umum (Keyword)
     if ($search) {
         $monitoring->where(function ($query) use ($search) {
             $query->where('kategori', 'like', '%' . $search . '%')
@@ -66,7 +60,7 @@ class MonitoringController extends Controller
         });
     }
 
-    // Ambil data
+
     $siswa_monitoring = User::all();
     $materi_monitoring = Materi::all();
     $monitoring = $monitoring->get();
