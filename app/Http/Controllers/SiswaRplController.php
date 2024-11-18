@@ -13,7 +13,6 @@ class SiswaRplController extends Controller
 {
     public function index(Request $request)
     {
-        // Get the filters from the request
         $statusFilter = $request->input('status');
         $tanggalMulai = $request->input('waktu_mulai');
         $tanggalSelesai = $request->input('waktu_selesai');
@@ -23,12 +22,10 @@ class SiswaRplController extends Controller
         $userId = Auth::id();
         $siswaRplQuery = Siswa::where('user_id', $userId);
 
-        // Filter berdasarkan status
         if ($statusFilter) {
             $siswaRplQuery->where('status', $statusFilter);
         }
 
-        // Filter berdasarkan tanggal mulai
         if ($tanggalMulai) {
             $siswaRplQuery->whereDate('waktu_mulai', '>=', $tanggalMulai);
         }
@@ -37,12 +34,10 @@ class SiswaRplController extends Controller
             $siswaRplQuery  ->whereDate('waktu_selesai', '<=', $tanggalSelesai);
         }
 
-        // Filter berdasarkan kategori
         if ($kategoriFilter) {
             $siswaRplQuery->where('kategori', $kategoriFilter);
         }
 
-        // Get the filtered results
         $siswarpl = $siswaRplQuery->get()->map(function ($item) {
             if ($item->waktu_mulai && $item->waktu_selesai) {
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
@@ -54,11 +49,9 @@ class SiswaRplController extends Controller
             return $item;
         });
 
-        // Fetch other necessary data
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::all();
 
-        // Return the view with the filtered data
         return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilter', 'tanggalMulai', 'tanggalSelesai', 'kategoriFilter'));
     }
 
