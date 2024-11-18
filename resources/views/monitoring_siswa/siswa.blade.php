@@ -36,9 +36,11 @@
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
-                            <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
-                                <form method="GET" action="{{ route('siswa.index') }}" id="filterForm">
-                                    <div class="form-group">
+                        <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                                <form method="GET" action="{{ route('siswa.index') }}" id="filterForm"
+                                    class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
+                                    <!-- Status Filter -->
+                                    <div class="col-sm-2">
                                         <label for="statusFilter">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
@@ -54,18 +56,42 @@
                                                 Done</option>
                                         </select>
                                     </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
+                                        <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
+                                            value="{{ request('waktu_mulai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
+                                        <input type="date" id="waktu_selesai" name="waktu_selesai"
+                                            class="form-control" value="{{ request('waktu_selesai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
+
+                                    <!-- Kategori Filter -->
+                                    <div class="col-sm-2" style="width:100px">
+                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
+                                        <select class="form-select" style="width:150px" name="kategori"
+                                            id="kategoriFilter" onchange="this.form.submit()">
+                                            <option value="" disabled selected>Pilih Kategori</option>
+                                            <option value="Dikantor" {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>
+                                            Dikantor</option>
+                                            <option value="Keluar Dengan Teknisi" {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
+                                            Keluar Dengan Teknisi</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- Reset Button -->
+                                    <div class="col-sm-2 d-flex justify-content-center" style="margin-top:30px">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>
+                                    </div>
+
                                 </form>
-                                <div class="input-group w-sm-25 ms-auto">
-                                    <span class="input-group-text text-body">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Search">
-                                </div>
+
                             </div>
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
