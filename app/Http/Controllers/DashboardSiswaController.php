@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use App\Models\siswa;
+use App\Models\Siswa;
 use App\Models\Aktivitas;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +21,9 @@ class DashboardSiswaController extends Controller
                 if ($item->waktu_mulai && $item->waktu_selesai) {
                     $waktuMulai = Carbon::parse($item->waktu_mulai);
                     $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                    $carry += $waktuSelesai->diffInMinutes($waktuMulai);
+                    if ($waktuSelesai->greaterThan($waktuMulai)) {
+                        $carry += $waktuSelesai->diffInSeconds($waktuMulai);
+                    }
                 }
                 return $carry;
             }, 0);
@@ -36,7 +38,9 @@ class DashboardSiswaController extends Controller
                     if ($item->waktu_mulai && $item->waktu_selesai) {
                         $waktuMulai = Carbon::parse($item->waktu_mulai);
                         $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                        $totalTime += $waktuSelesai->diffInMinutes($waktuMulai);
+                        if ($waktuSelesai->greaterThan($waktuMulai)) { 
+                            $totalTime += $waktuSelesai->diffInSeconds($waktuMulai);
+                        }
                     }
                 }
                 $percentage = $totalWaktuTeknisi ? ($totalTime / $totalWaktuTeknisi) * 100 : 0;
@@ -47,6 +51,4 @@ class DashboardSiswaController extends Controller
 
         return view('dashboard_siswa', compact('siswaData', 'aktivitasNames', 'totalWaktuTeknisi'));
     }
-
-
 }
