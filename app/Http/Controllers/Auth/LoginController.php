@@ -15,27 +15,33 @@ class LoginController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
-
-    $user = User::where('username', $request->username)->first();
-
-    if ($user) {
-        if ($user->status === 'Tidak Aktif') {
-            return back()->withErrors(['message' => 'Akun Anda Sudah Tidak Aktif.']);
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    
+        $user = User::where('username', $request->username)->first();
+    
+        if ($user) {
+            if ($user->status === 'Tidak Aktif') {
+                return back()->withErrors(['message' => 'Akun Anda Sudah Tidak Aktif.']);
+            }
+    
+            if ($user->password === $request->password) {
+                Auth::login($user);
+    
+                if ($user->role == 'siswa') {
+                    return redirect()->route('dashboardSiswa'); 
+                } elseif ($user->role == 'pembimbing') {
+                    return redirect()->route('dashboardPembimbing'); 
+                }
+            }
         }
-
-        if ($user->password === $request->password) {
-            Auth::login($user);
-            return redirect()->intended('/dashboard');
-        }
+    
+        return back()->withErrors(['message' => 'Username atau password salah.'])->withInput($request->only('username'));
     }
-
-    return back()->withErrors(['message' => 'Username atau password salah.'])->withInput($request->only('username'));
-}
+    
 
     public function destroy(Request $request)
     {

@@ -20,8 +20,8 @@ use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\DashboardSiswaController;
-
-
+use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\DashboardPembimbingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -113,7 +113,7 @@ Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:
 Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
 
 
-
+Route::resource('detail',DetailSiswaController::class)->middleware(['auth','role:siswa']);
 Route::resource('useradmin' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
 Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
 Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:pembimbing']);
@@ -128,3 +128,9 @@ Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->na
 Route::resource('aktivitas', AktivitasController::class);
 Route::resource('materirpl', MateriRplController::class);
 Route::resource('Dashboardsiswa', DashboardSiswaController::class); 
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/siswa', [DashboardSiswaController::class, 'index'])->name('dashboardSiswa');
+    Route::get('/dashboard/pembimbing', [DashboardPembimbingController::class, 'index'])->name('dashboardPembimbing');
+});
