@@ -51,12 +51,12 @@
                                         <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="tanggal_selesai" name="tanggal_selesai" class="form-control" value="{{ request('tanggal_selesai') }}" onchange="document.getElementById('filterForm').submit();">
                                     </div>
-                                    <!-- Adjust the column and flex alignment for the Reset button -->
-                                    <div class="col-sm-1 d-flex align-items-center">
-                                        <a href="{{ route('monitoring.index') }}" class="btn btn-secondary btn-sm w-100">Reset</a>
+                                    <div class="col-sm-1">
+                                        <a href="{{ route('monitoring.index') }}" class="btn btn-outline-secondary btn-sm mb-1 w-100">Reset</a>
                                     </div>
                                 </div>
                             </form>
+                            
                         </div>
                         
 

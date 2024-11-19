@@ -34,59 +34,64 @@
                             </div>
                         </div>
                         <div>
-                            <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
-                                class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
-                                <!-- Status Filter -->
-                                <div class="col-sm-2">
-                                    <label for="status" class="form-label">Status</label>
-                                    <select id="status" name="status" class="form-select"
-                                        onchange="document.getElementById('filterForm').submit();">
-                                        <option disabled selected>Pilih Status</option>
-                                        <option value="All" {{ request('status') == 'All' ? 'selected' : '' }}>All</option>
-                                        <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>To
-                                            Do</option>
-                                        <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>
-                                            Doing</option>
-                                        <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>Done
-                                        </option>
-                                    </select>
-                                </div>
+                            <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                                <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
+                                    class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
+                                    <!-- Status Filter -->
+                                    <div class="col-sm-2">
+                                        <label for="statusFilter">Status</label>
+                                        <select class="form-select" name="status" id="statusFilter"
+                                            onchange="this.form.submit()">
+                                            <option value="" disabled selected>Pilih Status</option>
+                                            <option value="all"
+                                                {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
+                                                All</option>
+                                            <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>
+                                                To Do</option>
+                                            <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>
+                                                Doing</option>
+                                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>
+                                                Done</option>
+                                        </select>
+                                    </div>
 
-                                <div class="col-sm-2">
-                                    <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
-                                    <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
-                                        value="{{ request('waktu_mulai') }}"
-                                        onchange="document.getElementById('filterForm').submit();">
-                                </div>
+                                    <div class="col-sm-2">
+                                        <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
+                                        <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
+                                            value="{{ request('waktu_mulai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
 
-                                <div class="col-sm-2">
-                                    <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
-                                    <input type="date" id="waktu_selesai" name="waktu_selesai" class="form-control"
-                                        value="{{ request('waktu_selesai') }}"
-                                        onchange="document.getElementById('filterForm').submit();">
-                                </div>
+                                    <div class="col-sm-2">
+                                        <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
+                                        <input type="date" id="waktu_selesai" name="waktu_selesai"
+                                            class="form-control" value="{{ request('waktu_selesai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
 
-                                <!-- Kategori Filter -->
-                                <div class="col-sm-2">
-                                    <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                    <select class="form-select" style="width:150px" name="kategori" id="kategoriFilter"
-                                        onchange="this.form.submit()">
-                                        <option value="" disabled selected>Pilih Kategori</option>
-                                        @foreach ($materirpl as $materi)
-                                            <option value="{{ $materi->kategori }}"
-                                                {{ request('kategori') == $materi->kategori ? 'selected' : '' }}>
-                                                {{ $materi->kategori }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <!-- Reset Button -->
-                                <div class="col-sm-2 d-flex justify-content-center mt-4">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                    onclick="window.location.href='{{ route('siswarpl.index') }}'">Reset</button>
-                                </div>
-                                
-                            </form>
+                                    <!-- Kategori Filter -->
+                                    <div class="col-sm-2" style="width:100px">
+                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
+                                        <select class="form-select" style="width:150px" name="kategori"
+                                            id="kategoriFilter" onchange="this.form.submit()">
+                                            <option value="" disabled selected>Pilih Kategori</option>
+                                            <option value="Learning"
+                                                {{ request('kategori') == 'Learning' ? 'selected' : '' }}>
+                                                Learning</option>
+                                            <option value="Project"
+                                                {{ request('kategori') == 'Project' ? 'selected' : '' }}>
+                                                Project</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Reset Button -->
+                                    <div class="col-sm-2 d-flex justify-content-center" style="margin-top:30px">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="window.location.href='{{ route('siswarpl.index') }}'">Reset</button>
+                                    </div>
+
+                                </form>
+                            </div>
                         </div>
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">

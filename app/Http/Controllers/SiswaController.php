@@ -35,7 +35,7 @@ class SiswaController extends Controller
         });
 
         $aktivitas = Aktivitas::all();
-        $materitkj = Materi::all();
+        $materitkj = Materi::where('jurusan', 'TKJ')->get();
         return view('monitoring_siswa.siswa', compact('siswa', 'materitkj','aktivitas','statusFilter'));
     }
 

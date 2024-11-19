@@ -526,9 +526,7 @@
                 materiDiv.style.display = "none";
             }
         }
-    </script>
-
-<script>
+  z
     document.addEventListener('DOMContentLoaded', function () {
         @foreach ($siswa as $item)
             @if ($item->status === 'doing' && $item->waktu_mulai)
