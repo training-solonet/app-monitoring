@@ -48,4 +48,10 @@ class siswa extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function materi()
+    {
+        return $this->belongsToMany(Materi::class, 'siswa_materi', 'siswa_id', 'materi_id');
+    }
+
 }

@@ -1,4 +1,5 @@
 <x-app-layout>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="px-5 py-4 container-fluid">
@@ -19,48 +20,65 @@
                                         <div class="card-body px-0 py-0">
                                             <div class="table-responsive p-0">
                                                 <div class="table-responsive p-0">
-                                                        <table class="table align-items-center mb-0">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Materi</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Detail</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">File Materi</th>
-                                        </tr>
-                                    </thead>
+                                                    <table class="table align-items-center mb-0">
+                                                        <thead class="bg-gray-100">
+                                                            <tr>
+                                                                <th
+                                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    No</th>
+                                                                <th
+                                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    Materi</th>
+                                                                <th
+                                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    Detail</th>
+                                                                <th
+                                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                                    File Materi</th>
+                                                            </tr>
+                                                        </thead>
 
-                                    <tbody>
-                                        @foreach ($materi as $index => $item)
-                                        <tr>
-                                            <td class="align-middle text-center" rowspan="2">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->materi }}</p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">{{ $item->detail }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                @if ($item->file_materi)
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank" title="Lihat File">
-                                                        <i class="fas fa-eye text-info mx-1"></i>
-                                                    </a>
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" download title="Unduh File">
-                                                        <i class="fas fa-download text-success mx-1"></i>
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted">Tidak ada file</span>
-                                                @endif
-                                            </td>
+                                                        <tbody>
+                                                            @foreach ($materi as $index => $item)
+                                                                <tr>
+                                                                    <td class="align-middle text-center" rowspan="2">
+                                                                        <p
+                                                                            class="text-sm text-dark font-weight-semibold mb-0">
+                                                                            {{ $index + 1 }}</p>
+                                                                    </td>
+                                                                    <td class="align-middle text-center">
+                                                                        <p
+                                                                            class="text-sm text-dark font-weight-semibold mb-0">
+                                                                            {{ $item->materi }}</p>
+                                                                    </td>
+                                                                    <td class="align-middle text-center text-sm">
+                                                                        <p class="text-sm text-dark mb-0">
+                                                                            {{ $item->detail }}</p>
+                                                                    </td>
+                                                                    <td class="align-middle text-center">
+                                                                        @if ($item->file_materi)
+                                                                            <a href="{{ asset('storage/' . $item->file_materi) }}"
+                                                                                target="_blank" title="Lihat File">
+                                                                                <i
+                                                                                    class="fas fa-eye text-info mx-1"></i>
+                                                                            </a>
+                                                                            <a href="{{ asset('storage/' . $item->file_materi) }}"
+                                                                                download title="Unduh File">
+                                                                                <i
+                                                                                    class="fas fa-download text-success mx-1"></i>
+                                                                            </a>
+                                                                        @else
+                                                                            <span class="text-muted">Tidak ada
+                                                                                file</span>
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
 
-                                        </tr>
-
-                                        <tr></tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                                </div>  
+                                                                <tr></tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                             <div class="border-top py-3 px-3 d-flex align-items-center">
                                                 <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
@@ -74,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -95,4 +113,3 @@
         }]
     });
 </script>
-

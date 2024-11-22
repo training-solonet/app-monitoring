@@ -33,13 +33,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                        <div class="card-body px-0 py-0">
+                            <div class="border-bottom col-md-12 py-3 px-3 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
-                                    class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
+                                    class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
-                                    <div class="col-sm-2">
-                                        <label for="statusFilter">Status</label>
+                                    <div class="col-12 col-md-2 mb-3">
+                                        <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
@@ -55,29 +55,30 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <!-- Tanggal Mulai -->
+                                    <div class="col-12 col-md-2 mb-3">
                                         <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
                                         <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
-                                            value="{{ request('waktu_mulai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                            value="{{ request('waktu_mulai') }}" onchange="this.form.submit();">
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <!-- Tanggal Selesai -->
+                                    <div class="col-12 col-md-2 mb-3">
                                         <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="waktu_selesai" name="waktu_selesai"
                                             class="form-control" value="{{ request('waktu_selesai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                            onchange="this.form.submit();">
                                     </div>
 
                                     <!-- Kategori Filter -->
-                                    <div class="col-sm-2" style="width:100px">
+                                    <div class="col-2 col-md-3 mb-3">
                                         <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                        <select class="form-select" style="width:150px" name="kategori"
-                                            id="kategoriFilter" onchange="this.form.submit()">
+                                        <select class="form-select" name="kategori" id="kategoriFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Kategori</option>
                                             <option value="Learning"
-                                                {{ request('kategori') == 'Learning' ? 'selected' : '' }}>
-                                                Learning</option>
+                                                {{ request('kategori') == 'Learning' ? 'selected' : '' }}>Learning
+                                            </option>
                                             <option value="Project"
                                                 {{ request('kategori') == 'Project' ? 'selected' : '' }}>
                                                 Project</option>
@@ -85,12 +86,14 @@
                                     </div>
 
                                     <!-- Reset Button -->
-                                    <div class="col-sm-2 d-flex justify-content-center" style="margin-top:30px">
+                                    <div class="col-2 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            onclick="window.location.href='{{ route('siswarpl.index') }}'">Reset</button>
+                                            onclick="window.location.href='{{ route('siswa.index') }}'"
+                                            style="margin-top: 30px">Reset</button>
                                     </div>
-
                                 </form>
+
+
                             </div>
                         </div>
                         <div class="table-responsive p-0">
@@ -121,7 +124,6 @@
                                 </thead>
 
                                 <tbody>
-                                <tbody>
                                     @foreach ($siswarpl as $index => $item)
                                         <tr>
                                             <td class="align-middle text-center" rowspan="2">
@@ -134,14 +136,20 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <p
-                                                    class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materirpl ? '' : 'fst-italic' }}">
-                                                    {{ $item->materirpl?->materi ?? 'Tidak ada materi' }}
+                                                    class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
+                                                    {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                 </p>
                                             </td>
+                                            {{-- <td class="align-middle text-center">
+                                            <p
+                                                class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
+                                                {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada aktivitas' }}
+                                            </p>
+                                        </td> --}}
                                             <td class="align-middle text-center text-sm font-weight-normal">
                                                 <p
                                                     class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
-                                                    {{ $item->report ?? 'Belum ada laporan' }}
+                                                    {{ $item->report ?? 'Belum ada catatan' }}
                                                 </p>
                                             </td>
                                             <td class="align-middle text-center">
@@ -173,42 +181,17 @@
 
                                             <td class="align-middle text-center"
                                                 id="total-waktu-{{ $item->id }}">
-                                                @if ($item->status === 'doing')
-                                                    <script>
-                                                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                                                    </script>
+                                                @if ($item->status === 'doing' && $item->waktu_mulai)
+                                                    {{ $item->total_waktu ?? '00:00:00' }}
                                                 @else
                                                     {{ $item->total_waktu ?? '00:00:00' }}
                                                 @endif
                                             </td>
-                                            <script>
-                                                function startTimer(waktuMulai, elementId) {
-                                                    const startTime = new Date(waktuMulai).getTime();
-
-                                                    console.log("Waktu mulai:", waktuMulai, "Element ID:", elementId);
-
-                                                    function updateTime() {
-                                                        const now = new Date().getTime();
-                                                        const elapsed = now - startTime;
-
-                                                        const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                                        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                                                        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                                                        document.getElementById(elementId).textContent =
-                                                            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                                                    }
-
-                                                    updateTime();
-                                                    setInterval(updateTime, 1000);
-                                                }
-                                            </script>
                                             <td class="align-middle text-center">
-                                                <button type="button" class="btn btn-sm btn-info mb-0"
-                                                    data-bs-toggle="modal"
+                                                <a class="mb-0" data-bs-toggle="modal"
                                                     data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                    Lihat Bukti
-                                                </button>
+                                                    <i class="fa-regular fa-image text-info"></i>
+                                                </a>
                                             </td>
                                             <!-- Modal Lihat Bukti -->
                                             <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
@@ -248,8 +231,7 @@
                                                                     @endforeach
                                                                 </div>
                                                             @else
-                                                                <p class="text-center">Tidak ada bukti yang
-                                                                    diunggah.</p>
+                                                                <p class="text-center">Bukti belum diunggah</p>
                                                             @endif
                                                         </div>
                                                         <div class="modal-footer">
@@ -264,22 +246,23 @@
                                                     style="display:inline;">
                                                     @csrf
                                                     @if ($item->status === 'to do')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-success mb-0">Mulai</button>
+                                                        <button type="submit" class="btn btn-sm btn-success mb-0">
+                                                            <i class="fa-solid fa-play" style="font-size: 12px"></i>
+                                                        </button>
                                                     @elseif($item->status === 'doing')
                                                         <button type="button" class="btn btn-sm btn-danger mb-0"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#EditLaporanModal{{ $item->id }}"
+                                                            data-bs-target="#modalSelesai{{ $item->id }}"
                                                             data-id="{{ $item->id }}"
                                                             data-report="{{ $item->report }}"
                                                             data-waktu_selesai="{{ $item->waktu_selesai }}">
-                                                            Selesai
+                                                            <i class="fa-solid fa-square" style="font-size: 12px"></i>
                                                         </button>
                                                     @else
                                                         <button type="button" class="btn btn-sm btn-warning mb-0"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#editSiswaModal{{ $item->id }}">
-                                                            <i class="fas fa-edit"></i>
+                                                            <i class="fas fa-edit" style="font-size: 12px"></i>
                                                         </button>
                                                     @endif
                                                 </form>
@@ -352,75 +335,44 @@
 
                                         <tr></tr>
                                         <!-- Modal Selesai -->
-                                        <div class="modal fade" id="EditLaporanModal{{ $item->id }}"
-                                            tabindex="-1" aria-labelledby="EditLaporanModalLabel{{ $item->id }}"
+                                        <!-- Modal Selesai -->
+                                        <div class="modal fade" id="modalSelesai{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="modalSelesaiLabel{{ $item->id }}"
                                             aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
-                                                            id="EditLaporanModalLabel{{ $item->id }}">Edit
-                                                            Laporan</h5>
+                                                            id="modalSelesaiLabel{{ $item->id }}">Laporan Selesai
+                                                        </h5>
                                                         <button type="button" class="btn-close"
                                                             data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form id="editLaporanForm{{ $item->id }}"
-                                                            action="{{ route('siswa.updateTime', $item->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
+                                                        <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswarpl.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                            @method('PUT')
-
-                                                            <!-- Aktivitas Dropdown -->
-                                                            <div class="mb-3">
-                                                                <label for="aktivitasSelect{{ $item->id }}"
-                                                                    class="form-label fw-bold">Pilih
-                                                                    Aktivitas</label>
-                                                                <select class="form-select"
-                                                                    id="aktivitasSelect{{ $item->id }}"
-                                                                    name="aktivitas_id" required>
-                                                                    <option disabled selected>Pilih Aktivitas
-                                                                    </option>
-                                                                    @foreach ($aktivitasrpl as $aktivitasItem)
-                                                                        <option value="{{ $aktivitasItem->id }}">
-                                                                            {{ $aktivitasItem->nama_aktivitas }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
+                                                            @method('PUT') <!-- Pastikan menggunakan method PUT atau POST -->
+                                                            
                                                             <!-- Report Textarea -->
                                                             <div class="mb-3">
-                                                                <label for="report{{ $item->id }}"
-                                                                    class="form-label fw-bold">Laporan</label>
-                                                                <textarea name="report" id="report{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..."
-                                                                    rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
+                                                                <label for="reportSelesai{{ $item->id }}" class="form-label fw-bold">Laporan</label>
+                                                                <textarea name="report" id="reportSelesai{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
                                                             </div>
-
+                                                        
                                                             <!-- Waktu Selesai Input -->
                                                             <div class="mb-3">
-                                                                <label for="waktu_selesai{{ $item->id }}"
-                                                                    class="form-label fw-bold">Waktu
-                                                                    Selesai</label>
-                                                                <input type="time" class="form-control"
-                                                                    id="waktu_selesai{{ $item->id }}"
-                                                                    name="waktu_selesai"
-                                                                    value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
-                                                                    required>
+                                                                <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
+                                                                <input type="time" class="form-control" id="waktu_selesai{{ $item->id }}" name="waktu_selesai" value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
                                                             </div>
-
+                                                        
                                                             <!-- Bukti Upload Input -->
                                                             <div class="mb-3">
-                                                                <label for="bukti{{ $item->id }}"
-                                                                    class="form-label fw-bold">Unggah Bukti
-                                                                    (Gambar)</label>
-                                                                <input type="file" class="form-control"
-                                                                    id="bukti{{ $item->id }}" name="bukti[]"
-                                                                    accept="image/*" multiple>
-                                                                <small class="form-text text-muted">Kamu bisa
-                                                                    mengunggah satu atau lebih gambar.</small>
+                                                                <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (Gambar)</label>
+                                                                <input type="file" class="form-control" id="bukti{{ $item->id }}" name="bukti[]" accept="image/*" multiple>
+                                                                <small class="form-text text-muted">Kamu bisa mengunggah satu atau lebih gambar.</small>
                                                             </div>
                                                         </form>
+                                                        
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
@@ -433,7 +385,6 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                </tbody>
                                 </tbody>
                             </table>
                         </div>
@@ -479,7 +430,7 @@
 
                         <div class="mb-3" id="materi1" style="display: none;">
                             <label for="materi1Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi1Select" name="materi1">
+                            <select class="form-select" id="materi1Select" name="materi_id1">
                                 <option selected value="">Pilih Materi</option>
                                 @foreach ($materirpl as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>
@@ -503,7 +454,7 @@
 
                         <div class="mb-3" id="materi2" style="display: none;">
                             <label for="materi2Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi2Select" name="materi2">
+                            <select class="form-select" id="materi2Select" name="materi_id2">
                                 <option selected value="">Pilih Materi</option>
                                 @foreach ($materirpl as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>

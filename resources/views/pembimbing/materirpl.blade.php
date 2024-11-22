@@ -56,6 +56,7 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Materi</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Detail</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">File Materi</th>
+                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
 
@@ -73,28 +74,36 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 @if ($item->file_materi)
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank" title="Lihat File">
+                                                    <a href="{{ asset('storage/' . $item->file_materi) }}"
+                                                        target="_blank" title="Lihat File">
                                                         <i class="fas fa-eye text-info mx-1"></i>
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" download title="Unduh File">
+                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" download
+                                                        title="Unduh File">
                                                         <i class="fas fa-download text-success mx-1"></i>
                                                     </a>
                                                 @else
                                                     <span class="text-muted">Tidak ada file</span>
                                                 @endif
-
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editMateriModal{{ $item->id }}" title="Edit">
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#editMateriModal{{ $item->id }}"
+                                                    title="Edit">
                                                     <i class="fas fa-edit text-warning mx-1"></i>
                                                 </a>
 
-                                                <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                <a href="#" class="text-danger"
+                                                    onclick="confirmDelete({{ $item->id }})">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
-                                                <form id="delete-form-{{ $item->id }}" action="{{ route('materirpl.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{ $item->id }}"
+                                                    action="{{ route('materitkj.destroy', $item->id) }}"
+                                                    method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-                                            </td>
+                                            </td> 
                                         </tr>
 
                                         <tr></tr>

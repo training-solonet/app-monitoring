@@ -35,7 +35,8 @@ class SiswaRplController extends Controller
         });
 
         $aktivitasrpl = Aktivitas::all();
-        $materirpl = Materi::all();
+        $materirpl = Materi::where('jurusan', 'RPL')->get();
+        
         return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl','aktivitasrpl','statusFilterrpl'));
     }
 
@@ -90,7 +91,6 @@ class SiswaRplController extends Controller
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
-            'aktivitas_id' => $request->aktivitas_id1,
             'status' => 'to do',
             'user_id' => Auth::id(),
         ]);
