@@ -21,7 +21,8 @@
                                 </div>
                                 <div class="ms-auto d-flex">
                                     <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2" data-bs-toggle="modal" data-bs-target="#tambahMateriModal">
+                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
+                                        data-bs-toggle="modal" data-bs-target="#tambahMateriModal">
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -52,52 +53,75 @@
                                 <table class="table align-items-center mb-0">
                                     <thead class="bg-gray-100">
                                         <tr>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Materi</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Detail</th>
-                                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">File Materi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                No</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Materi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Detail</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                File Materi</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Aksi</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         @foreach ($materitkj as $index => $item)
-                                        <tr>
-                                            <td class="align-middle text-center" rowspan="2">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $index + 1 }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $item->materi }}</p>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <p class="text-sm text-dark mb-0">{{ $item->detail }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                @if ($item->file_materi)
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank" title="Lihat File">
-                                                        <i class="fas fa-eye text-info mx-1"></i>
+                                            <tr>
+                                                <td class="align-middle text-center" rowspan="2">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                        {{ $index + 1 }}</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                        {{ $item->materi }}</p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <p class="text-sm text-dark mb-0">{{ $item->detail }}</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @if ($item->file_materi)
+                                                        <a href="{{ asset('storage/' . $item->file_materi) }}"
+                                                            target="_blank" title="Lihat File">
+                                                            <i class="fas fa-eye text-info mx-1"></i>
+                                                        </a>
+                                                        <a href="{{ asset('storage/' . $item->file_materi) }}" download
+                                                            title="Unduh File">
+                                                            <i class="fas fa-download text-success mx-1"></i>
+                                                        </a>
+                                                    @else
+                                                        <span class="text-muted">Tidak ada file</span>
+                                                    @endif
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#editMateriModal{{ $item->id }}"
+                                                        title="Edit">
+                                                        <i class="fas fa-edit text-warning mx-1"></i>
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $item->file_materi) }}" download title="Unduh File">
-                                                        <i class="fas fa-download text-success mx-1"></i>
+
+                                                    <a href="#" class="text-danger"
+                                                        onclick="confirmDelete({{ $item->id }})">
+                                                        <i class="fas fa-trash-alt"></i>
                                                     </a>
-                                                @else
-                                                    <span class="text-muted">Tidak ada file</span>
-                                                @endif
+                                                    <form id="delete-form-{{ $item->id }}"
+                                                        action="{{ route('materitkj.destroy', $item->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
 
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editMateriModal{{ $item->id }}" title="Edit">
-                                                    <i class="fas fa-edit text-warning mx-1"></i>
-                                                </a>
+                                                </td>
+                                            </tr>
 
-                                                <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                                <form id="delete-form-{{ $item->id }}" action="{{ route('materitkj.destroy', $item->id) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
-                                        </tr>
-
-                                        <tr></tr>
+                                            <tr></tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -117,76 +141,90 @@
         </div>
     </main>
 
-<!-- Modal Tambah -->
-<div class="modal fade" id="tambahMateriModal" tabindex="-1" aria-labelledby="tambahMateriModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tambahMateriModalLabel">Tambah Materi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal Tambah -->
+    <div class="modal fade" id="tambahMateriModal" tabindex="-1" aria-labelledby="tambahMateriModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahMateriModalLabel">Tambah Materi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('materitkj.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="materi" class="form-label">Judul Materi</label>
+                            <input type="text" class="form-control" name="materi" id="materi"
+                                placeholder="Input Judul Materi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="detail" class="form-label">Detail</label>
+                            <input type="text" class="form-control" name="detail" id="detail"
+                                placeholder="Input Detail Materi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file_materi" class="form-label">File Materi (PDF, Image, Doc, XLS, PPT,
+                                TXT)</label>
+                            <input type="file" class="form-control" name="file_materi" id="file_materi"
+                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="jurusan" value="TKJ">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-info">Simpan</button>
+                    </div>
+                </form>
             </div>
-            <form action="{{ route('materitkj.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="materi" class="form-label">Judul Materi</label>
-                        <input type="text" class="form-control" name="materi" id="materi" placeholder="Input Judul Materi" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="detail" class="form-label">Detail</label>
-                        <input type="text" class="form-control" name="detail" id="detail" placeholder="Input Detail Materi" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="file_materi" class="form-label">File Materi (PDF, Image, Doc, XLS, PPT, TXT)</label>
-                        <input type="file" class="form-control" name="file_materi" id="file_materi" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" name="jurusan" value="TKJ">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-info">Simpan</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
-@foreach ($materitkj as $item)
-<!-- Modal Edit -->
-<div class="modal fade" id="editMateriModal{{ $item->id }}" tabindex="-1" aria-labelledby="editMateriModalLabel{{ $item->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editMateriModalLabel{{ $item->id }}">Edit Materi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    @foreach ($materitkj as $item)
+        <!-- Modal Edit -->
+        <div class="modal fade" id="editMateriModal{{ $item->id }}" tabindex="-1"
+            aria-labelledby="editMateriModalLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editMateriModalLabel{{ $item->id }}">Edit Materi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('materitkj.update', $item->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="materi" class="form-label">Judul Materi</label>
+                                <input type="text" class="form-control" name="materi" id="materi"
+                                    value="{{ $item->materi }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="detail" class="form-label">Detail</label>
+                                <input type="text" class="form-control" name="detail" id="detail"
+                                    value="{{ $item->detail }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_materi" class="form-label">File Materi (PDF, Image, Doc,
+                                    etc.)</label>
+                                <input type="file" class="form-control" name="file_materi" id="file_materi"
+                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+                                @if ($item->file_materi)
+                                    <p class="mt-2">File saat ini: <a
+                                            href="{{ asset('storage/' . $item->file_materi) }}"
+                                            target="_blank">{{ basename($item->file_materi) }}</a></p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-info">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form action="{{ route('materitkj.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="materi" class="form-label">Judul Materi</label>
-                        <input type="text" class="form-control" name="materi" id="materi" value="{{ $item->materi }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="detail" class="form-label">Detail</label>
-                        <input type="text" class="form-control" name="detail" id="detail" value="{{ $item->detail }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="file_materi" class="form-label">File Materi (PDF, Image, Doc, etc.)</label>
-                        <input type="file" class="form-control" name="file_materi" id="file_materi" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
-                        @if ($item->file_materi)
-                            <p class="mt-2">File saat ini: <a href="{{ asset('storage/' . $item->file_materi) }}" target="_blank">{{ basename($item->file_materi) }}</a></p>
-                        @endif
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-info">Simpan Perubahan</button>
-                </div>
-            </form>
         </div>
-    </div>
-</div>
-@endforeach
+    @endforeach
 </x-app-layout>

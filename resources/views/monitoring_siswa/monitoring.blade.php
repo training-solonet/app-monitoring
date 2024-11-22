@@ -1,5 +1,6 @@
 <x-app-layout>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <x-app.navbar />
         <div class="container-fluid px-5 py-4">
             <div class="mt-4 row">
@@ -60,98 +61,52 @@
                         </div>
                         
 
-                        <div class="card-body px-4 py-3">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover table-bordered">
-                                    <thead class="bg-white text-dark">
+                        <div class="card-body">
+                            <div class="table-responsive p-0">
+                                <table class="table table-striped">
+                                    <thead class="bg-gray-100">
                                         <tr>
-                                            <th class="text-center text-xs font-weight-semibold">No</th>
-                                            <th class="text-center text-xs font-weight-semibold">Nama Siswa</th>
-                                            <th class="text-center text-xs font-weight-semibold">Jurusan</th>
-                                            <th class="text-center text-xs font-weight-semibold">Kategori</th>
-                                            <th class="text-center text-xs font-weight-semibold">Materi</th>
-                                            <th class="text-center text-xs font-weight-semibold">Report</th>
-                                            <th class="text-center text-xs font-weight-semibold">Waktu Mulai</th>
-                                            <th class="text-center text-xs font-weight-semibold">Waktu Selesai</th>
-                                            <th class="text-center text-xs font-weight-semibold">Status</th>
-                                            <th class="text-center text-xs font-weight-semibold">Aksi</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">No</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Nama Siswa</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Materi</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Report</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Mulai</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Selesai</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Status</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Bukti</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    
+                                    <tbody class="bg-white">
                                         @foreach ($monitoring as $index => $item)
                                             <tr>
                                                 <td class="align-middle text-center">{{ $index + 1 }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ $item->siswa_monitoring?->username ?? '' }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
+                                                <td class="align-middle text-center">{{ $item->siswa_monitoring?->username ?? '' }}</td>
+                                                <td class="align-middle text-center">{{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
                                                 <td class="align-middle text-center">{{ $item->kategori }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}</td>
+                                                <td class="align-middle text-center">{{ $item->materitkj?->materi ?? 'Tidak ada materi' }}</td>
                                                 <td class="align-middle text-center">{{ $item->report }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
-                                                <!-- <td class="align-middle text-center">{{ $item->total_waktu }}</td> -->
                                                 <td class="align-middle text-center">{{ $item->status }}</td>
+                                                <td></td>
+                                                <td></td>
                                                 <td class="align-middle text-center">
-                                                    <!-- Delete button -->
-
-                                                    <a href="#" class="text-danger"
-                                                        onclick="confirmDelete({{ $item->id }})">
+                                                    <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
-                                                    <form id="delete-form-{{ $item->id }}"
-                                                        action="{{ route('monitoring.destroy', $item->id) }}"
-                                                        method="POST" style="display: none;">
+                                                    <form id="delete-form-{{ $item->id }}" action="{{ route('monitoring.destroy', $item->id) }}" method="POST" style="display: none;">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
                                                 </td>
                                             </tr>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
-                                                aria-labelledby="editModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editModalLabel">Edit
-                                                                Monitoring Siswa</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <form action="{{ route('monitoring.update', $item->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="waktu_mulai" class="form-label">Waktu
-                                                                        Mulai</label>
-                                                                    <input type="time" class="form-control"
-                                                                        id="waktu_mulai" name="waktu_mulai"
-                                                                        value="{{ $item->waktu_mulai }}">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="waktu_selesai"
-                                                                        class="form-label">Waktu Selesai</label>
-                                                                    <input type="time" class="form-control"
-                                                                        id="waktu_selesai" name="waktu_selesai"
-                                                                        value="{{ $item->waktu_selesai }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
-                                                                <button type="submit" class="btn btn-primary">Simpan
-                                                                    Perubahan</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         @endforeach
                                     </tbody>
+                                    
                                 </table>
                             </div>
                         </div>

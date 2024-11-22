@@ -22,6 +22,7 @@ use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\DashboardSiswaController;
 use App\Http\Controllers\DetailSiswaController;
 use App\Http\Controllers\DashboardPembimbingController;
+use App\Http\Controllers\DashboardRplController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -134,3 +135,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/siswa', [DashboardSiswaController::class, 'index'])->name('dashboardSiswa');
     Route::get('/dashboard/pembimbing', [DashboardPembimbingController::class, 'index'])->name('dashboardPembimbing');
 });
+
+Route::resource('dashboardrpl',DashboardRplController::class);
+Route::resource('dashboardsiswa', DashboardSiswaController::class);
