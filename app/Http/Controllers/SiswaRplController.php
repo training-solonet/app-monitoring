@@ -13,32 +13,16 @@ class SiswaRplController extends Controller
 {
     public function index(Request $request)
     {
-        $statusFilter = $request->input('status');
-        $tanggalMulai = $request->input('waktu_mulai');
-        $tanggalSelesai = $request->input('waktu_selesai');
-        $kategoriFilter = $request->input('kategori');
-        $search = $request->input('search');
-
+        $statusFilterrpl = $request->get('status', 'all');
         $userId = Auth::id();
-        $siswaRplQuery = Siswa::where('user_id', $userId);
 
-        if ($statusFilter) {
-            $siswaRplQuery->where('status', $statusFilter);
+        $siswaQuery = Siswa::where('user_id', $userId);
+
+        if ($statusFilterrpl !== 'all') {
+            $siswaQuery->where('status', $statusFilterrpl);
         }
 
-        if ($tanggalMulai) {
-            $siswaRplQuery->whereDate('waktu_mulai', '>=', $tanggalMulai);
-        }
-    
-        if ($tanggalSelesai) {
-            $siswaRplQuery  ->whereDate('waktu_selesai', '<=', $tanggalSelesai);
-        }
-
-        if ($kategoriFilter) {
-            $siswaRplQuery->where('kategori', $kategoriFilter);
-        }
-
-        $siswarpl = $siswaRplQuery->get()->map(function ($item) {
+        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
             if ($item->waktu_mulai && $item->waktu_selesai) {
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
                 $waktuSelesai = Carbon::parse($item->waktu_selesai);
@@ -46,13 +30,13 @@ class SiswaRplController extends Controller
             } else {
                 $item->total_waktu = '-';
             }
+            \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
             return $item;
         });
 
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::all();
-
-        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilter', 'tanggalMulai', 'tanggalSelesai', 'kategoriFilter'));
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl','aktivitasrpl','statusFilterrpl'));
     }
 
 
