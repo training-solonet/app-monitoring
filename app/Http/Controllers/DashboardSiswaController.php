@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Siswa;
 use App\Models\Aktivitas;
+use App\Models\Materi;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardSiswaController extends Controller
@@ -38,7 +39,7 @@ class DashboardSiswaController extends Controller
                     if ($item->waktu_mulai && $item->waktu_selesai) {
                         $waktuMulai = Carbon::parse($item->waktu_mulai);
                         $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                        if ($waktuSelesai->greaterThan($waktuMulai)) { 
+                        if ($waktuSelesai->greaterThan($waktuMulai)) {
                             $totalTime += $waktuSelesai->diffInSeconds($waktuMulai);
                         }
                     }
@@ -49,6 +50,93 @@ class DashboardSiswaController extends Controller
 
         $aktivitasNames = Aktivitas::whereIn('id', $siswaData->keys())->pluck('nama_aktivitas', 'id');
 
-        return view('dashboard_siswa', compact('siswaData', 'aktivitasNames', 'totalWaktuTeknisi'));
+        $jumlahAktivitas = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Keluar Dengan Teknisi')
+            ->get()
+            ->groupBy('aktivitas_id')
+            ->map->count();
+
+            $totalWaktuDikantor = Siswa::where('user_id', $userId)
+            ->where('kategori', 'DiKantor')
+            ->get()
+            ->reduce(function ($carry, $item) {
+                if ($item->waktu_mulai && $item->waktu_selesai) {
+                    $waktuMulai = Carbon::parse($item->waktu_mulai);
+                    $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                    if ($waktuSelesai->greaterThan($waktuMulai)) {
+                        $carry += $waktuSelesai->diffInSeconds($waktuMulai);
+                    }
+                }
+                return $carry;
+            }, 0);
+
+        $siswaDataDikantor = Siswa::where('user_id', $userId)
+            ->where('kategori', 'DiKantor')
+            ->get()
+            ->groupBy('materi_id')
+            ->map(function ($items, $materiId) use ($totalWaktuDikantor) {
+                $totalTime = 0;
+                foreach ($items as $item) {
+                    if ($item->waktu_mulai && $item->waktu_selesai) {
+                        $waktuMulai = Carbon::parse($item->waktu_mulai);
+                        $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                        if ($waktuSelesai->greaterThan($waktuMulai)) {
+                            $totalTime += $waktuSelesai->diffInSeconds($waktuMulai);
+                        }
+                    }
+                }
+                $percentage = $totalWaktuDikantor ? ($totalTime / $totalWaktuDikantor) * 100 : 0;
+                return ['totalTime' => $totalTime, 'percentage' => $percentage];
+            });
+
+        $materiNames = Materi::whereIn('id', $siswaDataDikantor->keys())->pluck('materi', 'id');
+
+        $jumlahAktivitasDikantor = Siswa::where('user_id', $userId)
+            ->where('kategori', 'DiKantor')
+            ->get()
+            ->groupBy('materi_id')
+            ->map->count();
+
+        $jumlahDataTeknisi = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Keluar Dengan Teknisi')
+            ->count();
+
+        $jumlahDataDikantor = Siswa::where('user_id', $userId)
+            ->where('kategori', 'DiKantor')
+            ->count();
+
+        $totalWaktu = Siswa::where('user_id', $userId)
+            ->get()
+            ->reduce(function ($carry, $item) {
+                if ($item->waktu_mulai && $item->waktu_selesai) {
+                    $waktuMulai = Carbon::parse($item->waktu_mulai);
+                    $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                    if ($waktuSelesai->greaterThan($waktuMulai)) {
+                        $carry += $waktuSelesai->diffInSeconds($waktuMulai);
+                    }
+                }
+                return $carry;
+            }, 0);
+
+            $totalAktivitas = $jumlahDataDikantor + $jumlahDataTeknisi;
+
+            $persentaseDikantor = $totalAktivitas > 0 ? ($jumlahDataDikantor / $totalAktivitas) * 100 : 0;
+            $persentaseTeknisi = $totalAktivitas > 0 ? ($jumlahDataTeknisi / $totalAktivitas) * 100 : 0;
+    
+        return view('dashboard_siswa', compact(
+            'siswaData',
+            'aktivitasNames',
+            'totalWaktuTeknisi',
+            'jumlahAktivitas',
+            'siswaDataDikantor',
+            'materiNames',
+            'totalWaktuDikantor',
+            'jumlahAktivitasDikantor',
+            'jumlahDataDikantor',
+            'jumlahDataTeknisi',
+            'totalWaktu',
+            'persentaseDikantor', 
+            'persentaseTeknisi'
+        ));
     }
 }
