@@ -131,10 +131,10 @@ Route::resource('materirpl', MateriRplController::class);
 Route::resource('Dashboardsiswa', DashboardSiswaController::class); 
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard/siswa', [DashboardSiswaController::class, 'index'])->name('dashboardSiswa');
-    Route::get('/dashboard/pembimbing', [DashboardPembimbingController::class, 'index'])->name('dashboardPembimbing');
-});
 
+Route::resource('dashboardpembimbing',DashboardPembimbingController::class);
 Route::resource('dashboardrpl',DashboardRplController::class);
 Route::resource('dashboardsiswa', DashboardSiswaController::class);
+
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::get('/dashboard-rpl', [DashboardRplController::class, 'index'])->name('dashboardrpl.index');

@@ -20,28 +20,29 @@ class LoginController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-    
+
         $user = User::where('username', $request->username)->first();
-    
+
         if ($user) {
             if ($user->status === 'Tidak Aktif') {
                 return back()->withErrors(['message' => 'Akun Anda Sudah Tidak Aktif.']);
             }
-    
+
             if ($user->password === $request->password) {
                 Auth::login($user);
+
                 if ($user->role === 'siswa') {
                     if ($user->jurusan === 'RPL') {
                         return redirect()->route('dashboardrpl.index');
                     } elseif ($user->jurusan === 'TKJ') {
-                        return redirect()->route('dashboardsiswa.index'); // Sesuaikan route TKJ
+                        return redirect()->route('dashboardsiswa.index');
                     }
-                } elseif ($user->role == 'pembimbing') {
-                    return redirect()->route('dashboardPembimbing'); 
+                } elseif ($user->role === 'pembimbing') {
+                    return redirect()->route('dashboardpembimbing.index');
                 }
             }
         }
-    
+
         return back()->withErrors(['message' => 'Username atau password salah.'])->withInput($request->only('username'));
     }
     

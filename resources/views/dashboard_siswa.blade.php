@@ -21,9 +21,6 @@
                             <button type="button" class="btn btn-sm btn-outline-info d-flex align-items-center me-2">
                                 <i class="fas fa-chart-pie me-1"></i> Diagram
                             </button>
-                            <button type="button" class="btn btn-sm btn-dark d-flex align-items-center">
-                                <i class="fas fa-list me-1"></i> Detail
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -87,9 +84,9 @@
         <!-- Progress Bar DiKantor -->
         <div class="mb-4">
             <small>Aktivitas DiKantor</small>
-            <div class="progress" style="height: 1.5rem;">
+            <div class="progress" style="height: 20px;">
                 <div class="progress-bar" role="progressbar" 
-                    style="width: {{ $persentaseDikantor }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61);" 
+                    style="width: {{ $persentaseDikantor }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px" 
                     aria-valuenow="{{ $persentaseDikantor }}" 
                     aria-valuemin="0" 
                     aria-valuemax="100">
@@ -101,9 +98,9 @@
         <!-- Progress Bar Dengan Teknisi -->
         <div>
             <small>Aktivitas Dengan Teknisi</small>
-            <div class="progress" style="height: 1.5rem;">
+            <div class="progress" style="height: 20px;">
                 <div class="progress-bar" role="progressbar" 
-                    style="width: {{ $persentaseTeknisi }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0);" 
+                    style="width: {{ $persentaseTeknisi }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px" 
                     aria-valuenow="{{ $persentaseTeknisi }}" 
                     aria-valuemin="0" 
                     aria-valuemax="100">
@@ -116,8 +113,8 @@
 
 
             <div class="row">
-                <div class="col-md-12 mt-3">
-                    <h4 class="font-weight-bold mb-3">Grafik Persentase Aktivitas Dikantor dan Keluar Dengan Teknisi</h4>
+                <div class="col-md-12 mt-5">
+                    <h4 class="font-weight-bold mb-3 text-center">Grafik Persentase Aktivitas Dikantor dan Keluar Dengan Teknisi</h4>
                 </div>
             </div>
             

@@ -1,19 +1,21 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Siswa;
 use App\Models\Materi;
+use App\Models\Aktivitas;
+use Carbon\Carbon;
 
 class DashboardPembimbingController extends Controller
 {
     public function index()
     {
-        // Mengambil jumlah data berdasarkan jurusan
+        // Ambil jumlah siswa per jurusan
         $rplCount = Materi::where('jurusan', 'RPL')->count();
         $tkjCount = Materi::where('jurusan', 'TKJ')->count();
 
-        // Data untuk chart Pie dan Bar
+        // Data untuk chart siswa berdasarkan jurusan
         $chartData = [
             'labels' => ['RPL', 'TKJ'],
             'datasets' => [
@@ -25,14 +27,18 @@ class DashboardPembimbingController extends Controller
             ]
         ];
 
-        // Data jumlah aktivitas kategori
-        $activityData = [
-            'Learning' => rand(10, 20), // Contoh data, sesuaikan dengan logika
-            'Project' => rand(15, 25),
-            'Di Kantor' => rand(8, 15),
-            'Keluar Dengan Teknisi' => rand(5, 12),
-        ];
+        // Data aktivitas siswa
+        $activityData = Siswa::select('kategori')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('kategori')
+            ->pluck('count', 'kategori');
 
-        return view('dashboard', compact('chartData', 'activityData'));
+        // Total waktu berdasarkan kategori
+        $totalWaktuPerKategori = Siswa::select('kategori')
+            ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
+            ->groupBy('kategori')
+            ->pluck('total_waktu', 'kategori');
+
+        return view('dashboard', compact('chartData', 'activityData', 'totalWaktuPerKategori', 'rplCount', 'tkjCount'));
     }
 }

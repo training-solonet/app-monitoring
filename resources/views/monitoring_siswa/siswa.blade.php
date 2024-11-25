@@ -36,12 +36,12 @@
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
-                        <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                            <div class="border-bottom col-md-12 py-3 px-3 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm"
-                                    class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
+                                    class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
-                                    <div class="col-sm-2">
-                                        <label for="statusFilter">Status</label>
+                                    <div class="col-12 col-md-2 mb-3">
+                                        <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
@@ -57,40 +57,44 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-2">
-                                        <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
-                                        <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
-                                            value="{{ request('waktu_mulai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                    <!-- Kategori Filter -->
+                                    <div class="col-2 col-md-3 mb-3">
+                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
+                                        <select class="form-select" name="kategori" id="kategoriFilter"
+                                            onchange="this.form.submit()">
+                                            <option value="" disabled selected>Pilih Kategori</option>
+                                            <option value="Dikantor"
+                                                {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
+                                            </option>
+                                            <option value="Keluar Dengan Teknisi"
+                                                {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
+                                                Keluar Dengan Teknisi</option>
+                                        </select>
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <!-- Tanggal Mulai -->
+                                    <div class="col-12 col-md-2 mb-3">
+                                        <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
+                                        <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
+                                            value="{{ request('waktu_mulai') }}" onchange="this.form.submit();">
+                                    </div>
+
+                                    <!-- Tanggal Selesai -->
+                                    <div class="col-12 col-md-2 mb-3">
                                         <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="waktu_selesai" name="waktu_selesai"
                                             class="form-control" value="{{ request('waktu_selesai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                            onchange="this.form.submit();">
                                     </div>
 
-                                    <!-- Kategori Filter -->
-                                    <div class="col-sm-2" style="width:100px">
-                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                        <select class="form-select" style="width:150px" name="kategori"
-                                            id="kategoriFilter" onchange="this.form.submit()">
-                                            <option value="" disabled selected>Pilih Kategori</option>
-                                            <option value="Dikantor" {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>
-                                            Dikantor</option>
-                                            <option value="Keluar Dengan Teknisi" {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
-                                            Keluar Dengan Teknisi</option>
-                                        </select>
-                                    </div>
-                                    
                                     <!-- Reset Button -->
-                                    <div class="col-sm-2 d-flex justify-content-center" style="margin-top:30px">
+                                    <div class="col-2 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>
+                                            onclick="window.location.href='{{ route('siswa.index') }}'"
+                                            style="margin-top: 30px">Reset</button>
                                     </div>
-
                                 </form>
+
 
                             </div>
                             <div class="table-responsive p-0">
@@ -369,7 +373,7 @@
                                                                         <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
                                                                             <option disabled selected>Pilih Aktivitas</option>
                                                                             @foreach ($aktivitas as $aktivitasItem)
-                                                                                <option value="{{ $aktivitasItem->id }}">{{ $aktivitasItem->nama_aktivitas }}</option>
+                                                                                <option value="{{ $aktivitasItem->id }}" required>{{ $aktivitasItem->nama_aktivitas }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
