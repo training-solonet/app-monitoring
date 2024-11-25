@@ -39,7 +39,7 @@
         <div class="col-md-4">
             <div class="card text-center shadow border-0">
                 <div class="card-header text-white" style="background: linear-gradient(45deg, #ff9f43, #ff6f61);">
-                    <h6>Total Aktivitas DiKantor</h6>
+                    <h6 class="text-white">Total Aktivitas DiKantor</h6>
                 </div>
                 <div class="card-body">
                     <h5 class="text-warning font-weight-bold">{{ $jumlahDataDikantor }}</h5>
@@ -51,7 +51,7 @@
         <div class="col-md-4">
             <div class="card text-center shadow border-0">
                 <div class="card-header text-white" style="background: linear-gradient(45deg, #42a5f5, #5c6bc0);">
-                    <h6>Total Aktivitas Dengan Teknisi</h6>
+                    <h6 class="text-white">Total Aktivitas Dengan Teknisi</h6>
                 </div>
                 <div class="card-body">
                     <h5 class="text-info font-weight-bold">{{ $jumlahDataTeknisi }}</h5>
@@ -63,7 +63,7 @@
         <div class="col-md-4">
             <div class="card text-center shadow border-0">
                 <div class="card-header text-white" style="background: linear-gradient(45deg, #66bb6a, #26a69a);">
-                    <h6>Total Jumlah Waktu</h6>
+                    <h6 class="text-white">Total Jumlah Waktu</h6>
                 </div>
                 <div class="card-body">
                     <h5 class="text-success font-weight-bold">
@@ -135,7 +135,7 @@
                                         <canvas id="chart-pie-dikantor" class="chart-canvas" height="240"></canvas>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <button id="toggle-legend" class="btn btn-sm btn-outline-info">
+                                        <button id="toggle-legend-dikantor" class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-info-circle me-1"></i> Detail
                                         </button>
                                     </div>
@@ -144,7 +144,7 @@
                                 <div class="col-md-12 mt-3">
                                     <h6 class="text-center mb-3">Jumlah Aktivitas DiKantor</h6>
                                     <div class="chart">
-                                        <canvas id="chart-bar-dikantor" class="chart-canvas" height="240"></canvas>
+                                    <canvas id="chart-bar-dikantor" class="chart-canvas" height="519" width="649" style="margin-top:65px; display: block; box-sizing: border-box; height: 380px; width: 481px;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -289,6 +289,7 @@
     });
 
     // Pie Chart Dikantor
+    // Pie Chart Dikantor
     const ctxPieDikantor = document.getElementById('chart-pie-dikantor').getContext('2d');
     const gradientColorsPieDikantor = [];
     colors.forEach((color) => {
@@ -311,7 +312,9 @@
         options: {
             responsive: true,
             cutout: '70%',
+            animation: { animateRotate: true, animateScale: true, duration: 1500 },
             plugins: {
+                legend: { display: false },
                 tooltip: {
                     backgroundColor: 'rgba(0,0,0,0.8)',
                     titleColor: '#fff',
@@ -326,6 +329,13 @@
                 }
             }
         }
+    });
+
+    // Toggle Legend Dikantor
+    const toggleLegendDikantorButton = document.getElementById('toggle-legend-dikantor');
+    toggleLegendDikantorButton.addEventListener('click', () => {
+        pieChartDikantor.options.plugins.legend.display = !pieChartDikantor.options.plugins.legend.display;
+        pieChartDikantor.update();
     });
 
     // Bar Chart Dikantor
