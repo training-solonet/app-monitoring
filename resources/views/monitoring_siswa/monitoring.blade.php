@@ -1,6 +1,6 @@
-<x-app-layout>
+<x-app-layout>    
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
         <x-app.navbar />
         <div class="container-fluid px-5 py-4">
             <div class="mt-4 row">
@@ -63,8 +63,8 @@
 
                         <div class="card-body">
                             <div class="table-responsive p-0">
-                                <table class="table table-striped">
-                                    <thead class="bg-gray-100">
+                                <table class="table table-custom">
+                                    <thead class="">
                                         <tr>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">No</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Nama Siswa</th>
@@ -80,7 +80,7 @@
                                         </tr>
                                     </thead>
                                     
-                                    <tbody class="bg-white">
+                                    <tbody class="">
                                         @foreach ($monitoring as $index => $item)
                                             <tr>
                                                 <td class="align-middle text-center">{{ $index + 1 }}</td>
@@ -92,8 +92,62 @@
                                                 <td class="align-middle text-center">{{ $item->waktu_mulai }}</td>
                                                 <td class="align-middle text-center">{{ $item->waktu_selesai }}</td>
                                                 <td class="align-middle text-center">{{ $item->status }}</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="align-middle text-center">
+                                                    <a class="mb-0"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#ViewBuktiModal{{ $item->id }}">
+                                                        <i class="fa-regular fa-image text-info"></i>
+                                                    </a>
+                                                </td>
+                                                  <!-- Modal Lihat Bukti -->
+                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="ViewBuktiModalLabel{{ $item->id }}">Bukti
+                                                                    Laporan</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @if ($item->bukti)
+                                                                    <div class="row">
+                                                                        @foreach (explode(',', $item->bukti) as $index => $buktiPath)
+                                                                            <div class="col-6 col-md-4 mb-3">
+                                                                                <div class="card shadow-sm">
+                                                                                    <a href="{{ Storage::url($buktiPath) }}"
+                                                                                        target="_blank">
+                                                                                        <img src="{{ Storage::url($buktiPath) }}"
+                                                                                            class="card-img-top"
+                                                                                            alt="Bukti"
+                                                                                            style="max-height: 200px; object-fit: contain;">
+                                                                                    </a>
+                                                                                    <div class="card-body text-center">
+                                                                                        <p class="card-text">
+                                                                                            <small>Bukti
+                                                                                                {{ $index + 1 }}</small>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @else
+                                                                    <p class="text-center">Bukti belum diunggah</p>
+                                                                @endif
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <td class="align-middle text-center">
                                                     <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
                                                         <i class="fas fa-trash-alt"></i>
@@ -105,6 +159,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        </td>
                                     </tbody>
                                     
                                 </table>

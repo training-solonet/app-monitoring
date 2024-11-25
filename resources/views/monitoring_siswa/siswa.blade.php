@@ -36,12 +36,12 @@
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
-                        <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
+                            <div class="border-bottom col-md-12 py-3 px-3 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm"
-                                    class="p-2 border rounded shadow-sm w-100 gap-2 d-flex justify-content-start">
+                                    class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
-                                    <div class="col-sm-2">
-                                        <label for="statusFilter">Status</label>
+                                    <div class="col-12 col-md-2 mb-3">
+                                        <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
@@ -57,365 +57,46 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <!-- Tanggal Mulai -->
+                                    <div class="col-12 col-md-2 mb-3">
                                         <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
                                         <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
-                                            value="{{ request('waktu_mulai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                            value="{{ request('waktu_mulai') }}" onchange="this.form.submit();">
                                     </div>
 
-                                    <div class="col-sm-2">
+                                    <!-- Tanggal Selesai -->
+                                    <div class="col-12 col-md-2 mb-3">
                                         <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="waktu_selesai" name="waktu_selesai"
                                             class="form-control" value="{{ request('waktu_selesai') }}"
-                                            onchange="document.getElementById('filterForm').submit();">
+                                            onchange="this.form.submit();">
                                     </div>
 
                                     <!-- Kategori Filter -->
-                                    <div class="col-sm-2" style="width:100px">
+                                    <div class="col-2 col-md-3 mb-3">
                                         <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                        <select class="form-select" style="width:150px" name="kategori"
-                                            id="kategoriFilter" onchange="this.form.submit()">
+                                        <select class="form-select" name="kategori" id="kategoriFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Kategori</option>
-                                            <option value="Dikantor" {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>
-                                            Dikantor</option>
-                                            <option value="Keluar Dengan Teknisi" {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
-                                            Keluar Dengan Teknisi</option>
+                                            <option value="Dikantor"
+                                                {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
+                                            </option>
+                                            <option value="Keluar Dengan Teknisi"
+                                                {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
+                                                Keluar Dengan Teknisi</option>
                                         </select>
                                     </div>
-                                    
-                                    <!-- Reset Button -->
-                                    <div class="col-sm-2 d-flex justify-content-center" style="margin-top:30px">
-                                        <button type="button" class="btn btn-outline-secondary"
-                                            onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>
-                                    </div>
 
+                                    <!-- Reset Button -->
+                                    <div class="col-2 col-md-1 d-flex justify-content-center align-items-end">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="window.location.href='{{ route('siswa.index') }}'"
+                                            style="margin-top: 30px">Reset</button>
+                                    </div>
                                 </form>
 
+
                             </div>
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                No</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Kategori</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Materi</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Aktivitas diluar</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Catatan Siswa</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Mulai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Selesai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Status</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Total Waktu</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Bukti</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Aksi</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach ($siswa as $index => $item)
-                                            <tr>
-                                                <td class="align-middle text-center" rowspan="2">
-                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                        {{ $index + 1 }}</p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                        {{ $item->kategori }}</p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <p
-                                                        class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
-                                                        {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
-                                                    </p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <p
-                                                        class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
-                                                        {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada aktivitas' }}
-                                                    </p>
-                                                </td>
-                                                <td class="align-middle text-center text-sm font-weight-normal">
-                                                    <p
-                                                        class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
-                                                        {{ $item->report ?? 'Belum ada catatan' }}
-                                                    </p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">
-                                                        {!! $item->waktu_mulai
-                                                            ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i')
-                                                            : '<em>Belum Dimulai</em>' !!}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">
-                                                        {!! $item->waktu_selesai
-                                                            ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i')
-                                                            : '<em>Belum Berakhir</em>' !!}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    @if ($item->status == 'to do')
-                                                        <span
-                                                            class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'doing')
-                                                        <span
-                                                            class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'done')
-                                                        <span
-                                                            class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
-                                                    @endif
-                                                </td>
-
-                                                <td class="align-middle text-center" id="total-waktu-{{ $item->id }}">
-                                                    @if ($item->status === 'doing' && $item->waktu_mulai)
-                                                        {{ $item->total_waktu ?? '00:00:00' }}
-                                                    @else
-                                                        {{ $item->total_waktu ?? '00:00:00' }}
-                                                    @endif
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <a class="mb-0"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                        <i class="fa-regular fa-image text-info"></i>
-                                                    </a>
-                                                </td>
-                                                <!-- Modal Lihat Bukti -->
-                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="ViewBuktiModalLabel{{ $item->id }}">Bukti
-                                                                    Laporan</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                @if ($item->bukti)
-                                                                    <div class="row">
-                                                                        @foreach (explode(',', $item->bukti) as $index => $buktiPath)
-                                                                            <div class="col-6 col-md-4 mb-3">
-                                                                                <div class="card shadow-sm">
-                                                                                    <a href="{{ Storage::url($buktiPath) }}"
-                                                                                        target="_blank">
-                                                                                        <img src="{{ Storage::url($buktiPath) }}"
-                                                                                            class="card-img-top"
-                                                                                            alt="Bukti"
-                                                                                            style="max-height: 200px; object-fit: contain;">
-                                                                                    </a>
-                                                                                    <div class="card-body text-center">
-                                                                                        <p class="card-text">
-                                                                                            <small>Bukti
-                                                                                                {{ $index + 1 }}</small>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                @else
-                                                                    <p class="text-center">Bukti belum diunggah</p>
-                                                                @endif
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <td class="align-middle text-center">
-                                                    <form action="{{ route('siswa.toggle', $item->id) }}"
-                                                        method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @if ($item->status === 'to do')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-success mb-0">
-                                                                <i class="fa-solid fa-play" style="font-size: 12px"></i>
-                                                            </button>
-                                                        @elseif($item->status === 'doing')
-                                                        <button type="button" class="btn btn-sm btn-danger mb-0"
-                                                            data-bs-toggle="modal"
-                                                            data-id="{{ $item->id }}"
-                                                            data-report="{{ $item->report }}"
-                                                            data-waktu_selesai="{{ $item->waktu_selesai }}">
-                                                            <i class="fa-solid fa-square" style="font-size: 12px"></i>
-                                                        </button>
-                                                        @else
-                                                            <button type="button" class="btn btn-sm btn-warning mb-0"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editSiswaModal{{ $item->id }}">
-                                                                <i class="fas fa-edit" style="font-size: 12px"></i>
-                                                            </button>
-                                                        @endif
-                                                    </form>
-                                                </td>
-                                            </tr>
-
-                                            <!-- Modal Edit Siswa -->
-                                            <div class="modal fade" id="editSiswaModal{{ $item->id }}"
-                                                tabindex="-1"
-                                                aria-labelledby="editSiswaModalLabel{{ $item->id }}"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title"
-                                                                id="editSiswaModalLabel{{ $item->id }}">Edit
-                                                                Laporan</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <form action="{{ route('siswa.update', $item->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="report{{ $item->id }}"
-                                                                        class="form-label">Laporan</label>
-                                                                    <textarea class="form-control" id="report{{ $item->id }}" name="report" rows="3">{{ old('report', $item->report) }}</textarea>
-                                                                </div>
-
-                                                                <div class="mb-3">
-                                                                    <label for="bukti{{ $item->id }}"
-                                                                        class="form-label">Bukti</label>
-                                                                    <input class="form-control" type="file"
-                                                                        id="bukti{{ $item->id }}" name="bukti[]"
-                                                                        multiple>
-                                                                </div>
-
-                                                                <!-- Menampilkan gambar sebelumnya jika ada -->
-                                                                @if ($item->bukti)
-                                                                    <div class="mb-3">
-                                                                        <label class="form-label">Gambar
-                                                                            Sebelumnya:</label>
-                                                                        <div class="row">
-                                                                            @foreach (explode(',', $item->bukti) as $index => $buktiPath)
-                                                                                <div class="col-6 col-md-4 mb-2">
-                                                                                    <img src="{{ Storage::url($buktiPath) }}"
-                                                                                        class="img-fluid"
-                                                                                        alt="Bukti"
-                                                                                        style="max-height: 100px; object-fit: contain;">
-                                                                                    <p class="text-center">
-                                                                                        <small>Gambar
-                                                                                            {{ $index + 1 }}</small>
-                                                                                    </p>
-                                                                                </div>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    </div>
-                                                                @endif
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-info">Simpan</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <tr></tr>
-                                            
-                                            <!-- Modal Selesai -->
-                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1"
-                                                aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Selesaikan Aktivitas</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
-                                                                @csrf
-                                                                @method('PUT')
-                                                                <!-- Aktivitas Dropdown -->
-                                                                @if ($item->kategori === 'Keluar Dengan Teknisi')
-                                                                    <div class="mb-3">
-                                                                        <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
-                                                                        <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
-                                                                            <option disabled selected>Pilih Aktivitas</option>
-                                                                            @foreach ($aktivitas as $aktivitasItem)
-                                                                                <option value="{{ $aktivitasItem->id }}">{{ $aktivitasItem->nama_aktivitas }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                @endif
-                                            
-                                                                <!-- Report Textarea -->
-                                                                <div class="mb-3">
-                                                                    <label for="report{{ $item->id }}" class="form-label fw-bold">Laporan</label>
-                                                                    <textarea name="report" id="report{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
-                                                                </div>
-                                            
-                                                                <!-- Waktu Selesai Input -->
-                                                                <div class="mb-3">
-                                                                    <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
-                                                                    <input type="time" class="form-control" id="waktu_selesai{{ $item->id }}" name="waktu_selesai"
-                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
-                                                                </div>
-                                            
-                                                                <!-- Bukti Upload Input -->
-                                                                <div class="mb-3">
-                                                                    <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (jpg,png,svg,jpeg,gif)</label>
-                                                                    <input type="file" class="form-control" id="bukti{{ $item->id }}" name="bukti[]" accept="image/*" multiple>
-                                                                    <small class="form-text text-muted">Anda dapat mengunggah satu atau lebih gambar.</small>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" form="editLaporanForm{{ $item->id }}" class="btn btn-info">Simpan Perubahan</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="border-top py-3 px-3 d-flex align-items-center">
-                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                                <div class="ms-auto">
-                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                    <button class="btn btn-sm btn-white mb-0">Next</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -10,8 +10,8 @@
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('dashboard') ? 'active' : '' }}"
-                    href="{{ route('dashboard') }}">
+                <a class="nav-link  {{ is_current_route('dashboardpembimbing') ? 'active' : '' }}"
+                    href="{{ route('dashboardpembimbing.index') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"

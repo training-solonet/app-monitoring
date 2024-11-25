@@ -70,9 +70,9 @@
     {{-- Chart.js Script --}}
     <script>
         const pieData = @json($chartData);
-        const activityData = @json(array_values($activityData));
-        const activityLabels = @json(array_keys($activityData));
-
+        const activityData = @json($activityData->toArray()); // Convert to plain array
+        const activityLabels = @json(array_keys($activityData->toArray())); // Convert to plain array and get keys
+    
         // Pie Chart (Persentase Waktu Per Aktivitas)
         const ctxPie = document.getElementById('chart-pie').getContext('2d');
         const pieChart = new Chart(ctxPie, {
@@ -96,7 +96,7 @@
                 }
             }
         });
-
+    
         // Bar Chart (Jumlah Aktivitas)
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
         const barChart = new Chart(ctxBar, {
@@ -142,7 +142,7 @@
                 }
             }
         });
-
+    
         // Toggle legend visibility
         const toggleLegendButton = document.getElementById('toggle-legend');
         toggleLegendButton.addEventListener('click', () => {
@@ -150,4 +150,5 @@
             pieChart.update();
         });
     </script>
+    
 </x-app-layout>
