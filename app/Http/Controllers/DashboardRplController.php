@@ -14,32 +14,49 @@ class DashboardRplController extends Controller
     {
         $userId = Auth::id();
 
+        // Jumlah data berdasarkan kategori
         $jumlahDataProject = Siswa::where('user_id', $userId)
-        ->where('kategori', 'Project')
-        ->count();
+            ->where('kategori', 'Project')
+            ->count();
 
         $jumlahDataLearning = Siswa::where('user_id', $userId)
-        ->where('kategori', 'Learning')
-        ->count();
+            ->where('kategori', 'Learning')
+            ->count();
 
-        $totalWaktu = Siswa::where('user_id', $userId)
+        // Total waktu dalam detik
+        $siswaData = Siswa::where('user_id', $userId)
             ->get()
-            ->reduce(function ($carry, $item) {
+            ->map(function ($item) {
+                $totalTime = 0;
                 if ($item->waktu_mulai && $item->waktu_selesai) {
                     $waktuMulai = Carbon::parse($item->waktu_mulai);
                     $waktuSelesai = Carbon::parse($item->waktu_selesai);
                     if ($waktuSelesai->greaterThan($waktuMulai)) {
-                        $carry += $waktuSelesai->diffInSeconds($waktuMulai);
+                        $totalTime = $waktuSelesai->diffInSeconds($waktuMulai);
                     }
                 }
-                return $carry;
-            }, 0);
+                return [
+                    'name' => $item->aktivitas_name,
+                    'totalTime' => $totalTime,
+                ];
+            });
 
+        $totalWaktu = $siswaData->sum('totalTime');
+        $aktivitasNames = $siswaData->pluck('name');
         $totalAktivitas = $jumlahDataLearning + $jumlahDataProject;
 
+        // Persentase
         $persentaseLearning = $totalAktivitas > 0 ? ($jumlahDataLearning / $totalAktivitas) * 100 : 0;
         $persentaseProject = $totalAktivitas > 0 ? ($jumlahDataProject / $totalAktivitas) * 100 : 0;
 
-        return view('dashboardrpl', compact('jumlahDataProject', 'jumlahDataLearning', 'totalWaktu', 'persentaseLearning', 'persentaseProject'));
+        return view('dashboardrpl', compact(
+            'jumlahDataProject',
+            'jumlahDataLearning',
+            'totalWaktu',
+            'persentaseLearning',
+            'persentaseProject',
+            'aktivitasNames',
+            'siswaData'
+        ));
     }
 }

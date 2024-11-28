@@ -99,7 +99,7 @@
                     </div>
 
                     <!-- Progress Bars -->
-                    <div class="mt-5">
+                    <div class="mt-3">
                         <h6 class="font-weight-bold">Perbandingan Aktivitas DiKantor dan Dengan Teknisi</h6>
 
                         <!-- Progress Bar DiKantor -->
@@ -140,12 +140,12 @@
                 {{-- Diagram --}}
                 <div class="d-flex row mt-4" id="dashboard-content" style="display: none;">
                     <!-- Card 1: Untuk Diagram Lingkaran dan Batang DiKantor -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
-                                <div class="row">
+                                <div class="row w-75" style="margin: auto;">
                                     <!-- Diagram Lingkaran DiKantor -->
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <h6 class="text-center mb-3">Persentase Waktu Per Materi DiKantor</h6>
                                         <div class="chart">
                                             <canvas id="chart-pie-dikantor" class="chart-canvas"
@@ -158,12 +158,12 @@
                                         </div>
                                     </div>
                                     <!-- Diagram Batang DiKantor -->
-                                    <div class="col-md-12 mt-3">
+                                    <div class="col-md-6 mt-1">
                                         <h6 class="text-center mb-3">Jumlah Aktivitas DiKantor</h6>
                                         <div class="chart">
                                             <canvas id="chart-bar-dikantor" class="chart-canvas" height="519"
                                                 width="649"
-                                                style="margin-top:65px; display: block; box-sizing: border-box; height: 380px; width: 481px;"></canvas>
+                                                style="margin-top: 4rem; display: block; box-sizing: border-box; height: 380px; width: 481px;"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -172,12 +172,12 @@
                     </div>
 
                     <!-- Card 2: Untuk Diagram Lingkaran dan Batang Dengan Teknisi -->
-                    <div class="col-md-6">
+                    <div class="col-md-12 mt-3">
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
-                                <div class="row">
+                                <div class="row w-75" style="margin: auto">
                                     <!-- Diagram Lingkaran Dengan Teknisi -->
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Dengan Teknisi</h6>
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
@@ -189,9 +189,9 @@
                                         </div>
                                     </div>
                                     <!-- Diagram Batang Dengan Teknisi -->
-                                    <div class="col-md-12 mt-3">
+                                    <div class="col-md-6 mt-1">
                                         <h6 class="text-center mb-3">Jumlah Aktivitas Dengan Teknisi</h6>
-                                        <div class="chart" style="margin-top:4rem;">
+                                        <div class="chart" style="margin-top: 5rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>
                                     </div>
