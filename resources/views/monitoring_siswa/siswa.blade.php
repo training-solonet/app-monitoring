@@ -270,7 +270,8 @@
                                                             data-bs-toggle="modal"
                                                             data-id="{{ $item->id }}"
                                                             data-report="{{ $item->report }}"
-                                                            data-waktu_selesai="{{ $item->waktu_selesai }}">
+                                                            data-waktu_selesai="{{ $item->waktu_selesai }}"
+                                                            data-kategori="{{ $item->kategori }}">
                                                             <i class="fa-solid fa-square" style="font-size: 12px"></i>
                                                         </button>
                                                         @else
@@ -389,7 +390,8 @@
                                                                 <div class="mb-3">
                                                                     <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
                                                                     <input type="time" class="form-control" id="waktu_selesai{{ $item->id }}" name="waktu_selesai"
-                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required>
+                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required
+                                                                        min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
                                                                 </div>
                                             
                                                                 <!-- Bukti Upload Input -->
@@ -496,27 +498,35 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tambahLaporanTeknisiLabel">Tambah Laporan Keluar Dengan Teknisi</h5>
+                    <h5 class="modal-title" id="tambahLaporanTeknisiLabel">Selesaikan Aktivitas Terlebih Dahulu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="tambahLaporanTeknisitkj" action="{{ route('siswa.store') }}" method="POST">
+                    <form id="tambahLaporanTeknisiForm" method="POST" action="#" enctype="multipart/form-data">
                         @csrf
+                        @method('POST')
+                        <!-- Input untuk laporan -->
                         <div class="mb-3">
-                            <label for="kategoriSelect" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori" name="kategori" required>
-                                <option selected value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
-                            </select>
+                            <label for="report" class="form-label">Catatan Siswa</label>
+                            <textarea id="report" name="report" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <!-- Input untuk bukti -->
+                        <div class="mb-3">
+                            <label for="bukti" class="form-label">Unggah Bukti</label>
+                            <input type="file" id="bukti" name="bukti[]" class="form-control" multiple>
+                        </div>
+                        <!-- Tombol Submit -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-info">Simpan</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" form="tambahLaporanTeknisitkj" class="btn btn-info">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
     <script>
@@ -539,38 +549,65 @@
                 startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
             @endif
         @endforeach
-         document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', function(event) {
+        document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function (event) {
                 const id = this.getAttribute('data-id');
+                const kategori = this.getAttribute('data-kategori');
                 const report = this.getAttribute('data-report');
                 const waktu_selesai = this.getAttribute('data-waktu_selesai');
 
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Aktivitas ini akan diselesaikan atau tambahkan laporan teknisi.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    showDenyButton: true,
-                    confirmButtonText: 'Ya, Selesaikan!',
-                    denyButtonText: 'Keluar Dengan Teknisi',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
-                        modal.show();
+                if (kategori === 'Keluar Dengan Teknisi') {
+                    const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                    modal.show();
 
-                        const modalElement = document.getElementById('EditLaporanModal' + id);
-                        modalElement.querySelector('input[name="id"]').value = id;
-                        modalElement.querySelector('textarea[name="report"]').value = report;
-                        modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
-                    } else if (result.isDenied) {
-                        const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
-                        teknisiModal.show();
-                    }
-                });
+                    const modalElement = document.getElementById('EditLaporanModal' + id);
+                    modalElement.querySelector('textarea[name="report"]').value = report;
+                    modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                } else {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Aktivitas ini akan diselesaikan.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        showDenyButton: true,
+                        confirmButtonText: 'Ya, Selesaikan!',
+                        denyButtonText: 'Keluar Dengan Teknisi',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                            modal.show();
+
+                            const modalElement = document.getElementById('EditLaporanModal' + id);
+                            modalElement.querySelector('textarea[name="report"]').value = report;
+                            modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                        } else if (result.isDenied) {
+                            const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
+                            teknisiModal.show();
+
+                            const teknisiForm = document.getElementById('tambahLaporanTeknisiForm');
+                            teknisiForm.setAttribute('action', `/siswa/updateAndCreate/${id}`);
+                        }
+                    });
+                }
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+    const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+
+    waktuSelesaiInput.setAttribute('min', waktuMulai);
+
+    waktuSelesaiInput.addEventListener('change', function () {
+        if (waktuSelesaiInput.value < waktuMulai) {
+            alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+            waktuSelesaiInput.value = waktuMulai;
+        }
+    });
+});
+
 
     function startTimer(waktuMulai, elementId) {
         const startTime = new Date(waktuMulai).getTime();
