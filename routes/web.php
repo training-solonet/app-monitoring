@@ -138,3 +138,6 @@ Route::resource('dashboardsiswa', DashboardSiswaController::class);
 
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::get('/dashboard-rpl', [DashboardRplController::class, 'index'])->name('dashboardrpl.index');
+
+Route::post('/siswa/updateAndCreate/{id}', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
+Route::put('/siswa/{id}/update-create', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');

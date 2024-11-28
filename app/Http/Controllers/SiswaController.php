@@ -106,20 +106,41 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
 
-    public function store(Request $request)
+    public function updateAndCreate(Request $request, $id)
     {
+        $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
         $request->validate([
-            'kategori' => 'required|string',
+            'report' => 'required|string',
+            'bukti' => 'nullable|array',
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $filePath = null;
+        if ($request->hasFile('bukti')) {
+            $filePaths = [];
+            foreach ($request->file('bukti') as $file) {
+                $originalFileName = $file->getClientOriginalName();
+                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
+            }
+            $filePath = implode(',', $filePaths); 
+        }
+
+        $item->update([
+            'waktu_selesai' => now(),
+            'status' => 'done',
+            'report' => $request->report,
+            'bukti' => $filePath,
         ]);
 
         Siswa::create([
             'kategori' => 'Keluar Dengan Teknisi',
-            'status' => 'to do',
+            'status' => 'doing',
             'user_id' => Auth::id(),
-            'report' => $request->report,
+            'waktu_mulai' => now(),
         ]);
 
-        return redirect()->route('siswa.index')->with('success', 'Laporan berhasil ditambahkan.');
+        return redirect()->route('siswa.index')->with('success', 'Data diperbarui dan entri baru berhasil ditambahkan.');
     }
     
     public function start($id)
