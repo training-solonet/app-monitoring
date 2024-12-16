@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
-                            <div class="border-bottom py-3 px-3 d-sm-flex align-items-right">
+                            {{-- <div class="border-bottom py-3 px-3 d-sm-flex  justify-content-end align-items-right">
                                 <div class="input-group w-sm-25 ">
                                     <span class="input-group-text text-body">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -47,7 +47,7 @@
                                     </span>
                                     <input type="text" class="form-control" placeholder="Search">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead class="bg-gray-100">
