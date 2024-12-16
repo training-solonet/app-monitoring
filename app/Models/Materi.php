@@ -15,7 +15,7 @@ class Materi extends Model
         'materi',
         'detail',
         'file_materi',
-        'jurusan'
+        'jurusan',
     ];
 
     public function siswa()

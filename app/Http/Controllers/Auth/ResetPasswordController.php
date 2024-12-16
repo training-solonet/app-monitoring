@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
-
     public function create(Request $request)
     {
         return view('auth.passrecover.reset-password', ['request' => $request]);
@@ -46,6 +45,6 @@ class ResetPasswordController extends Controller
         return $status == Password::PASSWORD_RESET
             ? redirect()->route('sign-in')->with('status', __($status))
             : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __($status)]);
+                ->withErrors(['email' => __($status)]);
     }
 }

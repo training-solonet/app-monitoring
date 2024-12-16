@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Models\Siswa;
 use App\Models\Aktivitas;
 use App\Models\Materi;
+use App\Models\Siswa;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardSiswaController extends Controller
@@ -26,6 +26,7 @@ class DashboardSiswaController extends Controller
                         $carry += $waktuSelesai->diffInSeconds($waktuMulai);
                     }
                 }
+
                 return $carry;
             }, 0);
 
@@ -45,6 +46,7 @@ class DashboardSiswaController extends Controller
                     }
                 }
                 $percentage = $totalWaktuTeknisi ? ($totalTime / $totalWaktuTeknisi) * 100 : 0;
+
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
@@ -56,7 +58,7 @@ class DashboardSiswaController extends Controller
             ->groupBy('aktivitas_id')
             ->map->count();
 
-            $totalWaktuDikantor = Siswa::where('user_id', $userId)
+        $totalWaktuDikantor = Siswa::where('user_id', $userId)
             ->where('kategori', 'DiKantor')
             ->get()
             ->reduce(function ($carry, $item) {
@@ -67,6 +69,7 @@ class DashboardSiswaController extends Controller
                         $carry += $waktuSelesai->diffInSeconds($waktuMulai);
                     }
                 }
+
                 return $carry;
             }, 0);
 
@@ -86,6 +89,7 @@ class DashboardSiswaController extends Controller
                     }
                 }
                 $percentage = $totalWaktuDikantor ? ($totalTime / $totalWaktuDikantor) * 100 : 0;
+
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
@@ -115,14 +119,15 @@ class DashboardSiswaController extends Controller
                         $carry += $waktuSelesai->diffInSeconds($waktuMulai);
                     }
                 }
+
                 return $carry;
             }, 0);
 
-            $totalAktivitas = $jumlahDataDikantor + $jumlahDataTeknisi;
+        $totalAktivitas = $jumlahDataDikantor + $jumlahDataTeknisi;
 
-            $persentaseDikantor = $totalAktivitas > 0 ? ($jumlahDataDikantor / $totalAktivitas) * 100 : 0;
-            $persentaseTeknisi = $totalAktivitas > 0 ? ($jumlahDataTeknisi / $totalAktivitas) * 100 : 0;
-    
+        $persentaseDikantor = $totalAktivitas > 0 ? ($jumlahDataDikantor / $totalAktivitas) * 100 : 0;
+        $persentaseTeknisi = $totalAktivitas > 0 ? ($jumlahDataTeknisi / $totalAktivitas) * 100 : 0;
+
         return view('dashboard_siswa', compact(
             'siswaData',
             'aktivitasNames',
@@ -135,7 +140,7 @@ class DashboardSiswaController extends Controller
             'jumlahDataDikantor',
             'jumlahDataTeknisi',
             'totalWaktu',
-            'persentaseDikantor', 
+            'persentaseDikantor',
             'persentaseTeknisi'
         ));
     }

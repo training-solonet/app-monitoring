@@ -442,7 +442,7 @@
                     <form id="formTambahLaporan" action="{{ route('siswa.storeMultiple') }}" method="POST">
                         @csrf
                         <!-- Laporan Pertama -->
-                        <h6 class="text-dark font-weight-semibold">Laporan 1</h6>
+                        <h6 class="text-dark font-weight-semibold">Silahkan inputkan laporan</h6>
                         <div class="mb-3">
                             <label for="kategori1" class="form-label">Kategori</label>
                             <select class="form-select" id="kategori1" name="kategori1" required
@@ -455,28 +455,6 @@
                         <div class="mb-3" id="materi1" style="display: none;">
                             <label for="materi1Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi1Select" name="materi_id1">
-                                <option selected value="">Pilih Materi</option>
-                                @foreach ($materitkj as $item)
-                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <hr>
-
-                        <!-- Aktivitas Kedua -->
-                        <h6 class="text-dark font-weight-semibold">Laporan 2</h6>
-                        <div class="mb-3">
-                            <label for="kategori2" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori2" name="kategori2"
-                                onchange="toggleMateriDropdown('kategori2', 'materi2')">
-                                <option selected value="">Pilih Kategori</option>
-                                <option value="DiKantor">Di Kantor</option>
-                                <option value="Keluar Dengan Teknisi">Keluar Dengan Teknisi</option>
-                            </select>
-                        </div>
-                        <div class="mb-3" id="materi2" style="display: none;">
-                            <label for="materi2Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi2Select" name="materi_id2">
                                 <option selected value="">Pilih Materi</option>
                                 @foreach ($materitkj as $item)
                                     <option value="{{ $item->id }}">{{ $item->materi }}</option>

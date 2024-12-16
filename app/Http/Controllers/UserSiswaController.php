@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class UserSiswaController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $usersToUpdate = User::where('role', 'siswa')
-                             ->where('status', 'Aktif')
-                             ->where('tanggal_selesai', '<', Carbon::now())
-                             ->get();
+            ->where('status', 'Aktif')
+            ->where('tanggal_selesai', '<', Carbon::now())
+            ->get();
 
         foreach ($usersToUpdate as $user) {
             $user->status = 'Tidak Aktif';
@@ -20,7 +21,7 @@ class UserSiswaController extends Controller
         }
 
         $usersiswa = User::where('role', 'siswa')->get();
-    
+
         return view('admin.siswa', compact('usersiswa'));
     }
 
@@ -52,7 +53,7 @@ class UserSiswaController extends Controller
 
         $user = User::create([
             'username' => $request->username,
-            'password' => $request->password, 
+            'password' => $request->password,
             'role' => $request->role,
             'status' => $request->status,
             'tanggal_mulai' => $request->tanggal_mulai,
@@ -102,7 +103,7 @@ class UserSiswaController extends Controller
 
             return redirect()->route('usersiswa.index')->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('usersiswa.index')->with('error', 'Data Gagal Diupdate' . $e->getMessage());
+            return redirect()->route('usersiswa.index')->with('error', 'Data Gagal Diupdate'.$e->getMessage());
         }
     }
 
@@ -114,7 +115,7 @@ class UserSiswaController extends Controller
 
             return redirect()->route('usersiswa.index')->with('success', 'Data berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->route('usersiswa.index')->with('error', 'Data gagal dihapus: ' . $e->getMessage());
+            return redirect()->route('usersiswa.index')->with('error', 'Data gagal dihapus: '.$e->getMessage());
         }
     }
 }

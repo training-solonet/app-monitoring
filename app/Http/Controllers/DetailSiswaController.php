@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Siswa;
-use App\Models\Materi;
 use App\Models\Aktivitas;
+use App\Models\Materi;
+use App\Models\Siswa;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class DetailSiswaController extends Controller
 {
@@ -14,13 +13,14 @@ class DetailSiswaController extends Controller
     {
         $totalMateri = Materi::count();
         $totalAktivitas = Aktivitas::count();
-    
+
         $totalWaktu = Siswa::whereNotNull('waktu_mulai')
             ->whereNotNull('waktu_selesai')
             ->get()
             ->map(function ($siswa) {
                 $waktuMulai = Carbon::parse($siswa->waktu_mulai);
                 $waktuSelesai = Carbon::parse($siswa->waktu_selesai);
+
                 return $waktuSelesai->diffInMinutes($waktuMulai);
             })
             ->sum();

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class MateriTkj extends Model
 {
     use HasFactory;
-     
+
     protected $table = 'materi';
 
     protected $fillable = [
         'materi',
         'file_materi',
         'detail',
-        'jurusan'
+        'jurusan',
     ];
 }
