@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\MateriPembimbing;
 use App\Models\MateriTkj;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 class MateriTkjController extends Controller
 {
-    public function index(){
-        $materitkj = MateriTkj::where('jurusan','TKJ')->get();
-        return view('pembimbing.materi',compact('materitkj'));
-    }
+    public function index()
+    {
+        $materitkj = MateriTkj::where('jurusan', 'TKJ')->get();
 
+        return view('pembimbing.materi', compact('materitkj'));
+    }
 
     public function store(Request $request)
     {
@@ -20,7 +21,7 @@ class MateriTkjController extends Controller
             'materi' => 'required|string|max:255',
             'detail' => 'nullable|string',
             'file_materi' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,txt|max:5120',
-            'jurusan' => 'required|in:TKJ,RPL'
+            'jurusan' => 'required|in:TKJ,RPL',
         ]);
 
         $filePath = null;
@@ -37,7 +38,7 @@ class MateriTkjController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Materi berhasil upload');
-    }  
+    }
 
     public function update(Request $request, $id)
     {
@@ -53,7 +54,7 @@ class MateriTkjController extends Controller
             if ($materi->file_materi) {
                 Storage::disk('public')->delete($materi->file_materi);
             }
-            
+
             $originalFileName = $request->file('file_materi')->getClientOriginalName();
             $filePath = $request->file('file_materi')->storeAs('materi_files', $originalFileName, 'public');
             $materi->file_materi = $filePath;

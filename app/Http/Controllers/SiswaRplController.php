@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Aktivitas;
+use App\Models\Materi;
 use App\Models\Siswa;
 use Carbon\Carbon;
-use App\Models\Materi;
-use App\Models\Aktivitas;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaRplController extends Controller
@@ -31,15 +31,15 @@ class SiswaRplController extends Controller
                 $item->total_waktu = '-';
             }
             \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
+
             return $item;
         });
 
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::where('jurusan', 'RPL')->get();
-        
-        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl','aktivitasrpl','statusFilterrpl'));
-    }
 
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl'));
+    }
 
     public function updateTime(Request $request, $id)
     {
@@ -49,7 +49,7 @@ class SiswaRplController extends Controller
             'waktu_selesai' => 'required|date_format:H:i',
             'report' => 'required|string',
             'bukti' => 'nullable|array',
-            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $filePath = null;
@@ -67,7 +67,7 @@ class SiswaRplController extends Controller
         }
 
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
+        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,

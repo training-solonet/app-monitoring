@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Models\Siswa;
-use App\Models\Materi;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardRplController extends Controller
@@ -35,6 +34,7 @@ class DashboardRplController extends Controller
                         $totalTime = $waktuSelesai->diffInSeconds($waktuMulai);
                     }
                 }
+
                 return [
                     'name' => $item->aktivitas_name,
                     'totalTime' => $totalTime,

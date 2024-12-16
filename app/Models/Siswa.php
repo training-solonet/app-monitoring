@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class siswa extends Model
 {
@@ -21,12 +20,12 @@ class siswa extends Model
         'materi_id',
         'user_id',
         'aktivitas_id',
-        'bukti'
+        'bukti',
     ];
 
     protected $dates = [
         'waktu_mulai',
-        'waktu_selesai'
+        'waktu_selesai',
     ];
 
     protected $casts = [
@@ -37,12 +36,11 @@ class siswa extends Model
     {
         return $this->belongsTo(Materi::class, 'materi_id');
     }
-    
+
     public function aktivitas()
     {
         return $this->belongsTo(Aktivitas::class, 'aktivitas_id');
     }
-
 
     public function siswa_monitoring()
     {
@@ -53,5 +51,4 @@ class siswa extends Model
     {
         return $this->belongsToMany(Materi::class, 'siswa_materi', 'siswa_id', 'materi_id');
     }
-
 }

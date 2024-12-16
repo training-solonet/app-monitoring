@@ -1,10 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Siswa;
 use App\Models\Materi;
-use App\Models\Aktivitas;
+use App\Models\Siswa;
 use Carbon\Carbon;
 
 class DashboardPembimbingController extends Controller
@@ -21,8 +20,8 @@ class DashboardPembimbingController extends Controller
                     'data' => [$rplCount, $tkjCount],
                     'backgroundColor' => ['#36A2EB', '#FF6384'],
                     'hoverOffset' => 15,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $activityData = Siswa::select('kategori')
@@ -35,33 +34,33 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
-            $jumlahDataRPL = Siswa::where('user_id')
+        $jumlahDataRPL = Siswa::where('user_id')
             ->whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
-    
-            $jumlahDataTKJ = Siswa::where('user_id')
+        $jumlahDataTKJ = Siswa::where('user_id')
             ->whereIn('kategori', ['Learning', 'Project'])
             ->count();
-    
-            $totalWaktu = Siswa::where('user_id')
-                ->get()
-                ->reduce(function ($carry, $item) {
-                    if ($item->waktu_mulai && $item->waktu_selesai) {
-                        $waktuMulai = Carbon::parse($item->waktu_mulai);
-                        $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                        if ($waktuSelesai->greaterThan($waktuMulai)) {
-                            $carry += $waktuSelesai->diffInSeconds($waktuMulai);
-                        }
-                    }
-                    return $carry;
-                }, 0);
-    
-            $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
-    
-            $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
-            $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
 
-        return view('dashboard', compact('chartData', 'activityData', 'totalWaktuPerKategori', 'rplCount', 'tkjCount','jumlahDataRPL','jumlahDataTKJ','totalWaktu','persentaseTKJ','persentaseRPL'));
+        $totalWaktu = Siswa::where('user_id')
+            ->get()
+            ->reduce(function ($carry, $item) {
+                if ($item->waktu_mulai && $item->waktu_selesai) {
+                    $waktuMulai = Carbon::parse($item->waktu_mulai);
+                    $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                    if ($waktuSelesai->greaterThan($waktuMulai)) {
+                        $carry += $waktuSelesai->diffInSeconds($waktuMulai);
+                    }
+                }
+
+                return $carry;
+            }, 0);
+
+        $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
+
+        $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
+        $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
+
+        return view('dashboard', compact('chartData', 'activityData', 'totalWaktuPerKategori', 'rplCount', 'tkjCount', 'jumlahDataRPL', 'jumlahDataTKJ', 'totalWaktu', 'persentaseTKJ', 'persentaseRPL'));
     }
 }

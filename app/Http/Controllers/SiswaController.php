@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Siswa;
-use App\Models\Materi;
 use App\Models\Aktivitas;
+use App\Models\Materi;
+use App\Models\Siswa;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
@@ -31,12 +31,14 @@ class SiswaController extends Controller
                 $item->total_waktu = '-';
             }
             \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
+
             return $item;
         });
 
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
-        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj','aktivitas','statusFilter'));
+
+        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter'));
     }
 
     public function updateTime(Request $request, $id)
@@ -47,7 +49,7 @@ class SiswaController extends Controller
             'waktu_selesai' => 'required|date_format:H:i',
             'report' => 'required|string',
             'bukti' => 'nullable|array',
-            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg'
+            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $filePath = null;
@@ -65,7 +67,7 @@ class SiswaController extends Controller
         }
 
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
+        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
@@ -123,7 +125,7 @@ class SiswaController extends Controller
                 $originalFileName = $file->getClientOriginalName();
                 $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
             }
-            $filePath = implode(',', $filePaths); 
+            $filePath = implode(',', $filePaths);
         }
 
         $item->update([
@@ -142,7 +144,7 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.index')->with('success', 'Data diperbarui dan entri baru berhasil ditambahkan.');
     }
-    
+
     public function start($id)
     {
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
@@ -214,5 +216,4 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil diperbarui.');
     }
-
 }
