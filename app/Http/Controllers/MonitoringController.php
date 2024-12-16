@@ -63,7 +63,7 @@ class MonitoringController extends Controller
 
 
         $siswa_monitoring = User::all();
-        $materi_monitoring = Materi::all();
+        $materi_monitoring = materi::all();
         $monitoring = $monitoring->get();
 
         return view('monitoring_siswa.monitoring', compact('monitoring', 'materi_monitoring', 'siswa_monitoring'));
