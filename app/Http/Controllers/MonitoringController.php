@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\materi;
+use Illuminate\Http\Request;
 use App\Models\Siswa;
+use App\Models\Materi;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -62,7 +63,7 @@ class MonitoringController extends Controller
         }
 
         $siswa_monitoring = User::all();
-        $materi_monitoring = materi::all();
+        $materi_monitoring = Materi::all();
         $monitoring = $monitoring->get();
 
         return view('monitoring_siswa.monitoring', compact('monitoring', 'materi_monitoring', 'siswa_monitoring'));
