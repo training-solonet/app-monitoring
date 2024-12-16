@@ -50,9 +50,9 @@
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                                     Username</th>
-                                                                <th
+                                                                {{-- <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Password</th>
+                                                                    Password</th> --}}
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Tanggal Mulai</th>
@@ -86,11 +86,11 @@
                                                                         <p
                                                                             class="text-sm text-dark font-weight-semibold mb-0">
                                                                             {{ $item->username }}</p>
-                                                                    </td>
+                                                                    {{-- </td>
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->password }}</p>
-                                                                    </td>
+                                                                    </td> --}}
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('l, d-m-Y') }}
@@ -205,7 +205,7 @@
                     
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
+                        <input type="text" class="form-control" id="password" name="password"
                         placeholder="Password" required>
                     </div>
                     <div class="mb-3">
@@ -267,7 +267,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password"
+                            <input type="text" class="form-control" id="password" name="password"
                                 value="{{ $item->password }}" required>
                         </div>
                         <div class="mb-3">

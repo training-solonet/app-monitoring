@@ -50,9 +50,9 @@
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                                     Username</th>
-                                                                <th
+                                                                {{-- <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Password</th>
+                                                                    Password</th> --}}
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Status</th>
@@ -75,10 +75,10 @@
                                                                             class="text-sm text-dark font-weight-semibold mb-0">
                                                                             {{ $item->username }}</p>
                                                                     </td>
-                                                                    <td class="align-middle text-center text-sm">
+                                                                    {{-- <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->password }}</p>
-                                                                    </td>
+                                                                    </td> --}}
                                                                     <td class="align-middle text-center">
                                                                         @if($item->status == 'Aktif')
                                                                             <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
