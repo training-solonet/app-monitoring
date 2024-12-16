@@ -5,7 +5,6 @@ function is_current_route($routeName)
     return request()->routeIs($routeName) ? 'active' : '';
 }
 
-
 function in_array_r($needle, $haystack, $strict = false)
 {
     foreach ($haystack as $item) {
@@ -17,20 +16,20 @@ function in_array_r($needle, $haystack, $strict = false)
     return false;
 }
 
-
 function getCategoriesArray($parent, $child = null)
 {
-    $categories = array(
+    $categories = [
         'dashboard', 'tables', 'wallet', 'RTL',
 
-        'laravel-examples' => array(
+        'laravel-examples' => [
             'user-profile',
             'users-management',
-        ),
-    );
+        ],
+    ];
 
-    if ($child)
+    if ($child) {
         return $categories[$parent][$child];
-    else
+    } else {
         return $categories[$parent];
+    }
 }

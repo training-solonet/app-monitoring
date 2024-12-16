@@ -1,28 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\SiswaRplController;
-use App\Http\Controllers\AddController;
 use App\Http\Controllers\AktivitasController;
-use App\Http\Controllers\JurusanController;
-use App\Http\Controllers\MateriController;
-use App\Http\Controllers\MateriTkjController;
-use App\Http\Controllers\MonitoringController;
-use App\Http\Controllers\UserAdminController;
-use App\Http\Controllers\UserPembimbingController;
-use App\Http\Controllers\UserSiswaController;
-use App\Http\Controllers\MateriRplController;
-use App\Http\Controllers\DashboardSiswaController;
-use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\DashboardRplController;
+use App\Http\Controllers\DashboardSiswaController;
+use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\MateriRplController;
+use App\Http\Controllers\MateriTkjController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\SiswaRplController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPembimbingController;
+use App\Http\Controllers\UserSiswaController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -55,7 +52,6 @@ Route::get('/signin', function () {
 Route::get('/signup', function () {
     return view('account-pages.signup');
 })->name('signup')->middleware('guest');
-
 
 Route::get('/sign-in', [LoginController::class, 'create'])
     ->middleware('guest')
@@ -102,8 +98,6 @@ Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index']
 Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
 
-
-
 Route::resource('materitkj', MateriTkjController::class)->middleware(['auth', 'role:pembimbing']);
 
 Route::middleware(['auth', 'role:siswa'])->group(function () {
@@ -113,27 +107,22 @@ Route::middleware(['auth', 'role:siswa'])->group(function () {
 Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);
 Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
 
+Route::resource('detail', DetailSiswaController::class)->middleware(['auth', 'role:siswa']);
+Route::resource('useradmin', UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
+Route::resource('userpembimbing', UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
+Route::resource('usersiswa', UserSiswaController::class)->middleware(['auth', 'role:pembimbing']);
 
-Route::resource('detail',DetailSiswaController::class)->middleware(['auth','role:siswa']);
-Route::resource('useradmin' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
-Route::resource('userpembimbing' , UserPembimbingController::class)->middleware(['auth', 'role:pembimbing']);
-Route::resource('usersiswa' , UserSiswaController::class)->middleware(['auth', 'role:pembimbing']);
-
-Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:pembimbing']); 
-
+Route::resource('monitoring', MonitoringController::class)->middleware(['auth', 'role:pembimbing']);
 
 Route::put('/siswarpl/{id}/updateTime', [SiswaRplController::class, 'updateTime'])->name('siswarpl.updateTime');
 Route::put('/siswa/{id}/updateTime', [SiswaController::class, 'updateTime'])->name('siswa.updateTime');
 
-
 Route::resource('aktivitas', AktivitasController::class);
 Route::resource('materirpl', MateriRplController::class);
-Route::resource('Dashboardsiswa', DashboardSiswaController::class); 
+Route::resource('Dashboardsiswa', DashboardSiswaController::class);
 
-
-
-Route::resource('dashboardpembimbing',DashboardPembimbingController::class);
-Route::resource('dashboardrpl',DashboardRplController::class);
+Route::resource('dashboardpembimbing', DashboardPembimbingController::class);
+Route::resource('dashboardrpl', DashboardRplController::class);
 Route::resource('dashboardsiswa', DashboardSiswaController::class);
 
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');

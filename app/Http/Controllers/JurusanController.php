@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Jurusan;
+use Illuminate\Http\Request;
 
 class JurusanController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $jurusan = Jurusan::all();
-        return view('admin.jurusan',compact('jurusan'));
+
+        return view('admin.jurusan', compact('jurusan'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'jurusan' => 'required|max:255|unique:jurusan',
         ], [

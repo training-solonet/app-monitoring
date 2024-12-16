@@ -18,12 +18,12 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         if (config('app.is_demo') && in_array(Auth::id(), [1])) {
-            return back()->with('error', "You are in a demo version. You are not allowed to change the email for default users.");
+            return back()->with('error', 'You are in a demo version. You are not allowed to change the email for default users.');
         }
 
         $request->validate([
             'name' => 'required|min:3|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|max:255|unique:users,email,'.Auth::id(),
             'location' => 'max:255',
             'phone' => 'numeric|digits:10',
             'about' => 'max:255',

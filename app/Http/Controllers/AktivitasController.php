@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Aktivitas;
+use Illuminate\Http\Request;
 
 class AktivitasController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $aktivitas = Aktivitas::all();
+
         return view('pembimbing.aktivitas', compact('aktivitas'));
     }
 
@@ -24,11 +26,14 @@ class AktivitasController extends Controller
 
         return redirect()->route('aktivitas.index')->with('success', 'Aktivitas berhasil ditambahkan.');
     }
+
     public function edit($id)
     {
         $aktivitas = Aktivitas::findOrFail($id);
+
         return view('pembimbing.edit_aktivitas', compact('aktivitas'));
     }
+
     public function update(Request $request, $id)
     {
         $request->validate([

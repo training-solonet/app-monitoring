@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('password');
-            $table->enum('role', ['pembimbing','siswa']);
-            $table->enum('status',['Aktif', 'Tidak Aktif']);
+            $table->enum('role', ['pembimbing', 'siswa']);
+            $table->enum('status', ['Aktif', 'Tidak Aktif']);
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
             $table->string('masa_pkl')->nullable();
-            $table->enum('jurusan', ['TKJ','RPL'])->nullable();
+            $table->enum('jurusan', ['TKJ', 'RPL'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
