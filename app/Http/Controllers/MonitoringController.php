@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Siswa;
 use App\Models\Materi;
+use App\Models\Siswa;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
