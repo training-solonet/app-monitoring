@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Materi;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Materi;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardRplController extends Controller
