@@ -38,7 +38,7 @@
                                 <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
                                     class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
-                                    <div class="col-12 col-md-2 mb-3">
+                                    <div class="col-12 col-md-2 mb-1">
                                         <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
@@ -55,38 +55,43 @@
                                         </select>
                                     </div>
 
+                                      <!-- Kategori Filter -->
+                                      <div class="col-12 col-md-3 mb-1">
+                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
+                                        <div class="w-100">
+                                            <select class="form-select" name="kategori" id="kategoriFilter"
+                                                onchange="this.form.submit()">
+                                                <option value="" disabled selected>Pilih Kategori</option>
+                                                {{-- <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>
+                                                Semua Kategori</option> --}}
+                                                <option value="Learning"
+                                                    {{ request('kategori') == 'Learning' ? 'selected' : '' }}>Learning
+                                                </option>
+                                                <option value="Project"
+                                                    {{ request('kategori') == 'Project' ? 'selected' : '' }}>
+                                                    Project</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <!-- Tanggal Mulai -->
-                                    <div class="col-12 col-md-2 mb-3">
+                                    <div class="col-12 col-md-2 mb-1">
                                         <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
                                         <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control"
                                             value="{{ request('waktu_mulai') }}" onchange="this.form.submit();">
                                     </div>
 
                                     <!-- Tanggal Selesai -->
-                                    <div class="col-12 col-md-2 mb-3">
+                                    <div class="col-12 col-md-2 mb-1">
                                         <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="waktu_selesai" name="waktu_selesai"
                                             class="form-control" value="{{ request('waktu_selesai') }}"
                                             onchange="this.form.submit();">
                                     </div>
 
-                                    <!-- Kategori Filter -->
-                                    <div class="col-2 col-md-3 mb-3">
-                                        <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                        <select class="form-select" name="kategori" id="kategoriFilter"
-                                            onchange="this.form.submit()">
-                                            <option value="" disabled selected>Pilih Kategori</option>
-                                            <option value="Learning"
-                                                {{ request('kategori') == 'Learning' ? 'selected' : '' }}>Learning
-                                            </option>
-                                            <option value="Project"
-                                                {{ request('kategori') == 'Project' ? 'selected' : '' }}>
-                                                Project</option>
-                                        </select>
-                                    </div>
 
                                     <!-- Reset Button -->
-                                    <div class="col-2 col-md-1 d-flex justify-content-center align-items-end">
+                                    <div class="col-4 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
                                             onclick="window.location.href='{{ route('siswa.index') }}'"
                                             style="margin-top: 30px">Reset</button>

@@ -54,20 +54,22 @@
                                     </div>
 
                                     <!-- Kategori Filter -->
-                                    <div class="col-2 col-md-3 mb-3">
+                                    <div class="col-8 col-md-3 mb-3">
                                         <label for="kategoriFilter" class="form-label fw-bold">Kategori</label>
-                                        <select class="form-select" name="kategori" id="kategoriFilter"
-                                            onchange="this.form.submit()">
-                                            <option value="" disabled selected>Pilih Kategori</option>
-                                            {{-- <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>
+                                        <div class="w-100">
+                                            <select class="form-select" name="kategori" id="kategoriFilter"
+                                                onchange="this.form.submit()">
+                                                <option value="" disabled selected>Pilih Kategori</option>
+                                                {{-- <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>
                                                 Semua Kategori</option> --}}
-                                            <option value="Dikantor"
-                                                {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
-                                            </option>
-                                            <option value="Keluar Dengan Teknisi"
-                                                {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
-                                                Keluar Dengan Teknisi</option>
-                                        </select>
+                                                <option value="Dikantor"
+                                                    {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
+                                                </option>
+                                                <option value="Keluar Dengan Teknisi"
+                                                    {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
+                                                    Keluar Dengan Teknisi</option>
+                                            </select>
+                                        </div>
                                     </div>
 
 
@@ -87,7 +89,7 @@
                                     </div>
 
                                     <!-- Reset Button -->
-                                    <div class="col-2 col-md-1 d-flex justify-content-center align-items-end">
+                                    <div class="col-6 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
                                             onclick="window.location.href='{{ route('siswa.index') }}'"
                                             style="margin-top: 30px">Reset</button>

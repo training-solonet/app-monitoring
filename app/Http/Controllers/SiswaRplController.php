@@ -14,12 +14,18 @@ class SiswaRplController extends Controller
     public function index(Request $request)
     {
         $statusFilterrpl = $request->get('status', 'all');
+        $kategoriFilter = $request->get('kategori', 'all'); // Default 'all'
         $userId = Auth::id();
 
         $siswaQuery = Siswa::where('user_id', $userId);
 
         if ($statusFilterrpl !== 'all') {
             $siswaQuery->where('status', $statusFilterrpl);
+        }
+
+         // Filter kategori jika tidak "all"
+         if ($kategoriFilter !== 'all') {
+            $siswaQuery->where('kategori', $kategoriFilter);
         }
 
         $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
@@ -38,7 +44,7 @@ class SiswaRplController extends Controller
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::where('jurusan', 'RPL')->get();
 
-        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl'));
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl','kategoriFilter'));
     }
 
     public function updateTime(Request $request, $id)
