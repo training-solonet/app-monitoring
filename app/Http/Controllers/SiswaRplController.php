@@ -23,8 +23,8 @@ class SiswaRplController extends Controller
             $siswaQuery->where('status', $statusFilterrpl);
         }
 
-         // Filter kategori jika tidak "all"
-         if ($kategoriFilter !== 'all') {
+        // Filter kategori jika tidak "all"
+        if ($kategoriFilter !== 'all') {
             $siswaQuery->where('kategori', $kategoriFilter);
         }
 
@@ -44,7 +44,7 @@ class SiswaRplController extends Controller
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::where('jurusan', 'RPL')->get();
 
-        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl','kategoriFilter'));
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
     }
 
     public function updateTime(Request $request, $id)
