@@ -12,44 +12,43 @@ use Illuminate\Support\Facades\Auth;
 class SiswaController extends Controller
 {
     public function index(Request $request)
-{
-    $statusFilter = $request->get('status', 'all');
-    $kategoriFilter = $request->get('kategori', 'all'); // Default 'all'
-    $userId = Auth::id();
+    {
+        $statusFilter = $request->get('status', 'all');
+        $kategoriFilter = $request->get('kategori', 'all'); // Default 'all'
+        $userId = Auth::id();
 
-    // Query dasar untuk data siswa
-    $siswaQuery = Siswa::where('user_id', $userId);
+        // Query dasar untuk data siswa
+        $siswaQuery = Siswa::where('user_id', $userId);
 
-    // Filter status jika tidak "all"
-    if ($statusFilter !== 'all') {
-        $siswaQuery->where('status', $statusFilter);
-    }
-
-    // Filter kategori jika tidak "all"
-    if ($kategoriFilter !== 'all') {
-        $siswaQuery->where('kategori', $kategoriFilter);
-    }
-
-    // Proses data siswa dan hitung total waktu
-    $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
-        if ($item->waktu_mulai && $item->waktu_selesai) {
-            $waktuMulai = Carbon::parse($item->waktu_mulai);
-            $waktuSelesai = Carbon::parse($item->waktu_selesai);
-            $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
-        } else {
-            $item->total_waktu = '-';
+        // Filter status jika tidak "all"
+        if ($statusFilter !== 'all') {
+            $siswaQuery->where('status', $statusFilter);
         }
-        \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
 
-        return $item;
-    });
+        // Filter kategori jika tidak "all"
+        if ($kategoriFilter !== 'all') {
+            $siswaQuery->where('kategori', $kategoriFilter);
+        }
 
-    $aktivitas = Aktivitas::all();
-    $materitkj = Materi::where('jurusan', 'TKJ')->get();
+        // Proses data siswa dan hitung total waktu
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+            } else {
+                $item->total_waktu = '-';
+            }
+            \Log::info("Item ID: {$item->id}, Waktu Mulai: {$item->waktu_mulai}");
 
-    return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
-}
+            return $item;
+        });
 
+        $aktivitas = Aktivitas::all();
+        $materitkj = Materi::where('jurusan', 'TKJ')->get();
+
+        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
+    }
 
     public function updateTime(Request $request, $id)
     {
