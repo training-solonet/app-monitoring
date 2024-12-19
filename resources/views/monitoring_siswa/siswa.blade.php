@@ -8,10 +8,6 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 <div class="col-12">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
@@ -63,6 +59,8 @@
                                         <select class="form-select" name="kategori" id="kategoriFilter"
                                             onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Kategori</option>
+                                            {{-- <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>
+                                                Semua Kategori</option> --}}
                                             <option value="Dikantor"
                                                 {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
                                             </option>
@@ -71,6 +69,7 @@
                                                 Keluar Dengan Teknisi</option>
                                         </select>
                                     </div>
+
 
                                     <!-- Tanggal Mulai -->
                                     <div class="col-12 col-md-2 mb-3">
@@ -193,7 +192,8 @@
                                                     @endif
                                                 </td>
 
-                                                <td class="align-middle text-center" id="total-waktu-{{ $item->id }}">
+                                                <td class="align-middle text-center"
+                                                    id="total-waktu-{{ $item->id }}">
                                                     @if ($item->status === 'doing' && $item->waktu_mulai)
                                                         {{ $item->total_waktu ?? '00:00:00' }}
                                                     @else
@@ -201,8 +201,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <a class="mb-0"
-                                                        data-bs-toggle="modal"
+                                                    <a class="mb-0" data-bs-toggle="modal"
                                                         data-bs-target="#ViewBuktiModal{{ $item->id }}">
                                                         <i class="fa-regular fa-image text-info"></i>
                                                     </a>
@@ -263,17 +262,18 @@
                                                         @if ($item->status === 'to do')
                                                             <button type="submit"
                                                                 class="btn btn-sm btn-success mb-0">
-                                                                <i class="fa-solid fa-play" style="font-size: 12px"></i>
+                                                                <i class="fa-solid fa-play"
+                                                                    style="font-size: 12px"></i>
                                                             </button>
                                                         @elseif($item->status === 'doing')
-                                                        <button type="button" class="btn btn-sm btn-danger mb-0"
-                                                            data-bs-toggle="modal"
-                                                            data-id="{{ $item->id }}"
-                                                            data-report="{{ $item->report }}"
-                                                            data-waktu_selesai="{{ $item->waktu_selesai }}"
-                                                            data-kategori="{{ $item->kategori }}">
-                                                            <i class="fa-solid fa-square" style="font-size: 12px"></i>
-                                                        </button>
+                                                            <button type="button" class="btn btn-sm btn-danger mb-0"
+                                                                data-bs-toggle="modal" data-id="{{ $item->id }}"
+                                                                data-report="{{ $item->report }}"
+                                                                data-waktu_selesai="{{ $item->waktu_selesai }}"
+                                                                data-kategori="{{ $item->kategori }}">
+                                                                <i class="fa-solid fa-square"
+                                                                    style="font-size: 12px"></i>
+                                                            </button>
                                                         @else
                                                             <button type="button" class="btn btn-sm btn-warning mb-0"
                                                                 data-bs-toggle="modal"
@@ -353,63 +353,94 @@
 
 
                                             <tr></tr>
-                                            
+
                                             <!-- Modal Selesai -->
-                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}" tabindex="-1"
-                                                aria-labelledby="EditLaporanModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal fade" id="EditLaporanModal{{ $item->id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="EditLaporanModalLabel{{ $item->id }}"
+                                                aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="EditLaporanModalLabel{{ $item->id }}">Selesaikan Aktivitas</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title"
+                                                                id="EditLaporanModalLabel{{ $item->id }}">
+                                                                Selesaikan Aktivitas</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form id="editLaporanForm{{ $item->id }}" action="{{ route('siswa.updateTime', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                                            <form id="editLaporanForm{{ $item->id }}"
+                                                                action="{{ route('siswa.updateTime', $item->id) }}"
+                                                                method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
                                                                 <!-- Aktivitas Dropdown -->
                                                                 @if ($item->kategori === 'Keluar Dengan Teknisi')
                                                                     <div class="mb-3">
-                                                                        <label for="aktivitasSelect{{ $item->id }}" class="form-label fw-bold">Pilih Aktivitas</label>
-                                                                        <select class="form-select" id="aktivitasSelect{{ $item->id }}" name="aktivitas_id" required>
-                                                                            <option disabled selected>Pilih Aktivitas</option>
+                                                                        <label
+                                                                            for="aktivitasSelect{{ $item->id }}"
+                                                                            class="form-label fw-bold">Pilih
+                                                                            Aktivitas</label>
+                                                                        <select class="form-select"
+                                                                            id="aktivitasSelect{{ $item->id }}"
+                                                                            name="aktivitas_id" required>
+                                                                            <option disabled selected>Pilih Aktivitas
+                                                                            </option>
                                                                             @foreach ($aktivitas as $aktivitasItem)
-                                                                                <option value="{{ $aktivitasItem->id }}" required>{{ $aktivitasItem->nama_aktivitas }}</option>
+                                                                                <option
+                                                                                    value="{{ $aktivitasItem->id }}"
+                                                                                    required>
+                                                                                    {{ $aktivitasItem->nama_aktivitas }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                 @endif
-                                            
+
                                                                 <!-- Report Textarea -->
                                                                 <div class="mb-3">
-                                                                    <label for="report{{ $item->id }}" class="form-label fw-bold">Laporan</label>
-                                                                    <textarea name="report" id="report{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..." rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
+                                                                    <label for="report{{ $item->id }}"
+                                                                        class="form-label fw-bold">Laporan</label>
+                                                                    <textarea name="report" id="report{{ $item->id }}" class="form-control" placeholder="Masukkan laporan..."
+                                                                        rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
                                                                 </div>
-                                            
+
                                                                 <!-- Waktu Selesai Input -->
                                                                 <div class="mb-3">
-                                                                    <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
-                                                                    <input type="time" class="form-control" id="waktu_selesai{{ $item->id }}" name="waktu_selesai"
-                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}" required
+                                                                    <label for="waktu_selesai{{ $item->id }}"
+                                                                        class="form-label fw-bold">Waktu
+                                                                        Selesai</label>
+                                                                    <input type="time" class="form-control"
+                                                                        id="waktu_selesai{{ $item->id }}"
+                                                                        name="waktu_selesai"
+                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
+                                                                        required
                                                                         min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
                                                                 </div>
-                                            
+
                                                                 <!-- Bukti Upload Input -->
                                                                 <div class="mb-3">
-                                                                    <label for="bukti{{ $item->id }}" class="form-label fw-bold">Unggah Bukti (jpg,png,svg,jpeg,gif)</label>
-                                                                    <input type="file" class="form-control" id="bukti{{ $item->id }}" name="bukti[]" accept="image/*" multiple>
-                                                                    <small class="form-text text-muted">Anda dapat mengunggah satu atau lebih gambar.</small>
+                                                                    <label for="bukti{{ $item->id }}"
+                                                                        class="form-label fw-bold">Unggah Bukti
+                                                                        (jpg,png,svg,jpeg,gif)</label>
+                                                                    <input type="file" class="form-control"
+                                                                        id="bukti{{ $item->id }}" name="bukti[]"
+                                                                        accept="image/*" multiple>
+                                                                    <small class="form-text text-muted">Anda dapat
+                                                                        mengunggah satu atau lebih gambar.</small>
                                                                 </div>
                                                             </form>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" form="editLaporanForm{{ $item->id }}" class="btn btn-info">Simpan Perubahan</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit"
+                                                                form="editLaporanForm{{ $item->id }}"
+                                                                class="btn btn-info">Simpan Perubahan</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -472,7 +503,8 @@
     </div>
 
     <!-- Modal Tambah Laporan Teknisi -->
-    <div class="modal fade" id="tambahLaporanTeknisi" tabindex="-1" aria-labelledby="tambahLaporanTeknisiLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahLaporanTeknisi" tabindex="-1" aria-labelledby="tambahLaporanTeknisiLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -520,94 +552,103 @@
         }
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @foreach ($siswa as $item)
-            @if ($item->status === 'doing' && $item->waktu_mulai)
-                startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-            @endif
-        @endforeach
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', function (event) {
-                const id = this.getAttribute('data-id');
-                const kategori = this.getAttribute('data-kategori');
-                const report = this.getAttribute('data-report');
-                const waktu_selesai = this.getAttribute('data-waktu_selesai');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($siswa as $item)
+                @if ($item->status === 'doing' && $item->waktu_mulai)
+                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                @endif
+            @endforeach
+            document.querySelectorAll('.btn-danger').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const id = this.getAttribute('data-id');
+                    const kategori = this.getAttribute('data-kategori');
+                    const report = this.getAttribute('data-report');
+                    const waktu_selesai = this.getAttribute('data-waktu_selesai');
 
-                if (kategori === 'Keluar Dengan Teknisi') {
-                    const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
-                    modal.show();
+                    if (kategori === 'Keluar Dengan Teknisi') {
+                        const modal = new bootstrap.Modal(document.getElementById(
+                            'EditLaporanModal' + id));
+                        modal.show();
 
-                    const modalElement = document.getElementById('EditLaporanModal' + id);
-                    modalElement.querySelector('textarea[name="report"]').value = report;
-                    modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
-                } else {
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: "Aktivitas ini akan diselesaikan.",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        showDenyButton: true,
-                        confirmButtonText: 'Ya, Selesaikan!',
-                        denyButtonText: 'Keluar Dengan Teknisi',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
-                            modal.show();
+                        const modalElement = document.getElementById('EditLaporanModal' + id);
+                        modalElement.querySelector('textarea[name="report"]').value = report;
+                        modalElement.querySelector('input[name="waktu_selesai"]').value =
+                            waktu_selesai;
+                    } else {
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Aktivitas ini akan diselesaikan.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: 'Ya, Selesaikan!',
+                            denyButtonText: 'Keluar Dengan Teknisi',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const modal = new bootstrap.Modal(document.getElementById(
+                                    'EditLaporanModal' + id));
+                                modal.show();
 
-                            const modalElement = document.getElementById('EditLaporanModal' + id);
-                            modalElement.querySelector('textarea[name="report"]').value = report;
-                            modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
-                        } else if (result.isDenied) {
-                            const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
-                            teknisiModal.show();
+                                const modalElement = document.getElementById(
+                                    'EditLaporanModal' + id);
+                                modalElement.querySelector('textarea[name="report"]')
+                                    .value = report;
+                                modalElement.querySelector('input[name="waktu_selesai"]')
+                                    .value = waktu_selesai;
+                            } else if (result.isDenied) {
+                                const teknisiModal = new bootstrap.Modal(document
+                                    .getElementById('tambahLaporanTeknisi'));
+                                teknisiModal.show();
 
-                            const teknisiForm = document.getElementById('tambahLaporanTeknisiForm');
-                            teknisiForm.setAttribute('action', `/siswa/updateAndCreate/${id}`);
-                        }
-                    });
+                                const teknisiForm = document.getElementById(
+                                    'tambahLaporanTeknisiForm');
+                                teknisiForm.setAttribute('action',
+                                    `/siswa/updateAndCreate/${id}`);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+
+            waktuSelesaiInput.setAttribute('min', waktuMulai);
+
+            waktuSelesaiInput.addEventListener('change', function() {
+                if (waktuSelesaiInput.value < waktuMulai) {
+                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                    waktuSelesaiInput.value = waktuMulai;
                 }
             });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
-    const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-    const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
 
-    waktuSelesaiInput.setAttribute('min', waktuMulai);
+        function startTimer(waktuMulai, elementId) {
+            const startTime = new Date(waktuMulai).getTime();
 
-    waktuSelesaiInput.addEventListener('change', function () {
-        if (waktuSelesaiInput.value < waktuMulai) {
-            alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-            waktuSelesaiInput.value = waktuMulai;
+            console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+
+            function updateTime() {
+                const now = new Date().getTime();
+                const elapsed = now - startTime;
+
+                const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+
+            updateTime();
+            setInterval(updateTime, 1000);
         }
-    });
-});
-
-
-    function startTimer(waktuMulai, elementId) {
-        const startTime = new Date(waktuMulai).getTime();
-
-        console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
-
-        function updateTime() {
-            const now = new Date().getTime();
-            const elapsed = now - startTime;
-
-            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-            document.getElementById(elementId).textContent =
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
-
-        updateTime();
-        setInterval(updateTime, 1000);
-    }
-</script>
+    </script>
 
 
 </x-app-layout>
