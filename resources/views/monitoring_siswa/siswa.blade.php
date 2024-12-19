@@ -89,7 +89,7 @@
                                     </div>
 
                                     <!-- Reset Button -->
-                                    <div class="col-6 col-md-1 d-flex justify-content-center align-items-end">
+                                    <div class="col-4 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
                                             onclick="window.location.href='{{ route('siswa.index') }}'"
                                             style="margin-top: 30px">Reset</button>
