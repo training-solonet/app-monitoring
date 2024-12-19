@@ -18,7 +18,6 @@
         </style>
         {{-- Navbar --}}
         <x-app.navbar />
-
         {{-- Main Container --}}
         <div class="container-fluid py-4 px-5">
             {{-- Header Section --}}
@@ -204,6 +203,7 @@
                 {{-- Footer --}}
                 <x-app.footer />
             </div>
+        </div>
     </main>
 
     {{-- Chart.js Script --}}
