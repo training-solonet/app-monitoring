@@ -90,6 +90,19 @@ class DashboardRplController extends Controller
         $persentaseLearning = $totalAktivitas > 0 ? ($jumlahDataLearning / $totalAktivitas) * 100 : 0;
         $persentaseProject = $totalAktivitas > 0 ? ($jumlahDataProject / $totalAktivitas) * 100 : 0;
 
+        $chartData = [
+            'labels' => ['Learning', 'Project'],
+            'datasets' => [
+                [
+                    'data' => [$persentaseLearning, $persentaseProject],
+                    'backgroundColor' => ['#FF9F43', '#42A5F5'],
+                    'hoverBackgroundColor' => ['#FF7043', '#1E88E5']
+                ]
+            ]
+        ];
+        
+        $activityData = $jumlahAktivitasLearning;
+        
         return view('dashboardrpl', compact(
             'jumlahDataProject',
             'jumlahDataLearning',
@@ -97,7 +110,10 @@ class DashboardRplController extends Controller
             'persentaseLearning',
             'persentaseProject',
             'aktivitasNames',
-            'siswaData'
+            'siswaData',
+            'chartData',
+            'activityData'
         ));
+        
     }
 }
