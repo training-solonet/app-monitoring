@@ -36,7 +36,7 @@
                         <div class="card-body px-0 py-0">
                             <div class="border-bottom col-md-12 py-3 px-3 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
-                                    class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
+                                    class="p-2 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
                                     <div class="col-12 col-md-2 mb-1">
                                         <label for="statusFilter" class="form-label">Status</label>
@@ -91,9 +91,9 @@
 
 
                                     <!-- Reset Button -->
-                                    <div class="col-4 col-md-1 d-flex justify-content-center align-items-end">
+                                    <div class="col-5 col-md-1 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            onclick="window.location.href='{{ route('siswa.index') }}'"
+                                            onclick="window.location.href='{{ route('siswarpl.index') }}'"
                                             style="margin-top: 30px">Reset</button>
                                     </div>
                                 </form>

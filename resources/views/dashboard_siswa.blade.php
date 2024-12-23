@@ -5,13 +5,15 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <style>
-            #dashboard-content {
+            #dashboard-content,
+            #detail-content {
                 transition: opacity 0.3s ease-in-out;
                 opacity: 0;
                 visibility: hidden;
             }
 
-            #dashboard-content.show {
+            #dashboard-content.show,
+            #detail-content.show {
                 opacity: 1;
                 visibility: visible;
             }
@@ -36,7 +38,7 @@
                             <div class="d-flex">
                                 <button id="show-detail-content" type="button"
                                     class="btn btn-sm btn-outline-dark d-flex align-items-center me-2">
-                                    <i class="fas fa-chart-pie me-1"></i> Detail
+                                    <i class="fas fa-info-circle me-1"></i> Detail
                                 </button>
                             </div>
                         </div>
@@ -46,8 +48,7 @@
                 <hr class="my-3">
                 {{-- Detail --}}
                 <div class="container mt-4" id="detail-content">
-                    <h4 class="text-left mb-4 font-weaight-bold">Statistik Aktivitas Selama PKL</h4>
-
+                    <h4>Detail</h4>
                     <div class="row g-3">
                         <!-- Card Total Aktivitas Dikantor -->
                         <div class="col-md-4">
@@ -127,18 +128,9 @@
                     </div>
                 </div>
 
-
-
-                <div class="row">
-                    <div class="col-md-12 mt-5">
-                        <h4 class="font-weight-bold mb-3 text-center">Grafik Persentase Aktivitas Dikantor dan Keluar
-                            Dengan
-                            Teknisi</h4>
-                    </div>
-                </div>
                 {{-- Diagram --}}
                 <div class="d-flex row mt-4" id="dashboard-content" style="display: none;">
-                    <!-- Card 1: Untuk Diagram Lingkaran dan Batang DiKantor -->
+                    <h4>Diagram</h4>
                     <div class="col-md-12">
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
@@ -335,7 +327,6 @@
         });
 
         // Pie Chart Dikantor
-        // Pie Chart Dikantor
         const ctxPieDikantor = document.getElementById('chart-pie-dikantor').getContext('2d');
         const gradientColorsPieDikantor = [];
         colors.forEach((color) => {
@@ -445,31 +436,27 @@
             }
         });
         document.getElementById('show-dashboard-content').addEventListener('click', function() {
-            const dashboardContent = document.getElementById('dashboard-content');
-            if (dashboardContent.style.display === 'none' || dashboardContent.style.display === '') {
-                dashboardContent.style.display = 'block'; 
-            } else {
-                dashboardContent.style.display = 'none'; 
-            }
-        });
+    const dashboardContent = document.getElementById('dashboard-content');
+    const detailContent = document.getElementById('detail-content');
 
-        document.getElementById('show-dashboard-content').addEventListener('click', function() {
-            const dashboardContent = document.getElementById('dashboard-content');
-            dashboardContent.classList.toggle('show');
-        });
-        document.getElementById('show-detail-content').addEventListener('click', function() {
-            const detailContent = document.getElementById('detail-content');
-            if (detailContent.style.display === 'none' || detailContent.style.display === '') {
-                detailContent.style.display = 'block'; 
-            } else {
-                detailContent.style.display = 'none'; 
-            }
-        });
+    // Tampilkan dashboard content dan sembunyikan detail content
+    dashboardContent.style.display = 'block';
+    dashboardContent.classList.add('show');
+    detailContent.style.display = 'none';
+    detailContent.classList.remove('show');
+});
 
-        document.getElementById('show-detail-content').addEventListener('click', function() {
-            const detailContent = document.getElementById('detail-content');
-            dashboardContent.classList.toggle('show');
-        });
+document.getElementById('show-detail-content').addEventListener('click', function() {
+    const detailContent = document.getElementById('detail-content');
+    const dashboardContent = document.getElementById('dashboard-content');
+
+    // Tampilkan detail content dan sembunyikan dashboard content
+    detailContent.style.display = 'block';
+    detailContent.classList.add('show');
+    dashboardContent.style.display = 'none';
+    dashboardContent.classList.remove('show');
+});
+
     </script>
 
 </x-app-layout>
