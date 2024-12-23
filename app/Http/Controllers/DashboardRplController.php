@@ -96,13 +96,13 @@ class DashboardRplController extends Controller
                 [
                     'data' => [$persentaseLearning, $persentaseProject],
                     'backgroundColor' => ['#FF9F43', '#42A5F5'],
-                    'hoverBackgroundColor' => ['#FF7043', '#1E88E5']
-                ]
-            ]
+                    'hoverBackgroundColor' => ['#FF7043', '#1E88E5'],
+                ],
+            ],
         ];
-        
+
         $activityData = $jumlahAktivitasLearning;
-        
+
         return view('dashboardrpl', compact(
             'jumlahDataProject',
             'jumlahDataLearning',
@@ -114,6 +114,6 @@ class DashboardRplController extends Controller
             'chartData',
             'activityData'
         ));
-        
+
     }
 }
