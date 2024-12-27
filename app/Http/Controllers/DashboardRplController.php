@@ -101,7 +101,6 @@ class DashboardRplController extends Controller
             ],
         ];
 
-
         $siswaDataLearning = Siswa::where('user_id', $userId)
             ->where('kategori', 'Learning')
             ->get()
@@ -111,12 +110,15 @@ class DashboardRplController extends Controller
                     if ($item->waktu_mulai && $item->waktu_selesai) {
                         $waktuMulai = Carbon::parse($item->waktu_mulai);
                         $waktuSelesai = Carbon::parse($item->waktu_selesai);
+
                         return $waktuSelesai->greaterThan($waktuMulai) ? $waktuSelesai->diffInSeconds($waktuMulai) : 0;
                     }
+
                     return 0;
                 });
 
                 $percentage = $totalWaktuLearning ? ($totalTime / $totalWaktuLearning) * 100 : 0;
+
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
@@ -126,10 +128,9 @@ class DashboardRplController extends Controller
                 [
                     'data' => $siswaDataLearning->pluck('percentage')->values(),
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-                ]
-            ]
+                ],
+            ],
         ];
-
 
         $activityData = $jumlahAktivitasLearning;
 
