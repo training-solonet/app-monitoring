@@ -27,7 +27,7 @@
 
             <!-- Konten Detail -->
             <div id="detail-content" class="container mt-4">
-                <h4 class="text-left mb-4 font-weight-bold">Statistik Aktivitas Selama PKL</h4>
+                <h4 class="text-left mb-2 font-weight-bold">Detail</h4>
                 <div class="row g-3">
                     <!-- Card Total Aktivitas Learning -->
                     <div class="col-md-4">
@@ -108,30 +108,31 @@
 
             <!-- Konten Diagram -->
             <div class="row mt-4" id="dashboard-content" style="display: none;">
+                <h4 class="text-left mb-2 font-weight-bold">Diagram</h4>
                 <div class="col-md-12">
                     <div class="card shadow-sm border h-100">
                         <div class="card-body py-4">
                             <div class="row w-75" style="margin: auto;">
-                                <!-- Diagram Lingkaran Learning -->
-                                <div class="col-md-6">
-                                    <h6 class="text-center mb-3">Persentase Waktu Per Learning</h6>
-                                    <div class="chart">
-                                        <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
-                                    </div>
-                                    <div class="text-center mt-3">
-                                        <button id="toggle-legend" class="btn btn-sm btn-outline-info">
-                                            <i class="fas fa-info-circle me-1"></i> Detail
-                                        </button>
-                                    </div>
-                                </div>
                                 <!-- Diagram Lingkaran Project -->
                                 <div class="col-md-6">
                                     <h6 class="text-center mb-3">Persentase Waktu Per Project</h6>
                                     <div class="chart">
-                                        <canvas id="chart-pie-dikantor" class="chart-canvas" height="240"></canvas>
+                                        <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <button id="toggle-legend-dikantor" class="btn btn-sm btn-outline-info">
+                                        <button id="toggle-legend-Project" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-info-circle me-1"></i> Detail
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Diagram Lingkaran Learning -->
+                                <div class="col-md-6">
+                                    <h6 class="text-center mb-3">Persentase Waktu Per Learning</h6>
+                                    <div class="chart">
+                                        <canvas id="chart-pie-Learning" class="chart-canvas" height="240"></canvas>
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <button id="toggle-legend-Learning" class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-info-circle me-1"></i> Detail
                                         </button>
                                     </div>
@@ -201,31 +202,32 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-        const learningChartData = @json($learningChartData);
+            const learningChartData = @json($learningChartData);
 
-        // Chart untuk Learning Detail
-        const ctxLearning = document.getElementById('chart-pie-dikantor').getContext('2d');
-        const learningPieChart = new Chart(ctxLearning, {
-            type: 'pie',
-            data: learningChartData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.raw || 0;
-                                return `${label}: ${value.toFixed(2)}%`;
+            // Chart untuk Learning Detail
+            const ctxLearning = document.getElementById('chart-pie-Learning').getContext('2d');
+            const learningPieChart = new Chart(ctxLearning, {
+                type: 'pie',
+                data: learningChartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    return `${label}: ${value.toFixed(2)}%`;
+                                }
                             }
                         }
                     }
                 }
-            }
+            });
+
         });
-    });
     </script>
 </x-app-layout>
