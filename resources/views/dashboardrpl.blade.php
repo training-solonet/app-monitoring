@@ -116,10 +116,10 @@
                                 <div class="col-md-6">
                                     <h6 class="text-center mb-3">Persentase Waktu Per Learning</h6>
                                     <div class="chart">
-                                        <canvas id="chart-pie-Learning" class="chart-canvas" height="240"></canvas>
+                                        <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                     </div>
                                     <div class="text-center mt-3">
-                                        <button id="toggle-legend-dikantor" class="btn btn-sm btn-outline-info">
+                                        <button id="toggle-legend" class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-info-circle me-1"></i> Detail
                                         </button>
                                     </div>
@@ -128,7 +128,7 @@
                                 <div class="col-md-6">
                                     <h6 class="text-center mb-3">Persentase Waktu Per Project</h6>
                                     <div class="chart">
-                                        <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
+                                        <canvas id="chart-pie-dikantor" class="chart-canvas" height="240"></canvas>
                                     </div>
                                     <div class="text-center mt-3">
                                         <button id="toggle-legend-dikantor" class="btn btn-sm btn-outline-info">
@@ -136,7 +136,6 @@
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -146,6 +145,35 @@
     </main>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pieChartData = @json($chartData);
+
+            // Chart untuk Learning vs Project
+            const ctxPie = document.getElementById('chart-pie').getContext('2d');
+            const pieChart = new Chart(ctxPie, {
+                type: 'pie',
+                data: pieChartData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    return `${label}: ${value.toFixed(2)}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+
         document.addEventListener('DOMContentLoaded', function() {
             // Ambil elemen tombol dan konten
             const showDiagramButton = document.getElementById('show-diagram');
@@ -171,5 +199,33 @@
             // Inisialisasi: tampilkan detail secara default
             toggleContent(false);
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const learningChartData = @json($learningChartData);
+
+        // Chart untuk Learning Detail
+        const ctxLearning = document.getElementById('chart-pie-dikantor').getContext('2d');
+        const learningPieChart = new Chart(ctxLearning, {
+            type: 'pie',
+            data: learningChartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                return `${label}: ${value.toFixed(2)}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
     </script>
 </x-app-layout>
