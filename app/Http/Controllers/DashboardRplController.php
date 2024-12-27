@@ -122,7 +122,6 @@ class DashboardRplController extends Controller
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
-
         $materiNamesLearning = Materi::whereIn('id', $siswaDataLearning->keys())->pluck('materi', 'id');
 
         $learningChartData = [
