@@ -101,6 +101,36 @@ class DashboardRplController extends Controller
             ],
         ];
 
+
+        $siswaDataLearning = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Learning')
+            ->get()
+            ->groupBy('materi_id')
+            ->map(function ($items) use ($totalWaktuLearning) {
+                $totalTime = $items->sum(function ($item) {
+                    if ($item->waktu_mulai && $item->waktu_selesai) {
+                        $waktuMulai = Carbon::parse($item->waktu_mulai);
+                        $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                        return $waktuSelesai->greaterThan($waktuMulai) ? $waktuSelesai->diffInSeconds($waktuMulai) : 0;
+                    }
+                    return 0;
+                });
+
+                $percentage = $totalWaktuLearning ? ($totalTime / $totalWaktuLearning) * 100 : 0;
+                return ['totalTime' => $totalTime, 'percentage' => $percentage];
+            });
+
+        $learningChartData = [
+            'labels' => $materiNamesLearning->values(),
+            'datasets' => [
+                [
+                    'data' => $siswaDataLearning->pluck('percentage')->values(),
+                    'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                ]
+            ]
+        ];
+
+
         $activityData = $jumlahAktivitasLearning;
 
         return view('dashboardrpl', compact(
@@ -109,11 +139,13 @@ class DashboardRplController extends Controller
             'totalWaktu',
             'persentaseLearning',
             'persentaseProject',
+            'chartData',
+            'learningChartData',
+            'activityData',
             'aktivitasNames',
             'siswaData',
             'chartData',
             'activityData'
         ));
-
     }
 }

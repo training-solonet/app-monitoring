@@ -500,10 +500,4 @@
             }
         }
     </script>
-
-
-
-
-
-
 </x-app-layout>
