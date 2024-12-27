@@ -91,7 +91,7 @@ class DashboardRplController extends Controller
         $persentaseProject = $totalAktivitas > 0 ? ($jumlahDataProject / $totalAktivitas) * 100 : 0;
 
         $chartData = [
-            'labels' => ['Learning', 'Project'],
+            'labels' => ['Project'],
             'datasets' => [
                 [
                     'data' => [$persentaseLearning, $persentaseProject],
@@ -120,6 +120,9 @@ class DashboardRplController extends Controller
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
+
+        $materiNamesLearning = Materi::whereIn('id', $siswaDataLearning->keys())->pluck('materi', 'id');
+
         $learningChartData = [
             'labels' => $materiNamesLearning->values(),
             'datasets' => [
@@ -129,6 +132,7 @@ class DashboardRplController extends Controller
                 ]
             ]
         ];
+
 
 
         $activityData = $jumlahAktivitasLearning;
