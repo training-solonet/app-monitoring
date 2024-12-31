@@ -427,7 +427,7 @@
                             <label for="kategori1" class="form-label">Kategori</label>
                             <select class="form-select" id="kategori1" name="kategori1" required
                                 onchange="toggleMateriDropdown('kategori1', 'materi1')">
-                                <option selected value="">Pilih Kategori</option>
+                                <option disabled required>Pilih Kategori</option>
                                 <option value="Learning">Learning</option>
                                 <option value="Project">Project</option>
                             </select>
