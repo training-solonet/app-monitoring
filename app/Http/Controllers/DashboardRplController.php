@@ -174,7 +174,6 @@ class DashboardRplController extends Controller
 
         $activityData = $jumlahAktivitasLearning;
 
-
         return view('dashboardrpl', compact(
             'siswaData',
             'aktivitasNames',
