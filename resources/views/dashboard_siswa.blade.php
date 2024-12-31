@@ -436,27 +436,26 @@
             }
         });
         document.getElementById('show-dashboard-content').addEventListener('click', function() {
-    const dashboardContent = document.getElementById('dashboard-content');
-    const detailContent = document.getElementById('detail-content');
+            const dashboardContent = document.getElementById('dashboard-content');
+            const detailContent = document.getElementById('detail-content');
 
-    // Tampilkan dashboard content dan sembunyikan detail content
-    dashboardContent.style.display = 'block';
-    dashboardContent.classList.add('show');
-    detailContent.style.display = 'none';
-    detailContent.classList.remove('show');
-});
+            // Tampilkan dashboard content dan sembunyikan detail content
+            dashboardContent.style.display = 'block';
+            dashboardContent.classList.add('show');
+            detailContent.style.display = 'none';
+            detailContent.classList.remove('show');
+        });
 
-document.getElementById('show-detail-content').addEventListener('click', function() {
-    const detailContent = document.getElementById('detail-content');
-    const dashboardContent = document.getElementById('dashboard-content');
+        document.getElementById('show-detail-content').addEventListener('click', function() {
+            const detailContent = document.getElementById('detail-content');
+            const dashboardContent = document.getElementById('dashboard-content');
 
-    // Tampilkan detail content dan sembunyikan dashboard content
-    detailContent.style.display = 'block';
-    detailContent.classList.add('show');
-    dashboardContent.style.display = 'none';
-    dashboardContent.classList.remove('show');
-});
-
+            // Tampilkan detail content dan sembunyikan dashboard content
+            detailContent.style.display = 'block';
+            detailContent.classList.add('show');
+            dashboardContent.style.display = 'none';
+            dashboardContent.classList.remove('show');
+        });
     </script>
 
 </x-app-layout>
