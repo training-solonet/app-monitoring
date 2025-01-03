@@ -36,7 +36,6 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
-
         $jumlahDataRPL = Siswa::where('user_id')
             ->whereIn('kategori', ['Learning', 'Project'])
             ->count();
@@ -70,12 +69,10 @@ class DashboardPembimbingController extends Controller
             return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
         });
 
-
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
         $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
         $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
-
 
         return view('dashboard', compact(
             'chartData',
