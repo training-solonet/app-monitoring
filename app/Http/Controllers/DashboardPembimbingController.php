@@ -29,17 +29,20 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('count', 'kategori');
 
+        // dd($activityData);
+
         $totalWaktuPerKategori = Siswa::select('kategori')
-            ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
+            ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai) / 3600) as total_waktu') // Convert to hours
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
+
         $jumlahDataRPL = Siswa::where('user_id')
-            ->whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
+            ->whereIn('kategori', ['Learning', 'Project'])
             ->count();
 
         $jumlahDataTKJ = Siswa::where('user_id')
-            ->whereIn('kategori', ['Learning', 'Project'])
+            ->whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
         $totalWaktu = Siswa::where('user_id')
@@ -56,11 +59,41 @@ class DashboardPembimbingController extends Controller
                 return $carry;
             }, 0);
 
+        $totalWaktuPerKategori = Siswa::select('kategori')
+            ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
+            ->groupBy('kategori')
+            ->pluck('total_waktu', 'kategori');
+
+        $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
+
+        $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
+            return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
+        });
+
+
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
         $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
         $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
 
-        return view('dashboard', compact('chartData', 'activityData', 'totalWaktuPerKategori', 'rplCount', 'tkjCount', 'jumlahDataRPL', 'jumlahDataTKJ', 'totalWaktu', 'persentaseTKJ', 'persentaseRPL'));
+
+        return view('dashboard', compact(
+            'chartData',
+            'activityData',
+            'totalWaktuPerKategori',
+            'jumlahDataRPL',
+            'jumlahDataTKJ',
+            'totalWaktu',
+            'totalWaktuSemuaKategori',
+            'persentaseWaktuPerKategori',
+            'totalWaktuPerKategori',
+            'rplCount',
+            'tkjCount',
+            'jumlahDataRPL',
+            'jumlahDataTKJ',
+            'totalWaktu',
+            'persentaseTKJ',
+            'persentaseRPL'
+        ));
     }
 }

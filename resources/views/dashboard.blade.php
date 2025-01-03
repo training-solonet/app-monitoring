@@ -139,7 +139,7 @@
                                     {{-- Bar Chart --}}
                                     <div class="col-md-5">
                                         <h6 class="text-center mb-3">Jumlah Aktivitas Per Kategori Semua Siswa</h6>
-                                        <div class="chart" style="margin-top:4rem;">
+                                        <div class="chart" style="margin-top:7rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>
                                     </div>
@@ -156,15 +156,44 @@
 
     {{-- Chart.js Script --}}
     <script>
-        const pieData = @json($chartData);
-        const activityData = @json($activityData->toArray()); // Convert to plain array
-        const activityLabels = @json(array_keys($activityData->toArray())); // Convert to plain array and get keys
+        function formatTime(seconds) {
+            seconds = Math.abs(seconds);
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return `${h}h ${m}m ${s}s`;
+        }
 
-        // Pie Chart (Persentase Waktu Per Aktivitas)
+        const piePercentageData = @json($persentaseWaktuPerKategori);
+        const activityData = @json($activityData->toArray()); 
+        const activityLabels = @json(array_keys($activityData->toArray())); 
         const ctxPie = document.getElementById('chart-pie').getContext('2d');
+        const gradientColorsPie = [];
+        const colors = [
+            'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(153, 102, 255, 1)',
+            'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(231, 233, 237, 1)', 'rgba(255, 99, 99, 1)',
+            'rgba(255, 159, 159, 1)', 'rgba(75, 255, 192, 1)', 'rgba(192, 75, 255, 1)', 'rgba(86, 255, 255, 1)',
+            'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
+            'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
+        ];
+
+        colors.forEach((color) => {
+            const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
+            gradientColorsPie.push(gradient);
+        });
+
         const pieChart = new Chart(ctxPie, {
             type: 'doughnut',
-            data: pieData,
+            data: {
+                labels: Object.keys(piePercentageData), // Kategori
+                datasets: [{
+                    data: Object.values(piePercentageData), // Persentase waktu
+                    backgroundColor: gradientColorsPie,
+                    hoverOffset: 10
+                }]
+            },
             options: {
                 responsive: true,
                 cutout: '70%',
@@ -172,8 +201,8 @@
                     tooltip: {
                         callbacks: {
                             label: function(tooltipItem) {
-                                const value = tooltipItem.raw;
-                                return tooltipItem.label + ': ' + value + '%';
+                                const percentage = tooltipItem.raw.toFixed(2);
+                                return `${tooltipItem.label}: ${percentage}%`;
                             }
                         }
                     },
@@ -194,8 +223,12 @@
             document.getElementById('diagram-content').style.display = 'none';
         });
 
-        // Bar Chart (Jumlah Aktivitas)
+        // Bar Chart
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
+        const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
+        gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
+        gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
+
         const barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
@@ -203,38 +236,43 @@
                 datasets: [{
                     label: 'Jumlah Aktivitas',
                     data: activityData,
-                    backgroundColor: '#3366FF',
+                    backgroundColor: gradientBar,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
                     borderRadius: 5,
-                    borderColor: '#0033CC',
-                    borderWidth: 1
+                    barPercentage: 0.6
                 }]
             },
             options: {
                 responsive: true,
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutQuad'
+                },
                 scales: {
                     x: {
                         grid: {
                             display: false
                         },
                         ticks: {
-                            color: '#333'
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
                         }
                     },
                     y: {
-                        grid: {
-                            borderDash: [5, 5],
-                            color: '#ddd'
-                        },
                         beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
                         ticks: {
-                            color: '#333'
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            },
+                            beginAtZero: true
                         }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        backgroundColor: 'rgba(0,0,0,0.8)',
-                        titleColor: '#fff',
                     }
                 }
             }
