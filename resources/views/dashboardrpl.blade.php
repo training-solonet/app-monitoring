@@ -291,10 +291,10 @@
         const barChartLearning = new Chart(ctxBarLearning, {
             type: 'bar',
             data: {
-                labels: @json($dataAktivitasLearning['name']),
+                labels: @json($dataAktivitasLearning['name']  ?? []),
                 datasets: [{
                     label: 'Jumlah Aktivitas',
-                    data: @json($dataAktivitasLearning['jumlah']),
+                    data: @json($dataAktivitasLearning['jumlah'] ?? []),
                     backgroundColor: gradientBarLearning,
                     borderColor: 'rgba(255, 159, 64, 1)',
                     borderWidth: 2,
