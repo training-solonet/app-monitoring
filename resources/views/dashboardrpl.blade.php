@@ -163,25 +163,25 @@
                     </div>
 
                     <!-- Card 2: Untuk Diagram Lingkaran dan Batang Project -->
-                    <div class="col-md-12 mt-3">
+                    <div class="col-md-12 mt-3 d-none">
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto">
                                     <!-- Diagram Lingkaran Project -->
                                     <div class="col-md-6">
-                                        <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Project</h6>
+                                        {{-- <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Project</h6> --}}
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                         </div>
-                                        <div class="text-center mt-3">
+                                        {{-- <div class="text-center mt-3">
                                             <button id="toggle-legend" class="btn btn-sm btn-outline-info">
                                                 <i class="fas fa-info-circle me-1"></i> Detail
                                             </button>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <!-- Diagram Batang Project -->
                                     <div class="col-md-6 mt-1">
-                                        <h6 class="text-center mb-3">Jumlah Aktivitas Project</h6>
+                                        {{-- <h6 class="text-center mb-3">Jumlah Aktivitas Project</h6> --}}
                                         <div class="chart" style="margin-top: 5rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>
@@ -224,106 +224,6 @@
             gradient.addColorStop(0, color);
             gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
             gradientColorsPie.push(gradient);
-        });
-
-        const pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: @json($aktivitasNames->values()),
-                datasets: [{
-                    data: @json($siswaData->pluck('totalTime')->values()),
-                    backgroundColor: gradientColorsPie,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '70%',
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                    duration: 1500
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0,0,0,0.8)',
-                        titleColor: '#fff',
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                const data = tooltipItem.dataset.data;
-                                const currentValue = data[tooltipItem.dataIndex];
-                                const percentage = @json($siswaData->pluck('percentage')->values())[tooltipItem.dataIndex];
-                                return `${tooltipItem.label}: ${percentage.toFixed(2)}% (${formatTime(currentValue)})`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Toggle Legend
-        const toggleLegendButton = document.getElementById('toggle-legend');
-        toggleLegendButton.addEventListener('click', () => {
-            pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;
-            pieChart.update();
-        });
-
-        // Bar Chart
-        const ctxBar = document.getElementById('chart-bar').getContext('2d');
-        const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
-        gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
-        gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
-
-        const barChart = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: @json($aktivitasNames->values()),
-                datasets: [{
-                    label: 'Jumlah Aktivitas',
-                    data: @json($jumlahAktivitas->values()),
-                    backgroundColor: gradientBar,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2,
-                    borderRadius: 5,
-                    barPercentage: 0.6
-                }]
-            },
-            options: {
-                responsive: true,
-                animation: {
-                    duration: 1500,
-                    easing: 'easeInOutQuad'
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            },
-                            beginAtZero: true
-                        }
-                    }
-                }
-            }
         });
 
         // Pie Chart Learning
@@ -381,6 +281,7 @@
             pieChartLearning.update();
         });
 
+
         // Bar Chart Learning
         const ctxBarLearning = document.getElementById('chart-bar-Learning').getContext('2d');
         const gradientBarLearning = ctxBarLearning.createLinearGradient(0, 0, 0, 400);
@@ -390,10 +291,10 @@
         const barChartLearning = new Chart(ctxBarLearning, {
             type: 'bar',
             data: {
-                labels: @json($materiNames->values()),
+                labels: @json($dataAktivitasLearning['name']),
                 datasets: [{
                     label: 'Jumlah Aktivitas',
-                    data: @json($jumlahAktivitasLearning->values()),
+                    data: @json($dataAktivitasLearning['jumlah']),
                     backgroundColor: gradientBarLearning,
                     borderColor: 'rgba(255, 159, 64, 1)',
                     borderWidth: 2,
