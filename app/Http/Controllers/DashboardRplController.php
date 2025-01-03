@@ -140,6 +140,7 @@ class DashboardRplController extends Controller
             $i++;
         }
 
+
         return view('dashboardrpl', compact(
             'siswaData',
             'aktivitasNames',
