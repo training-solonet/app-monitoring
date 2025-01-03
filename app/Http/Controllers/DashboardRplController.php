@@ -101,7 +101,6 @@ class DashboardRplController extends Controller
             ->groupBy('materi_id')
             ->map->count();
 
-
         $jumlahDataProject = Siswa::where('user_id', $userId)
             ->where('kategori', 'Project')
             ->count();
@@ -132,14 +131,12 @@ class DashboardRplController extends Controller
         // print_r($materiNames);
         // print_r($jumlahAktivitasLearning);
 
-
         $i = 0;
         foreach ($materiNames as $key => $val) {
             $dataAktivitasLearning['name'][$i] = $val;
             $dataAktivitasLearning['jumlah'][$i] = $jumlahAktivitasLearning[$key];
             $i++;
         }
-
 
         return view('dashboardrpl', compact(
             'siswaData',
