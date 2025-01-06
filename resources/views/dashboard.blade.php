@@ -47,7 +47,7 @@
                                 <h5 class="text-warning font-weight-bold">
                                     {{ $jumlahDataRPL ?? 'Data tidak tersedia' }}
                                 </h5>
-                                                            </div>
+                            </div>
                         </div>
                     </div>
 
@@ -62,7 +62,7 @@
                                 <h5 class="text-info font-weight-bold">
                                     {{ $jumlahDataTKJ ?? 'Data tidak tersedia' }}
                                 </h5>
-                                                            </div>
+                            </div>
                         </div>
                     </div>
 
@@ -87,7 +87,7 @@
                                         }
                                     @endphp
                                 </h5>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                                 {{ $persentaseRPL ? number_format($persentaseRPL, 2) . '%' : 'Data tidak tersedia' }}
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <!-- Progress Bar TKJ -->
@@ -120,7 +120,7 @@
                                     aria-valuenow="{{ $persentaseTKJ ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
                                     {{ $persentaseTKJ ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,13 +129,20 @@
             {{-- Content Section --}}
             <div class="row mt-4">
                 <div id="diagram-content" style="display: none;">
-                    <h4>Diagram</h4>
-                    {{-- <h4>
-                        <select name="siswa" id="select_siswa" onchange="pilih_siswa()">
-                            <option value="2">Kevin</option>
-                            <option value="3">Abi</option>
-                        </select>
-                    </h4> --}}
+                    <div class="d-flex justify-content-between">
+                        <h4>Diagram</h4>
+                        <p>
+                            <select name="user" class="rounded" id="select_user" onchange="pilih_user()">
+                                <option value="" disabled selected>Pilih Nama Siswa</option>
+                                @foreach ($userList as $user)
+                                    <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                @endforeach
+                            </select>
+                        </p>
+                    </div>
+
+                    {{-- <canvas id="siswaChart"></canvas> --}}
+
                     <div class="col-md-12">
                         <div class="card shadow-sm border w-auto">
                             <div class="card-body py-4">
@@ -182,8 +189,45 @@
             return `${h}h ${m}m ${s}s`;
         }
 
-        // function pilih_siswa() {
-        //     alert('Pilih siswa: ' + document.getElementById('select_siswa').value);
+        function pilih_user() {
+            var userId = document.getElementById('select_user').value;
+            // Lakukan sesuatu dengan userId, misalnya kirim ke server atau tampilkan data terkait user
+            console.log(userId);
+        }
+
+        //     function pilih_user() {
+        //     const userId = document.getElementById('select_user').value;
+        //     if (userId) {
+        //         fetch(`/get-siswa-data/${userId}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 updateChart(data);
+        //             });
+        //     }
+        // }
+
+        // function updateChart(data) {
+        //     const ctx = document.getElementById('siswaChart').getContext('2d');
+        //     const chart = new Chart(ctx, {
+        //         type: 'bar',
+        //         data: {
+        //             labels: data.labels,
+        //             datasets: [{
+        //                 label: 'Waktu Aktivitas',
+        //                 data: data.values,
+        //                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        //                 borderColor: 'rgba(75, 192, 192, 1)',
+        //                 borderWidth: 1
+        //             }]
+        //         },
+        //         options: {
+        //             scales: {
+        //                 y: {
+        //                     beginAtZero: true
+        //                 }
+        //             }
+        //         }
+        //     });
         // }
 
         const piePercentageData = @json($persentaseWaktuPerKategori);
@@ -209,9 +253,9 @@
         const pieChart = new Chart(ctxPie, {
             type: 'doughnut',
             data: {
-                labels: Object.keys(piePercentageData), // Kategori
+                labels: Object.keys(piePercentageData),
                 datasets: [{
-                    data: Object.values(piePercentageData), // Persentase waktu
+                    data: Object.values(piePercentageData),
                     backgroundColor: gradientColorsPie,
                     hoverOffset: 10
                 }]

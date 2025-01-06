@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Materi;
 use App\Models\Siswa;
+use App\Models\user;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class DashboardPembimbingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $userList = User::all();
+
         $rplCount = Materi::where('jurusan', 'RPL')->count();
         $tkjCount = Materi::where('jurusan', 'TKJ')->count();
 
@@ -87,7 +91,8 @@ class DashboardPembimbingController extends Controller
             'jumlahDataTKJ',
             'totalWaktu',
             'persentaseTKJ',
-            'persentaseRPL'
+            'persentaseRPL',
+            'userList'
         ));
     }
 }
