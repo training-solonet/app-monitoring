@@ -36,16 +36,14 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
-        $jumlahDataRPL = Siswa::where('user_id')
-            ->whereIn('kategori', ['Learning', 'Project'])
+        $jumlahDataRPL = Siswa::whereIn('kategori', ['Learning', 'Project'])
             ->count();
 
-        $jumlahDataTKJ = Siswa::where('user_id')
-            ->whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
+
+        $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
-        $totalWaktu = Siswa::where('user_id')
-            ->get()
+        $totalWaktu = Siswa::get()
             ->reduce(function ($carry, $item) {
                 if ($item->waktu_mulai && $item->waktu_selesai) {
                     $waktuMulai = Carbon::parse($item->waktu_mulai);
@@ -65,9 +63,11 @@ class DashboardPembimbingController extends Controller
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
+
         $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
             return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
         });
+
 
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
