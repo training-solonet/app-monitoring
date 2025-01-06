@@ -39,7 +39,6 @@ class DashboardPembimbingController extends Controller
         $jumlahDataRPL = Siswa::whereIn('kategori', ['Learning', 'Project'])
             ->count();
 
-
         $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
@@ -63,11 +62,9 @@ class DashboardPembimbingController extends Controller
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
-
         $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
             return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
         });
-
 
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
