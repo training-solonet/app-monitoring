@@ -118,6 +118,12 @@
             <div class="row mt-4">
                 <div id="diagram-content" style="display: none;">
                     <h4>Diagram</h4>
+                    {{-- <h4>
+                        <select name="siswa" id="select_siswa" onchange="pilih_siswa()">
+                            <option value="2">Kevin</option>
+                            <option value="3">Abi</option>
+                        </select>
+                    </h4> --}}
                     <div class="col-md-12">
                         <div class="card shadow-sm border w-auto">
                             <div class="card-body py-4">
@@ -164,9 +170,13 @@
             return `${h}h ${m}m ${s}s`;
         }
 
+        // function pilih_siswa() {
+        //     alert('Pilih siswa: ' + document.getElementById('select_siswa').value);
+        // }
+
         const piePercentageData = @json($persentaseWaktuPerKategori);
-        const activityData = @json($activityData->toArray()); 
-        const activityLabels = @json(array_keys($activityData->toArray())); 
+        const activityData = @json($activityData->toArray());
+        const activityLabels = @json(array_keys($activityData->toArray()));
         const ctxPie = document.getElementById('chart-pie').getContext('2d');
         const gradientColorsPie = [];
         const colors = [
@@ -226,6 +236,7 @@
         // Bar Chart
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
         const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
+
         gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
         gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
 
