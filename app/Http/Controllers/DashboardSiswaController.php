@@ -144,4 +144,33 @@ class DashboardSiswaController extends Controller
             'persentaseTeknisi'
         ));
     }
+
+//     public function getSiswaData($userId)
+// {
+//     $siswaData = Siswa::where('user_id', $userId)->get()->groupBy('aktivitas_id');
+    
+//     $aktivitasNames = Aktivitas::whereIn('id', $siswaData->keys())->pluck('nama_aktivitas', 'id');
+    
+//     $data = [];
+//     foreach ($siswaData as $key => $items) {
+//         $totalTime = 0;
+//         foreach ($items as $item) {
+//             $waktuMulai = Carbon::parse($item->waktu_mulai);
+//             $waktuSelesai = Carbon::parse($item->waktu_selesai);
+//             if ($waktuSelesai->greaterThan($waktuMulai)) {
+//                 $totalTime += $waktuSelesai->diffInSeconds($waktuMulai);
+//             }
+//         }
+//         $data[] = [
+//             'label' => $aktivitasNames[$key],
+//             'value' => $totalTime
+//         ];
+//     }
+
+//     return response()->json([
+//         'labels' => array_column($data, 'label'),
+//         'values' => array_column($data, 'value')
+//     ]);
+// }
+
 }
