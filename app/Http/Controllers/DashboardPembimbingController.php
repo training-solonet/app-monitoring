@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Materi;
 use App\Models\Siswa;
-use App\Models\user;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
