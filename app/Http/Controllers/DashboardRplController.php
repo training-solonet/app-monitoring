@@ -131,6 +131,11 @@ class DashboardRplController extends Controller
         // print_r($materiNames);
         // print_r($jumlahAktivitasLearning);
 
+        $dataAktivitasLearning = [
+            'name' => [],
+            'jumlah' => [],
+        ];
+
         $i = 0;
         foreach ($materiNames as $key => $val) {
             $dataAktivitasLearning['name'][$i] = $val;

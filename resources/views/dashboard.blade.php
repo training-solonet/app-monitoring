@@ -44,8 +44,10 @@
                                 <h6 class="text-white">Total Aktivitas Siswa RPL</h6>
                             </div>
                             <div class="card-body">
-                                <h5 class="text-warning font-weight-bold">{{ $jumlahDataRPL }}</h5>
-                            </div>
+                                <h5 class="text-warning font-weight-bold">
+                                    {{ $jumlahDataRPL ?? 'Data tidak tersedia' }}
+                                </h5>
+                                                            </div>
                         </div>
                     </div>
 
@@ -57,8 +59,10 @@
                                 <h6 class="text-white">Total Aktivitas Siswa TKJ</h6>
                             </div>
                             <div class="card-body">
-                                <h5 class="text-info font-weight-bold">{{ $jumlahDataTKJ }}</h5>
-                            </div>
+                                <h5 class="text-info font-weight-bold">
+                                    {{ $jumlahDataTKJ ?? 'Data tidak tersedia' }}
+                                </h5>
+                                                            </div>
                         </div>
                     </div>
 
@@ -72,13 +76,18 @@
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
                                     @php
-                                        $totalSeconds = abs($totalWaktu);
-                                        $hours = floor($totalSeconds / 3600);
-                                        $minutes = floor(($totalSeconds % 3600) / 60);
-                                        $seconds = $totalSeconds % 60;
+                                        if ($totalWaktu) {
+                                            $totalSeconds = abs($totalWaktu);
+                                            $hours = floor($totalSeconds / 3600);
+                                            $minutes = floor(($totalSeconds % 3600) / 60);
+                                            $seconds = $totalSeconds % 60;
+                                            echo "{$hours}h {$minutes}m {$seconds}s";
+                                        } else {
+                                            echo 'Data tidak tersedia';
+                                        }
                                     @endphp
-                                    {{ $hours }}h {{ $minutes }}m {{ $seconds }}s
                                 </h5>
+                                
                             </div>
                         </div>
                     </div>
@@ -93,22 +102,25 @@
                         <small>Aktivitas Siswa RPL</small>
                         <div class="progress" style="height: 20px;">
                             <div class="progress-bar" role="progressbar"
-                                style="width: {{ $persentaseRPL }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
-                                aria-valuenow="{{ $persentaseRPL }}" aria-valuemin="0" aria-valuemax="100">
-                                {{ number_format($persentaseRPL, 2) }}%
+                                style="width: {{ $persentaseRPL ?? 0 }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
+                                aria-valuenow="{{ $persentaseRPL ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ $persentaseRPL ? number_format($persentaseRPL, 2) . '%' : 'Data tidak tersedia' }}
                             </div>
                         </div>
+                        
                     </div>
 
                     <!-- Progress Bar TKJ -->
                     <div>
                         <small>Aktivitas Siswa TKJ</small>
                         <div class="progress" style="height: 20px;">
-                            <div class="progress-bar" role="progressbar"
-                                style="width: {{ $persentaseTKJ }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
-                                aria-valuenow="{{ $persentaseTKJ }}" aria-valuemin="0" aria-valuemax="100">
-                                {{ number_format($persentaseTKJ, 2) }}%
-                            </div>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar"
+                                    style="width: {{ $persentaseTKJ ?? 0 }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
+                                    aria-valuenow="{{ $persentaseTKJ ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ $persentaseTKJ ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
+                                </div>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -118,12 +130,12 @@
             <div class="row mt-4">
                 <div id="diagram-content" style="display: none;">
                     <h4>Diagram</h4>
-                    {{-- <h4>
+                    <h4>
                         <select name="siswa" id="select_siswa" onchange="pilih_siswa()">
                             <option value="2">Kevin</option>
                             <option value="3">Abi</option>
                         </select>
-                    </h4> --}}
+                    </h4>
                     <div class="col-md-12">
                         <div class="card shadow-sm border w-auto">
                             <div class="card-body py-4">
@@ -170,9 +182,9 @@
             return `${h}h ${m}m ${s}s`;
         }
 
-        // function pilih_siswa() {
-        //     alert('Pilih siswa: ' + document.getElementById('select_siswa').value);
-        // }
+        function pilih_siswa() {
+            alert('Pilih siswa: ' + document.getElementById('select_siswa').value);
+        }
 
         const piePercentageData = @json($persentaseWaktuPerKategori);
         const activityData = @json($activityData->toArray());
