@@ -80,7 +80,7 @@ class SiswaController extends Controller
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
-            'status' => 'done',
+            'status' => 'Selesai',
             'aktivitas_id' => $request->aktivitas_id,
             'report' => $request->report,
             'bukti' => $filePath,
@@ -92,16 +92,16 @@ class SiswaController extends Controller
     public function storeMultiple(Request $request)
     {
         $request->validate([
-            'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'kategori1' => 'required|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id1' => 'nullable|exists:materi,id',
-            'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'kategori2' => 'nullable|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id2' => 'nullable|exists:materi,id',
         ]);
 
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
-            'status' => 'to do',
+            'status' => 'Mulai',
             'user_id' => Auth::id(),
         ]);
 
@@ -109,7 +109,7 @@ class SiswaController extends Controller
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
-                'status' => 'to do',
+                'status' => 'Mulai',
                 'user_id' => Auth::id(),
             ]);
         }
@@ -139,14 +139,14 @@ class SiswaController extends Controller
 
         $item->update([
             'waktu_selesai' => now(),
-            'status' => 'done',
+            'status' => 'selesai',
             'report' => $request->report,
             'bukti' => $filePath,
         ]);
 
         Siswa::create([
             'kategori' => 'Keluar Dengan Teknisi',
-            'status' => 'doing',
+            'status' => 'Sedang Berlangsung',
             'user_id' => Auth::id(),
             'waktu_mulai' => now(),
         ]);
@@ -158,7 +158,7 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $siswa->waktu_mulai = Carbon::now();
-        $siswa->status = 'doing';
+        $siswa->status = 'Sedang Berlangsung';
         $siswa->save();
 
         return redirect()->back()->with('success', 'Waktu mulai berhasil diupdate.');
@@ -168,7 +168,7 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $siswa->waktu_selesai = Carbon::now();
-        $siswa->status = 'done';
+        $siswa->status = 'selesai';
         $siswa->save();
 
         return redirect()->back()->with('success', 'Waktu berhenti berhasil diupdate.');
@@ -178,12 +178,12 @@ class SiswaController extends Controller
     {
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
-        if ($siswa->status === 'to do') {
+        if ($siswa->status === 'Mulai') {
             $siswa->waktu_mulai = Carbon::now();
-            $siswa->status = 'doing';
-        } elseif ($siswa->status === 'doing') {
+            $siswa->status = 'Sedang Berlangsung';
+        } elseif ($siswa->status === 'Sedang Berlangsung') {
             $siswa->waktu_selesai = Carbon::now();
-            $siswa->status = 'done';
+            $siswa->status = 'Selesai';
         }
 
         $siswa->save();

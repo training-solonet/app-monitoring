@@ -73,11 +73,11 @@ class SiswaRplController extends Controller
         }
 
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
+        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
-            'status' => 'done',
+            'status' => 'Selesai',
             'report' => $request->report,
             'bukti' => $filePath,
         ]);
@@ -88,36 +88,37 @@ class SiswaRplController extends Controller
     public function storeMultiple(Request $request)
     {
         $request->validate([
-            'kategori1' => 'required|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'kategori1' => 'required|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id1' => 'nullable|exists:materi,id',
-            'kategori2' => 'nullable|in:Learning,Project,DiKantor,Keluar Dengan Teknisi',
+            'kategori2' => 'nullable|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id2' => 'nullable|exists:materi,id',
         ]);
-
+    
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
-            'status' => 'to do',
+            'status' => 'Mulai',
             'user_id' => Auth::id(),
         ]);
-
-        if ($request->filled('kategori2') && $request->filled('materi_id2')) {
+    
+        if ($request->kategori2 && $request->materi_id2) {
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
-                'status' => 'to do',
+                'status' => 'Mulai',
                 'user_id' => Auth::id(),
             ]);
         }
-
+    
         return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
+    
 
     public function start($id)
     {
         $siswarpl = Siswa::findOrFail($id);
         $siswarpl->waktu_mulai = Carbon::now();
-        $siswarpl->status = 'doing';
+        $siswarpl->status = 'Sedang Berlangsung';
         $siswarpl->save();
 
         return redirect()->back()->with('success', 'Waktu mulai berhasil diupdate.');
@@ -127,7 +128,7 @@ class SiswaRplController extends Controller
     {
         $siswarpl = Siswa::findOrFail($id);
         $siswarpl->waktu_selesai = Carbon::now();
-        $siswarpl->status = 'done';
+        $siswarpl->status = 'Selesai';
         $siswarpl->save();
 
         return redirect()->back()->with('success', 'Waktu berhenti berhasil diupdate.');
@@ -137,12 +138,12 @@ class SiswaRplController extends Controller
     {
         $siswarpl = Siswa::findOrFail($id);
 
-        if ($siswarpl->status === 'to do') {
+        if ($siswarpl->status === 'Mulai') {
             $siswarpl->waktu_mulai = Carbon::now();
-            $siswarpl->status = 'doing';
-        } elseif ($siswarpl->status === 'doing') {
+            $siswarpl->status = 'Sedang Berlangsung';
+        } elseif ($siswarpl->status === 'Sedang Berlangsung') {
             $siswarpl->waktu_selesai = Carbon::now();
-            $siswarpl->status = 'done';
+            $siswarpl->status = 'Selesai';
         }
 
         $siswarpl->save();

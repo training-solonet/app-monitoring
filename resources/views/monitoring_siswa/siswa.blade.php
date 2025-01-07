@@ -36,20 +36,22 @@
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm"
                                     class="p-3 mx-0 border rounded shadow-sm w-100 gap-3 d-flex flex-wrap align-items-start">
                                     <!-- Status Filter -->
-                                    <div class="col-12 col-md-2 mb-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select" name="status" id="statusFilter"
                                             onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="all"
                                                 {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
-                                                All</option>
-                                            <option value="to do" {{ request('status') == 'to do' ? 'selected' : '' }}>
-                                                To Do</option>
-                                            <option value="doing" {{ request('status') == 'doing' ? 'selected' : '' }}>
-                                                Doing</option>
-                                            <option value="done" {{ request('status') == 'done' ? 'selected' : '' }}>
-                                                Done</option>
+                                                Semua</option>
+                                            <option value="Mulai" {{ request('status') == 'Mulai' ? 'selected' : '' }}>
+                                                Mulai</option>
+                                            <option value="Sedang Berlangsung"
+                                                {{ request('status') == 'Sedang Berlangsung' ? 'selected' : '' }}>
+                                                Sedang Berlangsung</option>
+                                            <option value="Selesai"
+                                                {{ request('status') == 'Selesai' ? 'selected' : '' }}>
+                                                Selesai</option>
                                         </select>
                                     </div>
 
@@ -170,25 +172,26 @@
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-sm font-weight-normal">
                                                         {!! $item->waktu_mulai
-                                                            ? \Carbon\Carbon::parse($item->waktu_mulai)->translatedFormat('d F Y, H:i')
+                                                            ? \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d F Y, H:i')
                                                             : '<em>Belum Dimulai</em>' !!}
                                                     </span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-sm font-weight-normal">
                                                         {!! $item->waktu_selesai
-                                                            ? \Carbon\Carbon::parse($item->waktu_selesai)->translatedFormat('d F Y, H:i')
+                                                            ? \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('d F Y, H:i')
                                                             : '<em>Belum Berakhir</em>' !!}
                                                     </span>
                                                 </td>
+                                                
                                                 <td class="align-middle text-center">
-                                                    @if ($item->status == 'to do')
+                                                    @if ($item->status == 'Mulai')
                                                         <span
                                                             class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'doing')
+                                                    @elseif($item->status == 'Sedang Berlangsung')
                                                         <span
                                                             class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'done')
+                                                    @elseif($item->status == 'Selesai')
                                                         <span
                                                             class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                     @endif
@@ -196,7 +199,7 @@
 
                                                 <td class="align-middle text-center"
                                                     id="total-waktu-{{ $item->id }}">
-                                                    @if ($item->status === 'doing' && $item->waktu_mulai)
+                                                    @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
                                                         {{ $item->total_waktu ?? '00:00:00' }}
                                                     @else
                                                         {{ $item->total_waktu ?? '00:00:00' }}
@@ -261,13 +264,13 @@
                                                     <form action="{{ route('siswa.toggle', $item->id) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
-                                                        @if ($item->status === 'to do')
+                                                        @if ($item->status === 'Mulai')
                                                             <button type="submit"
                                                                 class="btn btn-sm btn-success mb-0">
                                                                 <i class="fa-solid fa-play"
                                                                     style="font-size: 12px"></i>
                                                             </button>
-                                                        @elseif($item->status === 'doing')
+                                                        @elseif($item->status === 'Sedang Berlangsung')
                                                             <button type="button" class="btn btn-sm btn-danger mb-0"
                                                                 data-bs-toggle="modal" data-id="{{ $item->id }}"
                                                                 data-report="{{ $item->report }}"
@@ -554,103 +557,104 @@
         }
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @foreach ($siswa as $item)
-                @if ($item->status === 'doing' && $item->waktu_mulai)
-                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                @endif
-            @endforeach
-            document.querySelectorAll('.btn-danger').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const id = this.getAttribute('data-id');
-                    const kategori = this.getAttribute('data-kategori');
-                    const report = this.getAttribute('data-report');
-                    const waktu_selesai = this.getAttribute('data-waktu_selesai');
+    @foreach ($siswa as $item)
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @foreach ($siswa as $item)
+                    @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                    @endif
+                @endforeach
+                document.querySelectorAll('.btn-danger').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        const id = this.getAttribute('data-id');
+                        const kategori = this.getAttribute('data-kategori');
+                        const report = this.getAttribute('data-report');
+                        const waktu_selesai = this.getAttribute('data-waktu_selesai');
 
-                    if (kategori === 'Keluar Dengan Teknisi') {
-                        const modal = new bootstrap.Modal(document.getElementById(
-                            'EditLaporanModal' + id));
-                        modal.show();
+                        if (kategori === 'Keluar Dengan Teknisi') {
+                            const modal = new bootstrap.Modal(document.getElementById(
+                                'EditLaporanModal' + id));
+                            modal.show();
 
-                        const modalElement = document.getElementById('EditLaporanModal' + id);
-                        modalElement.querySelector('textarea[name="report"]').value = report;
-                        modalElement.querySelector('input[name="waktu_selesai"]').value =
-                            waktu_selesai;
-                    } else {
-                        Swal.fire({
-                            title: 'Apakah Anda yakin?',
-                            text: "Aktivitas ini akan diselesaikan.",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            showDenyButton: true,
-                            confirmButtonText: 'Ya, Selesaikan!',
-                            denyButtonText: 'Keluar Dengan Teknisi',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const modal = new bootstrap.Modal(document.getElementById(
-                                    'EditLaporanModal' + id));
-                                modal.show();
+                            const modalElement = document.getElementById('EditLaporanModal' + id);
+                            modalElement.querySelector('textarea[name="report"]').value = report;
+                            modalElement.querySelector('input[name="waktu_selesai"]').value =
+                                waktu_selesai;
+                        } else {
+                            Swal.fire({
+                                title: 'Apakah Anda yakin?',
+                                text: "Aktivitas ini akan diselesaikan.",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                showDenyButton: true,
+                                confirmButtonText: 'Ya, Selesaikan!',
+                                denyButtonText: 'Keluar Dengan Teknisi',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    const modal = new bootstrap.Modal(document.getElementById(
+                                        'EditLaporanModal' + id));
+                                    modal.show();
 
-                                const modalElement = document.getElementById(
-                                    'EditLaporanModal' + id);
-                                modalElement.querySelector('textarea[name="report"]')
-                                    .value = report;
-                                modalElement.querySelector('input[name="waktu_selesai"]')
-                                    .value = waktu_selesai;
-                            } else if (result.isDenied) {
-                                const teknisiModal = new bootstrap.Modal(document
-                                    .getElementById('tambahLaporanTeknisi'));
-                                teknisiModal.show();
+                                    const modalElement = document.getElementById(
+                                        'EditLaporanModal' + id);
+                                    modalElement.querySelector('textarea[name="report"]')
+                                        .value = report;
+                                    modalElement.querySelector('input[name="waktu_selesai"]')
+                                        .value = waktu_selesai;
+                                } else if (result.isDenied) {
+                                    const teknisiModal = new bootstrap.Modal(document
+                                        .getElementById('tambahLaporanTeknisi'));
+                                    teknisiModal.show();
 
-                                const teknisiForm = document.getElementById(
-                                    'tambahLaporanTeknisiForm');
-                                teknisiForm.setAttribute('action',
-                                    `/siswa/updateAndCreate/${id}`);
-                            }
-                        });
+                                    const teknisiForm = document.getElementById(
+                                        'tambahLaporanTeknisiForm');
+                                    teknisiForm.setAttribute('action',
+                                        `/siswa/updateAndCreate/${id}`);
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+
+                waktuSelesaiInput.setAttribute('min', waktuMulai);
+
+                waktuSelesaiInput.addEventListener('change', function() {
+                    if (waktuSelesaiInput.value < waktuMulai) {
+                        alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                        waktuSelesaiInput.value = waktuMulai;
                     }
                 });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+            function startTimer(waktuMulai, elementId) {
+                const startTime = new Date(waktuMulai).getTime();
 
-            waktuSelesaiInput.setAttribute('min', waktuMulai);
+                console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
 
-            waktuSelesaiInput.addEventListener('change', function() {
-                if (waktuSelesaiInput.value < waktuMulai) {
-                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                    waktuSelesaiInput.value = waktuMulai;
+                function updateTime() {
+                    const now = new Date().getTime();
+                    const elapsed = now - startTime;
+
+                    const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                    document.getElementById(elementId).textContent =
+                        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 }
-            });
-        });
 
-
-        function startTimer(waktuMulai, elementId) {
-            const startTime = new Date(waktuMulai).getTime();
-
-            console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
-
-            function updateTime() {
-                const now = new Date().getTime();
-                const elapsed = now - startTime;
-
-                const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                document.getElementById(elementId).textContent =
-                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                updateTime();
+                setInterval(updateTime, 1000);
             }
-
-            updateTime();
-            setInterval(updateTime, 1000);
-        }
-    </script>
+        </script>
+    @endforeach
 
 
 </x-app-layout>

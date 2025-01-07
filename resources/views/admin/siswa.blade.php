@@ -93,14 +93,15 @@
                                                                     </td> --}}
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
-                                                                            {{ \Carbon\Carbon::parse($item->tanggal_mulai)->translatedFormat('l, d-m-Y') }}
+                                                                            {{ \Carbon\Carbon::parse($item->tanggal_mulai)->locale('id')->translatedFormat('l, d-m-Y') }}
                                                                         </p>
                                                                     </td>
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
-                                                                            {{ \Carbon\Carbon::parse($item->tanggal_selesai)->translatedFormat('l, d-m-Y') }}
+                                                                            {{ \Carbon\Carbon::parse($item->tanggal_selesai)->locale('id')->translatedFormat('l, d-m-Y') }}
                                                                         </p>
                                                                     </td>
+                                                                    
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->masa_pkl }} Bulan
