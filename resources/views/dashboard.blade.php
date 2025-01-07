@@ -107,11 +107,21 @@
                                 {{ $persentaseRPL ? number_format($persentaseRPL, 2) . '%' : 'Data tidak tersedia' }}
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Progress Bar TKJ -->
-                    <div>
+                    <div class="mb-4">
+                        <small>Aktivitas Siswa RPL</small>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: {{ $persentaseTKJ ?? 0 }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
+                                aria-valuenow="{{ $persentaseTKJ ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ $persentaseTKJ ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="mb-4">
                         <small>Aktivitas Siswa TKJ</small>
                         <div class="progress" style="height: 20px;">
                             <div class="progress" style="height: 20px;">
@@ -122,13 +132,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
             {{-- Content Section --}}
             <div class="row mt-4">
-                <div id="diagram-content" style="display: none;">
+                <div id="diagram-content">
                     <div class="d-flex justify-content-between">
                         <h4>Diagram</h4>
                         <p>
@@ -193,6 +203,16 @@
             var userId = document.getElementById('select_user').value;
             // Lakukan sesuatu dengan userId, misalnya kirim ke server atau tampilkan data terkait user
             console.log(userId);
+            const newPiePercentageData = {
+                "Dikantor": "60",
+                "Keluar Dengan Teknisi": "30",
+                "Belajar": "10"
+            }
+            drawPie(
+                newPiePercentageData,
+                activityData,
+                activityLabels
+            );
         }
 
         //     function pilih_user() {
@@ -233,52 +253,67 @@
         const piePercentageData = @json($persentaseWaktuPerKategori);
         const activityData = @json($activityData->toArray());
         const activityLabels = @json(array_keys($activityData->toArray()));
-        const ctxPie = document.getElementById('chart-pie').getContext('2d');
-        const gradientColorsPie = [];
-        const colors = [
-            'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(153, 102, 255, 1)',
-            'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(231, 233, 237, 1)', 'rgba(255, 99, 99, 1)',
-            'rgba(255, 159, 159, 1)', 'rgba(75, 255, 192, 1)', 'rgba(192, 75, 255, 1)', 'rgba(86, 255, 255, 1)',
-            'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
-            'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
-        ];
 
-        colors.forEach((color) => {
-            const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
-            gradientColorsPie.push(gradient);
-        });
+        function drawPie(
+            piePercentageData,
+            activityData,
+            activityLabels
+        ) {
+            const ctxPie = document.getElementById('chart-pie').getContext('2d');
+            const gradientColorsPie = [];
+            const colors = [
+                'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(153, 102, 255, 1)',
+                'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(231, 233, 237, 1)', 'rgba(255, 99, 99, 1)',
+                'rgba(255, 159, 159, 1)', 'rgba(75, 255, 192, 1)', 'rgba(192, 75, 255, 1)', 'rgba(86, 255, 255, 1)',
+                'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
+                'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
+            ];
 
-        const pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(piePercentageData),
-                datasets: [{
-                    data: Object.values(piePercentageData),
-                    backgroundColor: gradientColorsPie,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '70%',
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                const percentage = tooltipItem.raw.toFixed(2);
-                                return `${tooltipItem.label}: ${percentage}%`;
+            colors.forEach((color) => {
+                const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, color);
+                gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
+                gradientColorsPie.push(gradient);
+            });
+
+            const pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(piePercentageData),
+                    datasets: [{
+                        data: Object.values(piePercentageData),
+                        backgroundColor: gradientColorsPie,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const percentage = tooltipItem.raw.toFixed(2);
+                                    return `${tooltipItem.label}: ${percentage}%`;
+                                }
                             }
+                        },
+                        legend: {
+                            position: 'top',
                         }
-                    },
-                    legend: {
-                        position: 'top',
                     }
                 }
-            }
-        });
+            });
 
+        }
+
+        drawPie(
+            piePercentageData,
+            activityData,
+            activityLabels
+        );
+
+        // drawPieCard($persentaseWaktuPerKategori, $activityData);
         document.getElementById('show-diagram').addEventListener('click', function() {
             document.getElementById('diagram-content').style.display = 'block';
             document.getElementById('detail-content').style.display = 'none';

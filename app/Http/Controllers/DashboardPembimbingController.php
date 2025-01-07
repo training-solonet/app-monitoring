@@ -12,7 +12,7 @@ class DashboardPembimbingController extends Controller
 {
     public function index(Request $request)
     {
-        $userList = User::all();
+        $userList = User::where('role', 'siswa')->get();
 
         $rplCount = Materi::where('jurusan', 'RPL')->count();
         $tkjCount = Materi::where('jurusan', 'TKJ')->count();
@@ -40,7 +40,7 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
-        $jumlahDataRPL = Siswa::whereIn('kategori', ['Learning', 'Project'])
+        $jumlahDataRPL = Siswa::whereIn('kategori', ['Belajar', 'Projek'])
             ->count();
 
         $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])

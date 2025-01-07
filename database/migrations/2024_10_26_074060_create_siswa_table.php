@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('aktivitas_id')->nullable();
-            $table->enum('kategori', ['DiKantor', 'Keluar Dengan Teknisi', 'Learning', 'Project']);
+            $table->enum('kategori', ['DiKantor', 'Keluar Dengan Teknisi', 'Belajar', 'Projek']);
             $table->text('report')->nullable();
             $table->datetime('waktu_mulai')->nullable();
             $table->datetime('waktu_selesai')->nullable();
-            $table->enum('status', ['to do', 'doing', 'done'])->nullable();
+            $table->enum('status', ['Mulai', 'Sedang Berlangsung', 'Selesai'])->nullable();
             $table->unsignedBigInteger('materi_id')->nullable();
             $table->text('bukti')->nullable();
             $table->timestamps();

@@ -15,8 +15,8 @@ class DashboardRplController extends Controller
     {
         $userId = Auth::id();
 
-        $totalWaktuProject = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Project')
+        $totalWaktuProjek = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Projek')
             ->get()
             ->reduce(function ($carry, $item) {
                 if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -31,10 +31,10 @@ class DashboardRplController extends Controller
             }, 0);
 
         $siswaData = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Project')
+            ->where('kategori', 'Projek')
             ->get()
             ->groupBy('aktivitas_id')
-            ->map(function ($items, $aktivitasId) use ($totalWaktuProject) {
+            ->map(function ($items, $aktivitasId) use ($totalWaktuProjek) {
                 $totalTime = 0;
                 foreach ($items as $item) {
                     if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -45,7 +45,7 @@ class DashboardRplController extends Controller
                         }
                     }
                 }
-                $percentage = $totalWaktuProject ? ($totalTime / $totalWaktuProject) * 100 : 0;
+                $percentage = $totalWaktuProjek ? ($totalTime / $totalWaktuProjek) * 100 : 0;
 
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
@@ -53,13 +53,13 @@ class DashboardRplController extends Controller
         $aktivitasNames = Aktivitas::whereIn('id', $siswaData->keys())->pluck('nama_aktivitas', 'id');
 
         $jumlahAktivitas = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Project')
+            ->where('kategori', 'Projek')
             ->get()
             ->groupBy('aktivitas_id')
             ->map->count();
 
-        $totalWaktuLearning = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Learning')
+        $totalWaktuBelajar = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Belajar')
             ->get()
             ->reduce(function ($carry, $item) {
                 if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -73,11 +73,11 @@ class DashboardRplController extends Controller
                 return $carry;
             }, 0);
 
-        $siswaDataLearning = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Learning')
+        $siswaDataBelajar = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Belajar')
             ->get()
             ->groupBy('materi_id')
-            ->map(function ($items, $materiId) use ($totalWaktuLearning) {
+            ->map(function ($items, $materiId) use ($totalWaktuBelajar) {
                 $totalTime = 0;
                 foreach ($items as $item) {
                     if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -88,25 +88,25 @@ class DashboardRplController extends Controller
                         }
                     }
                 }
-                $percentage = $totalWaktuLearning ? ($totalTime / $totalWaktuLearning) * 100 : 0;
+                $percentage = $totalWaktuBelajar ? ($totalTime / $totalWaktuBelajar) * 100 : 0;
 
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
-        $materiNames = Materi::whereIn('id', $siswaDataLearning->keys())->pluck('materi', 'id');
+        $materiNames = Materi::whereIn('id', $siswaDataBelajar->keys())->pluck('materi', 'id');
 
-        $jumlahAktivitasLearning = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Learning')
+        $jumlahAktivitasBelajar = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Belajar')
             ->get()
             ->groupBy('materi_id')
             ->map->count();
 
-        $jumlahDataProject = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Project')
+        $jumlahDataProjek = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Projek')
             ->count();
 
-        $jumlahDataLearning = Siswa::where('user_id', $userId)
-            ->where('kategori', 'Learning')
+        $jumlahDataBelajar = Siswa::where('user_id', $userId)
+            ->where('kategori', 'Belajar')
             ->count();
 
         $totalWaktu = Siswa::where('user_id', $userId)
@@ -123,41 +123,41 @@ class DashboardRplController extends Controller
                 return $carry;
             }, 0);
 
-        $totalAktivitas = $jumlahDataLearning + $jumlahDataProject;
+        $totalAktivitas = $jumlahDataBelajar + $jumlahDataProjek;
 
-        $persentaseLearning = $totalAktivitas > 0 ? ($jumlahDataLearning / $totalAktivitas) * 100 : 0;
-        $persentaseProject = $totalAktivitas > 0 ? ($jumlahDataProject / $totalAktivitas) * 100 : 0;
+        $persentaseBelajar = $totalAktivitas > 0 ? ($jumlahDataBelajar / $totalAktivitas) * 100 : 0;
+        $persentaseProjek = $totalAktivitas > 0 ? ($jumlahDataProjek / $totalAktivitas) * 100 : 0;
 
         // print_r($materiNames);
-        // print_r($jumlahAktivitasLearning);
+        // print_r($jumlahAktivitasBelajar);
 
-        $dataAktivitasLearning = [
+        $dataAktivitasBelajar = [
             'name' => [],
             'jumlah' => [],
         ];
 
         $i = 0;
         foreach ($materiNames as $key => $val) {
-            $dataAktivitasLearning['name'][$i] = $val;
-            $dataAktivitasLearning['jumlah'][$i] = $jumlahAktivitasLearning[$key];
+            $dataAktivitasBelajar['name'][$i] = $val;
+            $dataAktivitasBelajar['jumlah'][$i] = $jumlahAktivitasBelajar[$key];
             $i++;
         }
 
         return view('dashboardrpl', compact(
             'siswaData',
             'aktivitasNames',
-            'totalWaktuProject',
+            'totalWaktuProjek',
             'jumlahAktivitas',
-            'siswaDataLearning',
+            'siswaDataBelajar',
             'materiNames',
-            'totalWaktuLearning',
-            'jumlahAktivitasLearning',
-            'jumlahDataLearning',
-            'jumlahDataProject',
+            'totalWaktuBelajar',
+            'jumlahAktivitasBelajar',
+            'jumlahDataBelajar',
+            'jumlahDataProjek',
             'totalWaktu',
-            'persentaseLearning',
-            'persentaseProject',
-            'dataAktivitasLearning'
+            'persentaseBelajar',
+            'persentaseProjek',
+            'dataAktivitasBelajar'
         ));
     }
 }

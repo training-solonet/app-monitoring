@@ -50,28 +50,28 @@
                 <div class="container mt-4" id="detail-content">
                     <h4>Detail</h4>
                     <div class="row g-3">
-                        <!-- Card Total Aktivitas Learning -->
+                        <!-- Card Total Aktivitas Belajar -->
                         <div class="col-md-4">
                             <div class="card text-center shadow border-0">
                                 <div class="card-header text-white"
                                     style="background: linear-gradient(45deg, #ff9f43, #ff6f61);">
-                                    <h6 class="text-white">Total Aktivitas Learning</h6>
+                                    <h6 class="text-white">Total Aktivitas Belajar</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="text-warning font-weight-bold">{{ $jumlahDataLearning }}</h5>
+                                    <h5 class="text-warning font-weight-bold">{{ $jumlahDataBelajar }}</h5>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Card Total Aktivitas Project -->
+                        <!-- Card Total Aktivitas Projek -->
                         <div class="col-md-4">
                             <div class="card text-center shadow border-0">
                                 <div class="card-header text-white"
                                     style="background: linear-gradient(45deg, #42a5f5, #5c6bc0);">
-                                    <h6 class="text-white">Total Aktivitas Project</h6>
+                                    <h6 class="text-white">Total Aktivitas Projek</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="text-info font-weight-bold">{{ $jumlahDataProject }}</h5>
+                                    <h5 class="text-info font-weight-bold">{{ $jumlahDataProjek }}</h5>
                                 </div>
                             </div>
                         </div>
@@ -100,28 +100,28 @@
 
                     <!-- Progress Bars -->
                     <div class="mt-3">
-                        <h6 class="font-weight-bold">Perbandingan Aktivitas Learning dan Project</h6>
+                        <h6 class="font-weight-bold">Perbandingan Aktivitas Belajar dan Projek</h6>
 
-                        <!-- Progress Bar Learning -->
+                        <!-- Progress Bar Belajar -->
                         <div class="mb-4">
-                            <small>Aktivitas Learning</small>
+                            <small>Aktivitas Belajar</small>
                             <div class="progress" style="height: 20px;">
                                 <div class="progress-bar" role="progressbar"
-                                    style="width: {{ $persentaseLearning }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
-                                    aria-valuenow="{{ $persentaseLearning }}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ number_format($persentaseLearning, 2) }}%
+                                    style="width: {{ $persentaseBelajar }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
+                                    aria-valuenow="{{ $persentaseBelajar }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ number_format($persentaseBelajar, 2) }}%
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Progress Bar Project -->
+                        <!-- Progress Bar Projek -->
                         <div>
-                            <small>Aktivitas Project</small>
+                            <small>Aktivitas Projek</small>
                             <div class="progress" style="height: 20px;">
                                 <div class="progress-bar" role="progressbar"
-                                    style="width: {{ $persentaseProject }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
-                                    aria-valuenow="{{ $persentaseProject }}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ number_format($persentaseProject, 2) }}%
+                                    style="width: {{ $persentaseProjek }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
+                                    aria-valuenow="{{ $persentaseProjek }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ number_format($persentaseProjek, 2) }}%
                                 </div>
                             </div>
                         </div>
@@ -135,24 +135,24 @@
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto;">
-                                    <!-- Diagram Lingkaran Learning -->
+                                    <!-- Diagram Lingkaran Belajar -->
                                     <div class="col-md-6">
-                                        <h6 class="text-center mb-3">Persentase Waktu Per Materi Learning</h6>
+                                        <h6 class="text-center mb-3">Persentase Waktu Per Materi Belajar</h6>
                                         <div class="chart">
-                                            <canvas id="chart-pie-Learning" class="chart-canvas"
+                                            <canvas id="chart-pie-Belajar" class="chart-canvas"
                                                 height="240"></canvas>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <button id="toggle-legend-Learning" class="btn btn-sm btn-outline-info">
+                                            <button id="toggle-legend-Belajar" class="btn btn-sm btn-outline-info">
                                                 <i class="fas fa-info-circle me-1"></i> Detail
                                             </button>
                                         </div>
                                     </div>
-                                    <!-- Diagram Batang Learning -->
+                                    <!-- Diagram Batang Belajar -->
                                     <div class="col-md-6 mt-1">
-                                        <h6 class="text-center mb-3">Jumlah Aktivitas Learning</h6>
+                                        <h6 class="text-center mb-3">Jumlah Aktivitas Belajar</h6>
                                         <div class="chart">
-                                            <canvas id="chart-bar-Learning" class="chart-canvas" height="519"
+                                            <canvas id="chart-bar-Belajar" class="chart-canvas" height="519"
                                                 width="649"
                                                 style="margin-top: 4rem; display: block; box-sizing: border-box; height: 380px; width: 481px;"></canvas>
                                         </div>
@@ -162,14 +162,14 @@
                         </div>
                     </div>
 
-                    <!-- Card 2: Untuk Diagram Lingkaran dan Batang Project -->
+                    <!-- Card 2: Untuk Diagram Lingkaran dan Batang Projek -->
                     <div class="col-md-12 mt-3 d-none">
                         <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto">
-                                    <!-- Diagram Lingkaran Project -->
+                                    <!-- Diagram Lingkaran Projek -->
                                     <div class="col-md-6">
-                                        {{-- <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Project</h6> --}}
+                                        {{-- <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Projek</h6> --}}
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                         </div>
@@ -179,9 +179,9 @@
                                             </button>
                                         </div> --}}
                                     </div>
-                                    <!-- Diagram Batang Project -->
+                                    <!-- Diagram Batang Projek -->
                                     <div class="col-md-6 mt-1">
-                                        {{-- <h6 class="text-center mb-3">Jumlah Aktivitas Project</h6> --}}
+                                        {{-- <h6 class="text-center mb-3">Jumlah Aktivitas Projek</h6> --}}
                                         <div class="chart" style="margin-top: 5rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>
@@ -226,23 +226,23 @@
             gradientColorsPie.push(gradient);
         });
 
-        // Pie Chart Learning
-        const ctxPieLearning = document.getElementById('chart-pie-Learning').getContext('2d');
-        const gradientColorsPieLearning = [];
+        // Pie Chart Belajar
+        const ctxPieBelajar = document.getElementById('chart-pie-Belajar').getContext('2d');
+        const gradientColorsPieBelajar = [];
         colors.forEach((color) => {
-            const gradient = ctxPieLearning.createLinearGradient(0, 0, 0, 400);
+            const gradient = ctxPieBelajar.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, color);
             gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
-            gradientColorsPieLearning.push(gradient);
+            gradientColorsPieBelajar.push(gradient);
         });
 
-        const pieChartLearning = new Chart(ctxPieLearning, {
+        const pieChartBelajar = new Chart(ctxPieBelajar, {
             type: 'doughnut',
             data: {
                 labels: @json($materiNames->values()),
                 datasets: [{
-                    data: @json($siswaDataLearning->pluck('totalTime')->values()),
-                    backgroundColor: gradientColorsPieLearning,
+                    data: @json($siswaDataBelajar->pluck('totalTime')->values()),
+                    backgroundColor: gradientColorsPieBelajar,
                     hoverOffset: 10
                 }]
             },
@@ -265,7 +265,7 @@
                             label: function(tooltipItem) {
                                 const data = tooltipItem.dataset.data;
                                 const currentValue = data[tooltipItem.dataIndex];
-                                const percentage = @json($siswaDataLearning->pluck('percentage')->values())[tooltipItem.dataIndex];
+                                const percentage = @json($siswaDataBelajar->pluck('percentage')->values())[tooltipItem.dataIndex];
                                 return `${tooltipItem.label}: ${percentage.toFixed(2)}% (${formatTime(currentValue)})`;
                             }
                         }
@@ -274,28 +274,28 @@
             }
         });
 
-        // Toggle Legend Learning
-        const toggleLegendLearningButton = document.getElementById('toggle-legend-Learning');
-        toggleLegendLearningButton.addEventListener('click', () => {
-            pieChartLearning.options.plugins.legend.display = !pieChartLearning.options.plugins.legend.display;
-            pieChartLearning.update();
+        // Toggle Legend Belajar
+        const toggleLegendBelajarButton = document.getElementById('toggle-legend-Belajar');
+        toggleLegendBelajarButton.addEventListener('click', () => {
+            pieChartBelajar.options.plugins.legend.display = !pieChartBelajar.options.plugins.legend.display;
+            pieChartBelajar.update();
         });
 
 
-        // Bar Chart Learning
-        const ctxBarLearning = document.getElementById('chart-bar-Learning').getContext('2d');
-        const gradientBarLearning = ctxBarLearning.createLinearGradient(0, 0, 0, 400);
-        gradientBarLearning.addColorStop(0, 'rgba(255, 159, 64, 1)');
-        gradientBarLearning.addColorStop(1, 'rgba(255, 159, 64, 0.4)');
+        // Bar Chart Belajar
+        const ctxBarBelajar = document.getElementById('chart-bar-Belajar').getContext('2d');
+        const gradientBarBelajar = ctxBarBelajar.createLinearGradient(0, 0, 0, 400);
+        gradientBarBelajar.addColorStop(0, 'rgba(255, 159, 64, 1)');
+        gradientBarBelajar.addColorStop(1, 'rgba(255, 159, 64, 0.4)');
 
-        const barChartLearning = new Chart(ctxBarLearning, {
+        const barChartBelajar = new Chart(ctxBarBelajar, {
             type: 'bar',
             data: {
-                labels: @json($dataAktivitasLearning['name']  ?? []),
+                labels: @json($dataAktivitasBelajar['name']  ?? []),
                 datasets: [{
                     label: 'Jumlah Aktivitas',
-                    data: @json($dataAktivitasLearning['jumlah'] ?? []),
-                    backgroundColor: gradientBarLearning,
+                    data: @json($dataAktivitasBelajar['jumlah'] ?? []),
+                    backgroundColor: gradientBarBelajar,
                     borderColor: 'rgba(255, 159, 64, 1)',
                     borderWidth: 2,
                     borderRadius: 5,
