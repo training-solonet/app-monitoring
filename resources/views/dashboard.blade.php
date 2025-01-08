@@ -71,7 +71,7 @@
                         <div class="card text-center shadow border-0">
                             <div class="card-header text-white"
                                 style="background: linear-gradient(45deg, #66bb6a, #26a69a);">
-                                <h6 class="text-white">Total Jumlah Waktu Aktivitas Semua Siswa</h6>
+                                <h6 class="text-white">Total Waktu Aktivitas Semua Siswa</h6>
                             </div>
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
@@ -111,7 +111,7 @@
 
                     <!-- Progress Bar TKJ -->
                     <div class="mb-4">
-                        <small>Aktivitas Siswa RPL</small>
+                        <small>Aktivitas Siswa TKJ</small>
                         <div class="progress" style="height: 20px;">
                             <div class="progress-bar" role="progressbar"
                                 style="width: {{ $persentaseTKJ ?? 0 }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
@@ -381,6 +381,7 @@
         });
 
         // Toggle legend visibility
+        // Toggle Legend 
         const toggleLegendButton = document.getElementById('toggle-legend');
         toggleLegendButton.addEventListener('click', () => {
             pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;

@@ -85,6 +85,7 @@ class SiswaRplController extends Controller
         return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
     }
 
+
     public function storeMultiple(Request $request)
     {
         $request->validate([
@@ -93,15 +94,17 @@ class SiswaRplController extends Controller
             'kategori2' => 'nullable|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id2' => 'nullable|exists:materi,id',
         ]);
-    
+
+        // Create the first entry
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
             'status' => 'Mulai',
             'user_id' => Auth::id(),
         ]);
-    
-        if ($request->kategori2 && $request->materi_id2) {
+
+        // Create the second entry if provided
+        if ($request->filled('kategori2') && $request->filled('materi_id2')) {
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
@@ -109,10 +112,11 @@ class SiswaRplController extends Controller
                 'user_id' => Auth::id(),
             ]);
         }
-    
+
         return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
-    
+
+
 
     public function start($id)
     {
@@ -138,7 +142,7 @@ class SiswaRplController extends Controller
     {
         $siswarpl = Siswa::findOrFail($id);
 
-        if ($siswarpl->status === 'Mulai') {
+        if ($siswarpl->status === '') {
             $siswarpl->waktu_mulai = Carbon::now();
             $siswarpl->status = 'Sedang Berlangsung';
         } elseif ($siswarpl->status === 'Sedang Berlangsung') {
