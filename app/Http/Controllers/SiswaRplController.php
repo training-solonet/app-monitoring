@@ -85,7 +85,6 @@ class SiswaRplController extends Controller
         return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
     }
 
-
     public function storeMultiple(Request $request)
     {
         $request->validate([
@@ -95,14 +94,12 @@ class SiswaRplController extends Controller
             'materi_id2' => 'nullable|exists:materi,id',
         ]);
 
-        // Create the first entry
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
             'status' => 'Mulai',
             'user_id' => Auth::id(),
         ]);
-
 
         if ($request->kategori2 && $request->materi_id2) {
             Siswa::create([
@@ -115,7 +112,6 @@ class SiswaRplController extends Controller
 
         return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
-
 
     public function start($id)
     {
