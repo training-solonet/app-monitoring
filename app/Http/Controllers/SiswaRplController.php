@@ -73,7 +73,7 @@ class SiswaRplController extends Controller
         }
 
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
+        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
@@ -103,8 +103,8 @@ class SiswaRplController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        // Create the second entry if provided
-        if ($request->filled('kategori2') && $request->filled('materi_id2')) {
+
+        if ($request->kategori2 && $request->materi_id2) {
             Siswa::create([
                 'kategori' => $request->kategori2,
                 'materi_id' => $request->materi_id2,
@@ -115,7 +115,6 @@ class SiswaRplController extends Controller
 
         return redirect()->route('siswarpl.index')->with('success', 'Laporan berhasil ditambahkan.');
     }
-
 
 
     public function start($id)
