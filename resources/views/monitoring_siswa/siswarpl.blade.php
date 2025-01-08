@@ -372,7 +372,7 @@
                                                             </div>
 
                                                             <!-- Waktu Selesai Input -->
-                                                            <div class="mb-3">
+                                                            <div class="mb-3 d-none">
                                                                 <label for="waktu_selesai{{ $item->id }}"
                                                                     class="form-label fw-bold">Waktu Selesai</label>
                                                                 <input type="time" class="form-control"
@@ -442,6 +442,8 @@
                         <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                         <div class="mb-3">
                             <label for="kategori1" class="form-label">Kategori</label>
+                            {{-- <select class="form-select" id="kategori1" name="kategori1" required
+                                onchange="toggleMateriDropdown('kategori1', 'materi1')"> --}}
                             <select class="form-select" id="kategori1" name="kategori1" required
                                 onchange="toggleMateriDropdown('kategori1', 'materi1')">
                                 <option disabled selected ="" required>Pilih Kategori</option>
@@ -494,34 +496,45 @@
         </div>
     </div>
 
-    @foreach ($siswarpl as $item)
+    {{-- @foreach ($siswarpl as $item) --}}
         <script>
-                @foreach ($siswarpl as $item)
-                    @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                    @endif
-                @endforeach
-            function toggleMateriDropdown(selectId, materiId) {
-                const selectElement = document.getElementById(selectId);
-                const materiElement = document.getElementById(materiId);
+            @foreach ($siswarpl as $item)
+                @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                @endif
+            @endforeach
+            document.addEventListener('DOMContentLoaded', function() {
+    // Fix the issue with the duplicate function definition
+    function toggleMateriDropdown(selectId, materiId) {
+        const selectElement = document.getElementById(selectId);
+        const materiElement = document.getElementById(materiId);
 
-                if (selectElement.value === 'Belajar') {
-                    materiElement.style.display = 'block';
-                } else {
-                    materiElement.style.display = 'none';
-                }
-            }
+        if (selectElement.value === 'Belajar') {
+            materiElement.style.display = 'block';
+        } else {
+            materiElement.style.display = 'none';
+        }
+    }
 
-            function toggleMateriDropdown(selectId, materi2Id) {
-                const selectElement = document.getElementById(selectId);
-                const materiElement = document.getElementById(materi2Id);
+    // Event listener to handle dropdown visibility toggle
+    const kategori1Element = document.getElementById('kategori1');
+    const kategori2Element = document.getElementById('kategori2');
+    const materi1Element = document.getElementById('materi1');
+    const materi2Element = document.getElementById('materi2');
 
-                if (selectElement.value === 'Belajar') {
-                    materiElement.style.display = 'block';
-                } else {
-                    materiElement.style.display = 'none';
-                }
-            }
+    kategori1Element.addEventListener('change', function() {
+        toggleMateriDropdown('kategori1', 'materi1');
+    });
+
+    kategori2Element.addEventListener('change', function() {
+        toggleMateriDropdown('kategori2', 'materi2');
+    });
+
+    // Set default states on load
+    toggleMateriDropdown('kategori1', 'materi1');
+    toggleMateriDropdown('kategori2', 'materi2');
+});
+
 
             document.addEventListener('DOMContentLoaded', function() {
                 const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
@@ -558,5 +571,5 @@
                 setInterval(updateTime, 1000);
             }
         </script>
-    @endforeach
+    {{-- @endforeach --}}
 </x-app-layout>

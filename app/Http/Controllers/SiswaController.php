@@ -51,43 +51,41 @@ class SiswaController extends Controller
     }
 
     public function updateTime(Request $request, $id)
-    {
-        $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+{
+    $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
-        $request->validate([
-            'waktu_selesai' => 'required|date_format:H:i',
-            'report' => 'required|string',
-            'bukti' => 'nullable|array',
-            'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
-        ]);
+    $request->validate([
+        'report' => 'required|string',
+        'bukti' => 'nullable|array',
+        'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+    ]);
 
-        $filePath = null;
-        if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
-            $file = $request->file('bukti')[0];
+    $filePath = null;
+    if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
+        $file = $request->file('bukti')[0];
+        $originalFileName = $file->getClientOriginalName();
+        $filePath = $file->storeAs('bukti', $originalFileName, 'public');
+    } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
+        $filePaths = [];
+        foreach ($request->file('bukti') as $file) {
             $originalFileName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('bukti', $originalFileName, 'public');
-        } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
-            $filePaths = [];
-            foreach ($request->file('bukti') as $file) {
-                $originalFileName = $file->getClientOriginalName();
-                $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
-            }
-            $filePath = implode(',', $filePaths);
+            $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
         }
-
-        $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
-
-        $item->update([
-            'waktu_selesai' => $newWaktuSelesai,
-            'status' => 'Selesai',
-            'aktivitas_id' => $request->aktivitas_id,
-            'report' => $request->report,
-            'bukti' => $filePath,
-        ]);
-
-        return redirect()->route('siswa.index')->with('success', 'Aktivitas Telah Diselesaikan');
+        $filePath = implode(',', $filePaths);
     }
+
+    $newWaktuSelesai = now()->format('Y-m-d H:i');
+
+    $item->update([
+        'waktu_selesai' => $newWaktuSelesai,
+        'status' => 'Selesai',
+        'aktivitas_id' => $request->aktivitas_id,
+        'report' => $request->report,
+        'bukti' => $filePath,
+    ]);
+
+    return redirect()->route('siswa.index')->with('success', 'Aktivitas Telah Diselesaikan');
+}
 
     public function storeMultiple(Request $request)
     {

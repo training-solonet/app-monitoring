@@ -183,7 +183,7 @@
                                                             : '<em>Belum Berakhir</em>' !!}
                                                     </span>
                                                 </td>
-                                                
+
                                                 <td class="align-middle text-center">
                                                     @if ($item->status == 'Mulai')
                                                         <span
@@ -410,18 +410,18 @@
                                                                         rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
                                                                 </div>
 
-                                                                <!-- Waktu Selesai Input -->
-                                                                <div class="mb-3">
-                                                                    <label for="waktu_selesai{{ $item->id }}"
-                                                                        class="form-label fw-bold">Waktu
-                                                                        Selesai</label>
-                                                                    <input type="time" class="form-control"
-                                                                        id="waktu_selesai{{ $item->id }}"
-                                                                        name="waktu_selesai"
-                                                                        value="{{ \Carbon\Carbon::parse($item->waktu_selesai)->format('H:i') }}"
-                                                                        required
-                                                                        min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
-                                                                </div>
+                                                            <!-- Waktu Selesai Input -->
+<div class="mb-3 d-none">
+    <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
+    <input type="time" class="form-control"
+           id="waktu_selesai{{ $item->id }}"
+           name="waktu_selesai"
+           value="{{ old('waktu_selesai', \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i')) }}"
+           min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
+</div>
+
+
+
 
                                                                 <!-- Bukti Upload Input -->
                                                                 <div class="mb-3">
@@ -557,104 +557,104 @@
         }
     </script>
 
-    @foreach ($siswa as $item)
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                @foreach ($siswa as $item)
-                    @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                        startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                    @endif
-                @endforeach
-                document.querySelectorAll('.btn-danger').forEach(button => {
-                    button.addEventListener('click', function(event) {
-                        const id = this.getAttribute('data-id');
-                        const kategori = this.getAttribute('data-kategori');
-                        const report = this.getAttribute('data-report');
-                        const waktu_selesai = this.getAttribute('data-waktu_selesai');
+    {{-- @foreach ($siswa as $item) --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($siswa as $item)
+                @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+                @endif
+            @endforeach
+            document.querySelectorAll('.btn-danger').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const id = this.getAttribute('data-id');
+                    const kategori = this.getAttribute('data-kategori');
+                    const report = this.getAttribute('data-report');
+                    const waktu_selesai = this.getAttribute('data-waktu_selesai');
 
-                        if (kategori === 'Keluar Dengan Teknisi') {
-                            const modal = new bootstrap.Modal(document.getElementById(
-                                'EditLaporanModal' + id));
-                            modal.show();
+                    if (kategori === 'Keluar Dengan Teknisi') {
+                        const modal = new bootstrap.Modal(document.getElementById(
+                            'EditLaporanModal' + id));
+                        modal.show();
 
-                            const modalElement = document.getElementById('EditLaporanModal' + id);
-                            modalElement.querySelector('textarea[name="report"]').value = report;
-                            modalElement.querySelector('input[name="waktu_selesai"]').value =
-                                waktu_selesai;
-                        } else {
-                            Swal.fire({
-                                title: 'Apakah Anda yakin?',
-                                text: "Aktivitas ini akan diselesaikan.",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                showDenyButton: true,
-                                confirmButtonText: 'Ya, Selesaikan!',
-                                denyButtonText: 'Keluar Dengan Teknisi',
-                                cancelButtonText: 'Batal'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    const modal = new bootstrap.Modal(document.getElementById(
-                                        'EditLaporanModal' + id));
-                                    modal.show();
+                        const modalElement = document.getElementById('EditLaporanModal' + id);
+                        modalElement.querySelector('textarea[name="report"]').value = report;
+                        modalElement.querySelector('input[name="waktu_selesai"]').value =
+                            waktu_selesai;
+                    } else {
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Aktivitas ini akan diselesaikan.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            showDenyButton: true,
+                            confirmButtonText: 'Ya, Selesaikan!',
+                            denyButtonText: 'Keluar Dengan Teknisi',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const modal = new bootstrap.Modal(document.getElementById(
+                                    'EditLaporanModal' + id));
+                                modal.show();
 
-                                    const modalElement = document.getElementById(
-                                        'EditLaporanModal' + id);
-                                    modalElement.querySelector('textarea[name="report"]')
-                                        .value = report;
-                                    modalElement.querySelector('input[name="waktu_selesai"]')
-                                        .value = waktu_selesai;
-                                } else if (result.isDenied) {
-                                    const teknisiModal = new bootstrap.Modal(document
-                                        .getElementById('tambahLaporanTeknisi'));
-                                    teknisiModal.show();
+                                const modalElement = document.getElementById(
+                                    'EditLaporanModal' + id);
+                                modalElement.querySelector('textarea[name="report"]')
+                                    .value = report;
+                                modalElement.querySelector('input[name="waktu_selesai"]')
+                                    .value = waktu_selesai;
+                            } else if (result.isDenied) {
+                                const teknisiModal = new bootstrap.Modal(document
+                                    .getElementById('tambahLaporanTeknisi'));
+                                teknisiModal.show();
 
-                                    const teknisiForm = document.getElementById(
-                                        'tambahLaporanTeknisiForm');
-                                    teknisiForm.setAttribute('action',
-                                        `/siswa/updateAndCreate/${id}`);
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
-
-                waktuSelesaiInput.setAttribute('min', waktuMulai);
-
-                waktuSelesaiInput.addEventListener('change', function() {
-                    if (waktuSelesaiInput.value < waktuMulai) {
-                        alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                        waktuSelesaiInput.value = waktuMulai;
+                                const teknisiForm = document.getElementById(
+                                    'tambahLaporanTeknisiForm');
+                                teknisiForm.setAttribute('action',
+                                    `/siswa/updateAndCreate/${id}`);
+                            }
+                        });
                     }
                 });
             });
+        });
 
-            function startTimer(waktuMulai, elementId) {
-                const startTime = new Date(waktuMulai).getTime();
+        document.addEventListener('DOMContentLoaded', function() {
+            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
 
-                console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+            waktuSelesaiInput.setAttribute('min', waktuMulai);
 
-                function updateTime() {
-                    const now = new Date().getTime();
-                    const elapsed = now - startTime;
-
-                    const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                    document.getElementById(elementId).textContent =
-                        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            waktuSelesaiInput.addEventListener('change', function() {
+                if (waktuSelesaiInput.value < waktuMulai) {
+                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                    waktuSelesaiInput.value = waktuMulai;
                 }
+            });
+        });
 
-                updateTime();
-                setInterval(updateTime, 1000);
+        function startTimer(waktuMulai, elementId) {
+            const startTime = new Date(waktuMulai).getTime();
+
+            console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+
+            function updateTime() {
+                const now = new Date().getTime();
+                const elapsed = now - startTime;
+
+                const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }
-        </script>
-    @endforeach
+
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+    </script>
+    {{-- @endforeach --}}
 
 
 </x-app-layout>
