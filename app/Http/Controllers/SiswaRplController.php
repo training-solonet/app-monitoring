@@ -95,7 +95,7 @@ class SiswaRplController extends Controller
             'materi_id2' => 'nullable|exists:materi,id',
         ]);
 
-        // Create the first entry
+
         Siswa::create([
             'kategori' => $request->kategori1,
             'materi_id' => $request->materi_id1,
