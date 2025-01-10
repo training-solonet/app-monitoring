@@ -199,7 +199,7 @@
             //     activityData,
             //     activityLabels
             // );
-            const url = "http://127.0.0.1:8000/dashboardpembimbing/get-user-data/" + userId
+            const url = "https://monitoring.connectis.my.id/dashboardpembimbing/get-user-data/" + userId
             const response = await fetch(url)
             const json = await response.json()
             console.log(json);
