@@ -6,8 +6,8 @@ use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardPembimbingController extends Controller
 {
@@ -64,7 +64,6 @@ class DashboardPembimbingController extends Controller
             ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
-
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
