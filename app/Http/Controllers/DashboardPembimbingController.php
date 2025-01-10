@@ -6,8 +6,8 @@ use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardPembimbingController extends Controller
 {
@@ -71,7 +71,6 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
-
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
         $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
@@ -131,6 +130,7 @@ class DashboardPembimbingController extends Controller
             ->get();
 
         dd($kantor);
+
         return $kantor;
     }
 }
