@@ -6,8 +6,8 @@ use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class DashboardPembimbingController extends Controller
 {
@@ -31,6 +31,9 @@ class DashboardPembimbingController extends Controller
 
         $activityData = Siswa::select('kategori')
             ->selectRaw('COUNT(*) as count')
+            ->when($request->has('user_id'), function ($query) use ($request) {
+                return $query->where('user_id', $request->input('user_id'));
+            })
             ->groupBy('kategori')
             ->pluck('count', 'kategori');
 
@@ -62,8 +65,12 @@ class DashboardPembimbingController extends Controller
 
         $totalWaktuPerKategori = Siswa::select('kategori')
             ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
+            ->when($request->has('user_id'), function ($query) use ($request) {
+                return $query->where('user_id', $request->input('user_id'));
+            })
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
+
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
@@ -71,10 +78,23 @@ class DashboardPembimbingController extends Controller
             return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
         });
 
+        // $kategori = ['Belajar', 'Projek', 'DiKantor', 'Keluar dengan Teknisi'];
+
+        // $kantor = DB::table('siswa')
+        //     ->join('users', 'siswa.user_id', '=', 'users.id')
+        //     ->select('users.username', 'siswa.user_id', DB::raw('COUNT(siswa.kategori) as total_kategori'))
+        //     ->whereIn('siswa.kategori', $kategori)
+        //     // ->where('user_id', $id)
+        //     ->groupBy('siswa.user_id', 'users.username')
+        //     ->get();
+
+        // dd($kantor);
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
         $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
         $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
+
+        $user_id = $request->input('user_id') ?? null;
 
         return view('dashboard', compact(
             'chartData',
@@ -93,7 +113,8 @@ class DashboardPembimbingController extends Controller
             'totalWaktu',
             'persentaseTKJ',
             'persentaseRPL',
-            'userList'
+            'userList',
+            'user_id'
         ));
     }
 
@@ -109,7 +130,7 @@ class DashboardPembimbingController extends Controller
             ->groupBy('siswa.user_id', 'users.username')
             ->get();
 
-        // dd($kantor);
+        dd($kantor);
         return $kantor;
     }
 }

@@ -76,7 +76,7 @@
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
                                     @php
-                                        if ($totalWaktu) {
+                                        if ($totalWaktu ?? 0) {
                                             $totalSeconds = abs($totalWaktu);
                                             $hours = floor($totalSeconds / 3600);
                                             $minutes = floor(($totalSeconds % 3600) / 60);
@@ -132,9 +132,16 @@
                             <select name="user" class="rounded" id="select_user" onchange="pilih_user()">
                                 <option value="" disabled selected>Pilih Nama Siswa</option>
                                 @foreach ($userList as $user)
+                                    @if ($user_id == $user->id)
+                                    <option value="{{ $user->id }}" selected>{{ $user->username }}</option>
+                                    @else
                                     <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                    @endif
                                 @endforeach
                             </select>
+                            {{-- <button onclick="window.location.href='{{ route('dashboard') }}'" class="btn btn-outline-secondary btn-sm">
+                                Reset
+                            </button> --}}
                         </p>
                     </div>
 
@@ -150,11 +157,11 @@
                                             <canvas id="chart-pie" class="chart-canvas" height="100"></canvas>
                                         </div>
                                         {{-- Detail Legend Button --}}
-                                        <div class="text-center mt-3">
+                                        {{-- <div class="text-center mt-3">
                                             <button id="toggle-legend" class="btn btn-sm btn-outline-info">
                                                 <i class="fas fa-info-circle me-1"></i> Detail
                                             </button>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     {{-- Bar Chart --}}
@@ -187,25 +194,8 @@
 
         async function pilih_user() {
             var userId = document.getElementById('select_user').value;
-            // Lakukan sesuatu dengan userId, misalnya kirim ke server atau tampilkan data terkait user
-            // console.log(userId);
-            // const newPiePercentageData = {
-            //     "Dikantor": "60",
-            //     "Keluar Dengan Teknisi": "30",
-            //     "Belajar": "10"
-            // }
-            // drawPie(
-            //     newPiePercentageData,
-            //     activityData,
-            //     activityLabels
-            // );
-            const url = "https://monitoring.connectis.my.id/dashboardpembimbing/get-user-data/" + userId
-            const response = await fetch(url)
-            const json = await response.json()
-            console.log(json);
+            location.replace("dashboardpembimbing?user_id="+ userId);
         }
-
-
 
         const piePercentageData = @json($persentaseWaktuPerKategori);
         const activityData = @json($activityData->toArray());
@@ -339,11 +329,11 @@
 
         // Toggle legend visibility
         // Toggle Legend 
-        const toggleLegendButton = document.getElementById('toggle-legend');
-        toggleLegendButton.addEventListener('click', () => {
-            pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;
-            pieChart.update();
-        });
+        // const toggleLegendButton = document.getElementById('toggle-legend');
+        // toggleLegendButton.addEventListener('click', () => {
+        //     pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;
+        //     pieChart.update();
+        // });
     </script>
 
 </x-app-layout>
