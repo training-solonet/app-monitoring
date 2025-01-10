@@ -129,19 +129,20 @@
                     <div class="d-flex justify-content-between">
                         <h4>Diagram</h4>
                         <p>
-                            <select name="user" class="rounded" id="select_user" onchange="pilih_user()">
+                            <select name="user" class="rounded p-1" id="select_user" onchange="pilih_user()">
                                 <option value="" disabled selected>Pilih Nama Siswa</option>
                                 @foreach ($userList as $user)
                                     @if ($user_id == $user->id)
-                                    <option value="{{ $user->id }}" selected>{{ $user->username }}</option>
+                                        <option value="{{ $user->id }}" selected>{{ $user->username }}</option>
                                     @else
-                                    <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                        <option value="{{ $user->id }}">{{ $user->username }}</option>
                                     @endif
                                 @endforeach
                             </select>
-                            {{-- <button onclick="window.location.href='{{ route('dashboard') }}'" class="btn btn-outline-secondary btn-sm">
-                                Reset
-                            </button> --}}
+                            <a href="http://127.0.0.1:8000/dashboardpembimbing"
+                                class="btn btn-outline-secondary btn-sm" style="margin-top: 10px">
+                                <i class="fa-solid fa-arrows-rotate"></i> 
+                            </a>
                         </p>
                     </div>
 
@@ -194,7 +195,7 @@
 
         async function pilih_user() {
             var userId = document.getElementById('select_user').value;
-            location.replace("dashboardpembimbing?user_id="+ userId);
+            location.replace("dashboardpembimbing?user_id=" + userId);
         }
 
         const piePercentageData = @json($persentaseWaktuPerKategori);
