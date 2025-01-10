@@ -6,6 +6,7 @@ use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class DashboardPembimbingController extends Controller
@@ -64,6 +65,7 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
 
+
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
         $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
@@ -94,5 +96,21 @@ class DashboardPembimbingController extends Controller
             'persentaseRPL',
             'userList'
         ));
+    }
+
+    public function getUserData($id)
+    {
+        $kategori = ['Belajar', 'Projek', 'DiKantor', 'Keluar dengan Teknisi'];
+
+        $kantor = DB::table('siswa')
+            ->join('users', 'siswa.user_id', '=', 'users.id')
+            ->select('users.username', 'siswa.user_id', DB::raw('COUNT(siswa.kategori) as total_kategori'))
+            ->whereIn('siswa.kategori', $kategori)
+            ->where('user_id', $id)
+            ->groupBy('siswa.user_id', 'users.username')
+            ->get();
+
+        // dd($kantor);
+        return $kantor;
     }
 }

@@ -43,7 +43,7 @@ class LoginController extends Controller
             }
         }
 
-        return back()->withErrors(['message' => 'Username atau password salah.'])->withInput($request->only('username'));
+        return back()->withErrors(['message' => 'Username atau Kata Sandi salah.'])->withInput($request->only('username'));
     }
 
     public function destroy(Request $request)

@@ -59,19 +59,22 @@
                                     </div>
                             
                                     <!-- Tanggal Mulai -->
-                                    <div class="col-12 col-md-2 mb-2">
-                                        <label for="waktu_mulai" class="form-label">Tanggal Mulai</label>
-                                        <input type="date" id="waktu_mulai" name="waktu_mulai" class="form-control form-control-sm"
-                                            value="{{ request('waktu_mulai') }}" onchange="this.form.submit();">
+                                    <div class="col-sm-2">
+                                        <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                                        <input type="date" id="tanggal_mulai" name="tanggal_mulai"
+                                            class="form-control" value="{{ request('tanggal_mulai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
                                     </div>
-                            
+                                
                                     <!-- Tanggal Selesai -->
-                                    <div class="col-12 col-md-2 mb-2">
-                                        <label for="waktu_selesai" class="form-label">Tanggal Selesai</label>
-                                        <input type="date" id="waktu_selesai" name="waktu_selesai" class="form-control form-control-sm"
-                                            value="{{ request('waktu_selesai') }}" onchange="this.form.submit();">
+                                    <div class="col-sm-2">
+                                        <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                                        <input type="date" id="tanggal_selesai" name="tanggal_selesai"
+                                            class="form-control" value="{{ request('tanggal_selesai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
                                     </div>
-                            
+
+                                    
                                     <!-- Reset Button -->
                                     <div class="col-12 col-md-1 mb-2 d-flex justify-content-center align-items-end">
                                         <button type="button" class="btn btn-sm btn-outline-secondary" style="margin-top:30px;" onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>

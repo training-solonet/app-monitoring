@@ -31,13 +31,13 @@
                                         <div class="mb-3">
                                             <label for="username" class="form-label text-dark">Username</label>
                                             <input type="text" id="username" name="username"
-                                                class="form-control rounded-pill" placeholder="Enter your username"
+                                                class="form-control rounded-pill" placeholder="Masukan Username Anda"
                                                 value="{{ old('username') }}" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label text-dark">Password</label>
+                                            <label for="password" class="form-label text-dark">Kata sandi</label>
                                             <div class="form-group password-container">
-                                                <input type="password" id="password" name="password" class="form-control rounded-pill" placeholder="Enter password" required>
+                                                <input type="password" id="password" name="password" class="form-control rounded-pill" placeholder="Masukan Kata Sandi Anda" required>
                                                 <i class="eye-icon bi bi-eye" id="togglePassword"></i>
                                             </div>
                                         </div>

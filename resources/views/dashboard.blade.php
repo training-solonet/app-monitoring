@@ -120,19 +120,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- <div class="mb-4">
-                        <small>Aktivitas Siswa TKJ</small>
-                        <div class="progress" style="height: 20px;">
-                            <div class="progress" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar"
-                                    style="width: {{ $persentaseTKJ ?? 0 }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
-                                    aria-valuenow="{{ $persentaseTKJ ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ $persentaseTKJ ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
 
@@ -151,7 +138,6 @@
                         </p>
                     </div>
 
-                    {{-- <canvas id="siswaChart"></canvas> --}}
 
                     <div class="col-md-12">
                         <div class="card shadow-sm border w-auto">
@@ -199,56 +185,27 @@
             return `${h}h ${m}m ${s}s`;
         }
 
-        function pilih_user() {
+        async function pilih_user() {
             var userId = document.getElementById('select_user').value;
             // Lakukan sesuatu dengan userId, misalnya kirim ke server atau tampilkan data terkait user
-            console.log(userId);
-            const newPiePercentageData = {
-                "Dikantor": "60",
-                "Keluar Dengan Teknisi": "30",
-                "Belajar": "10"
-            }
-            drawPie(
-                newPiePercentageData,
-                activityData,
-                activityLabels
-            );
+            // console.log(userId);
+            // const newPiePercentageData = {
+            //     "Dikantor": "60",
+            //     "Keluar Dengan Teknisi": "30",
+            //     "Belajar": "10"
+            // }
+            // drawPie(
+            //     newPiePercentageData,
+            //     activityData,
+            //     activityLabels
+            // );
+            const url = "http://127.0.0.1:8000/dashboardpembimbing/get-user-data/" + userId
+            const response = await fetch(url)
+            const json = await response.json()
+            console.log(json);
         }
 
-        //     function pilih_user() {
-        //     const userId = document.getElementById('select_user').value;
-        //     if (userId) {
-        //         fetch(`/get-siswa-data/${userId}`)
-        //             .then(response => response.json())
-        //             .then(data => {
-        //                 updateChart(data);
-        //             });
-        //     }
-        // }
 
-        // function updateChart(data) {
-        //     const ctx = document.getElementById('siswaChart').getContext('2d');
-        //     const chart = new Chart(ctx, {
-        //         type: 'bar',
-        //         data: {
-        //             labels: data.labels,
-        //             datasets: [{
-        //                 label: 'Waktu Aktivitas',
-        //                 data: data.values,
-        //                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        //                 borderColor: 'rgba(75, 192, 192, 1)',
-        //                 borderWidth: 1
-        //             }]
-        //         },
-        //         options: {
-        //             scales: {
-        //                 y: {
-        //                     beginAtZero: true
-        //                 }
-        //             }
-        //         }
-        //     });
-        // }
 
         const piePercentageData = @json($persentaseWaktuPerKategori);
         const activityData = @json($activityData->toArray());

@@ -131,4 +131,6 @@ Route::get('/dashboard-rpl', [DashboardRplController::class, 'index'])->name('da
 Route::post('/siswa/updateAndCreate/{id}', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
 Route::put('/siswa/{id}/update-create', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
 Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.stop');
-// Route::get('/get-siswa-data/{userId}', [DashboardSiswaController::class, 'getSiswaData']);
+
+// Get data user
+Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
