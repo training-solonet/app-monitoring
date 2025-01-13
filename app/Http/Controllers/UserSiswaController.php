@@ -21,7 +21,7 @@ class UserSiswaController extends Controller
             $user->save();
         }
 
-        //mengambil data user sesuai dengan rolenya siswa
+        // mengambil data user sesuai dengan rolenya siswa
         $usersiswa = User::where('role', 'siswa')->get();
 
         return view('admin.siswa', compact('usersiswa'));
@@ -29,7 +29,7 @@ class UserSiswaController extends Controller
 
     public function store(Request $request)
     {
-        //menyimpan data baru siswa yang telah di input pada form tambah siswa
+        // menyimpan data baru siswa yang telah di input pada form tambah siswa
         $request->validate([
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:8|max:20',
@@ -71,7 +71,7 @@ class UserSiswaController extends Controller
 
     public function update(Request $request, $id)
     {
-        //mengupdate data siswa yang telah di input pada form edit siswa
+        // mengupdate data siswa yang telah di input pada form edit siswa
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',

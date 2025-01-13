@@ -67,7 +67,7 @@ class SiswaRplController extends Controller
 
     public function updateTime(Request $request, $id)
     {
-        // berisi data siswa yang diambil berdasarkan id dari parameter dan user_id yang terautentikasi melalui Auth::id(). 
+        // berisi data siswa yang diambil berdasarkan id dari parameter dan user_id yang terautentikasi melalui Auth::id().
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         // mewakili data yang dikirimkan oleh pengguna melalui HTTP request.
@@ -96,7 +96,7 @@ class SiswaRplController extends Controller
         // menyimpan tanggal dari waktu mulai aktivitas siswa yang diambil dengan menggunakan Carbon::parse($item->waktu_mulai)->format('Y-m-d'). Ini digunakan untuk memastikan waktu selesai memiliki tanggal yang sesuai dengan waktu mulai.
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
         // menggabungkan tanggal yang diperoleh dari $currentDate dengan waktu selesai yang dikirimkan oleh pengguna, membentuk format lengkap Y-m-d H:i untuk waktu selesai.
-        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
+        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
         // digunakan untuk memperbarui data siswa dengan informasi yang baru, termasuk waktu selesai, status, laporan, dan bukti file.
         $item->update([

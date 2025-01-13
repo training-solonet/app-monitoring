@@ -58,7 +58,7 @@ class SiswaController extends Controller
             return $item;
         });
 
-        //mengambil seluruh tabel data aktivitas
+        // mengambil seluruh tabel data aktivitas
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
 
@@ -97,7 +97,7 @@ class SiswaController extends Controller
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'Selesai',
-            'aktivitas_id' => $request->aktivitas_id, //Menyimpan ID aktivitas yang dipilih dalam request, yang akan disimpan dalam database untuk menunjukkan aktivitas yang terkait dengan siswa.
+            'aktivitas_id' => $request->aktivitas_id, // Menyimpan ID aktivitas yang dipilih dalam request, yang akan disimpan dalam database untuk menunjukkan aktivitas yang terkait dengan siswa.
             'report' => $request->report,
             'bukti' => $filePath,
         ]);
