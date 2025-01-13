@@ -37,49 +37,62 @@
                             <div class="border-bottom col-md-12 py-2 px-2 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswarpl.index') }}" id="filterForm"
                                     class="p-2 border rounded shadow-sm w-100 d-flex flex-wrap gap-2 align-items-start">
-                                    
+
                                     <!-- Status Filter -->
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="statusFilter" class="form-label">Status</label>
-                                        <select class="form-select form-select-sm" name="status" id="statusFilter" onchange="this.form.submit()">
+                                        <select class="form-select form-select-sm" name="status" id="statusFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
-                                            <option value="all" {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>Semua</option>
-                                            <option value="Mulai" {{ request('status') == 'Mulai' ? 'selected' : '' }}>Mulai</option>
-                                            <option value="Sedang Berlangsung" {{ request('status') == 'Sedang Berlangsung' ? 'selected' : '' }}>Sedang Berlangsung</option>
-                                            <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                            <option value="all"
+                                                {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
+                                                Semua</option>
+                                            <option value="Mulai" {{ request('status') == 'Mulai' ? 'selected' : '' }}>
+                                                Mulai</option>
+                                            <option value="Sedang Berlangsung"
+                                                {{ request('status') == 'Sedang Berlangsung' ? 'selected' : '' }}>Sedang
+                                                Berlangsung</option>
+                                            <option value="Selesai"
+                                                {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                                         </select>
                                     </div>
-                            
+
                                     <!-- Kategori Filter -->
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="kategoriFilter" class="form-label">Kategori</label>
-                                        <select class="form-select form-select-sm" name="kategori" id="kategoriFilter" onchange="this.form.submit()">
+                                        <select class="form-select form-select-sm" name="kategori" id="kategoriFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Kategori</option>
-                                            <option value="Belajar" {{ request('kategori') == 'Belajar' ? 'selected' : '' }}>Belajar</option>
-                                            <option value="Projek" {{ request('kategori') == 'Projek' ? 'selected' : '' }}>Projek</option>
+                                            <option value="Belajar"
+                                                {{ request('kategori') == 'Belajar' ? 'selected' : '' }}>Belajar
+                                            </option>
+                                            <option value="Projek"
+                                                {{ request('kategori') == 'Projek' ? 'selected' : '' }}>Projek</option>
                                         </select>
                                     </div>
-                            
-                                      <!-- Tanggal Mulai -->
-    <div class="col-sm-2">
-        <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
-        <input type="date" id="tanggal_mulai" name="tanggal_mulai"
-            class="form-control" value="{{ request('tanggal_mulai') }}"
-            onchange="document.getElementById('filterForm').submit();">
-    </div>
 
-    <!-- Tanggal Selesai -->
-    <div class="col-sm-2">
-        <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
-        <input type="date" id="tanggal_selesai" name="tanggal_selesai"
-            class="form-control" value="{{ request('tanggal_selesai') }}"
-            onchange="document.getElementById('filterForm').submit();">
-    </div>
-                                
-                            
+                                    <!-- Tanggal Mulai -->
+                                    <div class="col-sm-2">
+                                        <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                                        <input type="date" id="tanggal_mulai" name="tanggal_mulai"
+                                            class="form-control" value="{{ request('tanggal_mulai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
+
+                                    <!-- Tanggal Selesai -->
+                                    <div class="col-sm-2">
+                                        <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                                        <input type="date" id="tanggal_selesai" name="tanggal_selesai"
+                                            class="form-control" value="{{ request('tanggal_selesai') }}"
+                                            onchange="document.getElementById('filterForm').submit();">
+                                    </div>
+
+
                                     <!-- Reset Button -->
                                     <div class="col-12 col-md-1 mb-2 d-flex justify-content-center align-items-end">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" style="margin-top:30px;" onclick="window.location.href='{{ route('siswarpl.index') }}'">Reset</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            style="margin-top:30px;"
+                                            onclick="window.location.href='{{ route('siswarpl.index') }}'">Reset</button>
                                     </div>
                                 </form>
                             </div>
@@ -128,12 +141,6 @@
                                                     {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                 </p>
                                             </td>
-                                            {{-- <td class="align-middle text-center">
-                                            <p
-                                                class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
-                                                {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada aktivitas' }}
-                                            </p>
-                                        </td> --}}
                                             <td class="align-middle text-center text-sm font-weight-normal">
                                                 <p
                                                     class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
@@ -423,8 +430,6 @@
                         <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
                         <div class="mb-3">
                             <label for="kategori1" class="form-label">Kategori</label>
-                            {{-- <select class="form-select" id="kategori1" name="kategori1" required
-                                onchange="toggleMateriDropdown('kategori1', 'materi1')"> --}}
                             <select class="form-select" id="kategori1" name="kategori1" required
                                 onchange="toggleMateriDropdown('kategori1', 'materi1')">
                                 <option disabled selected ="" required>Pilih Kategori</option>
@@ -477,80 +482,78 @@
         </div>
     </div>
 
-    {{-- @foreach ($siswarpl as $item) --}}
-        <script>
-            @foreach ($siswarpl as $item)
-                @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                @endif
-            @endforeach
-            document.addEventListener('DOMContentLoaded', function() {
-    // Fix the issue with the duplicate function definition
-    function toggleMateriDropdown(selectId, materiId) {
-        const selectElement = document.getElementById(selectId);
-        const materiElement = document.getElementById(materiId);
+    <script>
+        @foreach ($siswarpl as $item)
+            @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+            @endif
+        @endforeach
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fix the issue with the duplicate function definition
+            function toggleMateriDropdown(selectId, materiId) {
+                const selectElement = document.getElementById(selectId);
+                const materiElement = document.getElementById(materiId);
 
-        if (selectElement.value === 'Belajar') {
-            materiElement.style.display = 'block';
-        } else {
-            materiElement.style.display = 'none';
-        }
-    }
+                if (selectElement.value === 'Belajar') {
+                    materiElement.style.display = 'block';
+                } else {
+                    materiElement.style.display = 'none';
+                }
+            }
 
-    // Event listener to handle dropdown visibility toggle
-    const kategori1Element = document.getElementById('kategori1');
-    const kategori2Element = document.getElementById('kategori2');
-    const materi1Element = document.getElementById('materi1');
-    const materi2Element = document.getElementById('materi2');
+            // Event listener to handle dropdown visibility toggle
+            const kategori1Element = document.getElementById('kategori1');
+            const kategori2Element = document.getElementById('kategori2');
+            const materi1Element = document.getElementById('materi1');
+            const materi2Element = document.getElementById('materi2');
 
-    kategori1Element.addEventListener('change', function() {
-        toggleMateriDropdown('kategori1', 'materi1');
-    });
-
-    kategori2Element.addEventListener('change', function() {
-        toggleMateriDropdown('kategori2', 'materi2');
-    });
-
-    // Set default states on load
-    toggleMateriDropdown('kategori1', 'materi1');
-    toggleMateriDropdown('kategori2', 'materi2');
-});
-
-
-            document.addEventListener('DOMContentLoaded', function() {
-                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
-
-                waktuSelesaiInput.setAttribute('min', waktuMulai);
-
-                waktuSelesaiInput.addEventListener('change', function() {
-                    if (waktuSelesaiInput.value < waktuMulai) {
-                        alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                        waktuSelesaiInput.value = waktuMulai;
-                    }
-                });
+            kategori1Element.addEventListener('change', function() {
+                toggleMateriDropdown('kategori1', 'materi1');
             });
 
-            function startTimer(waktuMulai, elementId) {
-                const startTime = new Date(waktuMulai).getTime();
+            kategori2Element.addEventListener('change', function() {
+                toggleMateriDropdown('kategori2', 'materi2');
+            });
 
-                console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+            // Set default states on load
+            toggleMateriDropdown('kategori1', 'materi1');
+            toggleMateriDropdown('kategori2', 'materi2');
+        });
 
-                function updateTime() {
-                    const now = new Date().getTime();
-                    const elapsed = now - startTime;
 
-                    const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+        document.addEventListener('DOMContentLoaded', function() {
+            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
 
-                    document.getElementById(elementId).textContent =
-                        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            waktuSelesaiInput.setAttribute('min', waktuMulai);
+
+            waktuSelesaiInput.addEventListener('change', function() {
+                if (waktuSelesaiInput.value < waktuMulai) {
+                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                    waktuSelesaiInput.value = waktuMulai;
                 }
+            });
+        });
 
-                updateTime();
-                setInterval(updateTime, 1000);
+        function startTimer(waktuMulai, elementId) {
+            const startTime = new Date(waktuMulai).getTime();
+
+            console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
+
+            function updateTime() {
+                const now = new Date().getTime();
+                const elapsed = now - startTime;
+
+                const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }
-        </script>
-    {{-- @endforeach --}}
+
+            updateTime();
+            setInterval(updateTime, 1000);
+        }
+    </script>
 </x-app-layout>

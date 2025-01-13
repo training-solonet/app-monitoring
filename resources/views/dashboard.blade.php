@@ -139,9 +139,9 @@
                                     @endif
                                 @endforeach
                             </select>
-                            <a href="http://127.0.0.1:8000/dashboardpembimbing"
-                                class="btn btn-outline-secondary btn-sm" style="margin-top: 10px">
-                                <i class="fa-solid fa-arrows-rotate"></i> 
+                            <a href="https://monitoring.connectis.my.id/dashboardpembimbing" class="btn btn-outline-secondary btn-sm"
+                                style="margin-top: 10px">
+                                <i class="fa-solid fa-arrows-rotate"></i>
                             </a>
                         </p>
                     </div>
@@ -157,12 +157,6 @@
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="100"></canvas>
                                         </div>
-                                        {{-- Detail Legend Button --}}
-                                        {{-- <div class="text-center mt-3">
-                                            <button id="toggle-legend" class="btn btn-sm btn-outline-info">
-                                                <i class="fas fa-info-circle me-1"></i> Detail
-                                            </button>
-                                        </div> --}}
                                     </div>
 
                                     {{-- Bar Chart --}}
@@ -198,7 +192,7 @@
             location.replace("dashboardpembimbing?user_id=" + userId);
         }
 
-        const piePercentageData = @json($persentaseWaktuPerKategori);
+        const piePercentageData = @json($formattedData);
         const activityData = @json($activityData->toArray());
         const activityLabels = @json(array_keys($activityData->toArray()));
 
@@ -327,14 +321,6 @@
                 }
             }
         });
-
-        // Toggle legend visibility
-        // Toggle Legend 
-        // const toggleLegendButton = document.getElementById('toggle-legend');
-        // toggleLegendButton.addEventListener('click', () => {
-        //     pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;
-        //     pieChart.update();
-        // });
     </script>
 
 </x-app-layout>

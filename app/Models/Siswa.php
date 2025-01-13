@@ -51,4 +51,9 @@ class siswa extends Model
     {
         return $this->belongsToMany(Materi::class, 'siswa_materi', 'siswa_id', 'materi_id');
     }
+
+    public function data_materi()
+    {
+        return $this->hasOne(Materi::class, 'id', 'materi_id');
+    }
 }

@@ -11,13 +11,18 @@ class MonitoringController extends Controller
 {
     public function index(Request $request)
     {
+        // menyimpan nilai input dari pengguna untuk mencari siswa berdasarkan nama (username).
         $nama_siswa = $request->input('nama_siswa');
+        // menyimpan status yang dipilih oleh pengguna untuk memfilter data berdasarkan status.
         $status = $request->input('status');
+        //  menyimpan nilai jurusan yang dipilih oleh pengguna untuk mencari data siswa berdasarkan jurusan.
         $jurusan = $request->input('jurusan');
+        // menyimpan tanggal mulai yang dipilih pengguna untuk mencari data monitoring yang dimulai setelah tanggal tersebut.
         $tanggal_mulai = $request->input('tanggal_mulai');
+        // menyimpan tanggal selesai yang dipilih pengguna untuk mencari data monitoring yang selesai sebelum tanggal tersebut.
         $tanggal_selesai = $request->input('tanggal_selesai');
-        $search = $request->input('search');
 
+        // menyimpan objek query builder yang digunakan untuk mendapatkan data monitoring siswa berdasarkan kriteria pencarian yang diberikan oleh pengguna.
         $monitoring = Siswa::query();
 
         if ($nama_siswa) {
@@ -44,24 +49,9 @@ class MonitoringController extends Controller
             $monitoring->whereDate('waktu_selesai', '<=', $tanggal_selesai);
         }
 
-        if ($search) {
-            $monitoring->where(function ($query) use ($search) {
-                $query->where('kategori', 'like', '%'.$search.'%')
-                    ->orWhere('report', 'like', '%'.$search.'%')
-                    ->orWhere('waktu_mulai', 'like', '%'.$search.'%')
-                    ->orWhere('waktu_selesai', 'like', '%'.$search.'%')
-                    ->orWhere('status', 'like', '%'.$search.'%')
-                    ->orWhereHas('siswa_monitoring', function ($subQuery) use ($search) {
-                        $subQuery->where('username', 'like', '%'.$search.'%')
-                            ->orWhere('jurusan', 'like', '%'.$search.'%');
-                    })
-                    ->orWhereHas('materitkj', function ($subQuery) use ($search) {
-                        $subQuery->where('materi', 'like', '%'.$search.'%');
-                    });
-            });
-        }
-
-        $siswa_monitoring = User::all();
+        // menyimpan semua data User dengan role siswa.
+        $siswa_monitoring = User::where('role', 'siswa')->get();
+        // menyimpan semua data materi yang dapat diakses dalam proses monitoring.
         $materi_monitoring = Materi::all();
         $monitoring = $monitoring->get();
 

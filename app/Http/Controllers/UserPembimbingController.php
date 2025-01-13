@@ -9,6 +9,7 @@ class UserPembimbingController extends Controller
 {
     public function index()
     {
+        // mengambil data user dengan role pembimbing
         $userpembimbing = User::where('role', 'pembimbing')->get();
 
         return view('admin.pembimbing', compact('userpembimbing'));
@@ -16,6 +17,7 @@ class UserPembimbingController extends Controller
 
     public function store(Request $request)
     {
+        // menyimpan data yang ada pada form tambah pembimbing
         $request->validate([
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:8|max:20',
@@ -30,6 +32,7 @@ class UserPembimbingController extends Controller
             'status.required' => 'Status is required',
         ]);
 
+        // Setelah validasi berhasil, pengguna baru dibuat menggunakan User::create(), dan data dari objek $request dimasukkan ke dalam pengguna baru tersebut.
         $user = User::create([
             'username' => $request->username,
             'password' => $request->password,
@@ -42,6 +45,7 @@ class UserPembimbingController extends Controller
 
     public function update(Request $request, $id)
     {
+        // mengupdate data yang diubah pada form edit pembimbing
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',
@@ -54,6 +58,7 @@ class UserPembimbingController extends Controller
             'status.required' => 'Status is required',
         ]);
 
+        // Mencari pengguna berdasarkan ID (User::findOrFail($id)) dan memperbarui field username, password, dan status dengan nilai dari request.
         $user = User::findOrFail($id);
 
         try {
@@ -73,6 +78,7 @@ class UserPembimbingController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            // Mencari pengguna berdasarkan ID dan menghapus data pengguna tersebut dari database dengan menggunakan $user->delete().
             $user->delete();
 
             return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil dihapus.');

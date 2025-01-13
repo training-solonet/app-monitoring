@@ -10,6 +10,7 @@ class MateriTkjController extends Controller
 {
     public function index()
     {
+        // menyimpan koleksi data materi yang memiliki jurusan 'TKJ' yang diambil dari model MateriTkj.
         $materitkj = MateriTkj::where('jurusan', 'TKJ')->get();
 
         return view('pembimbing.materi', compact('materitkj'));
@@ -24,8 +25,10 @@ class MateriTkjController extends Controller
             'jurusan' => 'required|in:TKJ,RPL',
         ]);
 
+        // menyimpan lokasi penyimpanan file materi yang diunggah oleh pengguna.
         $filePath = null;
         if ($request->hasFile('file_materi')) {
+            // menyimpan nama asli dari file yang diunggah.
             $originalFileName = $request->file('file_materi')->getClientOriginalName();
             $filePath = $request->file('file_materi')->storeAs('materi_files', $originalFileName, 'public');
         }

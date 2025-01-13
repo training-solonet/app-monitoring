@@ -13,10 +13,15 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
+        //  Menyimpan nilai filter untuk status siswa yang dipilih dari parameter status dalam request.
         $statusFilter = $request->get('status', 'all');
+        // Menyimpan nilai filter untuk kategori siswa yang dipilih dari parameter kategori dalam request.
         $kategoriFilter = $request->get('kategori', 'all');
+        // Menyimpan nilai tanggal mulai yang dimasukkan dalam request untuk memfilter data siswa.
         $tanggalMulai = $request->get('tanggal_mulai');
+        //  Menyimpan nilai tanggal selesai yang dimasukkan dalam request untuk memfilter data siswa.
         $tanggalSelesai = $request->get('tanggal_selesai');
+        // Menyimpan ID pengguna yang saat ini sedang login (menggunakan Auth::id()).
         $userId = Auth::id();
 
         // Query dasar untuk data siswa
@@ -53,6 +58,7 @@ class SiswaController extends Controller
             return $item;
         });
 
+        // mengambil seluruh tabel data aktivitas
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
 
@@ -61,6 +67,7 @@ class SiswaController extends Controller
 
     public function updateTime(Request $request, $id)
     {
+        // Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi (menggunakan Auth::id()).
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
@@ -69,6 +76,7 @@ class SiswaController extends Controller
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
+        // menyimpan lokasi file yang di-upload. Ini bisa menyimpan path dari satu atau lebih file gambar yang diunggah oleh pengguna.
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];
@@ -83,12 +91,13 @@ class SiswaController extends Controller
             $filePath = implode(',', $filePaths);
         }
 
+        //  Menyimpan waktu saat ini dalam format Y-m-d H:i, yang digunakan untuk mengupdate waktu selesai aktivitas siswa.
         $newWaktuSelesai = now()->format('Y-m-d H:i');
 
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'Selesai',
-            'aktivitas_id' => $request->aktivitas_id,
+            'aktivitas_id' => $request->aktivitas_id, // Menyimpan ID aktivitas yang dipilih dalam request, yang akan disimpan dalam database untuk menunjukkan aktivitas yang terkait dengan siswa.
             'report' => $request->report,
             'bukti' => $filePath,
         ]);
@@ -98,6 +107,7 @@ class SiswaController extends Controller
 
     public function storeMultiple(Request $request)
     {
+        // Menyimpan kategori aktivitas siswa, dengan nilai yang dibatasi pada pilihan yang sudah ditentukan ('Belajar', 'Projek', 'DiKantor', 'Keluar Dengan Teknisi').
         $request->validate([
             'kategori1' => 'required|in:Belajar,Projek,DiKantor,Keluar Dengan Teknisi',
             'materi_id1' => 'nullable|exists:materi,id',
@@ -126,6 +136,7 @@ class SiswaController extends Controller
 
     public function updateAndCreate(Request $request, $id)
     {
+        // Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi.
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
@@ -134,6 +145,7 @@ class SiswaController extends Controller
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
+        // digunakan untuk menyimpan path file yang di-upload.
         $filePath = null;
         if ($request->hasFile('bukti')) {
             $filePaths = [];
@@ -163,6 +175,7 @@ class SiswaController extends Controller
 
     public function start($id)
     {
+        //  Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi. Variabel ini digunakan untuk menyimpan waktu mulai aktivitas siswa dan memperbarui status menjadi "Sedang Berlangsung".
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $siswa->waktu_mulai = Carbon::now();
         $siswa->status = 'Sedang Berlangsung';
@@ -173,6 +186,7 @@ class SiswaController extends Controller
 
     public function stop($id)
     {
+        // Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi. Variabel ini digunakan untuk menyimpan waktu selesai aktivitas siswa dan memperbarui status menjadi "Selesai".
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
         $siswa->waktu_selesai = Carbon::now();
         $siswa->status = 'selesai';
@@ -183,8 +197,10 @@ class SiswaController extends Controller
 
     public function toggle($id)
     {
+        // Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi.
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
+        //  Mengecek status siswa (apakah "Mulai","Sedang Berlangsung","Selesai") dan memperbarui waktu mulai atau selesai sesuai dengan perubahan status yang diperlukan.
         if ($siswa->status === 'Mulai') {
             $siswa->waktu_mulai = Carbon::now();
             $siswa->status = 'Sedang Berlangsung';
@@ -200,6 +216,7 @@ class SiswaController extends Controller
 
     public function update(Request $request, $id)
     {
+        //  Mendapatkan objek Siswa berdasarkan id yang diberikan dan user_id yang terautentikasi. Variabel ini digunakan untuk memperbarui data siswa.
         $siswa = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         $request->validate([
@@ -210,6 +227,7 @@ class SiswaController extends Controller
 
         ]);
 
+        // Menyimpan path file yang di-upload yang terkait dengan bukti aktivitas siswa
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];

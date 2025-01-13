@@ -9,9 +9,6 @@
                         <div class="card-header border-bottom pb-3">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6 class="font-weight-bold text-lg mb-0">Data Monitoring Siswa</h6>
-                                {{-- <form method="GET" action="{{ route('monitoring.index') }}" class="d-flex">
-                                    <input type="text" name="search" class="form-control" placeholder="Cari" value="{{ request('search') }}">
-                                </form> --}}
                             </div>
                             <hr>
                             <form id="filterForm" method="GET" action="{{ route('monitoring.index') }}">

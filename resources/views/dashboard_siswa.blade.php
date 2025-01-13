@@ -209,6 +209,7 @@
         }
 
         // Pie Chart
+        // Menampilkan data dalam bentuk pie chart/diagram Lingkaran untuk aktivitas siswa
         const ctxPie = document.getElementById('chart-pie').getContext('2d');
         const gradientColorsPie = [];
         const colors = [
@@ -265,6 +266,7 @@
         });
 
         // Toggle Legend
+        // Menyembunyikan atau menampilkan legenda grafik pie/Diagram Lingkaran.
         const toggleLegendButton = document.getElementById('toggle-legend');
         toggleLegendButton.addEventListener('click', () => {
             pieChart.options.plugins.legend.display = !pieChart.options.plugins.legend.display;
@@ -272,6 +274,7 @@
         });
 
         // Bar Chart
+        // Menampilkan jumlah aktivitas dalam bentuk grafik batang (bar chart).
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
         const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
         gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
@@ -327,6 +330,7 @@
         });
 
         // Pie Chart Dikantor
+        // data yang ditampilkan berfokus pada materi dikantor berupa diagram Lingkaran.
         const ctxPieDikantor = document.getElementById('chart-pie-dikantor').getContext('2d');
         const gradientColorsPieDikantor = [];
         colors.forEach((color) => {
@@ -382,6 +386,7 @@
         });
 
         // Bar Chart Dikantor
+        // data yang ditampilkan berfokus pada aktivitas dikantor berupa diagram batang.
         const ctxBarDikantor = document.getElementById('chart-bar-dikantor').getContext('2d');
         const gradientBarDikantor = ctxBarDikantor.createLinearGradient(0, 0, 0, 400);
         gradientBarDikantor.addColorStop(0, 'rgba(255, 159, 64, 1)');
@@ -435,6 +440,7 @@
                 }
             }
         });
+        //button untuk menampilkan content diagram 
         document.getElementById('show-dashboard-content').addEventListener('click', function() {
             const dashboardContent = document.getElementById('dashboard-content');
             const detailContent = document.getElementById('detail-content');
@@ -446,6 +452,7 @@
             detailContent.classList.remove('show');
         });
 
+        //button untuk menampilkan content detail 
         document.getElementById('show-detail-content').addEventListener('click', function() {
             const detailContent = document.getElementById('detail-content');
             const dashboardContent = document.getElementById('dashboard-content');

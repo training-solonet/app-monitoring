@@ -13,11 +13,14 @@ class DashboardPembimbingController extends Controller
 {
     public function index(Request $request)
     {
+        // Mengambil daftar pengguna dengan role siswa
         $userList = User::where('role', 'siswa')->get();
 
+        // Menghitung jumlah data materi sesuai jurusan
         $rplCount = Materi::where('jurusan', 'RPL')->count();
         $tkjCount = Materi::where('jurusan', 'TKJ')->count();
 
+        // Menyiapkan data dalam format yang digunakan untuk membuat grafik (chart), seperti pie chart
         $chartData = [
             'labels' => ['RPL', 'TKJ'],
             'datasets' => [
@@ -29,6 +32,7 @@ class DashboardPembimbingController extends Controller
             ],
         ];
 
+        // Menghitung jumlah aktivitas siswa berdasarkan kategori, dan jika parameter user_id diberikan, hanya mengambil data untuk pengguna tersebut.
         $activityData = Siswa::select('kategori')
             ->selectRaw('COUNT(*) as count')
             ->when($request->has('user_id'), function ($query) use ($request) {
@@ -37,19 +41,41 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('count', 'kategori');
 
-        // dd($activityData);
+        // Mengambil jumlah siswa yang terkait dengan setiap materi (materi_id) dan mengelompokkan berdasarkan materi_id.
+        $materiData = Siswa::with('data_materi')
+            ->selectRaw('COUNT(*) as count, materi_id')
+            ->when($request->has('user_id'), function ($query) use ($request) {
+                return $query->where('user_id', $request->input('user_id'));
+            })
+            ->groupBy('materi_id')
+            ->get();
 
-        $totalWaktuPerKategori = Siswa::select('kategori')
-            ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai) / 3600) as total_waktu') // Convert to hours
-            ->groupBy('kategori')
-            ->pluck('total_waktu', 'kategori');
+        // buat array sesuai format chart
+        $data_grafik_pie_chart = [];
+        foreach ($materiData as $item) {
+            // Pastikan data_materi tidak null sebelum mengakses properti materi
+            $data_grafik_pie_chart[] = [
+                'total' => $item->count,
+                'materi' => $item->data_materi?->materi ?? 'Data Tidak Tersedia', // Gunakan null-safe operator
+            ];
+        }
 
+        // Mengubah format data
+        $formattedData = [];
+        foreach ($data_grafik_pie_chart as $item) {
+            // Ubah nama materi menjadi lowercase dan masukkan ke dalam array dengan total sebagai value
+            $formattedData[strtolower($item['materi'])] = $item['total'];
+        }
+
+        // Mengambil kategori Siswa Rpl
         $jumlahDataRPL = Siswa::whereIn('kategori', ['Belajar', 'Projek'])
             ->count();
 
+        // Mengambil kategori Siswa Tkj
         $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
+        // Mengambil Total waktu Siswa
         $totalWaktu = Siswa::get()
             ->reduce(function ($carry, $item) {
                 if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -63,6 +89,7 @@ class DashboardPembimbingController extends Controller
                 return $carry;
             }, 0);
 
+        // Menghitung total waktu siswa berdasarkan kategori, dan jika user_id diberikan, hanya menghitung untuk pengguna tersebut.
         $totalWaktuPerKategori = Siswa::select('kategori')
             ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, waktu_mulai, waktu_selesai)) as total_waktu')
             ->when($request->has('user_id'), function ($query) use ($request) {
@@ -73,23 +100,15 @@ class DashboardPembimbingController extends Controller
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 
+        //  Menghitung persentase waktu setiap kategori dibandingkan total waktu semua kategori.
         $persentaseWaktuPerKategori = $totalWaktuPerKategori->map(function ($waktu) use ($totalWaktuSemuaKategori) {
             return $totalWaktuSemuaKategori > 0 ? ($waktu / $totalWaktuSemuaKategori) * 100 : 0;
         });
 
-        // $kategori = ['Belajar', 'Projek', 'DiKantor', 'Keluar dengan Teknisi'];
-
-        // $kantor = DB::table('siswa')
-        //     ->join('users', 'siswa.user_id', '=', 'users.id')
-        //     ->select('users.username', 'siswa.user_id', DB::raw('COUNT(siswa.kategori) as total_kategori'))
-        //     ->whereIn('siswa.kategori', $kategori)
-        //     // ->where('user_id', $id)
-        //     ->groupBy('siswa.user_id', 'users.username')
-        //     ->get();
-
-        // dd($kantor);
+        // Menjumlahkan total aktivitas siswa dari kategori RPL dan TKJ
         $totalAktivitas = $jumlahDataTKJ + $jumlahDataRPL;
 
+        // Menghitung persentase aktivitas TKJ dan RPL dibandingkan total aktivitas.
         $persentaseTKJ = $totalAktivitas > 0 ? ($jumlahDataTKJ / $totalAktivitas) * 100 : 0;
         $persentaseRPL = $totalAktivitas > 0 ? ($jumlahDataRPL / $totalAktivitas) * 100 : 0;
 
@@ -104,6 +123,7 @@ class DashboardPembimbingController extends Controller
             'totalWaktu',
             'totalWaktuSemuaKategori',
             'persentaseWaktuPerKategori',
+            'formattedData',
             'totalWaktuPerKategori',
             'rplCount',
             'tkjCount',
@@ -128,8 +148,6 @@ class DashboardPembimbingController extends Controller
             ->where('user_id', $id)
             ->groupBy('siswa.user_id', 'users.username')
             ->get();
-
-        dd($kantor);
 
         return $kantor;
     }
