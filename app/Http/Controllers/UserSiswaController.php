@@ -10,6 +10,7 @@ class UserSiswaController extends Controller
 {
     public function index()
     {
+        // berisi koleksi pengguna yang memiliki peran "siswa", status "Aktif", dan tanggal selesai (tanggal_selesai) yang lebih kecil dari tanggal saat ini
         $usersToUpdate = User::where('role', 'siswa')
             ->where('status', 'Aktif')
             ->where('tanggal_selesai', '<', Carbon::now())
@@ -20,6 +21,7 @@ class UserSiswaController extends Controller
             $user->save();
         }
 
+        //mengambil data user sesuai dengan rolenya siswa
         $usersiswa = User::where('role', 'siswa')->get();
 
         return view('admin.siswa', compact('usersiswa'));
@@ -27,6 +29,7 @@ class UserSiswaController extends Controller
 
     public function store(Request $request)
     {
+        //menyimpan data baru siswa yang telah di input pada form tambah siswa
         $request->validate([
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:8|max:20',
@@ -49,6 +52,7 @@ class UserSiswaController extends Controller
 
         $tanggalMulai = Carbon::parse($request->tanggal_mulai);
         $tanggalSelesai = Carbon::parse($request->tanggal_selesai);
+        // Sama seperti pada method store, menghitung durasi masa PKL dengan cara yang sama, berdasarkan tanggal mulai dan tanggal selesai yang baru.
         $masaPkl = round($tanggalMulai->diffInDays($tanggalSelesai) / 30);
 
         $user = User::create([
@@ -67,6 +71,7 @@ class UserSiswaController extends Controller
 
     public function update(Request $request, $id)
     {
+        //mengupdate data siswa yang telah di input pada form edit siswa
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',
@@ -85,6 +90,7 @@ class UserSiswaController extends Controller
             'status.required' => 'status is required',
         ]);
 
+        // Menyimpan instance dari model User yang ditemukan dengan ID yang diberikan melalui parameter $id. Jika tidak ada pengguna dengan ID tersebut, akan menghasilkan error 404.
         $user = User::findOrFail($id);
 
         try {

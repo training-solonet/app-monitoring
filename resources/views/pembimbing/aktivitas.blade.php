@@ -1,5 +1,4 @@
 <x-app-layout>
-    <!-- Font Awesome (keep one version only) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">

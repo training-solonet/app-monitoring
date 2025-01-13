@@ -8,12 +8,10 @@ use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\DashboardRplController;
 use App\Http\Controllers\DashboardSiswaController;
 use App\Http\Controllers\DetailSiswaController;
-use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\MateriTkjController;
 use App\Http\Controllers\MonitoringController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\UserController;
@@ -94,8 +92,6 @@ Route::prefix('siswarpl')->name('siswarpl.')->group(function () {
     Route::post('/toggle/{id}', [SiswaRplController::class, 'toggle'])->name('toggle');
 });
 
-Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
-Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
 Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
 
 Route::resource('materitkj', MateriTkjController::class)->middleware(['auth', 'role:pembimbing']);
@@ -103,8 +99,6 @@ Route::resource('materitkj', MateriTkjController::class)->middleware(['auth', 'r
 Route::middleware(['auth', 'role:siswa'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
 });
-
-Route::resource('jurusan', JurusanController::class)->middleware(['auth', 'role:admin']);
 Route::resource('materi', MateriController::class)->middleware(['auth', 'role:siswa']);
 
 Route::resource('detail', DetailSiswaController::class)->middleware(['auth', 'role:siswa']);

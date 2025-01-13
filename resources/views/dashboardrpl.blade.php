@@ -169,19 +169,12 @@
                                 <div class="row w-75" style="margin: auto">
                                     <!-- Diagram Lingkaran Projek -->
                                     <div class="col-md-6">
-                                        {{-- <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Projek</h6> --}}
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                         </div>
-                                        {{-- <div class="text-center mt-3">
-                                            <button id="toggle-legend" class="btn btn-sm btn-outline-info">
-                                                <i class="fas fa-info-circle me-1"></i> Detail
-                                            </button>
-                                        </div> --}}
                                     </div>
                                     <!-- Diagram Batang Projek -->
                                     <div class="col-md-6 mt-1">
-                                        {{-- <h6 class="text-center mb-3">Jumlah Aktivitas Projek</h6> --}}
                                         <div class="chart" style="margin-top: 5rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>

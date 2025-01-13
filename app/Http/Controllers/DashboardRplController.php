@@ -13,8 +13,10 @@ class DashboardRplController extends Controller
 {
     public function index(Request $request)
     {
+        // Mengambil ID pengguna yang sedang login
         $userId = Auth::id();
 
+        // Mengambil data siswa berdasarkan pengguna yang sedang login dan kategori Projek
         $totalWaktuProjek = Siswa::where('user_id', $userId)
             ->where('kategori', 'Projek')
             ->get()
@@ -30,6 +32,7 @@ class DashboardRplController extends Controller
                 return $carry;
             }, 0);
 
+        // Mengelompokkan data siswa (kategori Projek) berdasarkan aktivitas_id
         $siswaData = Siswa::where('user_id', $userId)
             ->where('kategori', 'Projek')
             ->get()
@@ -50,6 +53,7 @@ class DashboardRplController extends Controller
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
+        // Mengambil nama aktivitas berdasarkan aktivitas_id yang ada di $siswaData.
         $aktivitasNames = Aktivitas::whereIn('id', $siswaData->keys())->pluck('nama_aktivitas', 'id');
 
         $jumlahAktivitas = Siswa::where('user_id', $userId)
@@ -58,6 +62,7 @@ class DashboardRplController extends Controller
             ->groupBy('aktivitas_id')
             ->map->count();
 
+        // Mengambil data siswa berdasarkan pengguna yang sedang login dan kategori Belajar.
         $totalWaktuBelajar = Siswa::where('user_id', $userId)
             ->where('kategori', 'Belajar')
             ->get()
@@ -73,6 +78,7 @@ class DashboardRplController extends Controller
                 return $carry;
             }, 0);
 
+        // Menghitung total waktu untuk setiap materi dan persentasenya terhadap total waktu belajar.
         $siswaDataBelajar = Siswa::where('user_id', $userId)
             ->where('kategori', 'Belajar')
             ->get()
@@ -93,22 +99,25 @@ class DashboardRplController extends Controller
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
 
+        // Mengambil nama materi berdasarkan materi_id yang ada di $siswaDataBelajar.
         $materiNames = Materi::whereIn('id', $siswaDataBelajar->keys())->pluck('materi', 'id');
 
+        // Menghitung jumlah data (frekuensi) untuk setiap materi berdasarkan materi_id.
         $jumlahAktivitasBelajar = Siswa::where('user_id', $userId)
             ->where('kategori', 'Belajar')
             ->get()
             ->groupBy('materi_id')
             ->map->count();
 
+        // Menghitung jumlah data siswa untuk kategori Projek dan Belajar.
         $jumlahDataProjek = Siswa::where('user_id', $userId)
             ->where('kategori', 'Projek')
             ->count();
-
         $jumlahDataBelajar = Siswa::where('user_id', $userId)
             ->where('kategori', 'Belajar')
             ->count();
 
+        // Menghitung total waktu dari semua aktivitas (baik Projek maupun Belajar).
         $totalWaktu = Siswa::where('user_id', $userId)
             ->get()
             ->reduce(function ($carry, $item) {
@@ -123,14 +132,14 @@ class DashboardRplController extends Controller
                 return $carry;
             }, 0);
 
+        // Menghitung total aktivitas (Belajar + Projek).
         $totalAktivitas = $jumlahDataBelajar + $jumlahDataProjek;
-
+        // Menghitung persentase aktivitas Belajar terhadap total aktivitas.
         $persentaseBelajar = $totalAktivitas > 0 ? ($jumlahDataBelajar / $totalAktivitas) * 100 : 0;
+        // Menghitung persentase aktivitas Projek terhadap total aktivitas.
         $persentaseProjek = $totalAktivitas > 0 ? ($jumlahDataProjek / $totalAktivitas) * 100 : 0;
 
-        // print_r($materiNames);
-        // print_r($jumlahAktivitasBelajar);
-
+        // Membuat array yang memetakan nama materi dengan jumlah aktivitasnya.
         $dataAktivitasBelajar = [
             'name' => [],
             'jumlah' => [],

@@ -10,6 +10,7 @@ class MateriRplController extends Controller
 {
     public function index()
     {
+        // Menyimpan koleksi materi yang memiliki jurusan 'RPL' dari model MateriTkj.
         $materirpl = MateriTkj::where('jurusan', 'RPL')->get();
 
         return view('pembimbing.materirpl', compact('materirpl'));
@@ -24,6 +25,7 @@ class MateriRplController extends Controller
             'jurusan' => 'required|in:TKJ,RPL',
         ]);
 
+        // Menyimpan lokasi path file materi yang diunggah.
         $filePath = null;
         if ($request->hasFile('file_materi')) {
             $originalFileName = $request->file('file_materi')->getClientOriginalName();
@@ -48,6 +50,7 @@ class MateriRplController extends Controller
             'file_materi' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx,ppt,pptx,txt|max:5120',
         ]);
 
+        //  Menyimpan objek materi yang diambil dari model MateriTkj berdasarkan ID yang diberikan.
         $materi = MateriTkj::findOrFail($id);
 
         if ($request->hasFile('file_materi')) {
@@ -55,7 +58,9 @@ class MateriRplController extends Controller
                 Storage::disk('public')->delete($materi->file_materi);
             }
 
+            // Menyimpan nama asli file yang diunggah oleh pengguna.
             $originalFileName = $request->file('file_materi')->getClientOriginalName();
+            // Menyimpan path file materi yang baru, jika file baru diunggah pada saat pembaruan materi.
             $filePath = $request->file('file_materi')->storeAs('materi_files', $originalFileName, 'public');
             $materi->file_materi = $filePath;
         }

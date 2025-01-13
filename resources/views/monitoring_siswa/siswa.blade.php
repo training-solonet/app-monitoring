@@ -35,29 +35,41 @@
                             <div class="border-bottom col-md-12 py-2 px-2 d-sm-flex align-items-center">
                                 <form method="GET" action="{{ route('siswa.index') }}" id="filterForm"
                                     class="p-2 border rounded shadow-sm w-100 d-flex flex-wrap gap-2 align-items-start">
-                                    
+
                                     <!-- Status Filter -->
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="statusFilter" class="form-label">Status</label>
-                                        <select class="form-select form-select-sm" name="status" id="statusFilter" onchange="this.form.submit()">
+                                        <select class="form-select form-select-sm" name="status" id="statusFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
-                                            <option value="all" {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>Semua</option>
-                                            <option value="Mulai" {{ request('status') == 'Mulai' ? 'selected' : '' }}>Mulai</option>
-                                            <option value="Sedang Berlangsung" {{ request('status') == 'Sedang Berlangsung' ? 'selected' : '' }}>Sedang Berlangsung</option>
-                                            <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                            <option value="all"
+                                                {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
+                                                Semua</option>
+                                            <option value="Mulai" {{ request('status') == 'Mulai' ? 'selected' : '' }}>
+                                                Mulai</option>
+                                            <option value="Sedang Berlangsung"
+                                                {{ request('status') == 'Sedang Berlangsung' ? 'selected' : '' }}>Sedang
+                                                Berlangsung</option>
+                                            <option value="Selesai"
+                                                {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                                         </select>
                                     </div>
-                            
+
                                     <!-- Kategori Filter -->
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="kategoriFilter" class="form-label">Kategori</label>
-                                        <select class="form-select form-select-sm" name="kategori" id="kategoriFilter" onchange="this.form.submit()">
+                                        <select class="form-select form-select-sm" name="kategori" id="kategoriFilter"
+                                            onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Kategori</option>
-                                            <option value="Dikantor" {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor</option>
-                                            <option value="Keluar Dengan Teknisi" {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>Keluar Dengan Teknisi</option>
+                                            <option value="Dikantor"
+                                                {{ request('kategori') == 'Dikantor' ? 'selected' : '' }}>Dikantor
+                                            </option>
+                                            <option value="Keluar Dengan Teknisi"
+                                                {{ request('kategori') == 'Keluar Dengan Teknisi' ? 'selected' : '' }}>
+                                                Keluar Dengan Teknisi</option>
                                         </select>
                                     </div>
-                            
+
                                     <!-- Tanggal Mulai -->
                                     <div class="col-sm-2">
                                         <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
@@ -65,7 +77,7 @@
                                             class="form-control" value="{{ request('tanggal_mulai') }}"
                                             onchange="document.getElementById('filterForm').submit();">
                                     </div>
-                                
+
                                     <!-- Tanggal Selesai -->
                                     <div class="col-sm-2">
                                         <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
@@ -74,14 +86,16 @@
                                             onchange="document.getElementById('filterForm').submit();">
                                     </div>
 
-                                    
+
                                     <!-- Reset Button -->
                                     <div class="col-12 col-md-1 mb-2 d-flex justify-content-center align-items-end">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" style="margin-top:30px;" onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            style="margin-top:30px;"
+                                            onclick="window.location.href='{{ route('siswa.index') }}'">Reset</button>
                                     </div>
                                 </form>
                             </div>
-                            
+
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">
                                     <thead class="bg-gray-100">
@@ -392,15 +406,17 @@
                                                                         rows="3" required>{{ old('report', $item->report ?? '') }}</textarea>
                                                                 </div>
 
-                                                            <!-- Waktu Selesai Input -->
-<div class="mb-3 d-none">
-    <label for="waktu_selesai{{ $item->id }}" class="form-label fw-bold">Waktu Selesai</label>
-    <input type="time" class="form-control"
-           id="waktu_selesai{{ $item->id }}"
-           name="waktu_selesai"
-           value="{{ old('waktu_selesai', \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i')) }}"
-           min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
-</div>
+                                                                <!-- Waktu Selesai Input -->
+                                                                <div class="mb-3 d-none">
+                                                                    <label for="waktu_selesai{{ $item->id }}"
+                                                                        class="form-label fw-bold">Waktu
+                                                                        Selesai</label>
+                                                                    <input type="time" class="form-control"
+                                                                        id="waktu_selesai{{ $item->id }}"
+                                                                        name="waktu_selesai"
+                                                                        value="{{ old('waktu_selesai', \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i')) }}"
+                                                                        min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
+                                                                </div>
 
 
 
@@ -539,8 +555,7 @@
         }
     </script>
 
-    {{-- @foreach ($siswa as $item) --}}
-    <script>
+<script>
         document.addEventListener('DOMContentLoaded', function() {
             @foreach ($siswa as $item)
                 @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
@@ -636,7 +651,6 @@
             setInterval(updateTime, 1000);
         }
     </script>
-    {{-- @endforeach --}}
 
 
 </x-app-layout>
