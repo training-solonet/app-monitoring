@@ -92,7 +92,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Aktivitas</span>
+                    <span class="nav-link-text ms-1">Pekerjaan</span>
                 </a>
             </li>
             

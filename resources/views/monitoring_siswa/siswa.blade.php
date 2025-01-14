@@ -109,7 +109,7 @@
                                                 Materi</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Aktivitas diluar</th>
+                                                Pekerjaan diluar</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Catatan Siswa</th>
@@ -154,7 +154,7 @@
                                                 <td class="align-middle text-center">
                                                     <p
                                                         class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
-                                                        {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada aktivitas' }}
+                                                        {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada Pekerjaan' }}
                                                     </p>
                                                 </td>
                                                 <td class="align-middle text-center text-sm font-weight-normal">
@@ -360,7 +360,7 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title"
                                                                 id="EditLaporanModalLabel{{ $item->id }}">
-                                                                Selesaikan Aktivitas</h5>
+                                                                Selesaikan Pekerjaan</h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
@@ -376,11 +376,11 @@
                                                                         <label
                                                                             for="aktivitasSelect{{ $item->id }}"
                                                                             class="form-label fw-bold">Pilih
-                                                                            Aktivitas</label>
+                                                                            Pekerjaan</label>
                                                                         <select class="form-select"
                                                                             id="aktivitasSelect{{ $item->id }}"
                                                                             name="aktivitas_id" required>
-                                                                            <option disabled selected>Pilih Aktivitas
+                                                                            <option disabled selected>Pilih Pekerjaan
                                                                             </option>
                                                                             @foreach ($aktivitas as $aktivitasItem)
                                                                                 <option
