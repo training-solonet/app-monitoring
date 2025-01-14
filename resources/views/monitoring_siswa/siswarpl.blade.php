@@ -42,7 +42,7 @@
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="statusFilter" class="form-label">Status</label>
                                         <select class="form-select form-select-sm" name="status" id="statusFilter"
-                                            onchange="this.form.submit()">
+                                            onchange="this.form.submit()" style="height: 40px">
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="all"
                                                 {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
@@ -61,7 +61,7 @@
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="kategoriFilter" class="form-label">Kategori</label>
                                         <select class="form-select form-select-sm" name="kategori" id="kategoriFilter"
-                                            onchange="this.form.submit()">
+                                            onchange="this.form.submit()" style="height: 40px">
                                             <option value="" disabled selected>Pilih Kategori</option>
                                             <option value="Belajar"
                                                 {{ request('kategori') == 'Belajar' ? 'selected' : '' }}>Belajar
