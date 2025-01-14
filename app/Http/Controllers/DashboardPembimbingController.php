@@ -16,7 +16,7 @@ class DashboardPembimbingController extends Controller
         // Mengambil daftar pengguna dengan role siswa
         $userList = User::where('role', 'siswa')->get();
 
-        // Menghitung jumlah data materi sesuai jurusan 
+        // Menghitung jumlah data materi sesuai jurusan
         $rplCount = Materi::where('jurusan', 'RPL')->count();
         $tkjCount = Materi::where('jurusan', 'TKJ')->count();
 
@@ -75,7 +75,7 @@ class DashboardPembimbingController extends Controller
         $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
             ->count();
 
-        // Mengambil Total waktu Siswa 
+        // Mengambil Total waktu Siswa
         $totalWaktu = Siswa::get()
             ->reduce(function ($carry, $item) {
                 if ($item->waktu_mulai && $item->waktu_selesai) {
@@ -97,7 +97,6 @@ class DashboardPembimbingController extends Controller
             })
             ->groupBy('kategori')
             ->pluck('total_waktu', 'kategori');
-
 
         $totalWaktuSemuaKategori = $totalWaktuPerKategori->sum();
 

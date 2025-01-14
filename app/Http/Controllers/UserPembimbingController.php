@@ -9,7 +9,7 @@ class UserPembimbingController extends Controller
 {
     public function index()
     {
-        //mengambil data user dengan role pembimbing
+        // mengambil data user dengan role pembimbing
         $userpembimbing = User::where('role', 'pembimbing')->get();
 
         return view('admin.pembimbing', compact('userpembimbing'));
@@ -17,7 +17,7 @@ class UserPembimbingController extends Controller
 
     public function store(Request $request)
     {
-        //menyimpan data yang ada pada form tambah pembimbing
+        // menyimpan data yang ada pada form tambah pembimbing
         $request->validate([
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:8|max:20',
@@ -45,7 +45,7 @@ class UserPembimbingController extends Controller
 
     public function update(Request $request, $id)
     {
-        //mengupdate data yang diubah pada form edit pembimbing
+        // mengupdate data yang diubah pada form edit pembimbing
         $request->validate([
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',
@@ -70,7 +70,7 @@ class UserPembimbingController extends Controller
 
             return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('userpembimbing.index')->with('error', 'Failed to update user: ' . $e->getMessage());
+            return redirect()->route('userpembimbing.index')->with('error', 'Failed to update user: '.$e->getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ class UserPembimbingController extends Controller
 
             return redirect()->route('userpembimbing.index')->with('success', 'Data berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->route('userpembimbing.index')->with('error', 'Data gagal dihapus: ' . $e->getMessage());
+            return redirect()->route('userpembimbing.index')->with('error', 'Data gagal dihapus: '.$e->getMessage());
         }
     }
 }
