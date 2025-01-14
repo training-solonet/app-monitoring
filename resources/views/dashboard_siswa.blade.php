@@ -169,7 +169,7 @@
                                 <div class="row w-75" style="margin: auto">
                                     <!-- Diagram Lingkaran Dengan Teknisi -->
                                     <div class="col-md-6">
-                                        <h6 class="text-center mb-3">Persentase Waktu Per Aktivitas Dengan Teknisi</h6>
+                                        <h6 class="text-center mb-3">Persentase Waktu Per Pekerjaan Dengan Teknisi</h6>
                                         <div class="chart">
                                             <canvas id="chart-pie" class="chart-canvas" height="240"></canvas>
                                         </div>
@@ -181,7 +181,7 @@
                                     </div>
                                     <!-- Diagram Batang Dengan Teknisi -->
                                     <div class="col-md-6 mt-1">
-                                        <h6 class="text-center mb-3">Jumlah Aktivitas Dengan Teknisi</h6>
+                                        <h6 class="text-center mb-3">Jumlah Pekerjaan Dengan Teknisi</h6>
                                         <div class="chart" style="margin-top: 5rem;">
                                             <canvas id="chart-bar" class="chart-canvas" height="240"></canvas>
                                         </div>
@@ -285,7 +285,7 @@
             data: {
                 labels: @json($aktivitasNames->values()),
                 datasets: [{
-                    label: 'Jumlah Aktivitas',
+                    label: 'Jumlah Pekerjaan',
                     data: @json($jumlahAktivitas->values()),
                     backgroundColor: gradientBar,
                     borderColor: 'rgba(54, 162, 235, 1)',

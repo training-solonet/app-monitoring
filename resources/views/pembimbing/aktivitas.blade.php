@@ -10,7 +10,7 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Daftar Aktivitas</h6>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Daftar Pekerjaan</h6>
                                 </div>
                                 <div class="ms-auto d-flex">
                                     <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center me-2"
@@ -18,7 +18,7 @@
                                         <span class="btn-inner--icon">
                                             <i class="fas fa-plus"></i>
                                         </span>
-                                        <span class="btn-inner--text">Tambah Aktivitas</span>
+                                        <span class="btn-inner--text">Tambah Pekerjaan</span>
                                     </button>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 No</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Aktivitas</th>
+                                                Pekerjaan</th>
                                             <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Aksi</th>
                                         </tr>
@@ -77,20 +77,20 @@
         </div>
     </main>
 
-    <!-- Modal Tambah Aktivitas -->
+    <!-- Modal Tambah Pekerjaan -->
     <div class="modal fade" id="tambahAktivitasModal" tabindex="-1" aria-labelledby="tambahAktivitasModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tambahAktivitasModalLabel">Tambah Aktivitas</h5>
+                    <h5 class="modal-title" id="tambahAktivitasModalLabel">Tambah Pekerjaan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('aktivitas.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nama_aktivitas" class="form-label">Nama Aktivitas</label>
-                            <input type="text" class="form-control" name="nama_aktivitas" id="nama_aktivitas" placeholder="Masukkan nama aktivitas" required>
+                            <label for="nama_aktivitas" class="form-label">Nama Pekerjaan</label>
+                            <input type="text" class="form-control" name="nama_aktivitas" id="nama_aktivitas" placeholder="Masukkan nama Pekerjaan" required>
                         </div>
                     </div>
                     <div class="modal-footer">
