@@ -1,8 +1,6 @@
 <x-app-layout>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
@@ -351,10 +349,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
                                             <tr></tr>
-
                                             <!-- Modal Selesai -->
                                             <div class="modal fade" id="EditLaporanModal{{ $item->id }}"
                                                 tabindex="-1"
@@ -417,9 +412,6 @@
                                                                         value="{{ old('waktu_selesai', \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i')) }}"
                                                                         min="{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}">
                                                                 </div>
-
-
-
 
                                                                 <!-- Bukti Upload Input -->
                                                                 <div class="mb-3">
@@ -539,9 +531,6 @@
         </div>
     </div>
 
-
-
-
     <script>
         function toggleMateriDropdown(kategoriId, materiId) {
             const kategoriSelect = document.getElementById(kategoriId);
@@ -616,19 +605,28 @@
             });
         });
 
+        
         document.addEventListener('DOMContentLoaded', function() {
-            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+        // Looping through each $item in $siswa
+        @foreach ($siswa as $item)
+            @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                // Untuk setiap item, kita menggunakan data waktu_mulai dan id
+                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+                
+                if (waktuSelesaiInput) {  // Memastikan elemen ada
+                    waktuSelesaiInput.setAttribute('min', waktuMulai);
 
-            waktuSelesaiInput.setAttribute('min', waktuMulai);
-
-            waktuSelesaiInput.addEventListener('change', function() {
-                if (waktuSelesaiInput.value < waktuMulai) {
-                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                    waktuSelesaiInput.value = waktuMulai;
+                    waktuSelesaiInput.addEventListener('change', function() {
+                        if (waktuSelesaiInput.value < waktuMulai) {
+                            alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                            waktuSelesaiInput.value = waktuMulai;
+                        }
+                    });
                 }
-            });
-        });
+            @endif
+        @endforeach
+    });
 
         function startTimer(waktuMulai, elementId) {
             const startTime = new Date(waktuMulai).getTime();
@@ -650,7 +648,5 @@
             updateTime();
             setInterval(updateTime, 1000);
         }
-    </script>
-
-
+</script>
 </x-app-layout>

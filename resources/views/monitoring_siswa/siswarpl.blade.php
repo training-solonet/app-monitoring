@@ -522,18 +522,26 @@
 
 
         document.addEventListener('DOMContentLoaded', function() {
-            const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-            const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+        // Looping melalui setiap $item dalam $siswaRpl
+        @foreach ($siswarpl as $item)
+            @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+                // Menangani waktu_mulai untuk setiap item
+                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
+                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
+                
+                if (waktuSelesaiInput) {  // Pastikan elemen ada di DOM
+                    waktuSelesaiInput.setAttribute('min', waktuMulai);
 
-            waktuSelesaiInput.setAttribute('min', waktuMulai);
-
-            waktuSelesaiInput.addEventListener('change', function() {
-                if (waktuSelesaiInput.value < waktuMulai) {
-                    alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                    waktuSelesaiInput.value = waktuMulai;
+                    waktuSelesaiInput.addEventListener('change', function() {
+                        if (waktuSelesaiInput.value < waktuMulai) {
+                            alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
+                            waktuSelesaiInput.value = waktuMulai;
+                        }
+                    });
                 }
-            });
-        });
+            @endif
+        @endforeach
+    });
 
         function startTimer(waktuMulai, elementId) {
             const startTime = new Date(waktuMulai).getTime();
