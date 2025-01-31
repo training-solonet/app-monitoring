@@ -37,8 +37,8 @@
                                     <!-- Status Filter -->
                                     <div class="col-12 col-md-3 mb-2">
                                         <label for="statusFilter" class="form-label">Status</label>
-                                        <select class="form-select form-select-sm" style="height:40px" name="status" id="statusFilter"
-                                            onchange="this.form.submit()">
+                                        <select class="form-select form-select-sm" style="height:40px" name="status"
+                                            id="statusFilter" onchange="this.form.submit()">
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="all"
                                                 {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>
@@ -112,22 +112,7 @@
                                                 Pekerjaan diluar</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Catatan Siswa</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Mulai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Waktu Selesai</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Status</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Total Waktu</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Bukti</th>
+                                                detail</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Aksi</th>
@@ -157,103 +142,13 @@
                                                         {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada Pekerjaan' }}
                                                     </p>
                                                 </td>
-                                                <td class="align-middle text-center text-sm font-weight-normal">
-                                                    <p
-                                                        class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
-                                                        {{ $item->report ?? 'Belum ada catatan' }}
-                                                    </p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">
-                                                        {!! $item->waktu_mulai
-                                                            ? \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d F Y, H:i')
-                                                            : '<em>Belum Dimulai</em>' !!}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">
-                                                        {!! $item->waktu_selesai
-                                                            ? \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('d F Y, H:i')
-                                                            : '<em>Belum Berakhir</em>' !!}
-                                                    </span>
-                                                </td>
-
-                                                <td class="align-middle text-center">
-                                                    @if ($item->status == 'Mulai')
-                                                        <span
-                                                            class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'Sedang Berlangsung')
-                                                        <span
-                                                            class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
-                                                    @elseif($item->status == 'Selesai')
-                                                        <span
-                                                            class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
-                                                    @endif
-                                                </td>
-
-                                                <td class="align-middle text-center"
-                                                    id="total-waktu-{{ $item->id }}">
-                                                    @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                                                        {{ $item->total_waktu ?? '00:00:00' }}
-                                                    @else
-                                                        {{ $item->total_waktu ?? '00:00:00' }}
-                                                    @endif
-                                                </td>
                                                 <td class="align-middle text-center">
                                                     <a class="mb-0" data-bs-toggle="modal"
-                                                        data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                        <i class="fa-regular fa-image text-info"></i>
+                                                        data-bs-target="#DetailModal{{ $item->id }}">
+                                                        <i class="fa-solid fa-circle-info"></i>
                                                     </a>
                                                 </td>
-                                                <!-- Modal Lihat Bukti -->
-                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="ViewBuktiModalLabel{{ $item->id }}">Bukti
-                                                                    Laporan</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                @if ($item->bukti)
-                                                                    <div class="row">
-                                                                        @foreach (explode(',', $item->bukti) as $index => $buktiPath)
-                                                                            <div class="col-6 col-md-4 mb-3">
-                                                                                <div class="card shadow-sm">
-                                                                                    <a href="{{ Storage::url($buktiPath) }}"
-                                                                                        target="_blank">
-                                                                                        <img src="{{ Storage::url($buktiPath) }}"
-                                                                                            class="card-img-top"
-                                                                                            alt="Bukti"
-                                                                                            style="max-height: 200px; object-fit: contain;">
-                                                                                    </a>
-                                                                                    <div class="card-body text-center">
-                                                                                        <p class="card-text">
-                                                                                            <small>Bukti
-                                                                                                {{ $index + 1 }}</small>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                @else
-                                                                    <p class="text-center">Bukti belum diunggah</p>
-                                                                @endif
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                                 <td class="align-middle text-center">
                                                     <form action="{{ route('siswa.toggle', $item->id) }}"
                                                         method="POST" style="display:inline;">
@@ -497,6 +392,108 @@
         </form>
     </div>
 
+    {{-- Modal detail --}}
+    @foreach ($siswa as $item)
+        <div class="modal fade" id="DetailModal{{ $item->id }}" tabindex="-1"
+            aria-labelledby="DetailModalLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content shadow-lg rounded">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title text-white" id="DetailModalLabel{{ $item->id }}">
+                            Detail Laporan
+                        </h5>
+                        <button type="button" class="btn-close text-light" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Catatan Siswa:</strong>
+                                        <textarea class="form-control" rows="4" readonly>{{ $item->report ?? 'Tidak ada catatan' }}</textarea>
+                                    </li>
+                                    <li class="list-group-item"><strong>Waktu Mulai:</strong>
+                                        {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                    </li>
+                                    <li class="list-group-item"><strong>Waktu Selesai:</strong>
+                                        {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Status:</strong>
+                                        @php
+                                            $statusClass = match ($item->status) {
+                                                'Selesai' => 'btn-success',
+                                                'Belum Dimulai' => 'btn-secondary',
+                                                'Sedang Berlangsung' => 'btn-info',
+                                                default => 'btn-dark',
+                                            };
+                                        @endphp
+                                        <button
+                                            class="btn {{ $statusClass }} btn-sm mt-3">{{ $item->status }}</button>
+                                    </li>
+                                    <li class="list-group-item"><strong>Total Waktu:</strong>
+                                        @php
+                                            $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
+                                            $endTime = \Carbon\Carbon::parse($item->waktu_selesai);
+                                            $diffInMinutes = $startTime->diffInMinutes($endTime);
+                                            $hours = intdiv($diffInMinutes, 60); // Calculate hours
+                                            $minutes = $diffInMinutes % 60; // Calculate remaining minutes
+                                        @endphp
+                                        {{ $hours }} Jam {{ $minutes }} Menit
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-center">Bukti Foto</h6>
+                                @if ($item->bukti)
+                                    <div id="carouselBukti{{ $item->id }}" class="carousel slide"
+                                        data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach (explode(',', $item->bukti) as $index => $buktiPath)
+                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                    <a href="{{ Storage::url($buktiPath) }}" target="_blank">
+                                                        <img src="{{ Storage::url($buktiPath) }}"
+                                                            class="d-block w-100 rounded" alt="Bukti Foto"
+                                                            style="max-height: 400px; object-fit: cover;"
+                                                            id="carouselImage{{ $item->id }}_{{ $index }}">
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#carouselBukti{{ $item->id }}" data-bs-slide="prev"
+                                            id="carouselPrev{{ $item->id }}">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                            data-bs-target="#carouselBukti{{ $item->id }}" data-bs-slide="next"
+                                            id="carouselNext{{ $item->id }}">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                @else
+                                    <p class="text-center text-muted">Bukti belum diunggah</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+
+    <!-- Tombol Pemicu Modal -->
+    <td class="align-middle text-center">
+        <i class="fa-solid fa-circle-info" data-bs-toggle="modal" data-bs-target="#detailModal"></i>
+    </td>
+
+
     <!-- Modal Tambah Laporan Teknisi -->
     <div class="modal fade" id="tambahLaporanTeknisi" tabindex="-1" aria-labelledby="tambahLaporanTeknisiLabel"
         aria-hidden="true">
@@ -545,108 +542,93 @@
     </script>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @foreach ($siswa as $item)
-                @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                    startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-                @endif
-            @endforeach
-            document.querySelectorAll('.btn-danger').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const id = this.getAttribute('data-id');
-                    const kategori = this.getAttribute('data-kategori');
-                    const report = this.getAttribute('data-report');
-                    const waktu_selesai = this.getAttribute('data-waktu_selesai');
-
-                    if (kategori === 'Keluar Dengan Teknisi') {
-                        const modal = new bootstrap.Modal(document.getElementById(
-                            'EditLaporanModal' + id));
-                        modal.show();
-
-                        const modalElement = document.getElementById('EditLaporanModal' + id);
-                        modalElement.querySelector('textarea[name="report"]').value = report;
-                        modalElement.querySelector('input[name="waktu_selesai"]').value =
-                            waktu_selesai;
-                    } else {
-                        Swal.fire({
-                            title: 'Apakah Anda yakin?',
-                            text: "Aktivitas ini akan diselesaikan.",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            showDenyButton: true,
-                            confirmButtonText: 'Ya, Selesaikan!',
-                            denyButtonText: 'Keluar Dengan Teknisi',
-                            cancelButtonText: 'Batal'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const modal = new bootstrap.Modal(document.getElementById(
-                                    'EditLaporanModal' + id));
-                                modal.show();
-
-                                const modalElement = document.getElementById(
-                                    'EditLaporanModal' + id);
-                                modalElement.querySelector('textarea[name="report"]')
-                                    .value = report;
-                                modalElement.querySelector('input[name="waktu_selesai"]')
-                                    .value = waktu_selesai;
-                            } else if (result.isDenied) {
-                                const teknisiModal = new bootstrap.Modal(document
-                                    .getElementById('tambahLaporanTeknisi'));
-                                teknisiModal.show();
-
-                                const teknisiForm = document.getElementById(
-                                    'tambahLaporanTeknisiForm');
-                                teknisiForm.setAttribute('action',
-                                    `/siswa/updateAndCreate/${id}`);
-                            }
-                        });
-                    }
-                });
-            });
-        });
-
-        
-        document.addEventListener('DOMContentLoaded', function() {
-        // Looping through each $item in $siswa
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menjalankan timer untuk setiap siswa yang sedang berlangsung
         @foreach ($siswa as $item)
             @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                // Untuk setiap item, kita menggunakan data waktu_mulai dan id
-                const waktuMulai = "{{ \Carbon\Carbon::parse($item->waktu_mulai)->format('H:i') }}";
-                const waktuSelesaiInput = document.getElementById('waktu_selesai{{ $item->id }}');
-                
-                if (waktuSelesaiInput) {  // Memastikan elemen ada
-                    waktuSelesaiInput.setAttribute('min', waktuMulai);
-
-                    waktuSelesaiInput.addEventListener('change', function() {
-                        if (waktuSelesaiInput.value < waktuMulai) {
-                            alert('Waktu selesai tidak boleh lebih awal dari waktu mulai!');
-                            waktuSelesaiInput.value = waktuMulai;
+                startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+            @endif
+        @endforeach
+    
+        // Event listener untuk tombol dengan class .btn-danger
+        document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const id = this.getAttribute('data-id');
+                const kategori = this.getAttribute('data-kategori');
+                const report = this.getAttribute('data-report');
+                const waktu_selesai = this.getAttribute('data-waktu_selesai');
+    
+                if (kategori === 'Keluar Dengan Teknisi') {
+                    const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                    modal.show();
+    
+                    const modalElement = document.getElementById('EditLaporanModal' + id);
+                    if (modalElement) {
+                        modalElement.querySelector('textarea[name="report"]').value = report;
+                        modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                    }
+                } else {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: "Aktivitas ini akan diselesaikan.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        showDenyButton: true,
+                        confirmButtonText: 'Ya, Selesaikan!',
+                        denyButtonText: 'Keluar Dengan Teknisi',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                            modal.show();
+    
+                            const modalElement = document.getElementById('EditLaporanModal' + id);
+                            if (modalElement) {
+                                modalElement.querySelector('textarea[name="report"]').value = report;
+                                modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                            }
+    
+                            // **Tambahkan alert setelah tombol ditekan**
+                            alert('Aktivitas sedang berlangsung!');
+    
+                        } else if (result.isDenied) {
+                            const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
+                            teknisiModal.show();
+    
+                            const teknisiForm = document.getElementById('tambahLaporanTeknisiForm');
+                            if (teknisiForm) {
+                                teknisiForm.setAttribute('action', `/siswa/updateAndCreate/${id}`);
+                            }
                         }
                     });
                 }
-            @endif
-        @endforeach
+            });
+        });
     });
-
-        function startTimer(waktuMulai, elementId) {
-            const startTime = new Date(waktuMulai).getTime();
-
-            console.log("Start timer function called with:", waktuMulai, "for element ID:", elementId);
-
-            function updateTime() {
-                const now = new Date().getTime();
-                const elapsed = now - startTime;
-
-                const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-                document.getElementById(elementId).textContent =
-                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    
+    // Fungsi untuk memulai timer
+    function startTimer(waktuMulai, elementId) {
+        const startTime = new Date(waktuMulai).getTime();
+    
+        function updateTime() {
+            const now = new Date().getTime();
+            const elapsed = now - startTime;
+    
+            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+    
+            // **Pastikan elemen ditemukan sebelum mengubah teks**
+            const timerElement = document.getElementById(elementId);
+            if (timerElement) {
+                timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             }
-
-            updateTime();
-            setInterval(updateTime, 1000);
         }
-</script>
+    
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+    
+    </script>
+    
 </x-app-layout>

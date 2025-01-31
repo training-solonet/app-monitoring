@@ -59,10 +59,10 @@
 
                                     <!-- Kategori Filter -->
                                     <div class="col-12 col-md-3 mb-2">
-                                        <label for="kategoriFilter" class="form-label">Kategori</label>
+                                        <label for="kategoriFilter" class="form-label">Aktivitas</label>
                                         <select class="form-select form-select-sm" name="kategori" id="kategoriFilter"
                                             onchange="this.form.submit()" style="height: 40px">
-                                            <option value="" disabled selected>Pilih Kategori</option>
+                                            <option value="" disabled selected>Pilih Aktivitas</option>
                                             <option value="Belajar"
                                                 {{ request('kategori') == 'Belajar' ? 'selected' : '' }}>Belajar
                                             </option>
@@ -108,17 +108,7 @@
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Materi</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Report</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Waktu Mulai</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Waktu Selesai</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Status</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Total Waktu</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Bukti</th>
+                                            Detail</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Aksi</th>
                                     </tr>
@@ -141,102 +131,13 @@
                                                     {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                 </p>
                                             </td>
-                                            <td class="align-middle text-center text-sm font-weight-normal">
-                                                <p
-                                                    class="text-sm text-secondary mb-0 {{ $item->report ? '' : 'fst-italic' }}">
-                                                    {{ $item->report ?? 'Belum ada catatan' }}
-                                                </p>
-                                            </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    {!! $item->waktu_mulai
-                                                        ? \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d F Y, H:i')
-                                                        : '<em>Belum Dimulai</em>' !!}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    {!! $item->waktu_selesai
-                                                        ? \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('d F Y, H:i')
-                                                        : '<em>Belum Berakhir</em>' !!}
-                                                </span>
-                                            </td>
-
-                                            <td class="align-middle text-center">
-                                                @if ($item->status == 'Mulai')
-                                                    <span
-                                                        class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
-                                                @elseif($item->status == 'Sedang Berlangsung')
-                                                    <span
-                                                        class="badge badge-sm border border-info text-uppercase text-info bg-info">{{ $item->status }}</span>
-                                                @elseif($item->status == 'Selesai')
-                                                    <span
-                                                        class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
-                                                @endif
-                                            </td>
-
-                                            <td class="align-middle text-center"
-                                                id="total-waktu-{{ $item->id }}">
-                                                @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                                                    {{ $item->total_waktu ?? '00:00:00' }}
-                                                @else
-                                                    {{ $item->total_waktu ?? '00:00:00' }}
-                                                @endif
-                                            </td>
-                                            <td class="align-middle text-center">
+                                                <!-- Tombol untuk membuka modal Detail -->
                                                 <a class="mb-0" data-bs-toggle="modal"
-                                                    data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                    <i class="fa-regular fa-image text-info"></i>
+                                                    data-bs-target="#DetailModal{{ $item->id }}">
+                                                    <i class="fa-solid fa-circle-info"></i>
                                                 </a>
                                             </td>
-                                            <!-- Modal Lihat Bukti -->
-                                            <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
-                                                tabindex="-1"
-                                                aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title"
-                                                                id="ViewBuktiModalLabel{{ $item->id }}">Bukti
-                                                                Laporan</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            @if ($item->bukti)
-                                                                <div class="row">
-                                                                    @foreach (explode(',', $item->bukti) as $index => $buktiPath)
-                                                                        <div class="col-6 col-md-4 mb-3">
-                                                                            <div class="card shadow-sm">
-                                                                                <a href="{{ Storage::url($buktiPath) }}"
-                                                                                    target="_blank">
-                                                                                    <img src="{{ Storage::url($buktiPath) }}"
-                                                                                        class="card-img-top"
-                                                                                        alt="Bukti"
-                                                                                        style="max-height: 200px; object-fit: contain;">
-                                                                                </a>
-                                                                                <div class="card-body text-center">
-                                                                                    <p class="card-text">
-                                                                                        <small>Bukti
-                                                                                            {{ $index + 1 }}</small>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            @else
-                                                                <p class="text-center">Bukti belum diunggah</p>
-                                                            @endif
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Tutup</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <td class="align-middle text-center">
                                                 <form action="{{ route('siswa.toggle', $item->id) }}" method="POST"
                                                     style="display:inline;">
@@ -413,6 +314,101 @@
         </div>
     </main>
 
+        {{-- Modal detail --}}
+        @foreach ($siswarpl as $item)
+        <div class="modal fade" id="DetailModal{{ $item->id }}" tabindex="-1"
+            aria-labelledby="DetailModalLabel{{ $item->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content shadow-lg rounded">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title text-white" id="DetailModalLabel{{ $item->id }}">
+                            Detail Laporan
+                        </h5>
+                        <button type="button" class="btn-close text-light" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Catatan Siswa:</strong>
+                                        <textarea class="form-control" rows="4" readonly>{{ $item->report ?? 'Tidak ada catatan' }}</textarea>
+                                    </li>
+                                    <li class="list-group-item"><strong>Waktu Mulai:</strong>
+                                        {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                    </li>
+                                    <li class="list-group-item"><strong>Waktu Selesai:</strong>
+                                        {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Status:</strong>
+                                        @php
+                                            $statusClass = match ($item->status) {
+                                                'Selesai' => 'btn-success',
+                                                'Belum Dimulai' => 'btn-secondary',
+                                                'Sedang Berlangsung' => 'btn-info',
+                                                default => 'btn-dark',
+                                            };
+                                        @endphp
+                                        <button
+                                            class="btn {{ $statusClass }} btn-sm mt-3">{{ $item->status }}</button>
+                                    </li>
+                                    <li class="list-group-item"><strong>Total Waktu:</strong>
+                                        @php
+                                            $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
+                                            $endTime = \Carbon\Carbon::parse($item->waktu_selesai);
+                                            $diffInMinutes = $startTime->diffInMinutes($endTime);
+                                            $hours = intdiv($diffInMinutes, 60); // Calculate hours
+                                            $minutes = $diffInMinutes % 60; // Calculate remaining minutes
+                                        @endphp
+                                        {{ $hours }} Jam {{ $minutes }} Menit
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-center">Bukti Foto</h6>
+                                @if ($item->bukti)
+                                    <div id="carouselBukti{{ $item->id }}" class="carousel slide"
+                                        data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach (explode(',', $item->bukti) as $index => $buktiPath)
+                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                    <a href="{{ Storage::url($buktiPath) }}" target="_blank">
+                                                        <img src="{{ Storage::url($buktiPath) }}"
+                                                            class="d-block w-100 rounded" alt="Bukti Foto"
+                                                            style="max-height: 400px; object-fit: cover;"
+                                                            id="carouselImage{{ $item->id }}_{{ $index }}">
+                                                    </a>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#carouselBukti{{ $item->id }}" data-bs-slide="prev"
+                                            id="carouselPrev{{ $item->id }}">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                            data-bs-target="#carouselBukti{{ $item->id }}" data-bs-slide="next"
+                                            id="carouselNext{{ $item->id }}">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                @else
+                                    <p class="text-center text-muted">Bukti belum diunggah</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
     <!-- Modal Tambah -->
     <div class="modal fade" id="tambahLaporanModal" tabindex="-1" aria-labelledby="tambahLaporanModalLabel"
         aria-hidden="true">
@@ -425,19 +421,17 @@
                 <div class="modal-body">
                     <form id="formTambahLaporan" action="{{ route('siswarpl.storeMultiple') }}" method="POST">
                         @csrf
-
-                        <!-- Aktivitas Pertama -->
-                        <h6 class="text-dark font-weight-semibold">Aktivitas 1</h6>
+                        <!-- Laporan Pertama -->
+                        <h6 class="text-dark font-weight-semibold">Silahkan inputkan laporan</h6>
                         <div class="mb-3">
-                            <label for="kategori1" class="form-label">Kategori</label>
+                            <label for="kategori1" class="form-label">Aktivitas</label>
                             <select class="form-select" id="kategori1" name="kategori1" required
                                 onchange="toggleMateriDropdown('kategori1', 'materi1')">
-                                <option disabled selected ="" required>Pilih Kategori</option>
+                                <option disabled selected ="" required>Pilih Aktivitas</option>
                                 <option value="Belajar">Belajar</option>
                                 <option value="Projek">Projek</option>
                             </select>
                         </div>
-
                         <div class="mb-3" id="materi1" style="display: none;">
                             <label for="materi1Select" class="form-label">Materi</label>
                             <select class="form-select" id="materi1Select" name="materi_id1">
@@ -447,40 +441,28 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <hr>
-
-                        <!-- Aktivitas Kedua (Optional) -->
-                        <h6 class="text-dark font-weight-semibold">Aktivitas 2 (Opsional)</h6>
-                        <div class="mb-3">
-                            <label for="kategori2" class="form-label">Kategori</label>
-                            <select class="form-select" id="kategori2" name="kategori2"
-                                onchange="toggleMateriDropdown('kategori2', 'materi2')">
-                                <option selected value="">Pilih Kategori</option>
-                                <option value="Belajar">Belajar</option>
-                                <option value="Projek">Projek</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3" id="materi2" style="display: none;">
-                            <label for="materi2Select" class="form-label">Materi</label>
-                            <select class="form-select" id="materi2Select" name="materi_id2">
-                                <option selected value="">Pilih Materi</option>
-                                @foreach ($materirpl as $item)
-                                    <option value="{{ $item->id }}">{{ $item->materi }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </form>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <button type="submit" form="formTambahLaporan" class="btn btn-info">Simpan</button>
                 </div>
             </div>
         </div>
+        </form>
     </div>
+
+    <script>
+        function toggleMateriDropdown(kategoriId, materiId) {
+            const kategoriSelect = document.getElementById(kategoriId);
+            const materiDiv = document.getElementById(materiId);
+
+            if (kategoriSelect.value === "Belajar") {
+                materiDiv.style.display = "block";
+            } else {
+                materiDiv.style.display = "none";
+            }
+        }
+    </script>
 
     <script>
         @foreach ($siswarpl as $item)
@@ -488,37 +470,25 @@
                 startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
             @endif
         @endforeach
+       
         document.addEventListener('DOMContentLoaded', function() {
-            // Fix the issue with the duplicate function definition
-            function toggleMateriDropdown(selectId, materiId) {
-                const selectElement = document.getElementById(selectId);
-                const materiElement = document.getElementById(materiId);
+    function toggleMateriDropdown() {
+        const kategoriElement = document.getElementById('kategori1');
+        const materiElement = document.getElementById('materi1');
 
-                if (selectElement.value === 'Belajar') {
-                    materiElement.style.display = 'block';
-                } else {
-                    materiElement.style.display = 'none';
-                }
-            }
+        if (kategoriElement.value === 'Belajar') {
+            materiElement.style.display = 'block';
+        } else {
+            materiElement.style.display = 'none';
+        }
+    }
 
-            // Event listener to handle dropdown visibility toggle
-            const kategori1Element = document.getElementById('kategori1');
-            const kategori2Element = document.getElementById('kategori2');
-            const materi1Element = document.getElementById('materi1');
-            const materi2Element = document.getElementById('materi2');
+    // Tambahkan event listener untuk perubahan pada dropdown kategori
+    document.getElementById('kategori1').addEventListener('change', toggleMateriDropdown);
 
-            kategori1Element.addEventListener('change', function() {
-                toggleMateriDropdown('kategori1', 'materi1');
-            });
-
-            kategori2Element.addEventListener('change', function() {
-                toggleMateriDropdown('kategori2', 'materi2');
-            });
-
-            // Set default states on load
-            toggleMateriDropdown('kategori1', 'materi1');
-            toggleMateriDropdown('kategori2', 'materi2');
-        });
+    // Panggil fungsi untuk mengatur tampilan awal saat halaman dimuat
+    toggleMateriDropdown();
+});
 
 
         document.addEventListener('DOMContentLoaded', function() {

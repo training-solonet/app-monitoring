@@ -1,6 +1,6 @@
 <x-app-layout>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
         <x-app.navbar />
         <div class="container-fluid px-5 py-4">
             <div class="mt-4 row">
@@ -65,11 +65,12 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <a href="{{ route('monitoring.index') }}"
-                                            class="btn btn-outline-secondary btn-sm mb-1 w-100">Reset</a>
+                                            class="btn btn-outline-secondary w-100 mb-1"> <i
+                                                class="fa-solid fa-arrows-rotate"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
 
 
@@ -83,14 +84,7 @@
                                             </th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Materi</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Report</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Mulai
-                                            </th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Waktu Selesai
-                                            </th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Status</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Bukti</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Detail</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
                                     </thead>
@@ -105,70 +99,11 @@
                                                     {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
                                                 <td class="align-middle text-center">{{ $item->kategori }}</td>
                                                 <td class="align-middle text-center">
-                                                    {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}</td>
-                                                <td class="align-middle text-center">{{ $item->report }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('l, d M Y H:i') }}
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
-                                                </td>
-                                                <td class="align-middle text-center">{{ $item->status }}</td>
-                                                <td class="align-middle text-center">
                                                     <a class="mb-0" data-bs-toggle="modal"
-                                                        data-bs-target="#ViewBuktiModal{{ $item->id }}">
-                                                        <i class="fa-regular fa-image text-info"></i>
+                                                        data-bs-target="#DetailModal{{ $item->id }}">
+                                                        <i class="fa-solid fa-circle-info"></i>
                                                     </a>
                                                 </td>
-                                                <!-- Modal Lihat Bukti -->
-                                                <div class="modal fade" id="ViewBuktiModal{{ $item->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="ViewBuktiModalLabel{{ $item->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="ViewBuktiModalLabel{{ $item->id }}">Bukti
-                                                                    Laporan</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                @if ($item->bukti)
-                                                                    <div class="row">
-                                                                        @foreach (explode(',', $item->bukti) as $index => $buktiPath)
-                                                                            <div class="col-6 col-md-4 mb-3">
-                                                                                <div class="card shadow-sm">
-                                                                                    <a href="{{ Storage::url($buktiPath) }}"
-                                                                                        target="_blank">
-                                                                                        <img src="{{ Storage::url($buktiPath) }}"
-                                                                                            class="card-img-top"
-                                                                                            alt="Bukti"
-                                                                                            style="max-height: 200px; object-fit: contain;">
-                                                                                    </a>
-                                                                                    <div class="card-body text-center">
-                                                                                        <p class="card-text">
-                                                                                            <small>Bukti
-                                                                                                {{ $index + 1 }}</small>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                @else
-                                                                    <p class="text-center">Bukti belum diunggah</p>
-                                                                @endif
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Tutup</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <td class="align-middle text-center">
                                                     <a href="#" class="text-danger"
                                                         onclick="confirmDelete({{ $item->id }})">
@@ -189,6 +124,101 @@
                                 </table>
                             </div>
                         </div>
+
+                        {{-- Modal Detail --}}
+                        @foreach ($monitoring as $item)
+                            <div class="modal fade" id="DetailModal{{ $item->id }}" tabindex="-1"
+                                aria-labelledby="DetailModalLabel{{ $item->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-md"> <!-- Change modal-lg to modal-md -->
+                                    <div class="modal-content shadow-lg rounded">
+                                        <div class="modal-header bg-info text-white">
+                                            <h5 class="modal-title text-white"
+                                                id="DetailModalLabel{{ $item->id }}">Detail Monitoring</h5>
+                                            <button type="button" class="btn-close text-light"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item"><strong>Materi:</strong>
+                                                            {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}</li>
+                                                        <li class="list-group-item"><strong>Waktu Mulai:</strong>
+                                                            {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                                        </li>
+                                                        <li class="list-group-item"><strong>Waktu Selesai:</strong>
+                                                            {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <strong>Status:</strong>
+                                                            @php
+                                                                $statusClass = match ($item->status) {
+                                                                    'Selesai' => 'btn-success',
+                                                                    'Belum Dimulai' => 'btn-secondary',
+                                                                    'Sedang Berlangsung' => 'btn-info',
+                                                                    default => 'btn-dark',
+                                                                };
+                                                            @endphp
+                                                            <button
+                                                                class="btn {{ $statusClass }} btn-sm mt-3">{{ $item->status }}</button>
+                                                        </li>
+                                                        <li class="list-group-item"><strong>Report:</strong>
+                                                            <textarea class="form-control" rows="4" readonly>{{ $item->report }}</textarea>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="text-center">Bukti</h6>
+                                                    @if ($item->bukti)
+                                                        <div id="carouselBukti{{ $item->id }}"
+                                                            class="carousel slide" data-bs-ride="carousel">
+                                                            <div class="carousel-inner">
+                                                                @foreach (explode(',', $item->bukti) as $index => $buktiPath)
+                                                                    <div
+                                                                        class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                                        <a href="{{ Storage::url($buktiPath) }}"
+                                                                            target="_blank">
+                                                                            <img id="img{{ $item->id }}-{{ $index }}"
+                                                                                src="{{ Storage::url($buktiPath) }}"
+                                                                                class="d-block w-100 rounded"
+                                                                                alt="Bukti"
+                                                                                style="max-height: 400px; object-fit: cover;">
+                                                                        </a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <button id="prevBtn{{ $item->id }}"
+                                                                class="carousel-control-prev" type="button"
+                                                                data-bs-target="#carouselBukti{{ $item->id }}"
+                                                                data-bs-slide="prev">
+                                                                <span class="carousel-control-prev-icon"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button id="nextBtn{{ $item->id }}"
+                                                                class="carousel-control-next" type="button"
+                                                                data-bs-target="#carouselBukti{{ $item->id }}"
+                                                                data-bs-slide="next">
+                                                                <span class="carousel-control-next-icon"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                        </div>
+                                                    @else
+                                                        <p class="text-center text-muted">Bukti belum diunggah</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer bg-light">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
                         <div class="border-top py-3 px-3 d-flex align-items-center">
                             <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
                             <div class="ms-auto">
@@ -201,4 +231,71 @@
             </div>
         </div>
     </main>
+
+    <script>
+        // Helper function to calculate the brightness of an image
+        function getImageBrightness(image) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0, image.width, image.height);
+
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            let r = 0,
+                g = 0,
+                b = 0;
+            let total = data.length / 4;
+
+            for (let i = 0; i < total; i++) {
+                r += data[i * 4];
+                g += data[i * 4 + 1];
+                b += data[i * 4 + 2];
+            }
+
+            r = r / total;
+            g = g / total;
+            b = b / total;
+
+            const brightness = (r * 0.2126 + g * 0.7152 + b * 0.0722); // Luminance calculation
+            return brightness;
+        }
+
+        // Function to update the button colors based on brightness
+        function updateButtonColors(itemId) {
+            const image = document.querySelector(`#img${itemId}`);
+            const prevButton = document.querySelector(`#prevBtn${itemId}`);
+            const nextButton = document.querySelector(`#nextBtn${itemId}`);
+
+            const brightness = getImageBrightness(image);
+
+            // Check if image is dark or light
+            if (brightness < 128) {
+                // Dark image, make buttons light
+                prevButton.style.backgroundColor = '#fff';
+                nextButton.style.backgroundColor = '#fff';
+                prevButton.querySelector('span').style.backgroundColor = '#000';
+                nextButton.querySelector('span').style.backgroundColor = '#000';
+            } else {
+                // Light image, make buttons dark
+                prevButton.style.backgroundColor = '#000';
+                nextButton.style.backgroundColor = '#000';
+                prevButton.querySelector('span').style.backgroundColor = '#fff';
+                nextButton.querySelector('span').style.backgroundColor = '#fff';
+            }
+        }
+
+        // Wait for the modal to be shown and then calculate brightness
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($monitoring as $item)
+                const image = document.querySelector(
+                `#img{{ $item->id }}-0`); // Grab the first image for each item
+                if (image) {
+                    updateButtonColors({{ $item->id }});
+                }
+            @endforeach
+        });
+    </script>
 </x-app-layout>
