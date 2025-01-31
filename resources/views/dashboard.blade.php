@@ -10,6 +10,8 @@
         {{-- Main Container --}}
         <div class="container-fluid py-4 px-5">
             {{-- Header Section --}}
+
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center justify-content-between mx-2">
@@ -71,7 +73,7 @@
                         <div class="card text-center shadow border-0">
                             <div class="card-header text-white"
                                 style="background: linear-gradient(45deg, #66bb6a, #26a69a);">
-                                <h6 class="text-white">Total Waktu Aktivitas Semua Siswa</h6>
+                                <h6 class="text-white">Total Waktu Semua Siswa</h6>
                             </div>
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
