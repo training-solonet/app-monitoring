@@ -71,7 +71,7 @@
                         <div class="card text-center shadow border-0">
                             <div class="card-header text-white"
                                 style="background: linear-gradient(45deg, #66bb6a, #26a69a);">
-                                <h6 class="text-white">Total Waktu Aktivitas Semua Siswa</h6>
+                                <h6 class="text-white">Total Waktu Semua Siswa</h6>
                             </div>
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
