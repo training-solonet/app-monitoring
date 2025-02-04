@@ -340,19 +340,19 @@
                                     <li class="list-group-item"><strong>Waktu Selesai:</strong>
                                         {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
                                     </li>
-                                    <li class="list-group-item">
-                                        <strong>Status:</strong>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <strong class="me-2">Status:</strong>
                                         @php
-                                            $statusClass = match ($item->status) {
-                                                'Selesai' => 'btn-success',
-                                                'Belum Dimulai' => 'btn-secondary',
-                                                'Sedang Berlangsung' => 'btn-info',
-                                                default => 'btn-dark',
+                                            $statusInfo = match ($item->status) {
+                                                'Selesai' => ['text-success', 'bg-light-success', '<i class="fas fa-check-circle text-success"></i>'],
+                                                'Sedang Berlangsung' => ['text-info', 'bg-light-info', '<i class="fas fa-sync-alt text-info"></i>'],
+                                                default => ['text-secondary', 'bg-light-dark', '<i class="fas fa-stopwatch text-dark"></i>'],
                                             };
                                         @endphp
-                                        <button
-                                            class="btn {{ $statusClass }} btn-sm mt-3">{{ $item->status }}</button>
-                                    </li>
+                                        <span class="px-3 py-1 rounded-pill {{ $statusInfo[1] }} {{ $statusInfo[0] }} fw-bold d-inline-block">
+                                            {!! $statusInfo[2] !!} {{ $item->status }}
+                                        </span>
+                                    </li>   
                                     <li class="list-group-item"><strong>Total Waktu:</strong>
                                         @php
                                             $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
