@@ -62,6 +62,8 @@ class SiswaController extends Controller
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
 
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
+
         return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
     }
 

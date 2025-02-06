@@ -1,4 +1,22 @@
 <x-app-layout>
+    <style>
+        .pagination .page-item .page-link {
+            background-color: skyblue !important;
+            color: white !important;
+            border: 1px solid skyblue;
+        }
+    
+        .pagination .page-item.active .page-link {
+            background-color: skyblue !important;
+            border-color: skyblue;
+        }
+    
+        .pagination .page-item .page-link:hover {
+            background-color: royalblue !important;
+            color: white !important;
+        }
+    </style>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <x-app.navbar />
@@ -120,9 +138,16 @@
                                         @endforeach
                                         </td>
                                     </tbody>
-
                                 </table>
                             </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-muted">
+                                    Page {{ $monitoring->currentPage() }} of {{ $monitoring->lastPage() }}
+                                </span>
+                                <div>
+                                    {{ $monitoring->links() }}
+                                </div>
+                            </div>                                          
                         </div>
 
                         {{-- Modal Detail --}}
@@ -153,15 +178,28 @@
                                                             <strong class="me-2">Status:</strong>
                                                             @php
                                                                 $statusInfo = match ($item->status) {
-                                                                    'Selesai' => ['text-success', 'bg-light-success', '<i class="fas fa-check-circle text-success"></i>'],
-                                                                    'Sedang Berlangsung' => ['text-info', 'bg-light-info', '<i class="fas fa-sync-alt text-info"></i>'],
-                                                                    default => ['text-secondary', 'bg-light-dark', '<i class="fas fa-stopwatch text-dark"></i>'],
+                                                                    'Selesai' => [
+                                                                        'text-success',
+                                                                        'bg-light-success',
+                                                                        '<i class="fas fa-check-circle text-success"></i>',
+                                                                    ],
+                                                                    'Sedang Berlangsung' => [
+                                                                        'text-info',
+                                                                        'bg-light-info',
+                                                                        '<i class="fas fa-sync-alt text-info"></i>',
+                                                                    ],
+                                                                    default => [
+                                                                        'text-secondary',
+                                                                        'bg-light-dark',
+                                                                        '<i class="fas fa-stopwatch text-dark"></i>',
+                                                                    ],
                                                                 };
                                                             @endphp
-                                                            <span class="px-3 py-1 rounded-pill {{ $statusInfo[1] }} {{ $statusInfo[0] }} fw-bold d-inline-block">
+                                                            <span
+                                                                class="px-3 py-1 rounded-pill {{ $statusInfo[1] }} {{ $statusInfo[0] }} fw-bold d-inline-block">
                                                                 {!! $statusInfo[2] !!} {{ $item->status }}
                                                             </span>
-                                                        </li>   
+                                                        </li>
                                                         <li class="list-group-item"><strong>Report:</strong>
                                                             <textarea class="form-control" rows="4" readonly>{{ $item->report }}</textarea>
                                                         </li>
@@ -218,14 +256,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-                        <div class="border-top py-3 px-3 d-flex align-items-center">
-                            <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                            <div class="ms-auto">
-                                <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                <button class="btn btn-sm btn-white mb-0">Next</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -291,7 +321,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             @foreach ($monitoring as $item)
                 const image = document.querySelector(
-                `#img{{ $item->id }}-0`); // Grab the first image for each item
+                    `#img{{ $item->id }}-0`); // Grab the first image for each item
                 if (image) {
                     updateButtonColors({{ $item->id }});
                 }
