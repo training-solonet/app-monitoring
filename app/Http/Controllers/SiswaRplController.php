@@ -71,10 +71,8 @@ class SiswaRplController extends Controller
 
     public function updateTime(Request $request, $id)
     {
-        // berisi data siswa yang diambil berdasarkan id dari parameter dan user_id yang terautentikasi melalui Auth::id().
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
-        // mewakili data yang dikirimkan oleh pengguna melalui HTTP request.
         $request->validate([
             'waktu_selesai' => 'required|date_format:H:i',
             'report' => 'required|string',
@@ -82,7 +80,6 @@ class SiswaRplController extends Controller
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        // menyimpan path file bukti yang di-upload. Jika ada file yang di-upload, path-nya disimpan di sini untuk disimpan dalam basis data.
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];
@@ -97,12 +94,9 @@ class SiswaRplController extends Controller
             $filePath = implode(',', $filePaths);
         }
 
-        // menyimpan tanggal dari waktu mulai aktivitas siswa yang diambil dengan menggunakan Carbon::parse($item->waktu_mulai)->format('Y-m-d'). Ini digunakan untuk memastikan waktu selesai memiliki tanggal yang sesuai dengan waktu mulai.
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        // menggabungkan tanggal yang diperoleh dari $currentDate dengan waktu selesai yang dikirimkan oleh pengguna, membentuk format lengkap Y-m-d H:i untuk waktu selesai.
-        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
+        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
 
-        // digunakan untuk memperbarui data siswa dengan informasi yang baru, termasuk waktu selesai, status, laporan, dan bukti file.
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'Selesai',
@@ -112,6 +106,7 @@ class SiswaRplController extends Controller
 
         return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
     }
+
 
     public function storeMultiple(Request $request)
     {
