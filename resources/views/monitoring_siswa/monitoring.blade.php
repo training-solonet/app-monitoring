@@ -179,7 +179,7 @@
                                                             @php
                                                                 $statusInfo = match ($item->status) {
                                                                     'Selesai' => [
-                                                                        'text-success',
+                                                                        'text-successs',
                                                                         'bg-light-success',
                                                                         '<i class="fas fa-check-circle text-success"></i>',
                                                                     ],
