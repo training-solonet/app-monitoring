@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Materi;
 use App\Models\Siswa;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class MonitoringController extends Controller
 {
@@ -47,7 +49,25 @@ class MonitoringController extends Controller
     $materi_monitoring = Materi::all();
 
     // Urutkan berdasarkan created_at terbaru
-    $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10);
+    $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
+        if ($item->waktu_mulai) {
+            $waktuMulai = Carbon::parse($item->waktu_mulai);
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
+    
+            $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
+            $hari = intdiv($totalMenit, 1440);
+            $sisaMenit = $totalMenit % 1440;
+            $jam = intdiv($sisaMenit, 60);
+            $menit = $sisaMenit % 60;
+    
+            $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
+        } else {
+            $item->total_waktu = '-';
+        }
+    
+        return $item;
+    });
+    
 
     return view('monitoring_siswa.monitoring', compact('monitoring', 'materi_monitoring', 'siswa_monitoring'));
 }

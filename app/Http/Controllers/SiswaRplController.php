@@ -46,16 +46,26 @@ class SiswaRplController extends Controller
 
     // Ambil data siswa dan proses total waktu
     $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
-        if ($item->waktu_mulai && $item->waktu_selesai) {
+        if ($item->waktu_mulai) {
             $waktuMulai = Carbon::parse($item->waktu_mulai);
-            $waktuSelesai = Carbon::parse($item->waktu_selesai);
-            $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
+
+            $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
+            $hari = intdiv($totalMenit, 1440);
+            $sisaMenit = $totalMenit % 1440;
+            $jam = intdiv($sisaMenit, 60);
+            $menit = $sisaMenit % 60;
+
+            $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
         } else {
             $item->total_waktu = '-';
         }
 
         return $item;
     });
+
+    
+    
 
     // Data tambahan
     $aktivitasrpl = Aktivitas::all();
