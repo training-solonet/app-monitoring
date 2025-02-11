@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class SiswaRplController extends Controller
 {
     public function index(Request $request)
+
 {
     // Ambil filter dari request
     $statusFilterrpl = $request->get('status', 'all');
@@ -32,14 +33,29 @@ class SiswaRplController extends Controller
     if ($kategoriFilter !== 'all') {
         $siswaQuery->where('kategori', $kategoriFilter);
     }
+    {
+        // : Menyimpan status filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan status aktivitas siswa. Jika tidak ada filter, nilai default adalah 'all' (semua status).
+        $statusFilterrpl = $request->get('status', 'all');
+        // Menyimpan kategori filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan kategori aktivitas siswa. Nilai default adalah 'all'.
+        $kategoriFilter = $request->get('kategori', 'all');
+        // Menyimpan tanggal mulai dan tanggal selesai yang diterima dari input pengguna pada request, digunakan untuk memfilter data siswa berdasarkan tanggal pembuatan aktivitas.
+        $tanggalMulai = $request->get('tanggal_mulai');
+        $tanggalSelesai = $request->get('tanggal_selesai');
+        //  Menyimpan ID pengguna yang sedang terautentikasi (menggunakan Auth::id()), digunakan untuk membatasi hasil query hanya pada siswa yang dimiliki oleh pengguna tersebut.
+        $userId = Auth::id();
 
-    // Filter berdasarkan tanggal mulai dan selesai
-    if ($tanggalMulai) {
-        $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
-    }
-    if ($tanggalSelesai) {
-        $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
-    }
+        // Query dasar
+        $siswaQuery = Siswa::where('user_id', $userId);
+
+        // Filter status
+        if ($statusFilterrpl !== 'all') {
+            $siswaQuery->where('status', $statusFilterrpl);
+        }
+
+        // Filter kategori
+        if ($kategoriFilter !== 'all') {
+            $siswaQuery->where('kategori', $kategoriFilter);
+        }
 
     // Ambil data siswa dan proses total waktu
     $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
@@ -56,18 +72,46 @@ class SiswaRplController extends Controller
             $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
         } else {
             $item->total_waktu = '-';
+
+        // Filter berdasarkan tanggal mulai dan selesai
+        if ($tanggalMulai) {
+            $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
+        }
+        if ($tanggalSelesai) {
+            $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
+
         }
 
-        return $item;
-    });
+        // Ambil data siswa dan proses total waktu
+        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
+            } else {
+                $item->total_waktu = '-';
+            }
 
-    // Data tambahan
-    $aktivitasrpl = Aktivitas::all();
-    $materirpl = Materi::where('jurusan', 'RPL')->get();
+            return $item;
+        });
+
 
     // Return ke view
     return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
 }
+
+
+        // Data tambahan
+        $aktivitasrpl = Aktivitas::all();
+        $materirpl = Materi::where('jurusan', 'RPL')->get();
+
+        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
+        // dd($siswarpl);
+
+        // Return ke view
+        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
+    }
+
 
     public function updateTime(Request $request, $id)
     {
