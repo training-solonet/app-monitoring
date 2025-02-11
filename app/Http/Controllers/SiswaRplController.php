@@ -12,16 +12,18 @@ use Illuminate\Support\Facades\Auth;
 class SiswaRplController extends Controller
 {
     public function index(Request $request)
-
 {
-    // Ambil filter dari request
+    // : Menyimpan status filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan status aktivitas siswa. Jika tidak ada filter, nilai default adalah 'all' (semua status).
     $statusFilterrpl = $request->get('status', 'all');
+    // Menyimpan kategori filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan kategori aktivitas siswa. Nilai default adalah 'all'.
     $kategoriFilter = $request->get('kategori', 'all');
+    // Menyimpan tanggal mulai dan tanggal selesai yang diterima dari input pengguna pada request, digunakan untuk memfilter data siswa berdasarkan tanggal pembuatan aktivitas.
     $tanggalMulai = $request->get('tanggal_mulai');
     $tanggalSelesai = $request->get('tanggal_selesai');
+    //  Menyimpan ID pengguna yang sedang terautentikasi (menggunakan Auth::id()), digunakan untuk membatasi hasil query hanya pada siswa yang dimiliki oleh pengguna tersebut.
     $userId = Auth::id();
 
-    // Query dasar untuk siswa berdasarkan user_id
+    // Query dasar
     $siswaQuery = Siswa::where('user_id', $userId);
 
     // Filter status
@@ -33,90 +35,59 @@ class SiswaRplController extends Controller
     if ($kategoriFilter !== 'all') {
         $siswaQuery->where('kategori', $kategoriFilter);
     }
-    {
-        // : Menyimpan status filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan status aktivitas siswa. Jika tidak ada filter, nilai default adalah 'all' (semua status).
-        $statusFilterrpl = $request->get('status', 'all');
-        // Menyimpan kategori filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan kategori aktivitas siswa. Nilai default adalah 'all'.
-        $kategoriFilter = $request->get('kategori', 'all');
-        // Menyimpan tanggal mulai dan tanggal selesai yang diterima dari input pengguna pada request, digunakan untuk memfilter data siswa berdasarkan tanggal pembuatan aktivitas.
-        $tanggalMulai = $request->get('tanggal_mulai');
-        $tanggalSelesai = $request->get('tanggal_selesai');
-        //  Menyimpan ID pengguna yang sedang terautentikasi (menggunakan Auth::id()), digunakan untuk membatasi hasil query hanya pada siswa yang dimiliki oleh pengguna tersebut.
-        $userId = Auth::id();
 
-        // Query dasar
-        $siswaQuery = Siswa::where('user_id', $userId);
-
-        // Filter status
-        if ($statusFilterrpl !== 'all') {
-            $siswaQuery->where('status', $statusFilterrpl);
-        }
-
-        // Filter kategori
-        if ($kategoriFilter !== 'all') {
-            $siswaQuery->where('kategori', $kategoriFilter);
-        }
+    // Filter berdasarkan tanggal mulai dan selesai
+    if ($tanggalMulai) {
+        $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
+    }
+    if ($tanggalSelesai) {
+        $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
+    }
 
     // Ambil data siswa dan proses total waktu
     $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
-        if ($item->waktu_mulai) {
-            $waktuMulai = Carbon::parse($item->waktu_mulai);
-            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
+    if ($item->waktu_mulai && $item->waktu_selesai) {
+        $waktuMulai = Carbon::parse($item->waktu_mulai);
+        $waktuSelesai = Carbon::parse($item->waktu_selesai);
+        $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
 
-            $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
-            $hari = intdiv($totalMenit, 1440);
-            $sisaMenit = $totalMenit % 1440;
-            $jam = intdiv($sisaMenit, 60);
-            $menit = $sisaMenit % 60;
+        $hari = intdiv($totalMenit, 1440); // 1 hari = 1440 menit (24 jam * 60)
+        $sisaMenit = $totalMenit % 1440;
+        $jam = intdiv($sisaMenit, 60);
+        $menit = $sisaMenit % 60;
 
-            $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
+        if ($hari > 0) {
+            $item->total_waktu = "{$hari} Hari {$jam} Jam {$menit} Menit";
         } else {
-            $item->total_waktu = '-';
-
-        // Filter berdasarkan tanggal mulai dan selesai
-        if ($tanggalMulai) {
-            $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
+            $item->total_waktu = "{$jam} Jam {$menit} Menit";
         }
-        if ($tanggalSelesai) {
-            $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
+    } else {
+        $item->total_waktu = '-';
+    }
 
-        }
+    return $item;
+});
 
-        // Ambil data siswa dan proses total waktu
-        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
-            if ($item->waktu_mulai && $item->waktu_selesai) {
-                $waktuMulai = Carbon::parse($item->waktu_mulai);
-                $waktuSelesai = Carbon::parse($item->waktu_selesai);
-                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
-            } else {
-                $item->total_waktu = '-';
-            }
 
-            return $item;
-        });
+    // Data tambahan
+    $aktivitasrpl = Aktivitas::all();
+    $materirpl = Materi::where('jurusan', 'RPL')->get();
 
+    $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
+    // dd($siswarpl);
 
     // Return ke view
     return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
 }
 
-
-        // Data tambahan
-        $aktivitasrpl = Aktivitas::all();
-        $materirpl = Materi::where('jurusan', 'RPL')->get();
-
-        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
-        // dd($siswarpl);
-
-        // Return ke view
-        return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
-    }
-
+    
 
     public function updateTime(Request $request, $id)
     {
+        // berisi data siswa yang diambil berdasarkan id dari parameter dan user_id yang terautentikasi melalui Auth::id().
         $item = Siswa::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
+        // mewakili data yang dikirimkan oleh pengguna melalui HTTP request.
         $request->validate([
             'waktu_selesai' => 'required|date_format:H:i',
             'report' => 'required|string',
@@ -124,6 +95,7 @@ class SiswaRplController extends Controller
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
+        // menyimpan path file bukti yang di-upload. Jika ada file yang di-upload, path-nya disimpan di sini untuk disimpan dalam basis data.
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];
@@ -138,9 +110,12 @@ class SiswaRplController extends Controller
             $filePath = implode(',', $filePaths);
         }
 
+        // menyimpan tanggal dari waktu mulai aktivitas siswa yang diambil dengan menggunakan Carbon::parse($item->waktu_mulai)->format('Y-m-d'). Ini digunakan untuk memastikan waktu selesai memiliki tanggal yang sesuai dengan waktu mulai.
         $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
-        $newWaktuSelesai = $currentDate . ' ' . $request->waktu_selesai;
+        // menggabungkan tanggal yang diperoleh dari $currentDate dengan waktu selesai yang dikirimkan oleh pengguna, membentuk format lengkap Y-m-d H:i untuk waktu selesai.
+        $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
+        // digunakan untuk memperbarui data siswa dengan informasi yang baru, termasuk waktu selesai, status, laporan, dan bukti file.
         $item->update([
             'waktu_selesai' => $newWaktuSelesai,
             'status' => 'Selesai',
@@ -150,7 +125,6 @@ class SiswaRplController extends Controller
 
         return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
     }
-
 
     public function storeMultiple(Request $request)
     {
