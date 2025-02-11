@@ -356,8 +356,8 @@
                                         {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('l, d M Y H:i') }}
                                     </li>
                                     <li class="list-group-item"><strong>Waktu Selesai:</strong>
-                                        {{ \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') }}
-                                    </li>
+                                        {{ $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai)->locale('id')->translatedFormat('l, d M Y H:i') : now()->locale('id')->translatedFormat('l, d M Y H:i') }}
+                                    </li>                                    
                                     <li class="list-group-item d-flex align-items-center">
                                         <strong class="me-2">Status:</strong>
                                         @php
@@ -373,14 +373,25 @@
                                     </li>   
                                     <li class="list-group-item"><strong>Total Waktu:</strong>
                                         @php
-                                            $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
-                                            $endTime = \Carbon\Carbon::parse($item->waktu_selesai);
-                                            $diffInMinutes = $startTime->diffInMinutes($endTime);
-                                            $hours = intdiv($diffInMinutes, 60); // Calculate hours
-                                            $minutes = $diffInMinutes % 60; // Calculate remaining minutes
+                                            if ($item->waktu_mulai) {
+                                                $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
+                                                $endTime = $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai) : \Carbon\Carbon::now();
+                                                $totalMenit = $startTime->diffInMinutes($endTime);
+                                    
+                                                $hari = intdiv($totalMenit, 1440);
+                                                $sisaMenit = $totalMenit % 1440;
+                                                $jam = intdiv($sisaMenit, 60);
+                                                $menit = $sisaMenit % 60;
+                                    
+                                                $totalWaktu = ($hari > 0 ? "$hari Hari " : "") . "$jam Jam $menit Menit";
+                                            } else {
+                                                $totalWaktu = '-';
+                                            }
                                         @endphp
-                                        {{ $hours }} Jam {{ $minutes }} Menit
+                                        {{ $totalWaktu }}
                                     </li>
+                                    
+                                    
                                 </ul>
                             </div>
                             <div class="col-md-6">

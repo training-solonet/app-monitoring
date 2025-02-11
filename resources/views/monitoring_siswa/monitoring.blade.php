@@ -179,7 +179,7 @@
                                                             @php
                                                                 $statusInfo = match ($item->status) {
                                                                     'Selesai' => [
-                                                                        'text-success',
+                                                                        'text-successs',
                                                                         'bg-light-success',
                                                                         '<i class="fas fa-check-circle text-success"></i>',
                                                                     ],
@@ -200,6 +200,25 @@
                                                                 {!! $statusInfo[2] !!} {{ $item->status }}
                                                             </span>
                                                         </li>
+                                                        <li class="list-group-item"><strong>Total Waktu:</strong>
+                                                            @php
+                                                                if ($item->waktu_mulai) {
+                                                                    $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
+                                                                    $endTime = $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai) : \Carbon\Carbon::now();
+                                                                    $totalMenit = $startTime->diffInMinutes($endTime);
+                                                        
+                                                                    $hari = intdiv($totalMenit, 1440);
+                                                                    $sisaMenit = $totalMenit % 1440;
+                                                                    $jam = intdiv($sisaMenit, 60);
+                                                                    $menit = $sisaMenit % 60;
+                                                        
+                                                                    $totalWaktu = ($hari > 0 ? "$hari Hari " : "") . "$jam Jam $menit Menit";
+                                                                } else {
+                                                                    $totalWaktu = '-';
+                                                                }
+                                                            @endphp
+                                                            {{ $totalWaktu }}
+                                                        </li>                                                        
                                                         <li class="list-group-item"><strong>Report:</strong>
                                                             <textarea class="form-control" rows="4" readonly>{{ $item->report }}</textarea>
                                                         </li>

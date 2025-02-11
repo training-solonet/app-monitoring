@@ -12,6 +12,27 @@ use Illuminate\Support\Facades\Auth;
 class SiswaRplController extends Controller
 {
     public function index(Request $request)
+
+{
+    // Ambil filter dari request
+    $statusFilterrpl = $request->get('status', 'all');
+    $kategoriFilter = $request->get('kategori', 'all');
+    $tanggalMulai = $request->get('tanggal_mulai');
+    $tanggalSelesai = $request->get('tanggal_selesai');
+    $userId = Auth::id();
+
+    // Query dasar untuk siswa berdasarkan user_id
+    $siswaQuery = Siswa::where('user_id', $userId);
+
+    // Filter status
+    if ($statusFilterrpl !== 'all') {
+        $siswaQuery->where('status', $statusFilterrpl);
+    }
+
+    // Filter kategori
+    if ($kategoriFilter !== 'all') {
+        $siswaQuery->where('kategori', $kategoriFilter);
+    }
     {
         // : Menyimpan status filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan status aktivitas siswa. Jika tidak ada filter, nilai default adalah 'all' (semua status).
         $statusFilterrpl = $request->get('status', 'all');
@@ -36,12 +57,29 @@ class SiswaRplController extends Controller
             $siswaQuery->where('kategori', $kategoriFilter);
         }
 
+    // Ambil data siswa dan proses total waktu
+    $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
+        if ($item->waktu_mulai) {
+            $waktuMulai = Carbon::parse($item->waktu_mulai);
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
+
+            $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
+            $hari = intdiv($totalMenit, 1440);
+            $sisaMenit = $totalMenit % 1440;
+            $jam = intdiv($sisaMenit, 60);
+            $menit = $sisaMenit % 60;
+
+            $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
+        } else {
+            $item->total_waktu = '-';
+
         // Filter berdasarkan tanggal mulai dan selesai
         if ($tanggalMulai) {
             $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
         }
         if ($tanggalSelesai) {
             $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
+
         }
 
         // Ambil data siswa dan proses total waktu
@@ -57,6 +95,12 @@ class SiswaRplController extends Controller
             return $item;
         });
 
+
+    // Return ke view
+    return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
+}
+
+
         // Data tambahan
         $aktivitasrpl = Aktivitas::all();
         $materirpl = Materi::where('jurusan', 'RPL')->get();
@@ -67,6 +111,7 @@ class SiswaRplController extends Controller
         // Return ke view
         return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
     }
+
 
     public function updateTime(Request $request, $id)
     {

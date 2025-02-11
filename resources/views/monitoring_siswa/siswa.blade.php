@@ -453,13 +453,17 @@
                                     <li class="list-group-item"><strong>Total Waktu:</strong>
                                         @php
                                             $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
-                                            $endTime = \Carbon\Carbon::parse($item->waktu_selesai);
+                                            $endTime = $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai) : \Carbon\Carbon::now(); // Waktu selesai real-time jika masih berlangsung
                                             $diffInMinutes = $startTime->diffInMinutes($endTime);
-                                            $hours = intdiv($diffInMinutes, 60); // Calculate hours
-                                            $minutes = $diffInMinutes % 60; // Calculate remaining minutes
+                                            
+                                            $days = intdiv($diffInMinutes, 1440);
+                                            $remainingMinutes = $diffInMinutes % 1440;
+                                            $hours = intdiv($remainingMinutes, 60);
+                                            $minutes = $remainingMinutes % 60;
                                         @endphp
-                                        {{ $hours }} Jam {{ $minutes }} Menit
+                                        {{ $days > 0 ? "$days Hari " : "" }}{{ $hours }} Jam {{ $minutes }} Menit
                                     </li>
+                                    
                                 </ul>
                             </div>
                             <div class="col-md-6">
