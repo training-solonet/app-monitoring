@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 class MonitoringController extends Controller
 {
-    public function index(Request $request)
+
+public function index(Request $request)
 {
     $nama_siswa = $request->input('nama_siswa');
     $status = $request->input('status');
@@ -19,55 +20,61 @@ class MonitoringController extends Controller
     $tanggal_mulai = $request->input('tanggal_mulai');
     $tanggal_selesai = $request->input('tanggal_selesai');
 
+    // Query monitoring siswa
     $monitoring = Siswa::query();
 
+    // Filter berdasarkan nama siswa
     if ($nama_siswa) {
         $monitoring->whereHas('siswa_monitoring', function ($query) use ($nama_siswa) {
-            $query->where('username', $nama_siswa);
+            $query->where('username', 'like', "%$nama_siswa%");
         });
     }
 
+    // Filter berdasarkan status
     if ($status) {
         $monitoring->where('status', $status);
     }
 
+    // Filter berdasarkan jurusan
     if ($jurusan) {
         $monitoring->whereHas('siswa_monitoring', function ($query) use ($jurusan) {
             $query->where('jurusan', $jurusan);
         });
     }
 
+    // Filter berdasarkan tanggal mulai
     if ($tanggal_mulai) {
         $monitoring->whereDate('waktu_mulai', '>=', $tanggal_mulai);
     }
 
+    // Filter berdasarkan tanggal selesai
     if ($tanggal_selesai) {
         $monitoring->whereDate('waktu_selesai', '<=', $tanggal_selesai);
     }
 
+    // Ambil daftar siswa dan materi untuk dropdown/filtering
     $siswa_monitoring = User::where('role', 'siswa')->get();
     $materi_monitoring = Materi::all();
 
-    // Urutkan berdasarkan created_at terbaru
+    // Urutkan data berdasarkan created_at terbaru dan paginasi
     $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
         if ($item->waktu_mulai) {
             $waktuMulai = Carbon::parse($item->waktu_mulai);
             $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
-    
+
             $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
             $hari = intdiv($totalMenit, 1440);
             $sisaMenit = $totalMenit % 1440;
             $jam = intdiv($sisaMenit, 60);
             $menit = $sisaMenit % 60;
-    
+
             $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
         } else {
             $item->total_waktu = '-';
         }
-    
+
         return $item;
     });
-    
 
     return view('monitoring_siswa.monitoring', compact('monitoring', 'materi_monitoring', 'siswa_monitoring'));
 }

@@ -13,17 +13,14 @@ class SiswaRplController extends Controller
 {
     public function index(Request $request)
 {
-    // : Menyimpan status filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan status aktivitas siswa. Jika tidak ada filter, nilai default adalah 'all' (semua status).
+    // Ambil filter dari request
     $statusFilterrpl = $request->get('status', 'all');
-    // Menyimpan kategori filter yang dipilih oleh pengguna pada request, digunakan untuk menyaring data berdasarkan kategori aktivitas siswa. Nilai default adalah 'all'.
     $kategoriFilter = $request->get('kategori', 'all');
-    // Menyimpan tanggal mulai dan tanggal selesai yang diterima dari input pengguna pada request, digunakan untuk memfilter data siswa berdasarkan tanggal pembuatan aktivitas.
     $tanggalMulai = $request->get('tanggal_mulai');
     $tanggalSelesai = $request->get('tanggal_selesai');
-    //  Menyimpan ID pengguna yang sedang terautentikasi (menggunakan Auth::id()), digunakan untuk membatasi hasil query hanya pada siswa yang dimiliki oleh pengguna tersebut.
     $userId = Auth::id();
 
-    // Query dasar
+    // Query dasar untuk siswa berdasarkan user_id
     $siswaQuery = Siswa::where('user_id', $userId);
 
     // Filter status
@@ -64,21 +61,13 @@ class SiswaRplController extends Controller
         return $item;
     });
 
-    
-    
-
     // Data tambahan
     $aktivitasrpl = Aktivitas::all();
     $materirpl = Materi::where('jurusan', 'RPL')->get();
 
-    $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
-    // dd($siswarpl);
-
     // Return ke view
     return view('monitoring_siswa.siswarpl', compact('siswarpl', 'materirpl', 'aktivitasrpl', 'statusFilterrpl', 'kategoriFilter'));
 }
-
-    
 
     public function updateTime(Request $request, $id)
     {
