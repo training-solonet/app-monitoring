@@ -47,23 +47,17 @@ class SiswaController extends Controller
 
         // Proses data siswa dan hitung total waktu
         $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
-            $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
-            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now(); // Waktu selesai real-time jika masih berlangsung
-            
-            if ($waktuMulai) {
-                $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
-                $hari = intdiv($totalMenit, 1440);
-                $sisaMenit = $totalMenit % 1440;
-                $jam = intdiv($sisaMenit, 60);
-                $menit = $sisaMenit % 60;
-    
-                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : "") . "{$jam} Jam {$menit} Menit";
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
+                $item->total_waktu = $waktuSelesai->diff($waktuMulai)->format('%H:%I:%S');
             } else {
                 $item->total_waktu = '-';
             }
-    
+
             return $item;
         });
+
         // mengambil seluruh tabel data aktivitas
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
