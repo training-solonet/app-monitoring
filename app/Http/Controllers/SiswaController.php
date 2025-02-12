@@ -36,8 +36,11 @@ class SiswaController extends Controller
 
         $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
             $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
+
             $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
-            
+           
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now(); // Waktu selesai real-time jika masih berlangsung
+
             if ($waktuMulai) {
                 $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
                 $hari = intdiv($totalMenit, 1440);
@@ -50,6 +53,12 @@ class SiswaController extends Controller
                 $item->total_waktu = '-';
             }
             
+
+                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '')."{$jam} Jam {$menit} Menit";
+            } else {
+                $item->total_waktu = '-';
+            }
+
             return $item;
         });
 
