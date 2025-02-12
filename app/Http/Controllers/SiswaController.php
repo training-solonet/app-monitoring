@@ -49,31 +49,31 @@ class SiswaController extends Controller
         $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
             $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
             $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now(); // Waktu selesai real-time jika masih berlangsung
-        
+
             if ($waktuMulai && $waktuSelesai) {
                 $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
                 $hari = intdiv($totalMenit, 1440);
                 $sisaMenit = $totalMenit % 1440;
                 $jam = intdiv($sisaMenit, 60);
                 $menit = $sisaMenit % 60;
-        
-                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '') . "{$jam} Jam {$menit} Menit";
+
+                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '')."{$jam} Jam {$menit} Menit";
             } else {
                 $item->total_waktu = '-';
             }
-        
+
             return $item;
         });
-        
+
         // mengambil seluruh tabel data aktivitas
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
-        
+
         // Gunakan paginate setelah pemrosesan data
         $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
-        
+
         return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
-    }        
+    }
 
     public function updateTime(Request $request, $id)
     {
