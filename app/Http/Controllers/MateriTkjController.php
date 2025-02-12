@@ -12,10 +12,9 @@ class MateriTkjController extends Controller
     {
         // Menyimpan koleksi data materi yang memiliki jurusan 'TKJ' dengan pagination
         $materitkj = MateriTkj::where('jurusan', 'TKJ')->paginate(5);
-    
+
         return view('pembimbing.materi', compact('materitkj'));
     }
-    
 
     public function store(Request $request)
     {

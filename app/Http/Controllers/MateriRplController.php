@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MateriTkj;
 use App\Models\Materi;
+use App\Models\MateriTkj;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class MateriRplController extends Controller
 {
     public function index()
-{
-    // Mengambil data materi yang memiliki jurusan 'RPL' dengan pagination
-    $materirpl = Materi::where('jurusan', 'RPL')->paginate(5);
+    {
+        // Mengambil data materi yang memiliki jurusan 'RPL' dengan pagination
+        $materirpl = Materi::where('jurusan', 'RPL')->paginate(5);
 
-    return view('pembimbing.materirpl', compact('materirpl'));
-}
+        return view('pembimbing.materirpl', compact('materirpl'));
+    }
 
     public function store(Request $request)
     {
