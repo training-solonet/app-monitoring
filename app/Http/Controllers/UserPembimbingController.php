@@ -10,7 +10,7 @@ class UserPembimbingController extends Controller
     public function index()
     {
         // mengambil data user dengan role pembimbing
-        $userpembimbing = User::where('role', 'pembimbing')->get();
+        $userpembimbing = User::where('role', 'pembimbing')->paginate(10);
 
         return view('admin.pembimbing', compact('userpembimbing'));
     }
