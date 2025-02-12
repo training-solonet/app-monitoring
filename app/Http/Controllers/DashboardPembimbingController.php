@@ -47,7 +47,6 @@ class DashboardPembimbingController extends Controller
             $activityData = collect([]);
         }
 
-
         // Mengambil jumlah siswa yang terkait dengan setiap materi (materi_id) dan mengelompokkan berdasarkan materi_id.
         $materiData = Siswa::with('data_materi')
             ->selectRaw('COUNT(*) as count, materi_id')
@@ -60,14 +59,13 @@ class DashboardPembimbingController extends Controller
         // buat array sesuai format chart
         $data_grafik_pie_chart = [];
         foreach ($materiData as $item) {
-            if (!empty($item->data_materi)) { // Cek apakah ada data materi
+            if (! empty($item->data_materi)) { // Cek apakah ada data materi
                 $data_grafik_pie_chart[] = [
                     'total' => $item->count,
                     'materi' => $item->data_materi->materi ?? 'Data Tidak Tersedia',
                 ];
             }
         }
-
 
         // Mengubah format data
         // Mengubah format data
