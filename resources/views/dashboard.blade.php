@@ -193,12 +193,12 @@
             const s = seconds % 60;
             return `${h}h ${m}m ${s}s`;
         }
-    
+
         async function pilih_user() {
             var userId = document.getElementById('select_user').value;
             location.replace("dashboardpembimbing?user_id=" + userId);
         }
-    
+
         // Gunakan Blade untuk menghindari error jika variabel tidak tersedia
         @if (!isset($activityData) || $activityData->isEmpty())
             const activityData = {};
@@ -207,13 +207,17 @@
             const activityData = @json($activityData->toArray());
             const activityLabels = @json(array_keys($activityData->toArray()));
         @endif
-    
+
         @if (!empty($formattedData) && count($formattedData) > 0)
             const piePercentageData = @json($formattedData);
         @else
             const piePercentageData = {};
         @endif
-    
+
+        if (!document.getElementById('chart-pie')) {
+            console.error("Canvas chart-pie tidak ditemukan!");
+        }
+
         function drawPie(piePercentageData, activityData, activityLabels) {
             const ctxPie = document.getElementById('chart-pie').getContext('2d');
             const gradientColorsPie = [];
@@ -224,14 +228,14 @@
                 'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
                 'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
             ];
-    
+
             colors.forEach((color) => {
                 const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
                 gradient.addColorStop(0, color);
                 gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
                 gradientColorsPie.push(gradient);
             });
-    
+
             const pieChart = new Chart(ctxPie, {
                 type: 'doughnut',
                 data: {
@@ -261,26 +265,29 @@
                 }
             });
         }
-    
-        drawPie(piePercentageData, activityData, activityLabels);
-    
+        window.onload = function() {
+            drawPie(piePercentageData, activityData, activityLabels);
+        };
+
+
         document.getElementById('show-diagram').addEventListener('click', function() {
             document.getElementById('diagram-content').style.display = 'block';
             document.getElementById('detail-content').style.display = 'none';
+            drawPie(piePercentageData, activityData, activityLabels);
         });
-    
+
         document.getElementById('show-detail').addEventListener('click', function() {
             document.getElementById('detail-content').style.display = 'block';
             document.getElementById('diagram-content').style.display = 'none';
         });
-    
+
         // Bar Chart
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
         const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
-    
+
         gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
         gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
-    
+
         const barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
@@ -330,6 +337,6 @@
             }
         });
     </script>
-    
+
 
 </x-app-layout>
