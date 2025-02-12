@@ -22,7 +22,7 @@ class UserSiswaController extends Controller
         }
 
         // mengambil data user sesuai dengan rolenya siswa
-        $usersiswa = User::where('role', 'siswa')->get();
+        $usersiswa = User::where('role', 'siswa')->paginate(10);
 
         return view('admin.siswa', compact('usersiswa'));
     }

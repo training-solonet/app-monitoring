@@ -13,7 +13,7 @@ class MateriController extends Controller
         $userJurusan = Auth::user()->jurusan;
 
         // Mengambil materi berdasarkan jurusan user
-        $materi = Materi::where('jurusan', $userJurusan)->get();
+        $materi = Materi::where('jurusan', $userJurusan)->paginate(10);
 
         return view('monitoring_siswa.materi', compact('materi'));
     }

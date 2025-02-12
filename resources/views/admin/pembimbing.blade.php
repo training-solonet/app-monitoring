@@ -2,6 +2,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
+    <style>
+        .pagination .page-item .page-link {
+            background-color: skyblue !important;
+            color: white !important;
+            border: 1px solid skyblue;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: skyblue !important;
+            border-color: skyblue;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: royalblue !important;
+            color: white !important;
+        }
+    </style>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
@@ -37,7 +54,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body px-0 py-0">
-                                        
+
                                             <div class="table-responsive p-0">
                                                 <div class="table-responsive p-0">
                                                     <table class="table align-items-center mb-0">
@@ -80,21 +97,28 @@
                                                                             {{ $item->password }}</p>
                                                                     </td> --}}
                                                                     <td class="align-middle text-center">
-                                                                        @if($item->status == 'Aktif')
-                                                                            <span class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
+                                                                        @if ($item->status == 'Aktif')
+                                                                            <span
+                                                                                class="badge badge-sm border border-success text-uppercase text-success bg-success">{{ $item->status }}</span>
                                                                         @elseif($item->status == 'Tidak Aktif')
-                                                                            <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
+                                                                            <span
+                                                                                class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">{{ $item->status }}</span>
                                                                         @endif
                                                                     </td>
-                                                                    
+
                                                                     <td class="align-middle text-center">
-                                                                        <a href="#" class="text-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id }}">
+                                                                        <a href="#" class="text-warning"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editModal{{ $item->id }}">
                                                                             <i class="fas fa-edit"></i>
                                                                         </a>
-                                                                        <a href="#" class="text-danger" onclick="confirmDelete({{ $item->id }})">
+                                                                        <a href="#" class="text-danger"
+                                                                            onclick="confirmDelete({{ $item->id }})">
                                                                             <i class="fas fa-trash-alt"></i>
                                                                         </a>
-                                                                        <form id="delete-form-{{ $item->id }}" action="{{ route('userpembimbing.destroy', $item->id) }}" method="POST" style="display: none;">
+                                                                        <form id="delete-form-{{ $item->id }}"
+                                                                            action="{{ route('userpembimbing.destroy', $item->id) }}"
+                                                                            method="POST" style="display: none;">
                                                                             @csrf
                                                                             @method('DELETE')
                                                                         </form>
@@ -111,11 +135,13 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="border-top py-3 px-3 d-flex align-items-center">
-                                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                                                <div class="ms-auto">
-                                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                            <div class="d-flex justify-content-between m-3 align-items-center">
+                                                <span class="text-muted">
+                                                    Page {{ $userpembimbing->currentPage() }} of
+                                                    {{ $userpembimbing->lastPage() }}
+                                                </span>
+                                                <div>
+                                                    {{ $userpembimbing->links() }}
                                                 </div>
                                             </div>
                                         </div>
@@ -181,41 +207,43 @@
 
 {{-- <!--Modal Edit--> --}}
 @foreach ($userpembimbing as $item)
-<div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit Pembimbing</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1"
+        aria-labelledby="editModalLabel{{ $item->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel{{ $item->id }}">Edit Pembimbing</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('userpembimbing.update', $item->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                value="{{ $item->username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password" name="password"
+                                value="{{ $item->password }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status">Status</label>
+                            <select name="status" id="status" class="form-select">
+                                <option disabled selected>Pilih Status</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
-            <form action="{{ route('userpembimbing.update', $item->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" value="{{ $item->username }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="password" value="{{ $item->password }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-select">
-                            <option disabled selected>Pilih Status</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Tidak Aktif">Tidak Aktif</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 @endforeach
-

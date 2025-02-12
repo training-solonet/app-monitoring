@@ -3,6 +3,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
+    <style>
+        .pagination .page-item .page-link {
+            background-color: skyblue !important;
+            color: white !important;
+            border: 1px solid skyblue;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: skyblue !important;
+            border-color: skyblue;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: royalblue !important;
+            color: white !important;
+        }
+    </style>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="px-5 py-4 container-fluid">
@@ -86,7 +103,7 @@
                                                                         <p
                                                                             class="text-sm text-dark font-weight-semibold mb-0">
                                                                             {{ $item->username }}</p>
-                                                                    {{-- </td>
+                                                                        {{-- </td>
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->password }}</p>
@@ -101,7 +118,7 @@
                                                                             {{ \Carbon\Carbon::parse($item->tanggal_selesai)->locale('id')->translatedFormat('l, d-m-Y') }}
                                                                         </p>
                                                                     </td>
-                                                                    
+
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
                                                                             {{ $item->masa_pkl }} Bulan
@@ -152,11 +169,13 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="border-top py-3 px-3 d-flex align-items-center">
-                                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                                                <div class="ms-auto">
-                                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                            <div class="d-flex justify-content-between m-3 align-items-center">
+                                                <span class="text-muted">
+                                                    Page {{ $usersiswa->currentPage() }} of
+                                                    {{ $usersiswa->lastPage() }}
+                                                </span>
+                                                <div>
+                                                    {{ $usersiswa->links() }}
                                                 </div>
                                             </div>
                                         </div>
@@ -200,14 +219,14 @@
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username"
-                            placeholder="Username" required>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                            required>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
                         <input type="text" class="form-control" id="password" name="password"
-                        placeholder="Password" required>
+                            placeholder="Password" required>
                     </div>
                     <div class="mb-3">
                         <label for="jurusan" class="form-label">Jurusan</label>

@@ -1,5 +1,22 @@
 <x-app-layout>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .pagination .page-item .page-link {
+            background-color: skyblue !important;
+            color: white !important;
+            border: 1px solid skyblue;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: skyblue !important;
+            border-color: skyblue;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: royalblue !important;
+            color: white !important;
+        }
+    </style>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="px-5 py-4 container-fluid">
@@ -80,11 +97,12 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="border-top py-3 px-3 d-flex align-items-center">
-                                                <p class="font-weight-semibold mb-0 text-dark text-sm">Page 1 of 10</p>
-                                                <div class="ms-auto">
-                                                    <button class="btn btn-sm btn-white mb-0">Previous</button>
-                                                    <button class="btn btn-sm btn-white mb-0">Next</button>
+                                            <div class="d-flex justify-content-between m-3 align-items-center">
+                                                <span class="text-muted">
+                                                    Page {{ $materi->currentPage() }} of {{ $materi->lastPage() }}
+                                                </span>
+                                                <div>
+                                                    {{ $materi->links() }}
                                                 </div>
                                             </div>
                                         </div>
