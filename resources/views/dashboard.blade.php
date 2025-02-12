@@ -11,7 +11,7 @@
         <div class="container-fluid py-4 px-5">
             {{-- Header Section --}}
 
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center justify-content-between mx-2">
@@ -106,7 +106,7 @@
                             <div class="progress-bar" role="progressbar"
                                 style="width: {{ $persentaseRPL ?? 0 }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
                                 aria-valuenow="{{ $persentaseRPL ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
-                                {{ $persentaseRPL ? number_format($persentaseRPL, 2) . '%' : 'Data tidak tersedia' }}
+                                {{ isset($persentaseRPL) ? number_format($persentaseRPL, 2) . '%' : 'Data tidak tersedia' }}
                             </div>
                         </div>
                     </div>
@@ -118,8 +118,9 @@
                             <div class="progress-bar" role="progressbar"
                                 style="width: {{ $persentaseTKJ ?? 0 }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
                                 aria-valuenow="{{ $persentaseTKJ ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
-                                {{ $persentaseTKJ ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
+                                {{ isset($persentaseTKJ) ? number_format($persentaseTKJ, 2) . '%' : 'Data tidak tersedia' }}
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -133,16 +134,20 @@
                         <p>
                             <select name="user" class="rounded p-1" id="select_user" onchange="pilih_user()">
                                 <option value="" disabled selected>Pilih Nama Siswa</option>
-                                @foreach ($userList as $user)
-                                    @if ($user_id == $user->id)
-                                        <option value="{{ $user->id }}" selected>{{ $user->username }}</option>
-                                    @else
-                                        <option value="{{ $user->id }}">{{ $user->username }}</option>
-                                    @endif
-                                @endforeach
+                                @if (!empty($userList) && count($userList) > 0)
+                                    @foreach ($userList as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $user_id == $user->id ? 'selected' : '' }}>
+                                            {{ $user->username }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option value="">Data tidak tersedia</option>
+                                @endif
+
                             </select>
-                            <a href="https://monitoring.connectis.my.id/dashboardpembimbing" class="btn btn-outline-secondary btn-sm"
-                                style="margin-top: 10px">
+                            <a href="https://monitoring.connectis.my.id/dashboardpembimbing"
+                                class="btn btn-outline-secondary btn-sm" style="margin-top: 10px">
                                 <i class="fa-solid fa-arrows-rotate"></i>
                             </a>
                         </p>
@@ -188,21 +193,28 @@
             const s = seconds % 60;
             return `${h}h ${m}m ${s}s`;
         }
-
+    
         async function pilih_user() {
             var userId = document.getElementById('select_user').value;
             location.replace("dashboardpembimbing?user_id=" + userId);
         }
-
-        const piePercentageData = @json($formattedData);
-        const activityData = @json($activityData->toArray());
-        const activityLabels = @json(array_keys($activityData->toArray()));
-
-        function drawPie(
-            piePercentageData,
-            activityData,
-            activityLabels
-        ) {
+    
+        // Gunakan Blade untuk menghindari error jika variabel tidak tersedia
+        @if (!isset($activityData) || $activityData->isEmpty())
+            const activityData = {};
+            const activityLabels = [];
+        @else
+            const activityData = @json($activityData->toArray());
+            const activityLabels = @json(array_keys($activityData->toArray()));
+        @endif
+    
+        @if (!empty($formattedData) && count($formattedData) > 0)
+            const piePercentageData = @json($formattedData);
+        @else
+            const piePercentageData = {};
+        @endif
+    
+        function drawPie(piePercentageData, activityData, activityLabels) {
             const ctxPie = document.getElementById('chart-pie').getContext('2d');
             const gradientColorsPie = [];
             const colors = [
@@ -212,14 +224,14 @@
                 'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
                 'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
             ];
-
+    
             colors.forEach((color) => {
                 const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
                 gradient.addColorStop(0, color);
                 gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
                 gradientColorsPie.push(gradient);
             });
-
+    
             const pieChart = new Chart(ctxPie, {
                 type: 'doughnut',
                 data: {
@@ -248,40 +260,34 @@
                     }
                 }
             });
-
         }
-
-        drawPie(
-            piePercentageData,
-            activityData,
-            activityLabels
-        );
-
-        // drawPieCard($persentaseWaktuPerKategori, $activityData);
+    
+        drawPie(piePercentageData, activityData, activityLabels);
+    
         document.getElementById('show-diagram').addEventListener('click', function() {
             document.getElementById('diagram-content').style.display = 'block';
             document.getElementById('detail-content').style.display = 'none';
         });
-
+    
         document.getElementById('show-detail').addEventListener('click', function() {
             document.getElementById('detail-content').style.display = 'block';
             document.getElementById('diagram-content').style.display = 'none';
         });
-
+    
         // Bar Chart
         const ctxBar = document.getElementById('chart-bar').getContext('2d');
         const gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
-
+    
         gradientBar.addColorStop(0, 'rgba(54, 162, 235, 1)');
         gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
-
+    
         const barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: activityLabels,
                 datasets: [{
                     label: 'Jumlah Aktivitas',
-                    data: activityData,
+                    data: Object.values(activityData),
                     backgroundColor: gradientBar,
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 2,
@@ -324,5 +330,6 @@
             }
         });
     </script>
+    
 
 </x-app-layout>

@@ -14,6 +14,7 @@ class DashboardPembimbingController extends Controller
     public function index(Request $request)
     {
         // Mengambil daftar pengguna dengan role siswa
+        $userList = User::all();
         $userList = User::where('role', 'siswa')->get();
 
         // Menghitung jumlah data materi sesuai jurusan
@@ -41,6 +42,12 @@ class DashboardPembimbingController extends Controller
             ->groupBy('kategori')
             ->pluck('count', 'kategori');
 
+        // Jika $activityData kosong, set nilai default
+        if ($activityData->isEmpty()) {
+            $activityData = collect([]);
+        }
+
+
         // Mengambil jumlah siswa yang terkait dengan setiap materi (materi_id) dan mengelompokkan berdasarkan materi_id.
         $materiData = Siswa::with('data_materi')
             ->selectRaw('COUNT(*) as count, materi_id')
@@ -53,13 +60,16 @@ class DashboardPembimbingController extends Controller
         // buat array sesuai format chart
         $data_grafik_pie_chart = [];
         foreach ($materiData as $item) {
-            // Pastikan data_materi tidak null sebelum mengakses properti materi
-            $data_grafik_pie_chart[] = [
-                'total' => $item->count,
-                'materi' => $item->data_materi?->materi ?? 'Data Tidak Tersedia', // Gunakan null-safe operator
-            ];
+            if (!empty($item->data_materi)) { // Cek apakah ada data materi
+                $data_grafik_pie_chart[] = [
+                    'total' => $item->count,
+                    'materi' => $item->data_materi->materi ?? 'Data Tidak Tersedia',
+                ];
+            }
         }
 
+
+        // Mengubah format data
         // Mengubah format data
         $formattedData = [];
         foreach ($data_grafik_pie_chart as $item) {
@@ -70,6 +80,10 @@ class DashboardPembimbingController extends Controller
         // Mengambil kategori Siswa Rpl
         $jumlahDataRPL = Siswa::whereIn('kategori', ['Belajar', 'Projek'])
             ->count();
+
+        $jumlahDataRPL = $jumlahDataRPL ?? 0;
+        $totalAktivitas = $totalAktivitas ?? 1; // Hindari pembagian dengan nol
+        $persentaseRPL = ($jumlahDataRPL / $totalAktivitas) * 100;
 
         // Mengambil kategori Siswa Tkj
         $jumlahDataTKJ = Siswa::whereIn('kategori', ['Dikantor', 'Keluar Dengan Teknisi'])
