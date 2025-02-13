@@ -17,6 +17,7 @@ use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
+use App\Http\Controllers\DokumentasiController;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -130,8 +131,4 @@ Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.s
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
 
-Route::get('/download-dokumentasi', function () {
-    $filePath = public_path('Dokumentasi Monitoring.docx');
-
-    return Response::download($filePath, 'Dokumentasi Monitoring.docx');
-})->name('download.dokumentasi');
+Route::get('/download-dokumentasi', [DokumentasiController::class, 'downloadPDF'])->name('download.dokumentasi');
