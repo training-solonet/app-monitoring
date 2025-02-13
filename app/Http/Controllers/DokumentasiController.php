@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\PDF;
+// use Barryvdh\DomPDF\PDF;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DokumentasiController extends Controller
 {
@@ -16,6 +18,9 @@ class DokumentasiController extends Controller
         $pdf->loadHTML($html);
         
         // Download file PDF
+
+        $pdf = Pdf::loadHTML($html);
+
         return $pdf->download('Dokumentasi_Monitoring.pdf');
     }
 }
