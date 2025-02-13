@@ -35,7 +35,7 @@ return [
         'driver' => 'file',
     ],
 
-'providers' => ServiceProvider::defaultProviders()->merge([        /*
+    'providers' => ServiceProvider::defaultProviders()->merge([/*
          * Package Service Providers...
          */
         Barryvdh\DomPDF\ServiceProvider::class,
@@ -51,8 +51,7 @@ return [
     ])->toArray(),
 
     'aliases' => Facade::defaultAliases()->merge([
-    'Pdf' => Barryvdh\DomPDF\Facade\Pdf::class,
-])->toArray(),
-
+        'Pdf' => Barryvdh\DomPDF\Facade\Pdf::class,
+    ])->toArray(),
 
 ];
