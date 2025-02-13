@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 
 class DokumentasiController extends Controller
 {
@@ -12,7 +11,7 @@ class DokumentasiController extends Controller
         $filePath = 'dokumentasi/Dokumentasi Monitoring.pdf';
 
         // Cek apakah file ada
-        if (!Storage::disk('public')->exists($filePath)) {
+        if (! Storage::disk('public')->exists($filePath)) {
             abort(404, 'File tidak ditemukan.');
         }
 
