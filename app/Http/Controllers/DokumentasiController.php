@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 
+
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 class DokumentasiController extends Controller
 {
     public function downloadPDF()
