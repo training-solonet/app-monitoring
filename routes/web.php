@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\DashboardRplController;
 use App\Http\Controllers\DashboardSiswaController;
 use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\DokumentasiController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\MateriTkjController;
@@ -17,8 +18,6 @@ use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
-use App\Http\Controllers\DokumentasiController;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
