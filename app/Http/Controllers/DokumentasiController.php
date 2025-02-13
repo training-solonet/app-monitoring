@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
@@ -9,10 +10,10 @@ class DokumentasiController extends Controller
     {
         $filePath = 'dokumentasi/Dokumentasi Monitoring.pdf';
 
-        if (!Storage::exists('public/' . $filePath)) {
+        if (! Storage::exists('public/'.$filePath)) {
             abort(404, 'File tidak ditemukan.');
         }
 
-        return Storage::download('public/' . $filePath, 'Dokumentasi Monitoring.pdf');
+        return Storage::download('public/'.$filePath, 'Dokumentasi Monitoring.pdf');
     }
 }
