@@ -86,12 +86,13 @@
                                 <div class="card-body">
                                     <h5 class="text-success font-weight-bold">
                                         @php
-                                            $totalSeconds = abs($totalWaktu);
-                                            $hours = floor($totalSeconds / 3600);
-                                            $minutes = floor(($totalSeconds % 3600) / 60);
-                                            $seconds = $totalSeconds % 60;
+                                            $totalDetik = abs($totalWaktu);
+                                            $jam = floor($totalDetik / 3600);
+                                            $menit = floor(($totalDetik % 3600) / 60);
+                                            $detik = $totalDetik % 60;
                                         @endphp
-                                        {{ $hours }}h {{ $minutes }}m {{ $seconds }}s
+                                        {{ $jam }}j {{ $menit }}m {{ $detik }}d
+
                                     </h5>
                                 </div>
                             </div>

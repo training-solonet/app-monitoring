@@ -78,16 +78,13 @@
                             <div class="card-body">
                                 <h5 class="text-success font-weight-bold">
                                     @php
-                                        if ($totalWaktu ?? 0) {
-                                            $totalSeconds = abs($totalWaktu);
-                                            $hours = floor($totalSeconds / 3600);
-                                            $minutes = floor(($totalSeconds % 3600) / 60);
-                                            $seconds = $totalSeconds % 60;
-                                            echo "{$hours}h {$minutes}m {$seconds}s";
-                                        } else {
-                                            echo 'Data tidak tersedia';
-                                        }
+                                        $totalDetik = abs($totalWaktu);
+                                        $jam = floor($totalDetik / 3600);
+                                        $menit = floor(($totalDetik % 3600) / 60);
+                                        $detik = $totalDetik % 60;
                                     @endphp
+                                    {{ $jam }}j {{ $menit }}m {{ $detik }}d
+
                                 </h5>
 
                             </div>
