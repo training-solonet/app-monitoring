@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Storage;
 
 class DokumentasiController extends Controller
 {
-    public function downloadPDF()
+    public function cekFile()
     {
         $filePath = 'dokumentasi/Dokumentasi Monitoring.pdf';
 
-        // Perbaikan: Gunakan Storage::disk('public')
-        if (! Storage::disk('public')->exists($filePath)) {
+        // Gunakan Storage::disk('public') untuk mengecek keberadaan file
+        if (Storage::disk('public')->exists($filePath)) {
+            return response()->json(['status' => 'File ditemukan']);
+        } else {
             return response()->json(['error' => 'File tidak ditemukan.'], 404);
         }
-
-        return response()->download(storage_path("app/public/$filePath"));
     }
 }

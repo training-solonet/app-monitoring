@@ -130,4 +130,5 @@ Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.s
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
 
-Route::get('/download-dokumentasi', [DokumentasiController::class, 'downloadPDF'])->name('download.dokumentasi');
+// Route::get('/download-dokumentasi', [DokumentasiController::class, 'downloadPDF'])->name('download.dokumentasi');
+Route::get('/cek-file', [DokumentasiController::class, 'cekFile']);
