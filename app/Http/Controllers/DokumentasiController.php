@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
@@ -10,7 +11,7 @@ class DokumentasiController extends Controller
         $filePath = 'dokumentasi/Dokumentasi Monitoring.pdf';
 
         // Perbaikan: Gunakan Storage::disk('public')
-        if (!Storage::disk('public')->exists($filePath)) {
+        if (! Storage::disk('public')->exists($filePath)) {
             return response()->json(['error' => 'File tidak ditemukan.'], 404);
         }
 
