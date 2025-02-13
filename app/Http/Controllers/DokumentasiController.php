@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DokumentasiController extends Controller
 {
@@ -11,7 +11,7 @@ class DokumentasiController extends Controller
         $filePath = storage_path('app/public/dokumentasi/Dokumentasi Monitoring.pdf');
 
         // Cek apakah file ada
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             return response()->json(['error' => 'File tidak ditemukan.'], 404);
         }
 
