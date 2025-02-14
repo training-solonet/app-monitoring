@@ -132,7 +132,7 @@ Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingContro
 Route::get('/download-dokumentasi', function () {
     $filePath = public_path('Dokumentasi Monitoring1.pdf'); // Langsung akses dari public
 
-    if (!file_exists($filePath)) {
+    if (! file_exists($filePath)) {
         abort(404, 'File tidak ditemukan');
     }
 
