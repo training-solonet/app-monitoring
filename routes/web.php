@@ -130,11 +130,11 @@ Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.s
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
 
 Route::get('/download-dokumentasi', function () {
-    $filePath = storage_path('app/public/Dokumentasi Monitoring1.pdf');
+    $filePath = public_path('Dokumentasi Monitoring1.pdf'); // Langsung akses dari public
 
     if (! file_exists($filePath)) {
         abort(404, 'File tidak ditemukan');
     }
 
     return response()->download($filePath);
-})->name('download-dokumentasi');
+});
