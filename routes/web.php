@@ -8,7 +8,6 @@ use App\Http\Controllers\DashboardPembimbingController;
 use App\Http\Controllers\DashboardRplController;
 use App\Http\Controllers\DashboardSiswaController;
 use App\Http\Controllers\DetailSiswaController;
-use App\Http\Controllers\DokumentasiController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\MateriTkjController;
@@ -133,12 +132,9 @@ Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingContro
 Route::get('/download-dokumentasi', function () {
     $filePath = storage_path('app/public/Dokumentasi Monitoring1.pdf');
 
-    if (!file_exists($filePath)) {
+    if (! file_exists($filePath)) {
         abort(404, 'File tidak ditemukan');
     }
 
     return response()->download($filePath);
 })->name('download-dokumentasi');
-
-
-
