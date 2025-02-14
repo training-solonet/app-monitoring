@@ -130,5 +130,15 @@ Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.s
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
 
-Route::get('/download-dokumentasi', [DokumentasiController::class, 'downloadPDF'])->name('download.dokumentasi');
-Route::get('/cek-file', [DokumentasiController::class, 'cekFile']);
+Route::get('/download-dokumentasi', function () {
+    $filePath = storage_path('app/public/Dokumentasi Monitoring1.pdf');
+
+    if (!file_exists($filePath)) {
+        abort(404, 'File tidak ditemukan');
+    }
+
+    return response()->download($filePath);
+})->name('download-dokumentasi');
+
+
+
