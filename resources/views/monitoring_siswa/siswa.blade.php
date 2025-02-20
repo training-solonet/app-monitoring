@@ -450,16 +450,10 @@
                                             {!! $statusInfo[2] !!} {{ $item->status }}
                                         </span>
                                     </li>
-                                    <li class="list-group-item"><strong>Total Waktu:</strong>
-                                        @php
-                                            $startTime = \Carbon\Carbon::parse($item->waktu_mulai);
-                                            $endTime = \Carbon\Carbon::parse($item->waktu_selesai);
-                                            $diffInMinutes = $startTime->diffInMinutes($endTime);
-                                            $hours = intdiv($diffInMinutes, 60); // Calculate hours
-                                            $minutes = $diffInMinutes % 60; // Calculate remaining minutes
-                                        @endphp
-                                        {{ $hours }} Jam {{ $minutes }} Menit
+                                    <li class="list-group-item">
+                                        <strong>Total Waktu:</strong> {{ $item->total_waktu }}
                                     </li>
+                                    
                                 </ul>
                             </div>
                             <div class="col-md-6">

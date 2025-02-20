@@ -13,42 +13,37 @@ class SiswaController extends Controller
 {
     public function index(Request $request)
     {
-        //  Menyimpan nilai filter untuk status siswa yang dipilih dari parameter status dalam request.
         $statusFilter = $request->get('status', 'all');
-        // Menyimpan nilai filter untuk kategori siswa yang dipilih dari parameter kategori dalam request.
         $kategoriFilter = $request->get('kategori', 'all');
-        // Menyimpan nilai tanggal mulai yang dimasukkan dalam request untuk memfilter data siswa.
         $tanggalMulai = $request->get('tanggal_mulai');
-        //  Menyimpan nilai tanggal selesai yang dimasukkan dalam request untuk memfilter data siswa.
         $tanggalSelesai = $request->get('tanggal_selesai');
-        // Menyimpan ID pengguna yang saat ini sedang login (menggunakan Auth::id()).
         $userId = Auth::id();
 
-        // Query dasar untuk data siswa
         $siswaQuery = Siswa::where('user_id', $userId);
 
-        // Filter status jika tidak "all"
         if ($statusFilter !== 'all') {
             $siswaQuery->where('status', $statusFilter);
         }
 
-        // Filter kategori jika tidak "all"
         if ($kategoriFilter !== 'all') {
             $siswaQuery->where('kategori', $kategoriFilter);
         }
 
-        // Filter berdasarkan tanggal mulai dan selesai
         if ($tanggalMulai) {
             $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
         }
+
         if ($tanggalSelesai) {
             $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
         }
 
-        // Proses data siswa dan hitung total waktu
-        $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
+        // Gunakan paginate sebelum map()
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
+
+        // Gunakan transformasi setelah paginate
+        $siswa->getCollection()->transform(function ($item) {
             $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
-            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now(); // Waktu selesai real-time jika masih berlangsung
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
 
             if ($waktuMulai && $waktuSelesai) {
                 $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
@@ -65,12 +60,8 @@ class SiswaController extends Controller
             return $item;
         });
 
-        // mengambil seluruh tabel data aktivitas
         $aktivitas = Aktivitas::all();
         $materitkj = Materi::where('jurusan', 'TKJ')->get();
-
-        // Gunakan paginate setelah pemrosesan data
-        $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
 
         return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
     }
