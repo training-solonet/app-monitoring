@@ -12,59 +12,59 @@ use Illuminate\Support\Facades\Auth;
 class SiswaController extends Controller
 {
     public function index(Request $request)
-{
-    $statusFilter = $request->get('status', 'all');
-    $kategoriFilter = $request->get('kategori', 'all');
-    $tanggalMulai = $request->get('tanggal_mulai');
-    $tanggalSelesai = $request->get('tanggal_selesai');
-    $userId = Auth::id();
+    {
+        $statusFilter = $request->get('status', 'all');
+        $kategoriFilter = $request->get('kategori', 'all');
+        $tanggalMulai = $request->get('tanggal_mulai');
+        $tanggalSelesai = $request->get('tanggal_selesai');
+        $userId = Auth::id();
 
-    $siswaQuery = Siswa::where('user_id', $userId);
+        $siswaQuery = Siswa::where('user_id', $userId);
 
-    if ($statusFilter !== 'all') {
-        $siswaQuery->where('status', $statusFilter);
-    }
-
-    if ($kategoriFilter !== 'all') {
-        $siswaQuery->where('kategori', $kategoriFilter);
-    }
-
-    if ($tanggalMulai) {
-        $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
-    }
-
-    if ($tanggalSelesai) {
-        $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
-    }
-
-    // Gunakan paginate sebelum map()
-    $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
-
-    // Gunakan transformasi setelah paginate
-    $siswa->getCollection()->transform(function ($item) {
-        $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
-        $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
-
-        if ($waktuMulai && $waktuSelesai) {
-            $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
-            $hari = intdiv($totalMenit, 1440);
-            $sisaMenit = $totalMenit % 1440;
-            $jam = intdiv($sisaMenit, 60);
-            $menit = $sisaMenit % 60;
-
-            $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '') . "{$jam} Jam {$menit} Menit";
-        } else {
-            $item->total_waktu = '-';
+        if ($statusFilter !== 'all') {
+            $siswaQuery->where('status', $statusFilter);
         }
 
-        return $item;
-    });
+        if ($kategoriFilter !== 'all') {
+            $siswaQuery->where('kategori', $kategoriFilter);
+        }
 
-    $aktivitas = Aktivitas::all();
-    $materitkj = Materi::where('jurusan', 'TKJ')->get();
+        if ($tanggalMulai) {
+            $siswaQuery->whereDate('created_at', '>=', $tanggalMulai);
+        }
 
-    return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
-}
+        if ($tanggalSelesai) {
+            $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
+        }
+
+        // Gunakan paginate sebelum map()
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
+
+        // Gunakan transformasi setelah paginate
+        $siswa->getCollection()->transform(function ($item) {
+            $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
+            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
+
+            if ($waktuMulai && $waktuSelesai) {
+                $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
+                $hari = intdiv($totalMenit, 1440);
+                $sisaMenit = $totalMenit % 1440;
+                $jam = intdiv($sisaMenit, 60);
+                $menit = $sisaMenit % 60;
+
+                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '')."{$jam} Jam {$menit} Menit";
+            } else {
+                $item->total_waktu = '-';
+            }
+
+            return $item;
+        });
+
+        $aktivitas = Aktivitas::all();
+        $materitkj = Materi::where('jurusan', 'TKJ')->get();
+
+        return view('monitoring_siswa.siswa', compact('siswa', 'materitkj', 'aktivitas', 'statusFilter', 'kategoriFilter'));
+    }
 
     public function updateTime(Request $request, $id)
     {
