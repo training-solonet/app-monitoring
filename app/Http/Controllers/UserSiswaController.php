@@ -22,7 +22,9 @@ class UserSiswaController extends Controller
         }
 
         // mengambil data user sesuai dengan rolenya siswa
-        $usersiswa = User::where('role', 'siswa')->paginate(10);
+        $usersiswa = User::where('role', 'siswa')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
 
         return view('admin.siswa', compact('usersiswa'));
     }
@@ -37,7 +39,7 @@ class UserSiswaController extends Controller
             'status' => 'required|in:Aktif,Tidak Aktif',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
-            'jurusan' => 'required|in:RPL,TKJ',
+            'jurusan' => 'required|in:RPL,TKJ,DKV',
         ], [
             'username.required' => 'Username Tidak Boleh Sama.',
             'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
@@ -77,7 +79,7 @@ class UserSiswaController extends Controller
             'password' => 'required|min:8|max:20',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
-            'jurusan' => 'required|in:RPL,TKJ',
+            'jurusan' => 'required|in:RPL,TKJ,DKV',
             'status' => 'required|in:Aktif,Tidak Aktif',
         ], [
             'username.required' => 'Username is required',

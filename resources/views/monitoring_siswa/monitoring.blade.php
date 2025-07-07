@@ -67,6 +67,8 @@
                                                 TKJ</option>
                                             <option value="RPL" {{ request('jurusan') == 'RPL' ? 'selected' : '' }}>
                                                 RPL</option>
+                                            <option value="DKV" {{ request('jurusan') == 'DKV' ? 'selected' : '' }}>
+                                                DKV</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-2">

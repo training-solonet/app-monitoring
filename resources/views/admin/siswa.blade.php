@@ -234,6 +234,7 @@
                             <option disabled selected>Pilih Jurusan</option>
                             <option value="TKJ">TKJ</option>
                             <option value="RPL">RPL</option>
+                            <option value="DKV">DKV</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -283,6 +284,7 @@
                                 <option value="Pilih Jurusan">Pilih Jurusan</option>
                                 <option value="TKJ" {{ $item->jurusan == 'TKJ' ? 'selected' : '' }}>TKJ</option>
                                 <option value="RPL" {{ $item->jurusan == 'RPL' ? 'selected' : '' }}>RPL</option>
+                                <option value="DKV" {{ $item->jurusan == 'DKV' ? 'selected' : '' }}>DKV</option>
                             </select>
                         </div>
                         <div class="mb-3">
