@@ -23,8 +23,8 @@ class UserSiswaController extends Controller
 
         // mengambil data user sesuai dengan rolenya siswa
         $usersiswa = User::where('role', 'siswa')
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('admin.siswa', compact('usersiswa'));
     }
