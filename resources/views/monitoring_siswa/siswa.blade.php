@@ -128,6 +128,9 @@
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Pekerjaan diluar</th>
+                                            <th 
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Tanggal</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 detail</th>
@@ -158,6 +161,11 @@
                                                     <p
                                                         class="text-sm text-dark font-weight-semibold mb-0 {{ $item->aktivitas ? '' : 'fst-italic' }}">
                                                         {{ $item->aktivitas?->nama_aktivitas ?? 'Tidak ada Pekerjaan' }}
+                                                    </p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                        {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
                                                     </p>
                                                 </td>
                                                 <td class="align-middle text-center">

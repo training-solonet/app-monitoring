@@ -104,6 +104,7 @@
                                             </th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Tanggal</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Detail</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Aksi</th>
                                         </tr>
@@ -118,6 +119,9 @@
                                                 <td class="align-middle text-center">
                                                     {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
                                                 <td class="align-middle text-center">{{ $item->kategori }}</td>
+                                                <td class="align-middle text-center">
+                                                    {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
+                                                </td>
                                                 <td class="align-middle text-center">
                                                     <a class="mb-0" data-bs-toggle="modal"
                                                         data-bs-target="#DetailModal{{ $item->id }}">

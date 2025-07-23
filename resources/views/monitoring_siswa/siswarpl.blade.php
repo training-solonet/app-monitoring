@@ -125,6 +125,8 @@
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Materi</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                            Tanggal</th>
+                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Detail</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Aksi</th>
@@ -147,6 +149,9 @@
                                                     class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
                                                     {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
                                                 </p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
                                             </td>
                                             <td class="align-middle text-center">
                                                 <!-- Tombol untuk membuka modal Detail -->
