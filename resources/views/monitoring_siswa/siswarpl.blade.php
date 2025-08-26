@@ -15,6 +15,15 @@
             background-color: royalblue !important;
             color: white !important;
         }
+        .pagination {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 4px; /* kasih jarak biar nggak dempet */
+        }
+        .pagination li {
+            flex: 0 0 auto;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -121,15 +130,15 @@
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             No</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Aktivitas</th>
-                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Materi</th>
+                                            Aksi</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Tanggal</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                             Detail</th>
                                         <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                            Aksi</th>
+                                            Aktivitas</th>
+                                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                            Materi</th>
                                     </tr>
                                 </thead>
 
@@ -147,26 +156,6 @@
                                                 <p class="text-sm text-dark font-weight-semibold mb-0">
                                                     {{ ($page - 1) * 10 + $index + 1 }}
                                                 </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                    {{ $item->kategori }}</p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <p
-                                                    class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
-                                                    {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
-                                                </p>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <!-- Tombol untuk membuka modal Detail -->
-                                                <a class="mb-0" data-bs-toggle="modal"
-                                                    data-bs-target="#DetailModal{{ $item->id }}">
-                                                    <i class="fa-solid fa-circle-info"></i>
-                                                </a>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <form action="{{ route('siswa.toggle', $item->id) }}" method="POST"
@@ -193,6 +182,26 @@
                                                         </button>
                                                     @endif
                                                 </form>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <!-- Tombol untuk membuka modal Detail -->
+                                                <a class="mb-0" data-bs-toggle="modal"
+                                                    data-bs-target="#DetailModal{{ $item->id }}">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                    {{ $item->kategori }}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p
+                                                    class="text-sm text-dark font-weight-semibold mb-0 {{ $item->materitkj ? '' : 'fst-italic' }}">
+                                                    {{ $item->materitkj?->materi ?? 'Tidak ada materi' }}
+                                                </p>
                                             </td>
                                         </tr>
                                         <!-- Modal Edit Siswa -->
@@ -330,11 +339,11 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-between m-3 align-items-center">
-                            <span class="text-muted">
+                            <span class="text-muted d-none d-md-inline">
                                 Page {{ $siswarpl->currentPage() }} of {{ $siswarpl->lastPage() }}
                             </span>
                             <div>
-                                {{ $siswarpl->links() }}
+                                {{ $siswarpl->appends(request()->query())->onEachSide(0)->links() }}
                             </div>
                         </div>                        
                         </div>                        

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="true">
+<nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="false">
     <div class="container-fluid py-1 px-2">
         <nav aria-label="breadcrumb">
             <img src="https://absensi.connectis.my.id/skote/assets/images/connectislg.png" height="50px">

@@ -15,6 +15,16 @@
             background-color: royalblue !important;
             color: white !important;
         }
+
+        .pagination {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 4px;
+        }
+        .pagination li {
+            flex: 0 0 auto;
+        }
     </style>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -90,23 +100,30 @@
                                         </a>
                                     </div>
                                 </div>
+                                <div class="container mt-3 align-items-center d-flex justify-content-between">
+                                    <button type="submit" name="filter" value="all" class="btn btn-primary" style="width: 49%">
+                                        Tampilkan semua
+                                    </button>
+                                    <button type="submit" name="filter" value="month" class="btn btn-danger" style="width: 49%">
+                                        Tampilkan hanya bulan ini
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
-
                         <div class="card-body">
                             <div class="table-responsive p-0">
-                                <table class="table table-custom">
+                                <table class="table table-custom table-striped">
                                     <thead class="">
                                         <tr>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">No</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Nama Siswa
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Aksi
                                             </th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Tanggal</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Detail</th>
-                                            <th class="text-center text-xs font-weight-semibold opacity-7">Aksi</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Nama Siswa</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Jurusan</th>
+                                            <th class="text-center text-xs font-weight-semibold opacity-7">Kategori</th>
                                         </tr>
                                     </thead>
 
@@ -122,20 +139,6 @@
                                             <tr>
                                                 <td class="align-middle text-center">{{ ($page - 1) * 10 + $index + 1 }}</td>
                                                 <td class="align-middle text-center">
-                                                    {{ $item->siswa_monitoring?->username ?? '' }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
-                                                <td class="align-middle text-center">{{ $item->kategori }}</td>
-                                                <td class="align-middle text-center">
-                                                    {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <a class="mb-0" data-bs-toggle="modal"
-                                                        data-bs-target="#DetailModal{{ $item->id }}">
-                                                        <i class="fa-solid fa-circle-info"></i>
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle text-center">
                                                     <a href="#" class="text-danger"
                                                         onclick="confirmDelete({{ $item->id }})">
                                                         <i class="fas fa-trash-alt"></i>
@@ -147,6 +150,20 @@
                                                         @method('DELETE')
                                                     </form>
                                                 </td>
+                                                <td class="align-middle text-center">
+                                                    {{ \Carbon\Carbon::parse($item->waktu_mulai)->locale('id')->translatedFormat('d M Y') }}
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a class="mb-0" data-bs-toggle="modal"
+                                                        data-bs-target="#DetailModal{{ $item->id }}">
+                                                        <i class="fa-solid fa-circle-info"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    {{ $item->siswa_monitoring?->username ?? '' }}</td>
+                                                <td class="align-middle text-center">
+                                                    {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
+                                                <td class="align-middle text-center">{{ $item->kategori }}</td>
                                             </tr>
                                         @endforeach
                                         </td>
@@ -154,11 +171,11 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="text-muted">
+                                <span class="text-muted d-none d-md-inline">
                                     Page {{ $monitoring->currentPage() }} of {{ $monitoring->lastPage() }}
                                 </span>
-                                <div>
-                                    {{ $monitoring->links() }}
+                                <div class="d-flex justify-content-center flex-wrap">
+                                    {{ $monitoring->onEachSide(0)->links() }}
                                 </div>
                             </div>                                          
                         </div>

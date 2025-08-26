@@ -45,7 +45,7 @@ class SiswaRplController extends Controller
         }
 
         // Ambil data siswa dan proses total waktu
-        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->through(function ($item) {
+        $siswarpl = $siswaQuery->orderBy('created_at', 'desc')->paginate(10)->withQueryString()->through(function ($item) {
             if ($item->waktu_mulai && $item->waktu_selesai) {
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
                 $waktuSelesai = Carbon::parse($item->waktu_selesai);

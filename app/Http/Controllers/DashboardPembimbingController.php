@@ -15,7 +15,7 @@ class DashboardPembimbingController extends Controller
     {
         // Mengambil daftar pengguna dengan role siswa
         $userList = User::all();
-        $userList = User::where('role', 'siswa')->get();
+        $userList = User::where('role', 'siswa')->where('status', 'Aktif')->get();
 
         // Menghitung jumlah data materi sesuai jurusan
         $rplCount = Materi::where('jurusan', 'RPL')->count();

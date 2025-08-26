@@ -17,7 +17,7 @@
                     <div class="d-md-flex align-items-center justify-content-between mx-2">
                         <div>
                             <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->username }}</h3>
-                            <p class="text-muted mb-0">Berikut ini data aktivitas semua siswa pkl</p>
+                            <p class="text-muted mb-0">Berikut ini data aktivitas semua siswa PKL</p>
                         </div>
                         <div class="d-flex">
                             <button id="show-diagram" type="button"
@@ -143,7 +143,7 @@
                                 @endif
 
                             </select>
-                            <a href="https://monitoring.connectis.my.id/dashboardpembimbing"
+                            <a href="{{ route('dashboardpembimbing.index') }}"
                                 class="btn btn-outline-secondary btn-sm" style="margin-top: 10px">
                                 <i class="fa-solid fa-arrows-rotate"></i>
                             </a>
