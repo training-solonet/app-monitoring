@@ -111,9 +111,16 @@
                                     </thead>
 
                                     <tbody class="">
+                                        @php
+                                            if(request('page')){
+                                                $page = (int) request('page');
+                                            } else{
+                                                $page = 1;
+                                            }
+                                        @endphp
                                         @foreach ($monitoring as $index => $item)
                                             <tr>
-                                                <td class="align-middle text-center">{{ $index + 1 }}</td>
+                                                <td class="align-middle text-center">{{ ($page - 1) * 10 + $index + 1 }}</td>
                                                 <td class="align-middle text-center">
                                                     {{ $item->siswa_monitoring?->username ?? '' }}</td>
                                                 <td class="align-middle text-center">

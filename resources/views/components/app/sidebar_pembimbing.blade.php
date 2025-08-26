@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link  {{ is_current_route('dashboardpembimbing') ? 'active' : '' }}"
+                <a class="nav-link  {{ Request::is('dashboardpembimbing') ? 'active' : '' }}"
                     href="{{ route('dashboardpembimbing.index') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">

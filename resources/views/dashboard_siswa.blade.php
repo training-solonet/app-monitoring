@@ -47,7 +47,7 @@
 
                 <hr class="my-3">
                 {{-- Detail --}}
-                <div class="container mt-4" id="detail-content">
+                <div class="container mt-4" id="detail-content" style="display: none;">
                     <h4>Detail</h4>
                     <div class="row g-3">
                         <!-- Card Total Aktivitas Dikantor -->
@@ -130,7 +130,7 @@
                 </div>
 
                 {{-- Diagram --}}
-                <div class="d-flex row mt-4" id="dashboard-content" style="display: none;">
+                <div class="d-flex row mt-4 show" id="dashboard-content" style="display: block;">
                     <h4>Diagram</h4>
                     <div class="col-md-12">
                         <div class="card shadow-sm border h-100">

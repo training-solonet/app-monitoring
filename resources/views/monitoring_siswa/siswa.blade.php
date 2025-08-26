@@ -141,11 +141,18 @@
                                     </thead>
 
                                     <tbody>
+                                        @php
+                                            if(request('page')){
+                                                $page = (int) request('page');
+                                            } else{
+                                                $page = 1;
+                                            }
+                                        @endphp
                                         @foreach ($siswa as $index => $item)
                                             <tr>
                                                 <td class="align-middle text-center" rowspan="2">
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                        {{ $index + 1 }}</p>
+                                                        {{ ($page - 1) * 10 + $index + 1 }}</p>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
