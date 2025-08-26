@@ -96,20 +96,20 @@ class SiswaRplController extends Controller
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];
-            $originalFileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $originalFileName = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
             $filePath = $file->storeAs('bukti', $originalFileName, 'public');
         } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
             $filePaths = [];
             foreach ($request->file('bukti') as $file) {
-                $originalFileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $originalFileName = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
                 $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
             }
             $filePath = implode(',', $filePaths);
         }
 
         // menyimpan tanggal dari waktu mulai aktivitas siswa yang diambil dengan menggunakan Carbon::parse($item->waktu_mulai)->format('Y-m-d'). Ini digunakan untuk memastikan waktu selesai memiliki tanggal yang sesuai dengan waktu mulai.
-        $currentDate = Carbon::today()->format('Y-m-d'); //memperbaiki supaya dapat lebih dari satu hari
-        
+        $currentDate = Carbon::today()->format('Y-m-d'); // memperbaiki supaya dapat lebih dari satu hari
+
         // menggabungkan tanggal yang diperoleh dari $currentDate dengan waktu selesai yang dikirimkan oleh pengguna, membentuk format lengkap Y-m-d H:i untuk waktu selesai.
         $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
@@ -234,7 +234,7 @@ class SiswaRplController extends Controller
             'aktivitas_id' => $request->aktivitas_id1,
         ];
 
-        if($filePath !== null){
+        if ($filePath !== null) {
             $dataUpdate['bukti'] = $filePath;
         }
 

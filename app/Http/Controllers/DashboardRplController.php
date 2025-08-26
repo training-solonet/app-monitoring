@@ -98,11 +98,11 @@ class DashboardRplController extends Controller
 
                 return ['totalTime' => $totalTime, 'percentage' => $percentage];
             });
-            
+
         // Mengambil nama materi berdasarkan materi_id yang ada di $siswaDataBelajar.
-        $materiNames = Materi::whereIn('id', $siswaDataBelajar->keys())->orderByRaw("FIELD(id, " . implode(',', $siswaDataBelajar->keys()->toArray()) . ")")->pluck('materi', 'id');
-        //Memperbaiki supaya keys diurutkan ascending
-        
+        $materiNames = Materi::whereIn('id', $siswaDataBelajar->keys())->orderByRaw('FIELD(id, '.implode(',', $siswaDataBelajar->keys()->toArray()).')')->pluck('materi', 'id');
+        // Memperbaiki supaya keys diurutkan ascending
+
         // Menghitung jumlah data (frekuensi) untuk setiap materi berdasarkan materi_id.
         $jumlahAktivitasBelajar = Siswa::where('user_id', $userId)
             ->where('kategori', 'Belajar')
