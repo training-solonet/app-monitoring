@@ -35,7 +35,7 @@ class LoginController extends Controller
                     'role' => $user->role,
                     'jurusan' => $user->jurusan
                 ]);
-
+//fd
                 if ($user->role === 'siswa') {
                     if ($user->jurusan === 'RPL') {
                         return redirect()->route('dashboardrpl.index');
