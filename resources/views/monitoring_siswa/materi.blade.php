@@ -30,7 +30,7 @@
                                         <div class="card-header border-bottom pb-0">
                                             <div class="d-sm-flex align-items-center">
                                                 <div>
-                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar materi</h6>
+                                                    <h6 class="font-weight-semibold text-lg mb-3">Daftar Materi</h6>
                                                 </div>
                                             </div>
                                         </div>

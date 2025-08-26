@@ -1,30 +1,30 @@
 <?php
 
-use App\Http\Controllers\AktivitasController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\DashboardPembimbingController;
-use App\Http\Controllers\DashboardRplController;
-use App\Http\Controllers\DashboardSiswaController;
-use App\Http\Controllers\DetailSiswaController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\SiswaRplController;
+use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\MateriTkjController;
-use App\Http\Controllers\MonitoringController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\SiswaRplController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\DashboardRplController;
+use App\Http\Controllers\DashboardSiswaController;
+use App\Http\Controllers\UserPembimbingController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DashboardPembimbingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/sign-in');
 })->name('dashboard')->middleware('auth');
 
 Route::get('/tables', function () {

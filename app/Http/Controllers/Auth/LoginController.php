@@ -31,10 +31,17 @@ class LoginController extends Controller
             if ($user->password === $request->password) {
                 Auth::login($user);
 
+                session([
+                    'role' => $user->role,
+                    'jurusan' => $user->jurusan
+                ]);
+
                 if ($user->role === 'siswa') {
                     if ($user->jurusan === 'RPL') {
                         return redirect()->route('dashboardrpl.index');
                     } elseif ($user->jurusan === 'TKJ') {
+                        return redirect()->route('dashboardsiswa.index');
+                    } elseif($user->jurusan === "DKV") {
                         return redirect()->route('dashboardsiswa.index');
                     }
                 } elseif ($user->role === 'pembimbing') {

@@ -96,19 +96,20 @@ class SiswaRplController extends Controller
         $filePath = null;
         if ($request->hasFile('bukti') && count($request->file('bukti')) === 1) {
             $file = $request->file('bukti')[0];
-            $originalFileName = $file->getClientOriginalName();
+            $originalFileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $filePath = $file->storeAs('bukti', $originalFileName, 'public');
         } elseif ($request->hasFile('bukti') && count($request->file('bukti')) > 1) {
             $filePaths = [];
             foreach ($request->file('bukti') as $file) {
-                $originalFileName = $file->getClientOriginalName();
+                $originalFileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
                 $filePaths[] = $file->storeAs('bukti', $originalFileName, 'public');
             }
             $filePath = implode(',', $filePaths);
         }
 
         // menyimpan tanggal dari waktu mulai aktivitas siswa yang diambil dengan menggunakan Carbon::parse($item->waktu_mulai)->format('Y-m-d'). Ini digunakan untuk memastikan waktu selesai memiliki tanggal yang sesuai dengan waktu mulai.
-        $currentDate = Carbon::parse($item->waktu_mulai)->format('Y-m-d');
+        $currentDate = Carbon::today()->format('Y-m-d'); //memperbaiki supaya dapat lebih dari satu hari
+        
         // menggabungkan tanggal yang diperoleh dari $currentDate dengan waktu selesai yang dikirimkan oleh pengguna, membentuk format lengkap Y-m-d H:i untuk waktu selesai.
         $newWaktuSelesai = $currentDate.' '.$request->waktu_selesai;
 
@@ -228,12 +229,17 @@ class SiswaRplController extends Controller
             $filePath = implode(',', $filePaths);
         }
 
-        //  Digunakan untuk memperbarui data siswa dengan informasi yang baru, termasuk laporan, bukti file, dan aktivitas yang terkait.
-        $siswa->update([
+        $dataUpdate = [
             'report' => $request->report,
-            'bukti' => $filePath,
             'aktivitas_id' => $request->aktivitas_id1,
-        ]);
+        ];
+
+        if($filePath !== null){
+            $dataUpdate['bukti'] = $filePath;
+        }
+
+        //  Digunakan untuk memperbarui data siswa dengan informasi yang baru, termasuk laporan, bukti file, dan aktivitas yang terkait.
+        $siswa->update($dataUpdate);
 
         return redirect()->route('siswarpl.index')->with('success', 'Data siswa berhasil diperbarui.');
     }
