@@ -81,7 +81,7 @@ class UserSiswaController extends Controller
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ,DKV',
             'status' => 'required|in:Aktif,Tidak Aktif',
-            'no_hp' => 'nullable|regex:/^62[0-9]{9,13}$/'
+            'no_hp' => 'nullable|regex:/^62[0-9]{9,13}$/',
         ], [
             'username.required' => 'Username is required',
             'username.min' => 'Username Tidak Boleh sama',

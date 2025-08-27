@@ -75,7 +75,7 @@ class SiswaController extends Controller
             'report' => 'required|string',
             'bukti' => 'nullable|array',
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'report_status' => 'required|string'
+            'report_status' => 'required|string',
         ]);
 
         // menyimpan lokasi file yang di-upload. Ini bisa menyimpan path dari satu atau lebih file gambar yang diunggah oleh pengguna.
@@ -227,7 +227,7 @@ class SiswaController extends Controller
             'bukti' => 'nullable|array',
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'aktivitas_id1' => 'nullable|exists:aktivitas,id',
-            'report_status' => 'required|string'
+            'report_status' => 'required|string',
 
         ]);
 
@@ -257,7 +257,7 @@ class SiswaController extends Controller
             'report' => $request->report,
             'bukti' => $filePath,
             'aktivitas_id' => $request->aktivitas_id1,
-            'report_status' => $request->report_status
+            'report_status' => $request->report_status,
         ]);
 
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil diperbarui.');
