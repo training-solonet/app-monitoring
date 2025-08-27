@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class AutoSubmitActivity extends Command
 {
     protected $signature = 'activity:autosubmit';
+
     protected $description = 'Auto submit aktivitas yang masih berlangsung pada pukul 17.00 WIB';
 
     public function handle()
