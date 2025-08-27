@@ -8,7 +8,7 @@
     </div>
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            @if (Auth::user()->jurusan === 'TKJ')
+            @if (Auth::user()->jurusan === 'TKJ' || Auth::user()->jurusan === 'DKV')
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('dashboardsiswa') ? 'active' : '' }}"
                         href="{{ route('dashboardsiswa.index') }}">
@@ -68,7 +68,7 @@
                 </li>
             @endif
 
-            @if (Auth::user()->jurusan === 'TKJ')
+            @if (Auth::user()->jurusan === 'TKJ' || Auth::user()->jurusan === 'DKV')
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('siswa') ? 'active' : '' }}" href="{{ route('siswa.index') }}">
                         <div

@@ -81,6 +81,7 @@ class UserSiswaController extends Controller
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ,DKV',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'no_hp' => 'nullable|regex:/^62[0-9]{9,13}$/'
         ], [
             'username.required' => 'Username is required',
             'username.min' => 'Username Tidak Boleh sama',
@@ -102,6 +103,7 @@ class UserSiswaController extends Controller
             $user->tanggal_selesai = $request->tanggal_selesai;
             $user->jurusan = $request->jurusan;
             $user->status = $request->status;
+            $user->no_hp = $request->no_hp;
 
             $tanggalMulai = Carbon::parse($request->tanggal_mulai);
             $tanggalSelesai = Carbon::parse($request->tanggal_selesai);

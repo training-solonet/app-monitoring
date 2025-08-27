@@ -175,7 +175,7 @@
                                     Page {{ $monitoring->currentPage() }} of {{ $monitoring->lastPage() }}
                                 </span>
                                 <div class="d-flex justify-content-center flex-wrap">
-                                    {{ $monitoring->onEachSide(0)->links() }}
+                                    {{ $monitoring->onEachSide(1)->links() }}
                                 </div>
                             </div>                                          
                         </div>

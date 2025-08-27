@@ -17,6 +17,7 @@ class siswa extends Model
         'waktu_mulai',
         'waktu_selesai',
         'status',
+        'report_status',
         'materi_id',
         'user_id',
         'aktivitas_id',

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->datetime('waktu_mulai')->nullable();
             $table->datetime('waktu_selesai')->nullable();
             $table->enum('status', ['Mulai', 'Sedang Berlangsung', 'Selesai'])->nullable();
+            $table->enum('report_status', ['Sudah Lapor', 'Belum Lapor'])->nullable();
             $table->unsignedBigInteger('materi_id')->nullable();
             $table->text('bukti')->nullable();
             $table->timestamps();

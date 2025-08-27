@@ -46,6 +46,14 @@
                 </div>
 
                 <hr class="my-3">
+                
+                @if ($belumLapor > 0)
+                    <div id="belumLaporAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>.
+                    </div>
+                @endif
+
                 {{-- Detail --}}
                 <div class="container mt-4" id="detail-content" style="display: none;">
                     <h4>Detail</h4>

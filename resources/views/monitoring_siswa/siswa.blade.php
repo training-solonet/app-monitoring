@@ -137,6 +137,9 @@
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Detail</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Report Status</th>
                                             <th 
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Aktivitas</th>
@@ -203,6 +206,29 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle text-center">
+                                                    @if ($item->report_status === 'Sudah Lapor' && $item->status === 'Selesai')
+                                                        <span class="badge badge-sm border border-success text-uppercase text-success bg-success">
+                                                            {{ $item->report_status }}
+                                                        </span>
+                                                    @elseif ($item->report_status === null && $item->status === 'Selesai')
+                                                        <span class="badge badge-sm border border-success text-uppercase text-success bg-success">
+                                                            Sudah Lapor
+                                                        </span>
+                                                    @elseif ($item->report_status === 'Belum Lapor' && $item->status === 'Selesai')
+                                                        <span class="badge badge-sm border border-warning text-uppercase text-warning bg-warning">
+                                                            {{ $item->report_status }}
+                                                        </span>
+                                                    @elseif ($item->report_status === null && $item->status === 'Sedang Berlangsung')
+                                                        <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">
+                                                            Berlangsung
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-sm border border-secondary text-uppercase text-secondary bg-secondary">
+                                                            Belum Mulai
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td class="align-middle text-center">
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
                                                         {{ $item->kategori }}</p>
                                                 </td>
@@ -238,6 +264,7 @@
                                                             method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             @method('PUT')
+                                                            <input type="hidden" id="report_status{{ $item->id }}" name="report_status" value="Sudah Lapor">
                                                             <div class="modal-body">
                                                                 <div class="mb-3">
                                                                     <label for="report{{ $item->id }}"
@@ -306,6 +333,7 @@
                                                                 method="POST" enctype="multipart/form-data">
                                                                 @csrf
                                                                 @method('PUT')
+                                                                <input type="hidden" id="report_status{{ $item->id }}" name="report_status" value="Sudah Lapor">
                                                                 <!-- Aktivitas Dropdown -->
                                                                 @if ($item->kategori === 'Keluar Dengan Teknisi')
                                                                     <div class="mb-3">
@@ -381,7 +409,7 @@
                                     Page {{ $siswa->currentPage() }} of {{ $siswa->lastPage() }}
                                 </span>
                                 <div>
-                                    {{ $siswa->appends(request()->query())->onEachSide(0)->links() }}
+                                    {{ $siswa->appends(request()->query())->onEachSide(1)->links() }}
                                 </div>
                             </div>   
                         </div>

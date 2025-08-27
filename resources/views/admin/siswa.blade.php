@@ -293,21 +293,25 @@
                                 value="{{ $item->password }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="tanggal_mulai" class="form-label">tanggal_mulai</label>
+                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
                             <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai"
                                 value="{{ $item->tanggal_mulai }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="tanggal_selesai" class="form-label">tanggal_selesai</label>
+                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
                             <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
                                 value="{{ $item->tanggal_selesai }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="status" class="form-label">status</label>
+                            <label for="status" class="form-label">Status</label>
                             <select name="status" id="status" class="form-select">
                                 <option value="Aktif">Aktif</option>
                                 <option value="Tidak Aktif">Tidak Aktif</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="no_hp" class="form-label">Nomor HP (62XXXXXXXXXXX)</label>
+                            <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{  $item->no_hp }}">
                         </div>
                     </div>
                     <div class="modal-footer">

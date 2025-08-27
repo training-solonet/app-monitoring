@@ -90,6 +90,7 @@ class SiswaRplController extends Controller
             'report' => 'required|string',
             'bukti' => 'nullable|array',
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'report_status' => 'required|string'
         ]);
 
         // menyimpan path file bukti yang di-upload. Jika ada file yang di-upload, path-nya disimpan di sini untuk disimpan dalam basis data.
@@ -119,6 +120,7 @@ class SiswaRplController extends Controller
             'status' => 'Selesai',
             'report' => $request->report,
             'bukti' => $filePath,
+            'report_status' => $request->report_status
         ]);
 
         return redirect()->route('siswarpl.index')->with('success', 'Aktivitas Telah Diselesaikan');
@@ -212,7 +214,15 @@ class SiswaRplController extends Controller
             'bukti' => 'nullable|array',
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'aktivitas_id1' => 'nullable|exists:aktivitas,id',
+            'report_status' => 'required|string'
         ]);
+
+        if ($request->report === $siswa->report) {
+            return redirect()
+                ->back()
+                ->withErrors(['report' => 'Isi laporan tidak boleh sama dengan sebelumnya. Harap ubah sebelum menyimpan.'])
+                ->withInput();
+        }
 
         // Menyimpan path file bukti yang di-upload. Jika ada file yang di-upload, path-nya disimpan dalam variabel ini untuk disimpan dalam basis data.
         $filePath = null;
@@ -232,6 +242,7 @@ class SiswaRplController extends Controller
         $dataUpdate = [
             'report' => $request->report,
             'aktivitas_id' => $request->aktivitas_id1,
+            'report_status' => $request->report_status
         ];
 
         if($filePath !== null){

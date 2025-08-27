@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Aktivitas;
-use App\Models\Materi;
-use App\Models\Siswa;
 use Carbon\Carbon;
+use App\Models\Siswa;
+use App\Models\Materi;
+use App\Models\Aktivitas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardSiswaController extends Controller
@@ -143,6 +144,11 @@ class DashboardSiswaController extends Controller
         // Menyimpan persentase jumlah aktivitas kategori "Keluar Dengan Teknisi" terhadap total aktivitas.
         $persentaseTeknisi = $totalAktivitas > 0 ? ($jumlahDataTeknisi / $totalAktivitas) * 100 : 0;
 
+        $belumLapor = DB::table('siswa')
+                        ->where('user_id', Auth::id())
+                        ->where('report_status', 'Belum Lapor')
+                        ->count();
+
         return view('dashboard_siswa', compact(
             'siswaData',
             'aktivitasNames',
@@ -156,7 +162,8 @@ class DashboardSiswaController extends Controller
             'jumlahDataTeknisi',
             'totalWaktu',
             'persentaseDikantor',
-            'persentaseTeknisi'
+            'persentaseTeknisi',
+            'belumLapor'
         ));
     }
 

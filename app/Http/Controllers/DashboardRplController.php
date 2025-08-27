@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Aktivitas;
-use App\Models\Materi;
-use App\Models\Siswa;
 use Carbon\Carbon;
+use App\Models\Siswa;
+use App\Models\Materi;
+use App\Models\Aktivitas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardRplController extends Controller
@@ -153,6 +154,11 @@ class DashboardRplController extends Controller
             $i++;
         }
 
+        $belumLapor = DB::table('siswa')
+                        ->where('user_id', Auth::id())
+                        ->where('report_status', 'Belum Lapor')
+                        ->count();
+
         return view('dashboardrpl', compact(
             'siswaData',
             'aktivitasNames',
@@ -167,7 +173,8 @@ class DashboardRplController extends Controller
             'totalWaktu',
             'persentaseBelajar',
             'persentaseProjek',
-            'dataAktivitasBelajar'
+            'dataAktivitasBelajar',
+            'belumLapor'
         ));
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('tanggal_selesai')->nullable();
             $table->string('masa_pkl')->nullable();
             $table->enum('jurusan', ['TKJ', 'RPL'])->nullable();
+            $table->string('no_hp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
