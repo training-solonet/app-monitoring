@@ -9,26 +9,26 @@
             <h6 class="font-weight-bold mb-0">Dashboard</h6> --}}
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-1 d-flex align-items-center mb-0 gap-2 font-weight-bold breadcrumb-text text-white">
-                <!-- Sidebar Button -->
-                <li class="nav-item d-xl-none ps-3 me-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                        <div class="sidenav-toggler-inner">
-                            <i class="sidenav-toggler-line"></i>
-                            <i class="sidenav-toggler-line"></i>
-                            <i class="sidenav-toggler-line"></i>
-                        </div>
-                    </a>
-                </li>
-                <!-- Logout Form -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="login" onclick="event.preventDefault(); this.closest('form').submit();">
-                        <button class="btn btn-sm btn-white mb-0 me-1" type="submit">Log out</button>
-                    </a>
-                </form>
-            </div>
-        </div>
+    <div class="d-flex align-items-center justify-content-end w-100 gap-2">
+        <!-- Logout -->
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="btn btn-sm btn-white mb-0 me-1" type="submit">Log out</button>
+        </form>
+
+        <!-- Sidebar Button / Hamburger (hanya untuk layar kecil) -->
+        <li class="nav-item d-xl-none d-flex align-items-center">
+            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                    <i class="sidenav-toggler-line"></i>
+                </div>
+            </a>
+        </li>
+    </div>
+</div>
+
     </div>
 </nav>
 <!-- End Navbar -->
