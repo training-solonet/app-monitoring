@@ -78,7 +78,7 @@
                                                                     Tanggal Selesai</th>
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
-                                                                    Masa Pkl</th>
+                                                                    Masa PKL</th>
                                                                 <th
                                                                     class="text-center text-secondary font-weight-semibold text-xs opacity-7">
                                                                     Jurusan</th>
