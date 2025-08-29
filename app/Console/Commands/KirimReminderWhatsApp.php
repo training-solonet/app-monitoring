@@ -27,7 +27,7 @@ class KirimReminderWhatsApp extends Command
             $username = $siswa->siswa_monitoring->username;
 
             // Hitung jumlah aktivitas belum lapor per siswa
-            if (!isset($aktivitasPerSiswa[$username])) {
+            if (! isset($aktivitasPerSiswa[$username])) {
                 $aktivitasPerSiswa[$username] = 0;
             }
             $aktivitasPerSiswa[$username] += 1; // tambah 1 per aktivitas
@@ -36,7 +36,7 @@ class KirimReminderWhatsApp extends Command
         // Kirim pesan untuk setiap siswa berdasarkan array
         foreach ($aktivitasPerSiswa as $username => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn ($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
 
             $namaAkhir = substr($username, -1);
             $namaUnik = $username.$namaAkhir;
@@ -44,7 +44,7 @@ class KirimReminderWhatsApp extends Command
             $pesan = "Haii *{$namaUnik}*,\n\n"
                     ."Sistem kami menemukan bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan. "
                     ."Setiap laporan sangat penting agar catatan kegiatanmu tetap lengkap dan sesuai aturan.\n\n"
-                    ."Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. "
+                    .'Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. '
                     ."Keterlambatan bisa memengaruhi penilaian PKL dan catatan performamu.\n\n"
                     ."Segera lengkapi laporanmu ya, agar semuanya tetap teratur dan perjalanan belajarmu lebih lancar.\n\n"
                     ."Terima kasih atas perhatian dan kerja kerasmu. 😁\n\n"
