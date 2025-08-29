@@ -1,66 +1,46 @@
 <x-guest-layout>
-    <div class="container position-sticky z-index-sticky top-0">
-        <div class="row">
-            <div class="col-12">
-                <x-guest.sidenav-guest />
-            </div>
-        </div>
-    </div>
-    <main class="main-content  mt-0">
+    <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; background: linear-gradient(135deg, #1f1c2c, #928dab);">
         <section>
-            <div class="page-header min-vh-100">
+            <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6 d-flex flex-column mx-auto">
-                            <div class="card card-plain mt-8">
-                                <div class="card-header pb-0 text-left bg-transparent">
-                                    <h3 class="font-weight-black text-dark display-6 text-center">Forgot password?</h3>
-                                    <p class="mb-0 text-center">Enter your email below!</p>
+                    <div class="d-flex justify-content-center mb-4">
+                        <img src="http://absensi.connectis.my.id/logo.png" style="height:8rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));" alt="Logo">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card p-4 rounded-3 shadow-lg border-0" style="background: linear-gradient(135deg, #ffffff, #f8f9fa); transition: transform 0.3s; animation: slideIn 0.5s ease;">
+                                <div class="card-header pb-0 text-center bg-transparent">
+                                    <h3 class="font-weight-black text-dark display-6 mb-0">Monitoring App</h3>
+                                    <p class="text-muted mt-2">Dapatkan username dan password yang anda lupakan.</p>
                                 </div>
-                                @if ($errors->any())
-                                    <div class="alert alert-danger text-sm" role="alert">
-                                        @foreach ($errors->all() as $error)
-                                            {{ $error }}
-                                        @endforeach
-                                    </div>
-                                @endif
-                                @if (session('status'))
-                                    <div class="alert alert-info text-sm" role="alert">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger text-sm" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
+                                <div class="text-center mt-1">
+                                    @if (session('status'))
+                                        <div class="mb-4 font-medium text-sm text-success">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                                    @error('message')
+                                        <div class="alert alert-danger text-sm" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                                 <div class="card-body">
-                                    <form role="form" action="/forgot-password" method="POST">
-                                        {{ csrf_field() }}
+                                    <form role="form" class="text-start" method="POST" action="sign-in">
+                                        @csrf
                                         <div class="mb-3">
-                                            <input type="email" class="form-control" placeholder="Email"
-                                                aria-label="Email" id="email" name="email"
-                                                value="{{ old('email') }}" required autofocus>
+                                            <label for="no_hp" class="form-label text-dark">Nomor HP (62XXXXXXXXXXXX)</label>
+                                            <input type="text" id="no_hp" name="no_hp"
+                                                class="form-control rounded-pill" placeholder="Masukan nomor handphone anda"
+                                                value="{{ old('username') }}" required>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="my-4 mb-2 btn btn-dark btn-lg w-100">Email
-                                                password reset link</button>
+                                            <button type="submit" class="btn btn-dark w-100 mt-4 mb-3 rounded-pill" 
+                                                style="background: linear-gradient(135deg, #4b79a1, #283e51); border: none; transition: transform 0.2s; font-weight: bold;">
+                                                Kirim
+                                            </button>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="position-absolute w-40 top-0 end-0 h-100 d-md-block d-none">
-                                <div class="oblique-image position-absolute fixed-top ms-auto h-100 z-index-0 bg-cover ms-n8"
-                                    style="background-image:url('../assets/img/image-sign-in.jpg')">
-                                    <div
-                                        class="blur mt-12 p-4 text-center border border-white border-radius-md position-absolute fixed-bottom m-4">
-                                        <h2 class="mt-3 text-dark font-weight-bold">Enter our global community of
-                                            developers.</h2>
-                                        <h6 class="text-dark text-sm mt-5">Copyright © 2022 Corporate UI Design System
-                                            by Creative Tim.</h6>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,5 +49,30 @@
             </div>
         </section>
     </main>
-
 </x-guest-layout>
+
+<style>
+    /* Smooth slide-in animation */
+    @keyframes slideIn {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Button hover effect */
+    .btn-dark:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #3b5998, #192f4d);
+    }
+
+    /* Card shadow effect */
+    .card:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        transform: translateY(-4px);
+    }
+</style>

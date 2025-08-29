@@ -247,6 +247,10 @@
                         <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
                             placeholder="Tanggal Selesai" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="no_hp" class="form-label">Nomor HP</label>
+                        <input type="text" class="form-control" id="no_hp" name="no_hp" placeholder="62XXXXXXXXXXX">
+                    </div>
                     <div class="modal-footer">
                         <input type="hidden" name="status" value="Aktif">
                         <input type="hidden" name="role" value="siswa">

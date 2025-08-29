@@ -20,6 +20,6 @@ class RoleMiddleware
             return $next($request);
         }
 
-        return redirect('/unauthorized')->with('error', 'Anda tidak memiliki akses ke halaman ini');
+        return redirect('/sign-in');
     }
 }

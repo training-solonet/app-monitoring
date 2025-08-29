@@ -18,40 +18,48 @@ class KirimReminderWhatsApp extends Command
         $belumLapor = Siswa::with('siswa_monitoring')
             ->where('report_status', 'Belum Lapor')
             ->get()
-            ->filter(fn ($siswa) => $siswa->siswa_monitoring && $siswa->siswa_monitoring->no_hp
-            );
+            ->filter(fn ($siswa) => $siswa->siswa_monitoring && $siswa->siswa_monitoring->no_hp);
 
-        if ($belumLapor->isEmpty()) {
-            $this->info('Tidak ada siswa yang belum lapor atau tidak punya nomor HP.');
+        // Buat array untuk menyimpan jumlah aktivitas per siswa
+        $aktivitasPerSiswa = [];
 
-            return;
-        }
-
-        $jumlahBelum = 0;
         foreach ($belumLapor as $siswa) {
-            // Kalau tabel siswa hanya punya 1 baris per siswa, jumlahnya pasti 1
+            $username = $siswa->siswa_monitoring->username;
 
-            $jumlahBelum += 1;
-
-            $nama = $siswa->siswa_monitoring->username;
-            $namaAkhir = substr($nama, -1); // ambil huruf terakhir
-            $namaUnik = $nama.$namaAkhir; // gandakan huruf terakhir
-
-            $pesan = "Haii *{$namaUnik}*, "
-                ."sistem mendeteksi bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan.\n\n"
-                .'Mohon segera melengkapi laporan kegiatanmu agar data dokumentasi tetap lengkap sesuai dengan ketentuan. '
-                ."Keterlambatan dalam pelaporan *dapat memengaruhi penilaian PKL* serta laporan performa kamu.\n\n"
-                .'Terima kasih atas perhatian dan kerja samanya. 😁';
-
+            // Hitung jumlah aktivitas belum lapor per siswa
+            if (!isset($aktivitasPerSiswa[$username])) {
+                $aktivitasPerSiswa[$username] = 0;
+            }
+            $aktivitasPerSiswa[$username] += 1; // tambah 1 per aktivitas
         }
-        Http::withHeaders([
-            'Authorization' => env('FONNTE_TOKEN'),
-        ])->post('https://api.fonnte.com/send', [
-            'target' => $siswa->siswa_monitoring->no_hp,
-            'message' => $pesan,
-        ]);
 
-        $this->info("Pesan terkirim ke {$siswa->siswa_monitoring->username} ({$siswa->siswa_monitoring->no_hp})");
+        // Kirim pesan untuk setiap siswa berdasarkan array
+        foreach ($aktivitasPerSiswa as $username => $jumlahBelum) {
+            // Ambil data siswa_monitoring dari salah satu siswa
+            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
+
+            $namaAkhir = substr($username, -1);
+            $namaUnik = $username.$namaAkhir;
+
+            $pesan = "Haii *{$namaUnik}*,\n\n"
+                    ."Sistem kami menemukan bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan. "
+                    ."Setiap laporan sangat penting agar catatan kegiatanmu tetap lengkap dan sesuai aturan.\n\n"
+                    ."Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. "
+                    ."Keterlambatan bisa memengaruhi penilaian PKL dan catatan performamu.\n\n"
+                    ."Segera lengkapi laporanmu ya, agar semuanya tetap teratur dan perjalanan belajarmu lebih lancar.\n\n"
+                    ."Terima kasih atas perhatian dan kerja kerasmu. 😁\n\n"
+                    ."Salam hangat,\n*Sistem Monitoring*";
+
+            Http::withHeaders([
+                'Authorization' => env('FONNTE_TOKEN'),
+            ])->post('https://api.fonnte.com/send', [
+                'target' => $siswaMonitor->no_hp,
+                'message' => $pesan,
+            ]);
+
+            $this->info("Pesan terkirim ke {$username} ({$siswaMonitor->no_hp}) dengan {$jumlahBelum} aktivitas belum dilaporkan.");
+        }
+
     }
 }
 //

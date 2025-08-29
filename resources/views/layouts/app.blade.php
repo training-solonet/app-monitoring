@@ -110,7 +110,7 @@
 
         Swal.fire({
             icon: 'error',
-            title: 'Gagal Ditambahkan',
+            title: 'Gagal',
             text: errorMessages,
             confirmButtonText: 'OK'
         });

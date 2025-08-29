@@ -119,6 +119,17 @@
                     <span class="nav-link-text ms-1">Siswa</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('profile') ? 'active' : '' }}" href="/profile">
+                    <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+                        <img src="{{ asset('assets/img/img-4.jpg') }}" 
+                            alt="Profile" 
+                            class="rounded-circle" 
+                            width="30" height="30">
+                    </div>
+                    <span class="nav-link-text ms-1">{{ Auth::user()->username }}</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

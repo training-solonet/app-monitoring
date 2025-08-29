@@ -1,23 +1,4 @@
 <x-guest-layout>
-    @php
-        if (Auth::check()) {
-            $user = Auth::user();
-
-            if ($user->role === 'siswa') {
-                if ($user->jurusan === 'RPL') {
-                    return redirect()->route('dashboardrpl.index');
-                } elseif ($user->jurusan === 'TKJ') {
-                    return redirect()->route('dashboardsiswa.index');
-                } elseif ($user->jurusan === 'DKV') {
-                    return redirect()->route('dashboardsiswa.index');
-                }
-            }
-
-            if ($user->role === 'pembimbing') {
-                return redirect()->route('dashboardpembimbing.index');
-            }
-        }
-    @endphp
     <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; background: linear-gradient(135deg, #1f1c2c, #928dab);">
         <section>
             <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">

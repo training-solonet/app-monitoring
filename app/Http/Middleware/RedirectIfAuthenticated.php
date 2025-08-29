@@ -28,6 +28,8 @@ class RedirectIfAuthenticated
                     return redirect()->route('dashboardrpl.index');
                 } elseif ($user->jurusan === 'TKJ') {
                     return redirect()->route('dashboardsiswa.index');
+                } elseif ($user->jurusan === 'DKV') {
+                    return redirect()->route('dashboardsiswa.index');
                 }
             }
 

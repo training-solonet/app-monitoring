@@ -40,12 +40,13 @@ class UserSiswaController extends Controller
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
             'jurusan' => 'required|in:RPL,TKJ,DKV',
+            'no_hp' => 'nullable|regex:/^62[0-9]{9,13}$/',
         ], [
             'username.required' => 'Username Tidak Boleh Sama.',
-            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
-            'password.max' => 'Password Tidak Boleh Lebih dari 20 karakter',
+            'password.min' => 'Password tidak boleh kurang dari 8 karakter',
+            'password.max' => 'Password tidak boleh lebih dari 20 karakter',
             'role.required' => 'Role is required',
-            'role.in' => 'Role harus salah satu dari:siswa, pembimbing',
+            'role.in' => 'Role harus salah satu dari siswa atau pembimbing',
             'status.required' => 'Status is required',
             'tanggal_mulai.required' => 'Tanggal mulai is required',
             'tanggal_selesai.required' => 'Tanggal selesai is required',
@@ -66,6 +67,7 @@ class UserSiswaController extends Controller
             'tanggal_selesai' => $request->tanggal_selesai,
             'masa_pkl' => $masaPkl,
             'jurusan' => $request->jurusan,
+            'no_hp' => $request->no_hp
         ]);
 
         return redirect()->route('usersiswa.index')->with('success', 'Data berhasil ditambahkan.');
@@ -84,9 +86,9 @@ class UserSiswaController extends Controller
             'no_hp' => 'nullable|regex:/^62[0-9]{9,13}$/',
         ], [
             'username.required' => 'Username is required',
-            'username.min' => 'Username Tidak Boleh sama',
+            'username.min' => 'Username tidak boleh sama',
             'password.required' => 'Password is required',
-            'password.min' => 'Password Tidak Boleh kurang dari 8 karakter',
+            'password.min' => 'Password tidak boleh kurang dari 8 karakter',
             'tanggal_mulai.required' => 'Tanggal mulai is required',
             'tanggal_selesai.required' => 'Tanggal selesai is required',
             'jurusan.required' => 'jurusan is required',

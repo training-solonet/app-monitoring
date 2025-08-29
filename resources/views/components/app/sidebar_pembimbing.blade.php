@@ -143,6 +143,24 @@
                     <span class="nav-link-text ms-1">RPL</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('profile') ? 'active' : '' }}" href="/profile">
+                    <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+                        @if (Auth::user()->pfp_path)
+                        <img src="{{ Storage::url(Auth::user()->pfp_path) }}" 
+                            alt="Profile" 
+                            class="rounded-circle" 
+                            width="30" height="30">
+                        @else
+                        <img src="{{ asset('assets/img/img-8.jpg') }}" 
+                            alt="Profile" 
+                            class="rounded-circle" 
+                            width="30" height="30">
+                        @endif
+                    </div>
+                    <span class="nav-link-text ms-1">{{ Auth::user()->username }}</span>
+                </a>
+            </li>
             <li class="nav-item mt-2">
                 <a class="nav-link d-flex align-items-center" href="{{ url('/download-dokumentasi') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
