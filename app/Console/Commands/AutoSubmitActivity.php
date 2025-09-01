@@ -25,6 +25,7 @@ class AutoSubmitActivity extends Command
             $query = DB::table('siswa')->where('kategori', 'Keluar Dengan Teknisi');
         } else {
             $this->info("Command activity:autosubmit hanya jalan jam 17:00 dan 21:00. Sekarang jam {$jam}");
+
             return;
         }
 

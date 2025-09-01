@@ -82,7 +82,7 @@ class UserSiswaController extends Controller
         // mengupdate data siswa yang telah di input pada form edit siswa
         $request->validate([
             'nama_lengkap' => 'required|string',
-            'nickname' =>'required|string',
+            'nickname' => 'required|string',
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',
             'tanggal_mulai' => 'required|date',

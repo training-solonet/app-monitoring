@@ -26,12 +26,13 @@ class KirimReminderWhatsApp extends Command
             // siswa kategori "Keluar Dengan Teknisi"
             $query = Siswa::with('siswa_monitoring')
                 ->where('kategori', 'Keluar Dengan Teknisi')
-                ->where(function($q){
+                ->where(function ($q) {
                     $q->where('report_status', 'Belum Lapor')
-                    ->orWhereNull('report_status');
+                        ->orWhereNull('report_status');
                 });
         } else {
             $this->info("Command reminder:whatsapp hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
+
             return;
         }
 
@@ -47,7 +48,7 @@ class KirimReminderWhatsApp extends Command
             $nickname = $siswa->siswa_monitoring->nickname;
 
             // Hitung jumlah aktivitas belum lapor per siswa
-            if (!isset($aktivitasPerSiswa[$username])) {
+            if (! isset($aktivitasPerSiswa[$username])) {
                 $aktivitasPerSiswa[$username] = 0;
             }
             $aktivitasPerSiswa[$nickname] += 1; // tambah 1 per aktivitas
@@ -56,7 +57,7 @@ class KirimReminderWhatsApp extends Command
         // Kirim pesan untuk setiap siswa berdasarkan array
         foreach ($aktivitasPerSiswa as $nickname => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn ($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
 
             $namaAkhir = substr($nickname, -1);
             $namaUnik = $nickname.$namaAkhir;
