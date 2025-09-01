@@ -56,6 +56,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">

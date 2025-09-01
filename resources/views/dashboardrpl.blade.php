@@ -3,23 +3,28 @@
         {{-- Stylesheet and Chart.js --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
         <style>
             #dashboard-content,
             #detail-content {
-                transition: opacity 0.3s ease-in-out;
+                transition: opacity 0.5s ease, transform 0.5s ease;
                 opacity: 0;
-                visibility: hidden;
+                transform: translateY(20px);
+                pointer-events: none;
+                display: none;
             }
 
             #dashboard-content.show,
             #detail-content.show {
                 opacity: 1;
-                visibility: visible;
+                transform: translateY(0);
+                pointer-events: auto;
+                display: block;
             }
         </style>
+
         {{-- Navbar --}}
         <x-app.navbar />
+
         {{-- Main Container --}}
         <div class="container-fluid py-4 px-5">
             {{-- Header Section --}}
@@ -46,7 +51,7 @@
                 </div>
 
                 <hr class="my-3">
-                
+
                 @if ($belumLapor > 0)
                     <div id="belumLaporAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>
@@ -55,14 +60,14 @@
                 @endif
 
                 {{-- Detail --}}
-                <div class="container mt-4" id="detail-content" style="display: none;">
+                <div class="container mt-4" id="detail-content">
                     <h4>Detail</h4>
                     <div class="row g-3">
                         <!-- Card Total Aktivitas Belajar -->
                         <div class="col-md-4">
-                            <div class="card text-center shadow border-0">
+                            <div class="card glass-card text-center shadow border-0">
                                 <div class="card-header text-white"
-                                    style="background: linear-gradient(45deg, #ff9f43, #ff6f61);">
+                                    style="background: linear-gradient(45deg, #ff9f43, #ff6f61); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Aktivitas Belajar</h6>
                                 </div>
                                 <div class="card-body">
@@ -73,9 +78,9 @@
 
                         <!-- Card Total Aktivitas Projek -->
                         <div class="col-md-4">
-                            <div class="card text-center shadow border-0">
+                            <div class="card glass-card text-center shadow border-0">
                                 <div class="card-header text-white"
-                                    style="background: linear-gradient(45deg, #42a5f5, #5c6bc0);">
+                                    style="background: linear-gradient(45deg, #42a5f5, #5c6bc0); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Aktivitas Projek</h6>
                                 </div>
                                 <div class="card-body">
@@ -86,21 +91,21 @@
 
                         <!-- Card Total Waktu -->
                         <div class="col-md-4">
-                            <div class="card text-center shadow border-0">
+                            <div class="card glass-card text-center shadow border-0">
                                 <div class="card-header text-white"
-                                    style="background: linear-gradient(45deg, #66bb6a, #26a69a);">
+                                    style="background: linear-gradient(45deg, #66bb6a, #26a69a); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Jumlah Waktu</h6>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="text-success font-weight-bold">
                                         @php
-                                        $totalDetik = abs($totalWaktu);
-                                        $jam = floor($totalDetik / 3600);
-                                        $menit = floor(($totalDetik % 3600) / 60);
-                                        $detik = $totalDetik % 60;
-                                    @endphp
-                                    {{ $jam }}j {{ $menit }}m {{ $detik }}d
-                                </h5>
+                                            $totalDetik = abs($totalWaktu);
+                                            $jam = floor($totalDetik / 3600);
+                                            $menit = floor(($totalDetik % 3600) / 60);
+                                            $detik = $totalDetik % 60;
+                                        @endphp
+                                        {{ $jam }}j {{ $menit }}m {{ $detik }}d
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +119,7 @@
                         <div class="mb-4">
                             <small>Aktivitas Belajar</small>
                             <div class="progress" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar"
+                                <div class="progress-bar"
                                     style="width: {{ $persentaseBelajar }}%; background: linear-gradient(90deg, #ff9f43, #ff6f61); height: 20px"
                                     aria-valuenow="{{ $persentaseBelajar }}" aria-valuemin="0" aria-valuemax="100">
                                     {{ number_format($persentaseBelajar, 2) }}%
@@ -126,7 +131,7 @@
                         <div>
                             <small>Aktivitas Projek</small>
                             <div class="progress" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar"
+                                <div class="progress-bar"
                                     style="width: {{ $persentaseProjek }}%; background: linear-gradient(90deg, #42a5f5, #5c6bc0); height: 20px"
                                     aria-valuenow="{{ $persentaseProjek }}" aria-valuemin="0" aria-valuemax="100">
                                     {{ number_format($persentaseProjek, 2) }}%
@@ -137,10 +142,10 @@
                 </div>
 
                 {{-- Diagram --}}
-                <div class="d-flex row mt-4 show" id="dashboard-content" style="display: block;">
+                <div class="d-flex row mt-4 show" id="dashboard-content">
                     <h4>Diagram</h4>
                     <div class="col-md-12">
-                        <div class="card shadow-sm border h-100">
+                        <div class="card glass-card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto;">
                                     <!-- Diagram Lingkaran Belajar -->
@@ -160,9 +165,7 @@
                                     <div class="col-md-6 mt-1">
                                         <h6 class="text-center mb-3">Jumlah Aktivitas Belajar</h6>
                                         <div class="chart">
-                                            <canvas id="chart-bar-Belajar" class="chart-canvas" height="519"
-                                                width="649"
-                                                style="margin-top: 4rem; display: block; box-sizing: border-box; height: 380px; width: 481px;"></canvas>
+                                            <canvas id="chart-bar-Belajar" class="chart-canvas" height="380"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -170,9 +173,9 @@
                         </div>
                     </div>
 
-                    <!-- Card 2: Untuk Diagram Lingkaran dan Batang Projek -->
+                    <!-- Diagram Projek -->
                     <div class="col-md-12 mt-3 d-none">
-                        <div class="card shadow-sm border h-100">
+                        <div class="card glass-card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto">
                                     <!-- Diagram Lingkaran Projek -->
@@ -209,27 +212,13 @@
             return `${h}h ${m}m ${s}s`;
         }
 
-        // Pie Chart
-        const ctxPie = document.getElementById('chart-pie').getContext('2d');
-        const gradientColorsPie = [];
-        const colors = [
-            'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(153, 102, 255, 1)',
-            'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(231, 233, 237, 1)', 'rgba(255, 99, 99, 1)',
-            'rgba(255, 159, 159, 1)', 'rgba(75, 255, 192, 1)', 'rgba(192, 75, 255, 1)', 'rgba(86, 255, 255, 1)',
-            'rgba(75, 64, 192, 1)', 'rgba(192, 75, 132, 1)', 'rgba(159, 255, 64, 1)', 'rgba(132, 255, 159, 1)',
-            'rgba(64, 255, 159, 1)', 'rgba(255, 75, 159, 1)', 'rgba(159, 75, 255, 1)', 'rgba(64, 132, 255, 1)'
-        ];
-
-        colors.forEach((color) => {
-            const gradient = ctxPie.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(1, `${color.replace('1)', '0.2)')}`);
-            gradientColorsPie.push(gradient);
-        });
-
         // Pie Chart Belajar
         const ctxPieBelajar = document.getElementById('chart-pie-Belajar').getContext('2d');
         const gradientColorsPieBelajar = [];
+        const colors = [
+            'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 159, 64, 1)', 'rgba(153, 102, 255, 1)',
+            'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(231, 233, 237, 1)', 'rgba(255, 99, 99, 1)'
+        ];
         colors.forEach((color) => {
             const gradient = ctxPieBelajar.createLinearGradient(0, 0, 0, 400);
             gradient.addColorStop(0, color);
@@ -276,12 +265,10 @@
         });
 
         // Toggle Legend Belajar
-        const toggleLegendBelajarButton = document.getElementById('toggle-legend-Belajar');
-        toggleLegendBelajarButton.addEventListener('click', () => {
+        document.getElementById('toggle-legend-Belajar').addEventListener('click', () => {
             pieChartBelajar.options.plugins.legend.display = !pieChartBelajar.options.plugins.legend.display;
             pieChartBelajar.update();
         });
-
 
         // Bar Chart Belajar
         const ctxBarBelajar = document.getElementById('chart-bar-Belajar').getContext('2d');
@@ -289,10 +276,10 @@
         gradientBarBelajar.addColorStop(0, 'rgba(255, 159, 64, 1)');
         gradientBarBelajar.addColorStop(1, 'rgba(255, 159, 64, 0.4)');
 
-        const barChartBelajar = new Chart(ctxBarBelajar, {
+        new Chart(ctxBarBelajar, {
             type: 'bar',
             data: {
-                labels: @json($dataAktivitasBelajar['name']  ?? []),
+                labels: @json($dataAktivitasBelajar['name'] ?? []),
                 datasets: [{
                     label: 'Jumlah Aktivitas',
                     data: @json($dataAktivitasBelajar['jumlah'] ?? []),
@@ -311,53 +298,27 @@
                 },
                 scales: {
                     x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
-                        }
+                        grid: { display: false },
+                        ticks: { font: { size: 12, weight: 'bold' } }
                     },
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        },
-                        ticks: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            },
-                            beginAtZero: true
-                        }
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        ticks: { font: { size: 12, weight: 'bold' } }
                     }
                 }
             }
         });
-        document.getElementById('show-dashboard-content').addEventListener('click', function() {
-            const dashboardContent = document.getElementById('dashboard-content');
-            const detailContent = document.getElementById('detail-content');
 
-            // Tampilkan dashboard content dan sembunyikan detail content
-            dashboardContent.style.display = 'block';
-            dashboardContent.classList.add('show');
-            detailContent.style.display = 'none';
-            detailContent.classList.remove('show');
+        // Toggle buttons
+        document.getElementById('show-dashboard-content').addEventListener('click', () => {
+            document.getElementById('dashboard-content').classList.add('show');
+            document.getElementById('detail-content').classList.remove('show');
         });
 
-        document.getElementById('show-detail-content').addEventListener('click', function() {
-            const detailContent = document.getElementById('detail-content');
-            const dashboardContent = document.getElementById('dashboard-content');
-
-            // Tampilkan detail content dan sembunyikan dashboard content
-            detailContent.style.display = 'block';
-            detailContent.classList.add('show');
-            dashboardContent.style.display = 'none';
-            dashboardContent.classList.remove('show');
+        document.getElementById('show-detail-content').addEventListener('click', () => {
+            document.getElementById('detail-content').classList.add('show');
+            document.getElementById('dashboard-content').classList.remove('show');
         });
     </script>
-
 </x-app-layout>

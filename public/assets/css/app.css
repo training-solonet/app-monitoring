@@ -1,0 +1,177 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+/* ==== SIDENAV ==== */
+#sidenav-main {
+    background: rgba(15, 23, 42, 0.85); /* slate-900 transparan */
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Navbar Brand */
+#sidenav-main .navbar-brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+#sidenav-main .navbar-brand:hover {
+    color: #38bdf8; /* sky-400 */
+}
+
+/* Nav Links */
+#sidenav-main .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    color: #e5e7eb; /* text-gray-200 */
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#sidenav-main .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #38bdf8; /* sky-400 */
+    transform: translateX(5px);
+}
+
+/* Active link */
+#sidenav-main .nav-link.active {
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: #fff !important;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.5);
+}
+
+/* Icon style */
+#sidenav-main .nav-link .icon svg,
+#sidenav-main .nav-link svg {
+    transition: transform 0.3s, fill 0.3s;
+}
+
+#sidenav-main .nav-link:hover svg {
+    transform: scale(1.1);
+    fill: #38bdf8;
+}
+
+/* Profile image */
+#sidenav-main .nav-link img {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+#sidenav-main .nav-link:hover img {
+    transform: scale(1.1);
+    border-color: #38bdf8;
+}
+
+/* Unduh Dokumentasi */
+#sidenav-main .nav-item.mt-2 .nav-link {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+#sidenav-main .nav-item.mt-2 .nav-link:hover {
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+}
+
+/* Hilangkan ikon reveal password bawaan di Microsoft Edge */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+/* Glass Effect Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    border-radius: 20px;
+}
+
+.glass-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Glass Effect Input */
+.glass-input {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.glass-input:focus {
+    border-color: #00c6ff;
+    box-shadow: 0 0 8px rgba(0, 198, 255, 0.7);
+    background: rgba(255, 255, 255, 0.25);
+    color:#fff;
+}
+
+/* Gradient Button */
+.btn-gradient {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-gradient:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6);
+    color:white;
+}
+
+.logo-hover {
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo-hover:hover {
+    transform: scale(1.15);
+}
+
+
+/* Password Toggle */
+.password-container {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.eye-icon:hover {
+    color: #00c6ff;
+}

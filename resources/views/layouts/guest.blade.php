@@ -52,6 +52,7 @@
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 
 <body class="">

@@ -7,15 +7,19 @@
         <style>
             #dashboard-content,
             #detail-content {
-                transition: opacity 0.3s ease-in-out;
+                transition: opacity 0.5s ease, transform 0.5s ease;
                 opacity: 0;
-                visibility: hidden;
+                transform: translateY(20px);
+                pointer-events: none;
+                display: none;
             }
 
             #dashboard-content.show,
             #detail-content.show {
                 opacity: 1;
-                visibility: visible;
+                transform: translateY(0);
+                pointer-events: auto;
+                display: block;
             }
         </style>
         {{-- Navbar --}}

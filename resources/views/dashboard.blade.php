@@ -3,6 +3,26 @@
         {{-- Stylesheet and Chart.js --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            <style>
+            #dashboard-content,
+            #detail-content {
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                opacity: 0;
+                transform: translateY(20px);
+                pointer-events: none;
+                display: none;
+            }
+
+            #dashboard-content.show,
+            #detail-content.show {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+                display: block;
+            }
+        </style>
+        </style>
 
         {{-- Navbar --}}
         <x-app.navbar />

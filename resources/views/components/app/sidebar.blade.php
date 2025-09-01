@@ -2,14 +2,14 @@
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0">
+        <a class="navbar-brand d-flex align-items-center m-0" href="/">
             <span class="font-weight-bold text-lg">Monitoring PKL</span>
         </a>
     </div>
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             @if (Auth::user()->jurusan === 'TKJ' || Auth::user()->jurusan === 'DKV')
-                <li class="nav-item">
+                <li class="nav-item mb-2">
                     <a class="nav-link {{ Request::is('dashboardsiswa') ? 'active' : '' }}"
                         href="{{ route('dashboardsiswa.index') }}">
                         <div
@@ -39,7 +39,7 @@
             @endif
 
             @if (Auth::user()->jurusan === 'RPL')
-                <li class="nav-item">
+                <li class="nav-item mb-2">
                     <a class="nav-link {{ Request::is('dashboard-rpl') ? 'active' : '' }}"
                         href="{{ route('dashboardrpl.index') }}">
                         <div
@@ -69,7 +69,7 @@
             @endif
 
             @if (Auth::user()->jurusan === 'TKJ' || Auth::user()->jurusan === 'DKV')
-                <li class="nav-item">
+                <li class="nav-item mb-2">
                     <a class="nav-link {{ Request::is('siswa') ? 'active' : '' }}" href="{{ route('siswa.index') }}">
                         <div
                             class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
@@ -102,7 +102,7 @@
 
 
             @if (Auth::user()->jurusan === 'RPL')
-                <li class="nav-item">
+                <li class="nav-item mb-2">
                     <a class="nav-link {{ Request::is('siswarpl') ? 'active' : '' }}" href="/siswarpl">
                         <div
                             class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
@@ -132,7 +132,7 @@
                     </a>
                 </li>
             @endif
-            <li class="nav-item">
+            <li class="nav-item mb-2">
                 <a class="nav-link {{ Request::is('materi') ? 'active' : '' }}" href="/materi">
                     <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -160,7 +160,7 @@
                     <span class="nav-link-text ms-1">Materi</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mb-2">
                 <a class="nav-link {{ Request::is('profile') ? 'active' : '' }}" href="/profile">
                     <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         @if (Auth::user()->pfp_path)
@@ -187,7 +187,7 @@
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span class="nav-link-text ms-2">Download Dokumentasi</span>
+                    <span class="nav-link-text ms-2">Unduh Dokumentasi</span>
                 </a>
             </li>
         </ul>

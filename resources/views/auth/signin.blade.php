@@ -4,14 +4,16 @@
             <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">
                 <div class="container">
                     <div class="d-flex justify-content-center mb-4">
-                        <img src="http://absensi.connectis.my.id/logo.png" style="height:8rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));" alt="Logo">
+                        <img src="http://absensi.connectis.my.id/logo.png" 
+                             style="height:8rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6)); transition: transform 0.3s;" 
+                             alt="Logo" class="logo-hover">
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-xl-4 col-md-6">
-                            <div class="card p-4 rounded-3 shadow-lg border-0" style="background: linear-gradient(135deg, #ffffff, #f8f9fa); transition: transform 0.3s; animation: slideIn 0.5s ease;">
+                            <div class="card glass-card p-4 border-0 animate__animated animate__fadeInUp">
                                 <div class="card-header pb-0 text-center bg-transparent">
-                                    <h3 class="font-weight-black text-dark display-6 mb-0">Monitoring App</h3>
-                                    <p class="text-muted mt-2">Silahkan Masukkan Data Login</p>
+                                    <h3 class="fw-bold text-white display-6 mb-0">Monitoring App</h3>
+                                    <p class="text-light mt-2">Silahkan Masukkan Data Login</p>
                                 </div>
                                 <div class="text-center mt-1">
                                     @if (session('status'))
@@ -29,27 +31,31 @@
                                     <form role="form" class="text-start" method="POST" action="sign-in">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="username" class="form-label text-dark">Username</label>
+                                            <label for="username" class="form-label text-white">Username</label>
                                             <input type="text" id="username" name="username"
-                                                class="form-control rounded-pill" placeholder="Masukan Username Anda"
+                                                class="form-control rounded-pill glass-input" 
+                                                placeholder="Masukkan username"
                                                 value="{{ old('username') }}" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label text-dark">Kata sandi</label>
-                                            <div class="form-group password-container">
-                                                <input type="password" id="password" name="password" class="form-control rounded-pill" placeholder="Masukan Kata Sandi Anda" required>
-                                                <i class="eye-icon bi bi-eye" id="togglePassword"></i>
+                                            <label for="password" class="form-label text-white">Kata sandi</label>
+                                            <div class="form-group password-container position-relative">
+                                                <input type="password" id="password" name="password" 
+                                                       class="form-control rounded-pill glass-input" 
+                                                       placeholder="Masukkan password" required>
+                                                <i class="eye-icon bi bi-eye text-white" id="togglePassword"></i>
                                             </div>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-dark w-100 mt-4 mb-3 rounded-pill" 
-                                                style="background: linear-gradient(135deg, #4b79a1, #283e51); border: none; transition: transform 0.2s; font-weight: bold;">
+                                            <button type="submit" 
+                                                class="btn btn-gradient w-100 mt-4 mb-3 rounded-pill fw-bold">
                                                 Sign in
                                             </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
+                            <p class="text-center text-light small mt-3">© 2025 Monitoring App</p>
                         </div>
                     </div>
                 </div>
@@ -57,29 +63,3 @@
         </section>
     </main>
 </x-guest-layout>
-
-<style>
-    /* Smooth slide-in animation */
-    @keyframes slideIn {
-        from {
-            transform: translateY(20px);
-            opacity: 0;
-        }
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    /* Button hover effect */
-    .btn-dark:hover {
-        transform: scale(1.05);
-        background: linear-gradient(135deg, #3b5998, #192f4d);
-    }
-
-    /* Card shadow effect */
-    .card:hover {
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        transform: translateY(-4px);
-    }
-</style>
