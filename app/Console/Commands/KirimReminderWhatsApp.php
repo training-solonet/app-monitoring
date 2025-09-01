@@ -49,7 +49,7 @@ class KirimReminderWhatsApp extends Command
 
             // Hitung jumlah aktivitas belum lapor per siswa
 
-            if (!isset($aktivitasPerSiswa[$nickname])) {
+            if (! isset($aktivitasPerSiswa[$nickname])) {
                 $aktivitasPerSiswa[$nickname] = 0;
             }
             $aktivitasPerSiswa[$nickname] += 1; // tambah 1 per aktivitas
@@ -58,7 +58,7 @@ class KirimReminderWhatsApp extends Command
         // Kirim pesan untuk setiap siswa berdasarkan array
         foreach ($aktivitasPerSiswa as $nickname => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $nickname)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn ($s) => $s->siswa_monitoring->username === $nickname)->siswa_monitoring;
 
             $namaAkhir = substr($nickname, -1);
             $namaUnik = $nickname.$namaAkhir;
