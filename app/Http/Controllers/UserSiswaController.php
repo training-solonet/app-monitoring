@@ -71,7 +71,7 @@ class UserSiswaController extends Controller
             'tanggal_selesai' => $request->tanggal_selesai,
             'masa_pkl' => $masaPkl,
             'jurusan' => $request->jurusan,
-            'no_hp' => $request->no_hp
+            'no_hp' => $request->no_hp,
         ]);
 
         return redirect()->route('usersiswa.index')->with('success', 'Data berhasil ditambahkan.');

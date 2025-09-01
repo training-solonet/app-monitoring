@@ -21,20 +21,20 @@ class ProfileController extends Controller
     {
         // Validasi request
         $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048'
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
         ]);
 
         try {
             // Dapatkan user yang sedang login
             $user = User::find(Auth::id());
 
-            if (!Storage::disk('public')->exists('pfp')) {
+            if (! Storage::disk('public')->exists('pfp')) {
                 Storage::disk('public')->makeDirectory('pfp');
             }
-            
+
             // Generate nama file yang unik
             $imagePath = null;
-            if($request->hasFile('profile_image')){
+            if ($request->hasFile('profile_image')) {
                 if ($user->pfp_path && Storage::disk('public')->exists($user->pfp_path)) {
                     Storage::disk('public')->delete($user->pfp_path);
                 }
@@ -45,12 +45,12 @@ class ProfileController extends Controller
                 $imagePath = $image->storeAs('pfp', $imageName, 'public');
             }
 
-            if($imagePath !== null){
+            if ($imagePath !== null) {
                 $user->update(['pfp_path' => $imagePath]);
             }
-            
+
             return redirect()->back()->with('success', 'Foto profil berhasil diubah!');
-            
+
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('Foto gagal diubah!');
         }
@@ -93,7 +93,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        try{
+        try {
             $user = User::find(Auth::id());
 
             $request->validate([
@@ -109,8 +109,7 @@ class ProfileController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors('Profil gagal diperbarui.');
         }
     }
@@ -127,7 +126,7 @@ class ProfileController extends Controller
         // cek password lama
         if ($request->current_password !== $user->password) {
             return back()->withErrors(['current_password' => 'Password lama salah.']);
-        } else if($request->new_password === $user->password){
+        } elseif ($request->new_password === $user->password) {
             return back()->withErrors('Password tidak boleh sama.');
         }
 
@@ -138,7 +137,6 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Password berhasil diubah.');
     }
-
 
     /**
      * Remove the specified resource from storage.

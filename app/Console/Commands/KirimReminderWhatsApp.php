@@ -47,8 +47,8 @@ class KirimReminderWhatsApp extends Command
             $nickname = $siswa->siswa_monitoring->nickname;
 
             // Hitung jumlah aktivitas belum lapor per siswa
-            if (!isset($aktivitasPerSiswa[$nickname])) {
-                $aktivitasPerSiswa[$nickname] = 0;
+            if (!isset($aktivitasPerSiswa[$username])) {
+                $aktivitasPerSiswa[$username] = 0;
             }
             $aktivitasPerSiswa[$nickname] += 1; // tambah 1 per aktivitas
         }
@@ -56,7 +56,7 @@ class KirimReminderWhatsApp extends Command
         // Kirim pesan untuk setiap siswa berdasarkan array
         foreach ($aktivitasPerSiswa as $nickname => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->nickname === $nickname)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
 
             $namaAkhir = substr($nickname, -1);
             $namaUnik = $nickname.$namaAkhir;
@@ -64,7 +64,7 @@ class KirimReminderWhatsApp extends Command
             $pesan = "Haii *{$namaUnik}*,\n\n"
                     ."Sistem kami menemukan bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan. "
                     ."Setiap laporan sangat penting agar catatan kegiatanmu tetap lengkap dan sesuai aturan.\n\n"
-                    ."Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. "
+                    .'Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. '
                     ."Keterlambatan bisa memengaruhi penilaian PKL dan catatan performamu.\n\n"
                     ."Segera lengkapi laporanmu ya, agar semuanya tetap teratur dan perjalanan belajarmu lebih lancar.\n\n"
                     ."https://monitoring.connectis.my.id\n"
