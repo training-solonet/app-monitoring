@@ -27,7 +27,7 @@
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center justify-content-between mb-3 mx-2">
                         <div>
-                            <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->username }}</h3>
+                            <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->nickname }}</h3>
                             <p class="text-muted mb-0">Berikut ini data aktivitas anda bulan ini!</p>
                         </div>
                         <div class="d-flex">

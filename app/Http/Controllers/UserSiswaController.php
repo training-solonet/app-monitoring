@@ -33,6 +33,8 @@ class UserSiswaController extends Controller
     {
         // menyimpan data baru siswa yang telah di input pada form tambah siswa
         $request->validate([
+            'nama_lengkap' => 'required|string',
+            'nickname' => 'required|string',
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:8|max:20',
             'role' => 'required|in:siswa,pembimbing',
@@ -59,6 +61,8 @@ class UserSiswaController extends Controller
         $masaPkl = round($tanggalMulai->diffInDays($tanggalSelesai) / 30);
 
         $user = User::create([
+            'nama_lengkap' => $request->nama_lengkap,
+            'nickname' => $request->nickname,
             'username' => $request->username,
             'password' => $request->password,
             'role' => $request->role,
@@ -77,6 +81,8 @@ class UserSiswaController extends Controller
     {
         // mengupdate data siswa yang telah di input pada form edit siswa
         $request->validate([
+            'nama_lengkap' => 'required|string',
+            'nickname' =>'required|string',
             'username' => 'required|max:255',
             'password' => 'required|min:8|max:20',
             'tanggal_mulai' => 'required|date',
@@ -99,6 +105,8 @@ class UserSiswaController extends Controller
         $user = User::findOrFail($id);
 
         try {
+            $user->nama_lengkap = $request->nama_lengkap;
+            $user->nickname = $request->nickname;
             $user->username = $request->username;
             $user->password = $request->password;
             $user->tanggal_mulai = $request->tanggal_mulai;

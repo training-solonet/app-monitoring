@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->string('nama_lengkap');
             $table->string('pfp_path')->nullable();
+            $table->string('nickname');
             $table->rememberToken();
             $table->timestamps();
         });

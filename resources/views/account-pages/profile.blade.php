@@ -101,6 +101,10 @@
                                     <td class="ps-3 p-3">{{ Auth::user()->nama_lengkap }}</td>
                                 </tr>
                                 <tr>
+                                    <td class="w-25 fw-bold border-end p-3">Nickname</td>
+                                    <td class="ps-3 p-3">{{ Auth::user()->nickname }}</td>
+                                </tr>
+                                <tr>
                                     <td class="fw-bold border-end p-3">Nomor HP</td>
                                     <td class="ps-3 p-3">{{ Auth::user()->no_hp ? '+' : '' }}{{ Auth::user()->no_hp ?? 'Belum diatur' }}</td>
                                 </tr>

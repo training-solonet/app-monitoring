@@ -66,7 +66,7 @@
                                                                 </th>
                                                                 <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                                    Username</th>
+                                                                    Nama Panggilan</th>
                                                                 {{-- <th
                                                                     class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                                     Password</th> --}}
@@ -102,7 +102,7 @@
                                                                     <td class="align-middle text-center">
                                                                         <p
                                                                             class="text-sm text-dark font-weight-semibold mb-0">
-                                                                            {{ $item->username }}</p>
+                                                                            {{ $item->nickname }}</p>
                                                                         {{-- </td>
                                                                     <td class="align-middle text-center text-sm">
                                                                         <p class="text-sm text-dark mb-0">
@@ -218,6 +218,18 @@
                 <form action="{{ route('usersiswa.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
+                        <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">Nama Panggilan</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Nama Panggilan"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" placeholder="Username"
                             required>
@@ -277,6 +289,16 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
+                                value="{{ $item->nama_lengkap }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nickname" class="form-label">Nama Panggilan</label>
+                            <input type="text" class="form-control" id="nickname" name="nickname"
+                                value="{{ $item->nickname }}" required>
+                        </div>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username"

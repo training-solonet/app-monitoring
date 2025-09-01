@@ -14,9 +14,29 @@ class KirimReminderWhatsApp extends Command
 
     public function handle()
     {
+        $now = now()->format('H:i');
+
+        // Tentukan kondisi berdasarkan jam
+        if ($now === '17:00') {
+            // siswa kategori BUKAN "Keluar Dengan Teknisi"
+            $query = Siswa::with('siswa_monitoring')
+                ->where('kategori', '!=', 'Keluar Dengan Teknisi')
+                ->where('report_status', 'Belum Lapor');
+        } elseif ($now === '10:28') {
+            // siswa kategori "Keluar Dengan Teknisi"
+            $query = Siswa::with('siswa_monitoring')
+                ->where('kategori', 'Keluar Dengan Teknisi')
+                ->where(function($q){
+                    $q->where('report_status', 'Belum Lapor')
+                    ->orWhereNull('report_status');
+                });
+        } else {
+            $this->info("Command reminder:whatsapp hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
+            return;
+        }
+
         // Ambil semua siswa yang belum lapor dan punya nomor HP
-        $belumLapor = Siswa::with('siswa_monitoring')
-            ->where('report_status', 'Belum Lapor')
+        $belumLapor = $query
             ->get()
             ->filter(fn ($siswa) => $siswa->siswa_monitoring && $siswa->siswa_monitoring->no_hp);
 
@@ -24,22 +44,22 @@ class KirimReminderWhatsApp extends Command
         $aktivitasPerSiswa = [];
 
         foreach ($belumLapor as $siswa) {
-            $username = $siswa->siswa_monitoring->username;
+            $nickname = $siswa->siswa_monitoring->nickname;
 
             // Hitung jumlah aktivitas belum lapor per siswa
-            if (!isset($aktivitasPerSiswa[$username])) {
-                $aktivitasPerSiswa[$username] = 0;
+            if (!isset($aktivitasPerSiswa[$nickname])) {
+                $aktivitasPerSiswa[$nickname] = 0;
             }
-            $aktivitasPerSiswa[$username] += 1; // tambah 1 per aktivitas
+            $aktivitasPerSiswa[$nickname] += 1; // tambah 1 per aktivitas
         }
 
         // Kirim pesan untuk setiap siswa berdasarkan array
-        foreach ($aktivitasPerSiswa as $username => $jumlahBelum) {
+        foreach ($aktivitasPerSiswa as $nickname => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->username === $username)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn($s) => $s->siswa_monitoring->nickname === $nickname)->siswa_monitoring;
 
-            $namaAkhir = substr($username, -1);
-            $namaUnik = $username.$namaAkhir;
+            $namaAkhir = substr($nickname, -1);
+            $namaUnik = $nickname.$namaAkhir;
 
             $pesan = "Haii *{$namaUnik}*,\n\n"
                     ."Sistem kami menemukan bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan. "
@@ -47,6 +67,8 @@ class KirimReminderWhatsApp extends Command
                     ."Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. "
                     ."Keterlambatan bisa memengaruhi penilaian PKL dan catatan performamu.\n\n"
                     ."Segera lengkapi laporanmu ya, agar semuanya tetap teratur dan perjalanan belajarmu lebih lancar.\n\n"
+                    ."https://monitoring.connectis.my.id\n"
+                    ."https://monitoring.connectis.my.id\n\n"
                     ."Terima kasih atas perhatian dan kerja kerasmu. 😁\n\n"
                     ."Salam hangat,\n*Sistem Monitoring*";
 
@@ -57,7 +79,7 @@ class KirimReminderWhatsApp extends Command
                 'message' => $pesan,
             ]);
 
-            $this->info("Pesan terkirim ke {$username} ({$siswaMonitor->no_hp}) dengan {$jumlahBelum} aktivitas belum dilaporkan.");
+            $this->info("Pesan terkirim ke {$nickname} ({$siswaMonitor->no_hp}) dengan {$jumlahBelum} aktivitas belum dilaporkan.");
         }
 
     }

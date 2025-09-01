@@ -160,7 +160,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    {{ $item->siswa_monitoring?->username ?? '' }}</td>
+                                                    {{ $item->siswa_monitoring?->nickname ?? '' }}</td>
                                                 <td class="align-middle text-center">
                                                     {{ $item->siswa_monitoring?->jurusan ?? '' }}</td>
                                                 <td class="align-middle text-center">{{ $item->kategori }}</td>

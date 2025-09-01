@@ -101,7 +101,15 @@ class DashboardRplController extends Controller
             });
 
         // Mengambil nama materi berdasarkan materi_id yang ada di $siswaDataBelajar.
-        $materiNames = Materi::whereIn('id', $siswaDataBelajar->keys())->orderByRaw('FIELD(id, '.implode(',', $siswaDataBelajar->keys()->toArray()).')')->pluck('materi', 'id');
+        if ($siswaDataBelajar->isNotEmpty()) {
+            $ids = $siswaDataBelajar->keys()->toArray();
+
+            $materiNames = Materi::whereIn('id', $ids)
+                ->orderByRaw('FIELD(id, '.implode(',', $ids).')')
+                ->pluck('materi', 'id');
+        } else {
+            $materiNames = collect(); // kosongin aja biar ga error
+        }
         // Memperbaiki supaya keys diurutkan ascending
 
         // Menghitung jumlah data (frekuensi) untuk setiap materi berdasarkan materi_id.

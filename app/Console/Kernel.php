@@ -18,8 +18,10 @@ class Kernel extends ConsoleKernel
         if (config('app.is_demo')) {
             $schedule->command('migrate:fresh --seed')->cron($scheduledInterval);
         }
-        $schedule->command('activity:autosubmit')->dailyAt('17.00');
-        $schedule->command('reminder:whatsapp')->dailyAt('17.00');
+        $schedule->command('activity:autosubmit')->dailyAt('17:00');
+        $schedule->command('reminder:whatsapp')->dailyAt('17:00');
+        $schedule->command('activity:autosubmit')->dailyAt('21:00');
+        $schedule->command('reminder:whatsapp')->dailyAt('21:00');
     }
 
     /**

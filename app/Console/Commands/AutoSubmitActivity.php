@@ -15,9 +15,21 @@ class AutoSubmitActivity extends Command
     public function handle()
     {
         $now = Carbon::now('Asia/Jakarta'); // gunakan timezone Jakarta
+        $jam = $now->format('H:i');
+
+        if ($jam === '17:00') {
+            // siswa kategori BUKAN "Keluar Dengan Teknisi"
+            $query = DB::table('siswa')->where('kategori', '!=', 'Keluar Dengan Teknisi');
+        } elseif ($jam === '21:00') {
+            // siswa kategori "Keluar Dengan Teknisi"
+            $query = DB::table('siswa')->where('kategori', 'Keluar Dengan Teknisi');
+        } else {
+            $this->info("Command activity:autosubmit hanya jalan jam 17:00 dan 21:00. Sekarang jam {$jam}");
+            return;
+        }
 
         // Update aktivitas dengan status "Sedang Berlangsung"
-        $affectedBerlangsung = DB::table('siswa')
+        $affectedBerlangsung = (clone $query)
             ->where('status', 'Sedang Berlangsung')
             ->update([
                 'status' => 'Selesai',
@@ -28,7 +40,7 @@ class AutoSubmitActivity extends Command
             ]);
 
         // Update aktivitas dengan status "Mulai"
-        $affectedMulai = DB::table('siswa')
+        $affectedMulai = (clone $query)
             ->where('status', 'Mulai')
             ->update([
                 'status' => 'Selesai',
