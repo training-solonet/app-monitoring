@@ -255,7 +255,6 @@ class SiswaController extends Controller
 
         $dataUpdate = ([
             'report' => $request->report,
-            'bukti' => $filePath,
             'aktivitas_id' => $request->aktivitas_id1,
             'report_status' => $request->report_status,
         ]);
