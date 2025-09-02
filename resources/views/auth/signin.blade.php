@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; background: linear-gradient(135deg, #1f1c2c, #928dab);">
+    <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; background-image: url('assets/img/gplay.png'); background-color: #000e26;">
         <section>
             <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">
                 <div class="container">
@@ -38,7 +38,7 @@
                                                 value="{{ old('username') }}" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label text-white">Kata sandi</label>
+                                            <label for="password" class="form-label text-white">Password</label>
                                             <div class="form-group password-container position-relative">
                                                 <input type="password" id="password" name="password" 
                                                        class="form-control rounded-pill glass-input" 
@@ -55,7 +55,6 @@
                                     </form>
                                 </div>
                             </div>
-                            <p class="text-center text-light small mt-3">© 2025 Monitoring App</p>
                         </div>
                     </div>
                 </div>
