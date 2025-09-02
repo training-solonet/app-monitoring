@@ -231,7 +231,7 @@ class SiswaController extends Controller
 
         ]);
 
-        if ($request->report === $siswa->report) {
+        if ($request->report === $siswa->report && ($siswa->report_status === 'Belum Lapor' || $siswa->report_status === null)) {
             return redirect()
                 ->back()
                 ->withErrors(['report' => 'Isi laporan tidak boleh sama dengan sebelumnya. Harap ubah sebelum menyimpan.'])
