@@ -253,12 +253,18 @@ class SiswaController extends Controller
             $filePath = implode(',', $filePaths);
         }
 
-        $siswa->update([
+        $dataUpdate = ([
             'report' => $request->report,
             'bukti' => $filePath,
             'aktivitas_id' => $request->aktivitas_id1,
             'report_status' => $request->report_status,
         ]);
+
+        if ($filePath !== null) {
+            $dataUpdate['bukti'] = $filePath;
+        }
+
+        $siswa->update($dataUpdate);
 
         return redirect()->route('siswa.index')->with('success', 'Laporan berhasil diperbarui.');
     }
