@@ -1,5 +1,10 @@
 <x-guest-layout>
-    <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; background-image: url('assets/img/gplay.png'); background-color: #000e26;">
+    <main class="main-content mt-0" style="overflow: hidden; min-height: 100vh; 
+             background-image: url('assets/img/gplay.png'); 
+             background-color: #000e26;
+             background-position: center; 
+             background-repeat: repeat;
+             background-attachment: fixed;">
         <section>
             <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">
                 <div class="container">
