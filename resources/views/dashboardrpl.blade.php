@@ -31,9 +31,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center justify-content-between mb-3 mx-2">
-                        <div>
-                            <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->nickname }}</h3>
-                            <p class="text-muted mb-0">Berikut ini data aktivitas anda bulan ini!</p>
+                        <div class="d-flex">
+                            <div class="avatar avatar-xl rounded-circle border border-gray-100 border-4 me-3">
+                                @if (Auth::user()->pfp_path)
+                                <img src="{{ Storage::url(Auth::user()->pfp_path) }}" alt="profile_image" class="w-100 h-100" id="profileImage" style="object-fit: cover">
+                                @else
+                                <img src="{{ asset('assets/img/img-8.jpg') }}" alt="profile_image" class="w-100 h-100" id="profileImage" style="object-fit: cover">
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->nickname }}</h3>
+                                <p class="text-muted mb-0">Berikut ini data aktivitas anda bulan ini!</p>
+                            </div>
                         </div>
                         <div class="d-flex">
                             <button id="show-dashboard-content" type="button"
@@ -55,7 +64,7 @@
                 @if ($belumLapor > 0)
                     <div id="belumLaporAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>
-                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>.
+                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>. Silahkan menuju laporan harian.
                     </div>
                 @endif
 

@@ -104,7 +104,7 @@
                                     <button type="submit" name="filter" value="all" class="btn btn-primary" style="width: 49%">
                                         Tampilkan semua
                                     </button>
-                                    <button type="submit" name="filter" value="month" class="btn btn-danger" style="width: 49%">
+                                    <button type="submit" name="filter" value="month" class="btn btn-warning" style="width: 49%">
                                         Tampilkan hanya bulan ini
                                     </button>
                                 </div>

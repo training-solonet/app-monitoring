@@ -13,7 +13,7 @@
         <!-- Logout -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button class="btn btn-sm btn-white mb-0 me-1" type="submit">Log out</button>
+            <button class="btn btn-sm btn-danger mb-0 me-1" type="submit">Log out</button>
         </form>
 
         <!-- Sidebar Button / Hamburger (hanya untuk layar kecil) -->
