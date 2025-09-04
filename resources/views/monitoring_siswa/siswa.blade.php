@@ -181,7 +181,8 @@
                                                                 data-bs-toggle="modal" data-id="{{ $item->id }}"
                                                                 data-report="{{ $item->report }}"
                                                                 data-waktu_selesai="{{ $item->waktu_selesai }}"
-                                                                data-kategori="{{ $item->kategori }}">
+                                                                data-kategori="{{ $item->kategori }}"
+                                                                id="buttonStop">
                                                                 <i class="fa-solid fa-square"
                                                                     style="font-size: 12px"></i>
                                                             </button>
@@ -277,7 +278,7 @@
                                                                         class="form-label">Bukti</label>
                                                                     <input class="form-control" type="file"
                                                                         id="bukti{{ $item->id }}" name="bukti[]"
-                                                                        multiple>
+                                                                        multiple  @if(empty($item->bukti)) required @endif>
                                                                 </div>
 
                                                                 <!-- Menampilkan gambar sebelumnya jika ada -->
@@ -384,7 +385,7 @@
                                                                         (jpg,png,svg,jpeg,gif)</label>
                                                                     <input type="file" class="form-control"
                                                                         id="bukti{{ $item->id }}" name="bukti[]"
-                                                                        accept="image/*" multiple>
+                                                                        accept="image/*" multiple required>
                                                                     <small class="form-text text-muted">Anda dapat
                                                                         mengunggah satu atau lebih gambar.</small>
                                                                 </div>
@@ -615,58 +616,53 @@
         @endforeach
     
         // Event listener untuk tombol dengan class .btn-danger
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', function(event) {
-                const id = this.getAttribute('data-id');
-                const kategori = this.getAttribute('data-kategori');
-                const report = this.getAttribute('data-report');
-                const waktu_selesai = this.getAttribute('data-waktu_selesai');
-    
-                if (kategori === 'Keluar Dengan Teknisi') {
-                    const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
-                    modal.show();
-    
-                    const modalElement = document.getElementById('EditLaporanModal' + id);
-                    if (modalElement) {
-                        modalElement.querySelector('textarea[name="report"]').value = report;
-                        modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
-                    }
-                } else {
-                    Swal.fire({
-                        title: 'Apakah Anda yakin?',
-                        text: "Aktivitas ini akan diselesaikan.",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        showDenyButton: true,
-                        confirmButtonText: 'Ya, Selesaikan!',
-                        denyButtonText: 'Keluar Dengan Teknisi',
-                        cancelButtonText: 'Batal'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
-                            modal.show();
-    
-                            const modalElement = document.getElementById('EditLaporanModal' + id);
-                            if (modalElement) {
-                                modalElement.querySelector('textarea[name="report"]').value = report;
-                                modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
-                            }
-    
-                            // **Tambahkan alert setelah tombol ditekan**
-                            alert('Aktivitas sedang berlangsung!');
-    
-                        } else if (result.isDenied) {
-                            const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
-                            teknisiModal.show();
-    
-                            const teknisiForm = document.getElementById('tambahLaporanTeknisiForm');
-                            if (teknisiForm) {
-                                teknisiForm.setAttribute('action', `/siswa/updateAndCreate/${id}`);
-                            }
-                        }
-                    });
+        document.getElementById('buttonStop').addEventListener('click', function(event) {
+            const id = this.getAttribute('data-id');
+            const kategori = this.getAttribute('data-kategori');
+            const report = this.getAttribute('data-report');
+            const waktu_selesai = this.getAttribute('data-waktu_selesai');
+
+            if (kategori === 'Keluar Dengan Teknisi') {
+                const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                modal.show();
+
+                const modalElement = document.getElementById('EditLaporanModal' + id);
+                if (modalElement) {
+                    modalElement.querySelector('textarea[name="report"]').value = report;
+                    modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
                 }
-            });
+            } else {
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Aktivitas ini akan diselesaikan.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya, Selesaikan!',
+                    denyButtonText: 'Keluar Dengan Teknisi',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const modal = new bootstrap.Modal(document.getElementById('EditLaporanModal' + id));
+                        modal.show();
+
+                        const modalElement = document.getElementById('EditLaporanModal' + id);
+                        if (modalElement) {
+                            modalElement.querySelector('textarea[name="report"]').value = report;
+                            modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                        }
+
+                    } else if (result.isDenied) {
+                        const teknisiModal = new bootstrap.Modal(document.getElementById('tambahLaporanTeknisi'));
+                        teknisiModal.show();
+
+                        const teknisiForm = document.getElementById('tambahLaporanTeknisiForm');
+                        if (teknisiForm) {
+                            teknisiForm.setAttribute('action', `/siswa/updateAndCreate/${id}`);
+                        }
+                    }
+                });
+            }
         });
     });
     

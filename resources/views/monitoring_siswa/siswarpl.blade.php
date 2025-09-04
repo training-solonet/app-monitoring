@@ -259,7 +259,7 @@
                                                                     class="form-label">Bukti</label>
                                                                 <input class="form-control" type="file"
                                                                     id="bukti{{ $item->id }}" name="bukti[]"
-                                                                    multiple>
+                                                                    multiple @if(empty($item->bukti)) required @endif>
                                                             </div>
 
                                                             <!-- Menampilkan gambar sebelumnya jika ada -->
@@ -344,7 +344,7 @@
                                                                     (Gambar)</label>
                                                                 <input type="file" class="form-control"
                                                                     id="bukti{{ $item->id }}" name="bukti[]"
-                                                                    accept="image/*" multiple>
+                                                                    accept="image/*" multiple required>
                                                                 <small class="form-text text-muted">Kamu bisa
                                                                     mengunggah satu atau lebih gambar.</small>
                                                             </div>

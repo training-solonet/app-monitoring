@@ -40,6 +40,7 @@
                             </div>
                             <hr>
                             <form id="filterForm" method="GET" action="{{ route('monitoring.index') }}">
+                                {{-- <input type="hidden" name="filter" value="{{ request('filter') }}"> --}}
                                 <div class="row g-2 align-items-end">
                                     <div class="col-sm-3">
                                         <label for="nama_siswa" class="form-label">Nama Siswa</label>
@@ -47,9 +48,9 @@
                                             onchange="document.getElementById('filterForm').submit();">
                                             <option disabled selected>Pilih Siswa</option>
                                             @foreach ($siswa_monitoring as $siswa)
-                                                <option value="{{ $siswa->username }}"
-                                                    {{ request('nama_siswa') == $siswa->username ? 'selected' : '' }}>
-                                                    {{ $siswa->username }}
+                                                <option value="{{ $siswa->nickname }}"
+                                                    {{ request('nama_siswa') == $siswa->nickname ? 'selected' : '' }}>
+                                                    {{ $siswa->nickname }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -81,32 +82,49 @@
                                                 DKV</option>
                                         </select>
                                     </div>
+                                    @if (request('tanggal_mulai') && request('tanggal_selesai'))
+                                        <div class="col-sm-2">
+                                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                                            <input type="date" id="tanggal_mulai" name="tanggal_mulai"
+                                                class="form-control" value="{{ request('tanggal_mulai', now()->startOfMonth()->toDateString()) }}"
+                                                onchange="document.getElementById('filterForm').submit();">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                                            <input type="date" id="tanggal_selesai" name="tanggal_selesai"
+                                                class="form-control" value="{{ request('tanggal_selesai', now()->endOfMonth()->toDateString()) }}"
+                                                onchange="document.getElementById('filterForm').submit();">
+                                        </div>
+                                    @else
                                     <div class="col-sm-2">
                                         <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
                                         <input type="date" id="tanggal_mulai" name="tanggal_mulai"
-                                            class="form-control" value="{{ request('tanggal_mulai') }}"
+                                            class="form-control" value="{{ request('tanggal_mulai') ?? null }}"
                                             onchange="document.getElementById('filterForm').submit();">
                                     </div>
                                     <div class="col-sm-2">
                                         <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
                                         <input type="date" id="tanggal_selesai" name="tanggal_selesai"
-                                            class="form-control" value="{{ request('tanggal_selesai') }}"
+                                            class="form-control" value="{{ request('tanggal_selesai') ?? null }}"
                                             onchange="document.getElementById('filterForm').submit();">
                                     </div>
+                                    @endif
                                     <div class="col-sm-1">
-                                        <a href="{{ route('monitoring.index') }}"
+                                        <a href="{{ route('monitoring.index', ['tanggal_mulai' => now()->startOfMonth()->toDateString(), 'tanggal_selesai' => now()->endOfMonth()->toDateString()]) }}"
                                             class="btn btn-outline-secondary w-100 mb-1"> <i
                                                 class="fa-solid fa-arrows-rotate"></i>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="container mt-3 align-items-center d-flex justify-content-between">
-                                    <button type="submit" name="filter" value="all" class="btn btn-primary" style="width: 49%">
+                                    <a href="{{ route('monitoring.index', ['tanggal_mulai' => null, 'tanggal_selesai' => null]) }}"
+                                    class="btn btn-primary" style="width: 49%">
                                         Tampilkan semua
-                                    </button>
-                                    <button type="submit" name="filter" value="month" class="btn btn-warning" style="width: 49%">
+                                    </a>
+                                    <a href="{{ route('monitoring.index', ['tanggal_mulai' => now()->startOfMonth()->toDateString(), 'tanggal_selesai' => now()->endOfMonth()->toDateString()]) }}"
+                                        class="btn btn-warning" style="width: 49%">
                                         Tampilkan hanya bulan ini
-                                    </button>
+                                    </a>
                                 </div>
                             </form>
                         </div>

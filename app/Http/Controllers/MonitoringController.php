@@ -25,7 +25,7 @@ class MonitoringController extends Controller
         // Filter berdasarkan nama siswa
         if ($nama_siswa) {
             $monitoring->whereHas('siswa_monitoring', function ($query) use ($nama_siswa) {
-                $query->where('username', 'like', "%$nama_siswa%");
+                $query->where('nickname', 'like', "%$nama_siswa%");
             });
         }
 
@@ -51,11 +51,7 @@ class MonitoringController extends Controller
             $monitoring->whereDate('waktu_selesai', '<=', $tanggal_selesai);
         }
 
-        if ($filter === 'all') {
-            $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
-        } else {
-            $monitoring = $monitoring->orderBy('created_at', 'desc')->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->paginate(10)->withQueryString();
-        }
+        $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
 
         // Ambil daftar siswa dan materi untuk dropdown/filtering
         $siswa_monitoring = User::where('role', 'siswa')->where('status', 'Aktif')->get();

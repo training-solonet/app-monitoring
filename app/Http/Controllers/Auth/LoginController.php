@@ -29,7 +29,16 @@ class LoginController extends Controller
             }
 
             if ($user->password === $request->password) {
-                Auth::login($user);
+                Auth::login($user, $request->filled('remember'));
+
+                if ($request->filled('remember')) {
+                    $rememberTokenName = Auth::getRecallerName();
+                    cookie()->queue(cookie()->make(
+                        $rememberTokenName,
+                        request()->cookie($rememberTokenName),
+                        60 * 24 * 7 // 7 hari
+                    ));
+                }
 
                 session([
                     'role' => $user->role,
@@ -48,9 +57,10 @@ class LoginController extends Controller
                     return redirect()->route('dashboardpembimbing.index');
                 }
             }
+            return back()->withErrors(['message' => 'Password salah.'])->withInput($request->only('username'));
         }
 
-        return back()->withErrors(['message' => 'Username atau Kata Sandi salah.'])->withInput($request->only('username'));
+        return back()->withErrors(['message' => 'Username tidak terdaftar.']);
     }
 
     public function destroy(Request $request)

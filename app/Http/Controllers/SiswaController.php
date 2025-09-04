@@ -224,14 +224,14 @@ class SiswaController extends Controller
 
         $request->validate([
             'report' => 'required|string',
-            'bukti' => 'nullable|array',
+            ($siswa->bukti ? "'bukti' => 'nullable|array'" : "'bukti' => 'required|array'"),
             'bukti.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'aktivitas_id1' => 'nullable|exists:aktivitas,id',
             'report_status' => 'required|string',
 
         ]);
 
-        if ($request->report === $siswa->report && ($siswa->report_status === 'Belum Lapor' || $siswa->report_status === null)) {
+        if ($request->report === $siswa->report && ($siswa->report_status === 'Belum Lapor' || $siswa->report_status !== 'Sudah Lapor')) {
             return redirect()
                 ->back()
                 ->withErrors(['report' => 'Isi laporan tidak boleh sama dengan sebelumnya. Harap ubah sebelum menyimpan.'])

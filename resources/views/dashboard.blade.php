@@ -35,9 +35,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-md-flex align-items-center justify-content-between mx-2">
-                        <div>
-                            <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->nickname }}</h3>
-                            <p class="text-muted mb-0">Berikut ini data aktivitas semua siswa PKL</p>
+                        <div class="d-flex">
+                            <div class="avatar avatar-xl rounded-circle border border-gray-100 border-4 me-3">
+                                @if (Auth::user()->pfp_path)
+                                <img src="{{ Storage::url(Auth::user()->pfp_path) }}" alt="profile_image" class="w-100 h-100" id="profileImage" style="object-fit: cover">
+                                @else
+                                <img src="{{ asset('assets/img/img-8.jpg') }}" alt="profile_image" class="w-100 h-100" id="profileImage" style="object-fit: cover">
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="font-weight-bold mb-0">Hi, {{ auth()->user()->nickname }}</h3>
+                                <p class="text-muted mb-0">Berikut ini data aktivitas semua siswa PKL.</p>
+                            </div>
                         </div>
                         <div class="d-flex">
                             <button id="show-diagram" type="button"

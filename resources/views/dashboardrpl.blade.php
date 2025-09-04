@@ -64,7 +64,7 @@
                 @if ($belumLapor > 0)
                     <div id="belumLaporAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>
-                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>. Silahkan menuju laporan harian.
+                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>. Silahkan menuju <a href="{{ route('siswarpl.index') }}" class="alert-link" style="text-decoration: underline">laporan harian</a>.
                     </div>
                 @endif
 

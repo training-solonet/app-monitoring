@@ -37,7 +37,7 @@
                 </a>
             </li>
             <li class="nav-item mb-2">
-                <a class="nav-link {{ (Request::is('monitoring') ? 'active' : '') }}" href="{{ route('monitoring.index')}}">
+                <a class="nav-link {{ (Request::is('monitoring') ? 'active' : '') }}" href="/monitoring?tanggal_mulai={{ now()->startOfMonth()->toDateString() }}&tanggal_selesai={{ now()->endOfMonth()->toDateString() }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"

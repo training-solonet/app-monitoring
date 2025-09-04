@@ -63,7 +63,7 @@
                 @if ($belumLapor > 0)
                     <div id="belumLaporAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>
-                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>. Silahkan menuju laporan harian.
+                        Anda memiliki <strong>{{ $belumLapor }}</strong> aktivitas yang <strong>belum dilaporkan</strong>. Silahkan menuju <a href="{{ route('siswa.index') }}" class="alert-link" style="text-decoration: underline">laporan harian</a>.
                     </div>
                 @endif
 
@@ -443,6 +443,14 @@
                             font: {
                                 size: 12,
                                 weight: 'bold'
+                            },
+                            callback: function(value, index, ticks) {
+                                let label = this.getLabelForValue(value);
+                                let words = label.split(" ");
+                                if (words.length > 3) {
+                                    return words.slice(0, 3).join(" ") + "...";
+                                }
+                                return label;
                             }
                         }
                     },
