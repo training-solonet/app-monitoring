@@ -22,7 +22,7 @@ class KirimReminderWhatsApp extends Command
             $query = Siswa::with('siswa_monitoring')
                 ->where('kategori', '!=', 'Keluar Dengan Teknisi')
                 ->where('report_status', 'Belum Lapor');
-        } elseif ($now === '10:28') {
+        } elseif ($now === '21:00') {
             // siswa kategori "Keluar Dengan Teknisi"
             $query = Siswa::with('siswa_monitoring')
                 ->where('kategori', 'Keluar Dengan Teknisi')
