@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+wa-gateway/session/
+wa-gateway/.wwebjs_auth/
+wa-gateway/node_modules/
