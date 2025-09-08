@@ -75,7 +75,7 @@ class KirimReminderWhatsApp extends Command
                     ."Salam hangat,\n*Sistem Monitoring*";
 
             Http::post('http://localhost:3000/send-message', [
-                'number'  => $siswaMonitor->no_hp,
+                'number' => $siswaMonitor->no_hp,
                 'message' => $pesan,
             ]);
 
