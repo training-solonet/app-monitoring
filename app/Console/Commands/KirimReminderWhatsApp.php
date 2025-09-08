@@ -31,7 +31,7 @@ class KirimReminderWhatsApp extends Command
                         ->orWhereNull('report_status');
                 });
         } else {
-            $this->info("Command reminder:whatsapp hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
+            $this->info("Command activity:autosubmit hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
 
             return;
         }
@@ -58,7 +58,7 @@ class KirimReminderWhatsApp extends Command
         // Kirim pesan untuk setiap siswa berdasarkan array
         foreach ($aktivitasPerSiswa as $nickname => $jumlahBelum) {
             // Ambil data siswa_monitoring dari salah satu siswa
-            $siswaMonitor = $belumLapor->first(fn ($s) => $s->siswa_monitoring->username === $nickname)->siswa_monitoring;
+            $siswaMonitor = $belumLapor->first(fn ($s) => $s->siswa_monitoring->nickname === $nickname)->siswa_monitoring;
 
             $namaAkhir = substr($nickname, -1);
             $namaUnik = $nickname.$namaAkhir;
@@ -67,17 +67,15 @@ class KirimReminderWhatsApp extends Command
                     ."Sistem kami menemukan bahwa kamu masih memiliki *{$jumlahBelum} aktivitas* yang belum dilaporkan. "
                     ."Setiap laporan sangat penting agar catatan kegiatanmu tetap lengkap dan sesuai aturan.\n\n"
                     .'Kami mengerti kalau kamu mungkin sibuk, tetapi jangan sampai laporan ini tertunda terlalu lama. '
-                    ."Keterlambatan bisa memengaruhi penilaian PKL dan catatan performamu.\n\n"
+                    ."Keterlambatan bisa memengaruhi penilaian magang dan catatan performamu.\n\n"
                     ."Segera lengkapi laporanmu ya, agar semuanya tetap teratur dan perjalanan belajarmu lebih lancar.\n\n"
                     ."https://monitoring.connectis.my.id\n"
                     ."https://monitoring.connectis.my.id\n\n"
                     ."Terima kasih atas perhatian dan kerja kerasmu. 😁\n\n"
                     ."Salam hangat,\n*Sistem Monitoring*";
 
-            Http::withHeaders([
-                'Authorization' => env('FONNTE_TOKEN'),
-            ])->post('https://api.fonnte.com/send', [
-                'target' => $siswaMonitor->no_hp,
+            Http::post('http://localhost:3000/send-message', [
+                'number'  => $siswaMonitor->no_hp,
                 'message' => $pesan,
             ]);
 
