@@ -18,7 +18,6 @@ use App\Http\Controllers\SiswaRplController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
