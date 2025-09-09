@@ -31,9 +31,12 @@ class KirimReminderWhatsApp extends Command
                         ->orWhereNull('report_status');
                 });
         } else {
-            $this->info("Command activity:autosubmit hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
+            // $this->info("Command activity:autosubmit hanya jalan jam 17:00 dan 21:00. Sekarang jam {$now}");
 
-            return;
+            // return;
+            $query = Siswa::with('siswa_monitoring')
+                ->where('kategori', '!=', 'Keluar Dengan Teknisi')
+                ->where('report_status', 'Belum Lapor');
         }
 
         // Ambil semua siswa yang belum lapor dan punya nomor HP

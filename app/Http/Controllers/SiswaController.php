@@ -37,26 +37,21 @@ class SiswaController extends Controller
             $siswaQuery->whereDate('created_at', '<=', $tanggalSelesai);
         }
 
-        // Gunakan paginate sebelum map()
-        $siswa = $siswaQuery->orderBy('created_at', 'desc')->paginate(10);
-
-        // Gunakan transformasi setelah paginate
-        $siswa->getCollection()->transform(function ($item) {
-            $waktuMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai) : null;
-            $waktuSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai) : Carbon::now();
-
-            if ($waktuMulai && $waktuSelesai) {
+        $siswa = $siswaQuery->orderBy('created_at', 'desc')->get()->map(function ($item) {
+            if ($item->waktu_mulai && $item->waktu_selesai) {
+                $waktuMulai = Carbon::parse($item->waktu_mulai);
+                $waktuSelesai = Carbon::parse($item->waktu_selesai);
                 $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
-                $hari = intdiv($totalMenit, 1440);
+                
+                $hari = floor($totalMenit / 1440);
                 $sisaMenit = $totalMenit % 1440;
-                $jam = intdiv($sisaMenit, 60);
+                $jam = floor($sisaMenit / 60);
                 $menit = $sisaMenit % 60;
-
-                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '')."{$jam} Jam {$menit} Menit";
+                
+                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '') . "{$jam} Jam {$menit} Menit";
             } else {
                 $item->total_waktu = '-';
             }
-
             return $item;
         });
 

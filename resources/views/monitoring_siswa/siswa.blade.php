@@ -28,6 +28,9 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
         <div class="container-fluid py-4 px-5">
@@ -121,8 +124,8 @@
                                 </form>
                             </div>
 
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
+                            <div class="table-responsive p-3">
+                                <table class="table align-items-center mb-0" id="dataTable">
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th
@@ -162,7 +165,7 @@
                                         @endphp
                                         @foreach ($siswa as $index => $item)
                                             <tr>
-                                                <td class="align-middle text-center" rowspan="2">
+                                                <td class="align-middle text-center">
                                                     <p class="text-sm text-dark font-weight-semibold mb-0">
                                                         {{ ($page - 1) * 10 + $index + 1 }}</p>
                                                 </td>
@@ -313,7 +316,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <tr></tr>
                                             <!-- Modal Selesai -->
                                             <div class="modal fade" id="EditLaporanModal{{ $item->id }}"
                                                 tabindex="-1"
@@ -405,14 +407,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between m-3 align-items-center">
-                                <span class="text-muted d-none d-md-inline">
-                                    Page {{ $siswa->currentPage() }} of {{ $siswa->lastPage() }}
-                                </span>
-                                <div>
-                                    {{ $siswa->appends(request()->query())->onEachSide(1)->links() }}
-                                </div>
-                            </div>   
                         </div>
                     </div>
                 </div>
@@ -594,6 +588,20 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthChange": true,
+                "pageLength": 10,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json" // Indonesian language support
+                }
+            });
+        });
+
         function toggleMateriDropdown(kategoriId, materiId) {
             const kategoriSelect = document.getElementById(kategoriId);
             const materiDiv = document.getElementById(materiId);

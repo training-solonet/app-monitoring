@@ -51,7 +51,7 @@ class MonitoringController extends Controller
             $monitoring->whereDate('waktu_selesai', '<=', $tanggal_selesai);
         }
 
-        $monitoring = $monitoring->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $monitoring = $monitoring->orderBy('created_at', 'desc')->get();
 
         // Ambil daftar siswa dan materi untuk dropdown/filtering
         $siswa_monitoring = User::where('role', 'siswa')->where('status', 'Aktif')->get();

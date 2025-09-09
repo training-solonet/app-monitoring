@@ -141,10 +141,3 @@ Route::get('/download-dokumentasi', function () {
 
     return response()->download($filePath);
 });
-
-Route::get('/test-wa', function () {
-    return Http::post('http://localhost:3000/send-message', [
-        'number' => '6288801981440',
-        'message' => 'Halo dari wa-gateway!',
-    ])->json();
-});

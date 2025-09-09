@@ -29,6 +29,9 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <x-app.navbar />
         <div class="container-fluid px-5 py-4">
             <div class="mt-4 row">
@@ -131,8 +134,8 @@
 
                         <div class="card-body">
                             <div class="table-responsive p-0">
-                                <table class="table table-custom table-striped">
-                                    <thead class="">
+                                <table class="table table-custom table-striped" id="dataTable">
+                                    <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">No</th>
                                             <th class="text-center text-xs font-weight-semibold opacity-7">Tanggal</th>
@@ -186,15 +189,7 @@
                                         </td>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="text-muted d-none d-md-inline">
-                                    Page {{ $monitoring->currentPage() }} of {{ $monitoring->lastPage() }}
-                                </span>
-                                <div class="d-flex justify-content-center flex-wrap">
-                                    {{ $monitoring->onEachSide(1)->links() }}
-                                </div>
-                            </div>                                          
+                            </div>                                      
                         </div>
 
                         {{-- Modal Detail --}}
@@ -209,7 +204,7 @@
                                             <button type="button" class="btn-close text-light"
                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body p-4">
+                                        <div class="modal-body p-0">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <ul class="list-group list-group-flush">
@@ -329,6 +324,19 @@
     </main>
 
     <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthChange": true,
+                "pageLength": 10,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json" // Indonesian language support
+                }
+            });
+        });
         // Helper function to calculate the brightness of an image
         function getImageBrightness(image) {
             const canvas = document.createElement('canvas');
@@ -384,14 +392,14 @@
         }
 
         // Wait for the modal to be shown and then calculate brightness
-        document.addEventListener('DOMContentLoaded', function() {
-            @foreach ($monitoring as $item)
-                const image = document.querySelector(
-                    `#img{{ $item->id }}-0`); // Grab the first image for each item
-                if (image) {
-                    updateButtonColors({{ $item->id }});
-                }
-            @endforeach
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     @foreach ($monitoring as $item)
+        //         const image = document.querySelector(
+        //             `#img{{ $item->id }}-0`); // Grab the first image for each item
+        //         if (image) {
+        //             updateButtonColors({{ $item->id }});
+        //         }
+        //     @endforeach
+        // });
     </script>
 </x-app-layout>
