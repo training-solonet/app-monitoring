@@ -1,10 +1,12 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start " id="sidenav-main">
     <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-            aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0" href="/">
-            <span class="font-weight-bold text-lg">Monitoring PKL</span>
-        </a>
+        <div class="navbar-brand-box d-flex justify-content-center align-items-center mt-3">
+            <a class="logo logo-light">
+                <span class="logo-lg">
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="logo.png" height="60">
+                </span>
+            </a>
+        </div>
     </div>
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">

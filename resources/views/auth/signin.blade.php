@@ -47,7 +47,7 @@
             <div class="page-header min-vh-100 d-flex align-items-center overflow-hidden">
                 <div class="container">
                     <div class="d-flex justify-content-center mb-4">
-                        <img src="http://absensi.connectis.my.id/logo.png" 
+                        <img src="{{ asset('assets/img/logo.png') }}" 
                              style="height:8rem; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6)); transition: transform 0.3s;" 
                              alt="Logo" class="logo-hover">
                     </div>
