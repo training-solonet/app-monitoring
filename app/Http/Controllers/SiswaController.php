@@ -42,16 +42,17 @@ class SiswaController extends Controller
                 $waktuMulai = Carbon::parse($item->waktu_mulai);
                 $waktuSelesai = Carbon::parse($item->waktu_selesai);
                 $totalMenit = $waktuMulai->diffInMinutes($waktuSelesai);
-                
+
                 $hari = floor($totalMenit / 1440);
                 $sisaMenit = $totalMenit % 1440;
                 $jam = floor($sisaMenit / 60);
                 $menit = $sisaMenit % 60;
-                
-                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '') . "{$jam} Jam {$menit} Menit";
+
+                $item->total_waktu = ($hari > 0 ? "{$hari} Hari " : '')."{$jam} Jam {$menit} Menit";
             } else {
                 $item->total_waktu = '-';
             }
+
             return $item;
         });
 
