@@ -180,12 +180,11 @@
                                                                     style="font-size: 12px"></i>
                                                             </button>
                                                         @elseif($item->status === 'Sedang Berlangsung')
-                                                            <button type="button" class="btn btn-sm btn-danger mb-0"
+                                                            <button type="button" class="btn btn-sm btn-danger mb-0 btn-stop"
                                                                 data-bs-toggle="modal" data-id="{{ $item->id }}"
                                                                 data-report="{{ $item->report }}"
                                                                 data-waktu_selesai="{{ $item->waktu_selesai }}"
-                                                                data-kategori="{{ $item->kategori }}"
-                                                                id="buttonStop">
+                                                                data-kategori="{{ $item->kategori }}">
                                                                 <i class="fa-solid fa-square"
                                                                     style="font-size: 12px"></i>
                                                             </button>
@@ -615,16 +614,17 @@
     </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Menjalankan timer untuk setiap siswa yang sedang berlangsung
-        @foreach ($siswa as $item)
-            @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
-                startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
-            @endif
-        @endforeach
-    
-        // Event listener untuk tombol dengan class .btn-danger
-        document.getElementById('buttonStop').addEventListener('click', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
+    // Menjalankan timer untuk setiap siswa yang sedang berlangsung
+    @foreach ($siswa as $item)
+        @if ($item->status === 'Sedang Berlangsung' && $item->waktu_mulai)
+            startTimer('{{ $item->waktu_mulai }}', 'total-waktu-{{ $item->id }}');
+        @endif
+    @endforeach
+
+    // Event listener untuk semua tombol dengan class .btn-stop
+    document.querySelectorAll('.btn-stop').forEach(function(button) {
+        button.addEventListener('click', function(event) {
             const id = this.getAttribute('data-id');
             const kategori = this.getAttribute('data-kategori');
             const report = this.getAttribute('data-report');
@@ -636,8 +636,8 @@
 
                 const modalElement = document.getElementById('EditLaporanModal' + id);
                 if (modalElement) {
-                    modalElement.querySelector('textarea[name="report"]').value = report;
-                    modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                    modalElement.querySelector('textarea[name="report"]').value = report || '';
+                    modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai || '';
                 }
             } else {
                 Swal.fire({
@@ -656,8 +656,8 @@
 
                         const modalElement = document.getElementById('EditLaporanModal' + id);
                         if (modalElement) {
-                            modalElement.querySelector('textarea[name="report"]').value = report;
-                            modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai;
+                            modalElement.querySelector('textarea[name="report"]').value = report || '';
+                            modalElement.querySelector('input[name="waktu_selesai"]').value = waktu_selesai || '';
                         }
 
                     } else if (result.isDenied) {
@@ -673,30 +673,29 @@
             }
         });
     });
-    
-    // Fungsi untuk memulai timer
-    function startTimer(waktuMulai, elementId) {
-        const startTime = new Date(waktuMulai).getTime();
-    
-        function updateTime() {
-            const now = new Date().getTime();
-            const elapsed = now - startTime;
-    
-            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
-    
-            // **Pastikan elemen ditemukan sebelum mengubah teks**
-            const timerElement = document.getElementById(elementId);
-            if (timerElement) {
-                timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }
+});
+
+// Fungsi untuk memulai timer
+function startTimer(waktuMulai, elementId) {
+    const startTime = new Date(waktuMulai).getTime();
+
+    function updateTime() {
+        const now = new Date().getTime();
+        const elapsed = now - startTime;
+
+        const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+        const timerElement = document.getElementById(elementId);
+        if (timerElement) {
+            timerElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
-    
-        updateTime();
-        setInterval(updateTime, 1000);
     }
-    
-    </script>
+
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+</script>
     
 </x-app-layout>

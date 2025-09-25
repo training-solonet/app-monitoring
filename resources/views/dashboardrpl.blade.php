@@ -74,7 +74,7 @@
                     <div class="row g-3">
                         <!-- Card Total Aktivitas Belajar -->
                         <div class="col-md-4">
-                            <div class="card glass-card text-center shadow border-0">
+                            <div class="card text-center shadow border-0">
                                 <div class="card-header text-white"
                                     style="background: linear-gradient(45deg, #ff9f43, #ff6f61); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Aktivitas Belajar</h6>
@@ -87,7 +87,7 @@
 
                         <!-- Card Total Aktivitas Projek -->
                         <div class="col-md-4">
-                            <div class="card glass-card text-center shadow border-0">
+                            <div class="card text-center shadow border-0">
                                 <div class="card-header text-white"
                                     style="background: linear-gradient(45deg, #42a5f5, #5c6bc0); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Aktivitas Projek</h6>
@@ -100,7 +100,7 @@
 
                         <!-- Card Total Waktu -->
                         <div class="col-md-4">
-                            <div class="card glass-card text-center shadow border-0">
+                            <div class="card text-center shadow border-0">
                                 <div class="card-header text-white"
                                     style="background: linear-gradient(45deg, #66bb6a, #26a69a); border-radius: 16px 16px 0 0;">
                                     <h6 class="text-white">Total Jumlah Waktu</h6>
@@ -154,7 +154,7 @@
                 <div class="d-flex row mt-4 show" id="dashboard-content">
                     <h4>Diagram</h4>
                     <div class="col-md-12">
-                        <div class="card glass-card shadow-sm border h-100">
+                        <div class="card shadow-sm border h-100">
                             <div class="card-body py-4">
                                 <div class="row w-75" style="margin: auto;">
                                     <!-- Diagram Lingkaran Belajar -->
