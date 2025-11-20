@@ -1,24 +1,25 @@
 <?php
 
-use App\Http\Controllers\AktivitasController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\DashboardPembimbingController;
-use App\Http\Controllers\DashboardRplController;
-use App\Http\Controllers\DashboardSiswaController;
-use App\Http\Controllers\DetailSiswaController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\IotpakanController;
+use App\Http\Controllers\SiswaRplController;
+use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\MateriRplController;
 use App\Http\Controllers\MateriTkjController;
-use App\Http\Controllers\MonitoringController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\SiswaRplController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserPembimbingController;
 use App\Http\Controllers\UserSiswaController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\DetailSiswaController;
+use App\Http\Controllers\DashboardRplController;
+use App\Http\Controllers\DashboardSiswaController;
+use App\Http\Controllers\UserPembimbingController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DashboardPembimbingController;
 
 Route::get('/', function () {
     return redirect('/dashboard');
@@ -127,6 +128,12 @@ Route::get('/dashboard-rpl', [DashboardRplController::class, 'index'])->middlewa
 Route::post('/siswa/updateAndCreate/{id}', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
 Route::put('/siswa/{id}/update-create', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
 Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.stop');
+
+Route::get('/iotikan', [IotpakanController::class, 'index'])->name('iotikan');
+Route::post('/iotikan/network', [IotpakanController::class, 'network'])->name('network.update');
+Route::post('/iotikan/device', [IotpakanController::class, 'device'])->name('iotikan.store');
+Route::post('/iotikan/edit/{id}', [IotpakanController::class, 'update'])->name('iotikan.update');
+Route::post('/iotikan/delete/{id}', [IotpakanController::class, 'destroy'])->name('iotikan.destroy');
 
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
