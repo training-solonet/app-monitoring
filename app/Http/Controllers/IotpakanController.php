@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Iotikan;
 use App\Models\Network;
-use Illuminate\Cache\RedisTaggedCache;
 use Illuminate\Http\Request;
 
 class IotpakanController extends Controller
@@ -16,6 +15,7 @@ class IotpakanController extends Controller
     {
         $iotikans = Iotikan::all();
         $network = Network::first();
+
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
             'network' => $network,
@@ -78,6 +78,7 @@ class IotpakanController extends Controller
     public function destroy(string $id)
     {
         Iotikan::where('id', $id)->destroy();
+
         return redirect('iotikan');
     }
 
@@ -88,12 +89,12 @@ class IotpakanController extends Controller
         $ssid = $request->get('ssid');
         $password = $request->get('password');
 
-        if($network){
+        if ($network) {
             $network->update([
-            'ssid' => $ssid,
-            'password' => $password,
-        ]);
-        } else{
+                'ssid' => $ssid,
+                'password' => $password,
+            ]);
+        } else {
             Network::create([
                 'ssid' => $ssid,
                 'password' => $password,
@@ -101,7 +102,7 @@ class IotpakanController extends Controller
         }
 
         return redirect('iotikan');
-        
+
     }
 
     public function device(Request $request)
