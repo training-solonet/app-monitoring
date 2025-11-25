@@ -3,7 +3,70 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
     <style>
-        /* Insert your existing styles here */
+        body {
+            background: #f4f7fa;
+        }
+        .page-header h1 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .page-header p {
+            color: #6c757d;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: none;
+            margin-bottom: 25px;
+        }
+        .card-header {
+            background: #fff;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 15px 15px 0 0;
+        }
+        .card-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .btn-primary-custom {
+            background: #3b82f6;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            color: #fff;
+            transition: 0.2s;
+        }
+        .btn-primary-custom:hover {
+            background: #1e40af;
+        }
+        .btn-success-custom {
+            background: #16a34a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #fff;
+        }
+        .btn-danger-custom {
+            background: #dc2626;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #fff;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+        }
+        .modal-content {
+            border-radius: 15px;
+        }
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
     </style>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -13,37 +76,13 @@
             <!-- Page Header -->
             <div class="page-header">
                 <h1>Pengaturan IoT Ikan</h1>
-                <p>Kelola jaringan dan jadwal pemberian pakan ikan.</p>
-            </div>
-
-            <!-- NETWORK SECTION -->
-            <div class="card">
-                <div class="card-header">
-                    <h5><i class="fa-solid fa-wifi"></i> Network Configuration</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('network.update') }}" method="POST">
-                        @csrf
-                        @method('POST')
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">SSID</label>
-                                <input type="text" class="form-control" name="ssid" value="{{ $network->ssid ?? '' }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Password</label>
-                                <input type="text" class="form-control" name="password" value="{{ $network->password ?? '' }}" required>
-                            </div>
-                        </div>
-                        <button class="btn-primary-custom" type="submit"><i class="fa-solid fa-save"></i> Simpan</button>
-                    </form>
-                </div>
             </div>
 
             <!-- IOTIKAN SECTION -->
             <div class="card">
-                <div class="card-header">
-                    <h5><i class="fa-solid fa-fish"></i> Jadwal Pemberian Makan</h5>
+                <div class="card-header d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-fish fa-lg"></i>
+                    <h5>Jadwal Pemberian Makan</h5>
                 </div>
                 <div class="card-body">
                     <button class="btn-primary-custom mb-3" data-bs-toggle="modal" data-bs-target="#addScheduleModal">
@@ -67,7 +106,7 @@
                                     <td>
                                         <div class="action-buttons">
                                             <button class="btn-success-custom" data-bs-toggle="modal" data-bs-target="#editScheduleModal{{ $item->id }}"><i class="fa-solid fa-pen"></i></button>
-                                            <form action="{{ route('iotikan.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('iotikan.destroy', $item->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn-danger-custom" onclick="return confirm('Hapus jadwal ini?')"><i class="fa-solid fa-trash"></i></button>
@@ -97,18 +136,15 @@
                 <form action="{{ route('iotikan.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label class="form-label">Waktu</label>
-                            <input type="time" class="form-control" name="schedule" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label class="form-label">Interval Servo (ms)</label>
-                            <input type="number" class="form-control" name="interval" required>
-                        </div>
+                        <label class="form-label">Waktu</label>
+                        <input type="time" class="form-control" name="schedule" required>
+
+                        <label class="form-label mt-3">Interval Servo (ms)</label>
+                        <input type="number" class="form-control" name="interval" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-custom">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -126,20 +162,17 @@
                 </div>
                 <form action="{{ route('iotikan.update', $item->id) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('POST')
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label class="form-label">Waktu</label>
-                            <input type="time" class="form-control" name="schedule" value="{{ $item->time }}" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label class="form-label">Interval Servo (ms)</label>
-                            <input type="number" class="form-control" name="interval" value="{{ $item->interval }}" required>
-                        </div>
+                        <label class="form-label">Waktu</label>
+                        <input type="time" class="form-control" name="schedule" value="{{ $item->time }}" required>
+
+                        <label class="form-label mt-3">Interval Servo (ms)</label>
+                        <input type="number" class="form-control" name="interval" value="{{ $item->interval }}" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-custom">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -147,7 +180,6 @@
     </div>
     @endforeach
 
-    <!-- SCRIPTS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Iotikan;
-use App\Models\Network;
-use Illuminate\Cache\RedisTaggedCache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Cache\RedisTaggedCache;
 
 class IotpakanController extends Controller
 {
@@ -15,10 +15,8 @@ class IotpakanController extends Controller
     public function index()
     {
         $iotikans = Iotikan::all();
-        $network = Network::first();
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
-            'network' => $network,
         ]);
     }
 
@@ -81,29 +79,6 @@ class IotpakanController extends Controller
         return redirect('iotikan');
     }
 
-    public function network(Request $request)
-    {
-        $network = Network::first();
-
-        $ssid = $request->get('ssid');
-        $password = $request->get('password');
-
-        if($network){
-            $network->update([
-            'ssid' => $ssid,
-            'password' => $password,
-        ]);
-        } else{
-            Network::create([
-                'ssid' => $ssid,
-                'password' => $password,
-            ]);
-        }
-
-        return redirect('iotikan');
-        
-    }
-
     public function device(Request $request)
     {
         $time = $request->schedule;
@@ -115,5 +90,24 @@ class IotpakanController extends Controller
         ]);
 
         return redirect('iotikan');
+    }
+
+    public function sendSchedule()
+    {
+        $items = Iotikan::all()->map(function($item){
+            return [
+                'time' => substr($item->time, 0, 5),
+                'interval' => $item->interval,
+            ];
+        });
+        return response()->json($items);
+    }
+
+    public function receiveLogs(Request $request)
+    {
+        $log_message = $request->log_message;
+        Log::create([
+            'log_message' => $log_message,
+        ]);
     }
 }
