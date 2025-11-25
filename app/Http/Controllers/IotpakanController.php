@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Iotikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Cache\RedisTaggedCache;
 
 class IotpakanController extends Controller
 {
@@ -76,9 +75,10 @@ class IotpakanController extends Controller
     public function destroy(string $id)
     {
         Iotikan::where('id', $id)->destroy();
+
         return redirect('iotikan');
     }
-
+    
     public function device(Request $request)
     {
         $time = $request->schedule;
