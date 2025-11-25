@@ -14,6 +14,7 @@ class IotpakanController extends Controller
     public function index()
     {
         $iotikans = Iotikan::all();
+
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
         ]);
@@ -78,7 +79,7 @@ class IotpakanController extends Controller
 
         return redirect('iotikan');
     }
-    
+
     public function device(Request $request)
     {
         $time = $request->schedule;
@@ -94,12 +95,13 @@ class IotpakanController extends Controller
 
     public function sendSchedule()
     {
-        $items = Iotikan::all()->map(function($item){
+        $items = Iotikan::all()->map(function ($item) {
             return [
                 'time' => substr($item->time, 0, 5),
                 'interval' => $item->interval,
             ];
         });
+
         return response()->json($items);
     }
 
