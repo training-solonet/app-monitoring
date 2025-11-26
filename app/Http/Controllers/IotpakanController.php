@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Iotikan;
+use App\Models\Log;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class IotpakanController extends Controller
 {
@@ -14,8 +14,10 @@ class IotpakanController extends Controller
     public function index()
     {
         $iotikans = Iotikan::all();
+        $logs = Log::orderBy('created_at', 'desc')->get();
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
+            'logs' => $logs
         ]);
     }
 

@@ -67,6 +67,17 @@
             border-radius: 10px;
             overflow: hidden;
         }
+        #logsTable th:nth-child(1),
+        #logsTable td:nth-child(1) {
+            width: 20px !important;
+            white-space: nowrap;
+        }
+        #logsTable th:nth-child(2),
+        #logsTable td:nth-child(2) {
+            width: 120px !important;
+            white-space: nowrap;
+        }
+
     </style>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -77,6 +88,39 @@
             <div class="page-header">
                 <h1>Pengaturan IoT Ikan</h1>
             </div>
+
+            <!-- LOGS SECTION -->
+            <div class="card">
+                <div class="card-header d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-database fa-lg"></i>
+                    <h5>Logs IoT</h5>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table id="logsTable" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Waktu</th>
+                                    <th>Pesan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($logs as $log)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $log->created_at }}</td>
+                                    <td>{{ $log->log_message }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
 
             <!-- IOTIKAN SECTION -->
             <div class="card">
@@ -184,7 +228,13 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#scheduleTable').DataTable();
+            $('#scheduleTable').DataTable({
+                pageLength: 10
+            });
+
+            $('#logsTable').DataTable({
+                pageLength: 10
+            });
         });
     </script>
 
