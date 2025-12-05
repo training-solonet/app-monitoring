@@ -15,9 +15,10 @@ class IotpakanController extends Controller
     {
         $iotikans = Iotikan::all();
         $logs = Log::orderBy('created_at', 'desc')->get();
+
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
-            'logs' => $logs
+            'logs' => $logs,
         ]);
     }
 
