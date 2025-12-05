@@ -76,7 +76,7 @@ class IotpakanController extends Controller
      */
     public function destroy(string $id)
     {
-        Iotikan::where('id', $id)->destroy();
+        Iotikan::where('id', $id)->delete();
 
         return redirect('iotikan');
     }

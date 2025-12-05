@@ -133,7 +133,7 @@ Route::get('/iotikan', [IotpakanController::class, 'index'])->name('iotikan');
 Route::post('/iotikan/network', [IotpakanController::class, 'network'])->name('network.update');
 Route::post('/iotikan/device', [IotpakanController::class, 'device'])->name('iotikan.store');
 Route::post('/iotikan/edit/{id}', [IotpakanController::class, 'update'])->name('iotikan.update');
-Route::post('/iotikan/delete/{id}', [IotpakanController::class, 'destroy'])->name('iotikan.destroy');
+Route::delete('/iotikan/delete/{id}', [IotpakanController::class, 'destroy'])->name('iotikan.destroy');
 
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
