@@ -129,10 +129,10 @@ Route::post('/siswa/updateAndCreate/{id}', [SiswaController::class, 'updateAndCr
 Route::put('/siswa/{id}/update-create', [SiswaController::class, 'updateAndCreate'])->name('siswa.updateAndCreate');
 Route::post('/siswa/stop/{id}', [SiswaController::class, 'stop'])->name('siswa.stop');
 
-Route::get('/iotikan', [IotpakanController::class, 'index'])->middleware('auth','role:pembimbing')->name('iotikan');
-Route::post('/iotikan/device', [IotpakanController::class, 'device'])->middleware('auth','role:pembimbing')->name('iotikan.store');
-Route::post('/iotikan/edit/{id}', [IotpakanController::class, 'update'])->middleware('auth','role:pembimbing')->name('iotikan.update');
-Route::delete('/iotikan/delete/{id}', [IotpakanController::class, 'destroy'])->middleware('auth','role:pembimbing')->name('iotikan.destroy');
+Route::get('/iotikan', [IotpakanController::class, 'index'])->middleware('auth', 'role:pembimbing')->name('iotikan');
+Route::post('/iotikan/device', [IotpakanController::class, 'device'])->middleware('auth', 'role:pembimbing')->name('iotikan.store');
+Route::post('/iotikan/edit/{id}', [IotpakanController::class, 'update'])->middleware('auth', 'role:pembimbing')->name('iotikan.update');
+Route::delete('/iotikan/delete/{id}', [IotpakanController::class, 'destroy'])->middleware('auth', 'role:pembimbing')->name('iotikan.destroy');
 
 // Get data user
 Route::get('/dashboardpembimbing/get-user-data/{id}', [DashboardPembimbingController::class, 'getUserData']);
