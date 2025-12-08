@@ -19,24 +19,23 @@ class IotpakanController extends Controller
 
         $iotikans = Iotikan::all();
 
-        if($start && $end){
+        if ($start && $end) {
             $logs = Log::orderBy('created_at', 'desc')
                 ->whereDate('created_at', '>=', $start)
                 ->whereDate('created_at', '<=', $end)
                 ->get();
-            
-        } else if ($start == null && $end){
+
+        } elseif ($start == null && $end) {
             $logs = Log::orderBy('created_at', 'desc')
-                    ->whereDate('created_at', '<=', $end)
-                    ->get();
-        } else if ($start && $end == null){
+                ->whereDate('created_at', '<=', $end)
+                ->get();
+        } elseif ($start && $end == null) {
             $logs = Log::orderBy('created_at', 'desc')
-                    ->whereDate('created_at', '>=', $start)
-                    ->get();
-        } else{
+                ->whereDate('created_at', '>=', $start)
+                ->get();
+        } else {
             $logs = Log::orderBy('created_at', 'desc')->get();
         }
-        
 
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
