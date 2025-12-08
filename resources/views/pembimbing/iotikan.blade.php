@@ -97,6 +97,33 @@
                 </div>
                 <div class="card-body">
 
+                    <!-- FILTER LOGS -->
+                    <form method="GET" action="{{ route('iotikan') }}" class="mb-3">
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+                                <label class="form-label">Dari Tanggal</label>
+                                <input type="date" name="start" class="form-control" value="{{ request('start') }}">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Sampai Tanggal</label>
+                                <input type="date" name="end" class="form-control" value="{{ request('end') }}">
+                            </div>
+
+                            <div class="col-md-4 d-flex align-items-end gap-2">
+                                <button class="btn btn-primary-custom" type="submit">
+                                    <i class="fa-solid fa-filter"></i> Filter
+                                </button>
+
+                                <a href="{{ route('iotikan') }}" class="btn btn-secondary">
+                                    <i class="fa-solid fa-list"></i> Tampilkan Semua
+                                </a>
+                            </div>
+
+                        </div>
+                    </form>
+
                     <div class="table-responsive">
                         <table id="logsTable" class="display" style="width:100%">
                             <thead>

@@ -13,8 +13,30 @@ class IotpakanController extends Controller
      */
     public function index()
     {
+
+        $start = request('start');
+        $end = request('end');
+
         $iotikans = Iotikan::all();
-        $logs = Log::orderBy('created_at', 'desc')->get();
+
+        if($start && $end){
+            $logs = Log::orderBy('created_at', 'desc')
+                ->whereDate('created_at', '>=', $start)
+                ->whereDate('created_at', '<=', $end)
+                ->get();
+            
+        } else if ($start == null && $end){
+            $logs = Log::orderBy('created_at', 'desc')
+                    ->whereDate('created_at', '<=', $end)
+                    ->get();
+        } else if ($start && $end == null){
+            $logs = Log::orderBy('created_at', 'desc')
+                    ->whereDate('created_at', '>=', $start)
+                    ->get();
+        } else{
+            $logs = Log::orderBy('created_at', 'desc')->get();
+        }
+        
 
         return view('pembimbing/iotikan', [
             'iotikans' => $iotikans,
